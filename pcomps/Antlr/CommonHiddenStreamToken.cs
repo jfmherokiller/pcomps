@@ -1,7 +1,7 @@
 ﻿namespace pcomps.Antlr
 {
 	// Token: 0x02000024 RID: 36
-	public class CommonHiddenStreamToken : CommonToken, IHiddenStreamToken, IToken
+	public class CommonHiddenStreamToken : CommonToken, IHiddenStreamToken
 	{
 		// Token: 0x06000193 RID: 403 RVA: 0x00005E5C File Offset: 0x0000405C
 		public CommonHiddenStreamToken()
