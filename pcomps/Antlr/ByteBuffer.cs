@@ -9,30 +9,30 @@ namespace pcomps.Antlr
 		// Token: 0x060000B4 RID: 180 RVA: 0x00004268 File Offset: 0x00002468
 		public ByteBuffer(Stream input_)
 		{
-			this.input = input_;
+			input = input_;
 		}
 
 		// Token: 0x060000B5 RID: 181 RVA: 0x00004290 File Offset: 0x00002490
 		public override void fill(int amount)
 		{
-			this.syncConsume();
+			syncConsume();
 			int num;
-			for (int i = amount + this.markerOffset - this.queue.Count; i > 0; i -= num)
+			for (int i = amount + markerOffset - queue.Count; i > 0; i -= num)
 			{
-				num = this.input.Read(this.buf, 0, 16);
+				num = input.Read(buf, 0, 16);
 				for (int j = 0; j < num; j++)
 				{
-					this.queue.Add((char)this.buf[j]);
+					queue.Add((char)buf[j]);
 				}
 				if (num < 16)
 				{
 					while (i-- > 0)
 					{
-						if (this.queue.Count >= 16)
+						if (queue.Count >= 16)
 						{
 							return;
 						}
-						this.queue.Add(CharScanner.EOF_CHAR);
+						queue.Add(CharScanner.EOF_CHAR);
 					}
 					break;
 				}

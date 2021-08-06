@@ -15,20 +15,20 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				return this.events_;
+				return events_;
 			}
 		}
 
 		// Token: 0x060001BD RID: 445 RVA: 0x00006294 File Offset: 0x00004494
 		public Parser()
 		{
-			this.inputState = new ParserSharedInputState();
+			inputState = new ParserSharedInputState();
 		}
 
 		// Token: 0x060001BE RID: 446 RVA: 0x000062D8 File Offset: 0x000044D8
 		public Parser(ParserSharedInputState state)
 		{
-			this.inputState = state;
+			inputState = state;
 		}
 
 		// Token: 0x14000027 RID: 39
@@ -38,11 +38,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.EnterRuleEventKey, value);
+				Events.AddHandler(EnterRuleEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.EnterRuleEventKey, value);
+				Events.RemoveHandler(EnterRuleEventKey, value);
 			}
 		}
 
@@ -53,11 +53,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.ExitRuleEventKey, value);
+				Events.AddHandler(ExitRuleEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.ExitRuleEventKey, value);
+				Events.RemoveHandler(ExitRuleEventKey, value);
 			}
 		}
 
@@ -68,11 +68,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.DoneEventKey, value);
+				Events.AddHandler(DoneEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.DoneEventKey, value);
+				Events.RemoveHandler(DoneEventKey, value);
 			}
 		}
 
@@ -83,11 +83,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.ReportErrorEventKey, value);
+				Events.AddHandler(ReportErrorEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.ReportErrorEventKey, value);
+				Events.RemoveHandler(ReportErrorEventKey, value);
 			}
 		}
 
@@ -98,11 +98,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.ReportWarningEventKey, value);
+				Events.AddHandler(ReportWarningEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.ReportWarningEventKey, value);
+				Events.RemoveHandler(ReportWarningEventKey, value);
 			}
 		}
 
@@ -113,11 +113,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.MatchEventKey, value);
+				Events.AddHandler(MatchEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.MatchEventKey, value);
+				Events.RemoveHandler(MatchEventKey, value);
 			}
 		}
 
@@ -128,11 +128,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.MatchNotEventKey, value);
+				Events.AddHandler(MatchNotEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.MatchNotEventKey, value);
+				Events.RemoveHandler(MatchNotEventKey, value);
 			}
 		}
 
@@ -143,11 +143,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.MisMatchEventKey, value);
+				Events.AddHandler(MisMatchEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.MisMatchEventKey, value);
+				Events.RemoveHandler(MisMatchEventKey, value);
 			}
 		}
 
@@ -158,11 +158,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.MisMatchNotEventKey, value);
+				Events.AddHandler(MisMatchNotEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.MisMatchNotEventKey, value);
+				Events.RemoveHandler(MisMatchNotEventKey, value);
 			}
 		}
 
@@ -173,11 +173,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.ConsumeEventKey, value);
+				Events.AddHandler(ConsumeEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.ConsumeEventKey, value);
+				Events.RemoveHandler(ConsumeEventKey, value);
 			}
 		}
 
@@ -188,11 +188,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.LAEventKey, value);
+				Events.AddHandler(LAEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.LAEventKey, value);
+				Events.RemoveHandler(LAEventKey, value);
 			}
 		}
 
@@ -203,11 +203,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.SemPredEvaluatedEventKey, value);
+				Events.AddHandler(SemPredEvaluatedEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.SemPredEvaluatedEventKey, value);
+				Events.RemoveHandler(SemPredEvaluatedEventKey, value);
 			}
 		}
 
@@ -218,11 +218,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.SynPredStartedEventKey, value);
+				Events.AddHandler(SynPredStartedEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.SynPredStartedEventKey, value);
+				Events.RemoveHandler(SynPredStartedEventKey, value);
 			}
 		}
 
@@ -233,11 +233,11 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.SynPredFailedEventKey, value);
+				Events.AddHandler(SynPredFailedEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.SynPredFailedEventKey, value);
+				Events.RemoveHandler(SynPredFailedEventKey, value);
 			}
 		}
 
@@ -248,18 +248,18 @@ namespace pcomps.Antlr
 		{
 			add
 			{
-				this.Events.AddHandler(Parser.SynPredSucceededEventKey, value);
+				Events.AddHandler(SynPredSucceededEventKey, value);
 			}
 			remove
 			{
-				this.Events.RemoveHandler(Parser.SynPredSucceededEventKey, value);
+				Events.RemoveHandler(SynPredSucceededEventKey, value);
 			}
 		}
 
 		// Token: 0x060001DD RID: 477 RVA: 0x000066D8 File Offset: 0x000048D8
 		public virtual void addMessageListener(MessageListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addMessageListener() is only valid if parser built for debugging");
 			}
@@ -268,7 +268,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001DE RID: 478 RVA: 0x000066F8 File Offset: 0x000048F8
 		public virtual void addParserListener(ParserListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addParserListener() is only valid if parser built for debugging");
 			}
@@ -277,7 +277,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001DF RID: 479 RVA: 0x00006718 File Offset: 0x00004918
 		public virtual void addParserMatchListener(ParserMatchListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addParserMatchListener() is only valid if parser built for debugging");
 			}
@@ -286,7 +286,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001E0 RID: 480 RVA: 0x00006738 File Offset: 0x00004938
 		public virtual void addParserTokenListener(ParserTokenListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addParserTokenListener() is only valid if parser built for debugging");
 			}
@@ -295,7 +295,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001E1 RID: 481 RVA: 0x00006758 File Offset: 0x00004958
 		public virtual void addSemanticPredicateListener(SemanticPredicateListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addSemanticPredicateListener() is only valid if parser built for debugging");
 			}
@@ -304,7 +304,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001E2 RID: 482 RVA: 0x00006778 File Offset: 0x00004978
 		public virtual void addSyntacticPredicateListener(SyntacticPredicateListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addSyntacticPredicateListener() is only valid if parser built for debugging");
 			}
@@ -313,7 +313,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001E3 RID: 483 RVA: 0x00006798 File Offset: 0x00004998
 		public virtual void addTraceListener(TraceListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("addTraceListener() is only valid if parser built for debugging");
 			}
@@ -325,18 +325,18 @@ namespace pcomps.Antlr
 		// Token: 0x060001E5 RID: 485 RVA: 0x000067B8 File Offset: 0x000049B8
 		public virtual void consumeUntil(int tokenType)
 		{
-			while (this.LA(1) != 1 && this.LA(1) != tokenType)
+			while (LA(1) != 1 && LA(1) != tokenType)
 			{
-				this.consume();
+				consume();
 			}
 		}
 
 		// Token: 0x060001E6 RID: 486 RVA: 0x000067E4 File Offset: 0x000049E4
 		public virtual void consumeUntil(BitSet bset)
 		{
-			while (this.LA(1) != 1 && !bset.member(this.LA(1)))
+			while (LA(1) != 1 && !bset.member(LA(1)))
 			{
-				this.consume();
+				consume();
 			}
 		}
 
@@ -348,50 +348,50 @@ namespace pcomps.Antlr
 		// Token: 0x060001E8 RID: 488 RVA: 0x00006824 File Offset: 0x00004A24
 		public virtual AST getAST()
 		{
-			return this.returnAST;
+			return returnAST;
 		}
 
 		// Token: 0x060001E9 RID: 489 RVA: 0x00006838 File Offset: 0x00004A38
 		public virtual ASTFactory getASTFactory()
 		{
-			return this.astFactory;
+			return astFactory;
 		}
 
 		// Token: 0x060001EA RID: 490 RVA: 0x0000684C File Offset: 0x00004A4C
 		public virtual string getFilename()
 		{
-			return this.inputState.filename;
+			return inputState.filename;
 		}
 
 		// Token: 0x060001EB RID: 491 RVA: 0x00006864 File Offset: 0x00004A64
 		public virtual ParserSharedInputState getInputState()
 		{
-			return this.inputState;
+			return inputState;
 		}
 
 		// Token: 0x060001EC RID: 492 RVA: 0x00006878 File Offset: 0x00004A78
 		public virtual void setInputState(ParserSharedInputState state)
 		{
-			this.inputState = state;
+			inputState = state;
 		}
 
 		// Token: 0x060001ED RID: 493 RVA: 0x0000688C File Offset: 0x00004A8C
 		public virtual void resetState()
 		{
-			this.traceDepth = 0;
-			this.inputState.reset();
+			traceDepth = 0;
+			inputState.reset();
 		}
 
 		// Token: 0x060001EE RID: 494 RVA: 0x000068AC File Offset: 0x00004AAC
 		public virtual string getTokenName(int num)
 		{
-			return this.tokenNames[num];
+			return tokenNames[num];
 		}
 
 		// Token: 0x060001EF RID: 495 RVA: 0x000068C4 File Offset: 0x00004AC4
 		public virtual string[] getTokenNames()
 		{
-			return this.tokenNames;
+			return tokenNames;
 		}
 
 		// Token: 0x060001F0 RID: 496 RVA: 0x000068D8 File Offset: 0x00004AD8
@@ -409,37 +409,37 @@ namespace pcomps.Antlr
 		// Token: 0x060001F3 RID: 499 RVA: 0x000068E8 File Offset: 0x00004AE8
 		public virtual int mark()
 		{
-			return this.inputState.input.mark();
+			return inputState.input.mark();
 		}
 
 		// Token: 0x060001F4 RID: 500 RVA: 0x00006908 File Offset: 0x00004B08
 		public virtual void match(int t)
 		{
-			if (this.LA(1) != t)
+			if (LA(1) != t)
 			{
-				throw new MismatchedTokenException(this.tokenNames, this.LT(1), t, false, this.getFilename());
+				throw new MismatchedTokenException(tokenNames, LT(1), t, false, getFilename());
 			}
-			this.consume();
+			consume();
 		}
 
 		// Token: 0x060001F5 RID: 501 RVA: 0x00006940 File Offset: 0x00004B40
 		public virtual void match(BitSet b)
 		{
-			if (!b.member(this.LA(1)))
+			if (!b.member(LA(1)))
 			{
-				throw new MismatchedTokenException(this.tokenNames, this.LT(1), b, false, this.getFilename());
+				throw new MismatchedTokenException(tokenNames, LT(1), b, false, getFilename());
 			}
-			this.consume();
+			consume();
 		}
 
 		// Token: 0x060001F6 RID: 502 RVA: 0x00006980 File Offset: 0x00004B80
 		public virtual void matchNot(int t)
 		{
-			if (this.LA(1) == t)
+			if (LA(1) == t)
 			{
-				throw new MismatchedTokenException(this.tokenNames, this.LT(1), t, true, this.getFilename());
+				throw new MismatchedTokenException(tokenNames, LT(1), t, true, getFilename());
 			}
-			this.consume();
+			consume();
 		}
 
 		// Token: 0x060001F7 RID: 503 RVA: 0x000069B8 File Offset: 0x00004BB8
@@ -453,7 +453,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001F8 RID: 504 RVA: 0x000069DC File Offset: 0x00004BDC
 		public virtual void removeMessageListener(MessageListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("removeMessageListener() is only valid if parser built for debugging");
 			}
@@ -462,7 +462,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001F9 RID: 505 RVA: 0x000069FC File Offset: 0x00004BFC
 		public virtual void removeParserListener(ParserListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("removeParserListener() is only valid if parser built for debugging");
 			}
@@ -471,7 +471,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001FA RID: 506 RVA: 0x00006A1C File Offset: 0x00004C1C
 		public virtual void removeParserMatchListener(ParserMatchListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("removeParserMatchListener() is only valid if parser built for debugging");
 			}
@@ -480,7 +480,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001FB RID: 507 RVA: 0x00006A3C File Offset: 0x00004C3C
 		public virtual void removeParserTokenListener(ParserTokenListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("removeParserTokenListener() is only valid if parser built for debugging");
 			}
@@ -489,7 +489,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001FC RID: 508 RVA: 0x00006A5C File Offset: 0x00004C5C
 		public virtual void removeSemanticPredicateListener(SemanticPredicateListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("removeSemanticPredicateListener() is only valid if parser built for debugging");
 			}
@@ -498,7 +498,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001FD RID: 509 RVA: 0x00006A7C File Offset: 0x00004C7C
 		public virtual void removeSyntacticPredicateListener(SyntacticPredicateListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new ArgumentException("removeSyntacticPredicateListener() is only valid if parser built for debugging");
 			}
@@ -507,7 +507,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001FE RID: 510 RVA: 0x00006A9C File Offset: 0x00004C9C
 		public virtual void removeTraceListener(TraceListener l)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("removeTraceListener() is only valid if parser built for debugging");
 			}
@@ -522,61 +522,61 @@ namespace pcomps.Antlr
 		// Token: 0x06000200 RID: 512 RVA: 0x00006AD4 File Offset: 0x00004CD4
 		public virtual void reportError(string s)
 		{
-			if (this.getFilename() == null)
+			if (getFilename() == null)
 			{
 				Console.Error.WriteLine($"error: {s}");
 				return;
 			}
-			Console.Error.WriteLine($"{this.getFilename()}: error: {s}");
+			Console.Error.WriteLine($"{getFilename()}: error: {s}");
 		}
 
 		// Token: 0x06000201 RID: 513 RVA: 0x00006B1C File Offset: 0x00004D1C
 		public virtual void reportWarning(string s)
 		{
-			if (this.getFilename() == null)
+			if (getFilename() == null)
 			{
 				Console.Error.WriteLine($"warning: {s}");
 				return;
 			}
-			Console.Error.WriteLine($"{this.getFilename()}: warning: {s}");
+			Console.Error.WriteLine($"{getFilename()}: warning: {s}");
 		}
 
 		// Token: 0x06000202 RID: 514 RVA: 0x00006B64 File Offset: 0x00004D64
 		public virtual void recover(RecognitionException ex, BitSet tokenSet)
 		{
-			this.consume();
-			this.consumeUntil(tokenSet);
+			consume();
+			consumeUntil(tokenSet);
 		}
 
 		// Token: 0x06000203 RID: 515 RVA: 0x00006B80 File Offset: 0x00004D80
 		public virtual void rewind(int pos)
 		{
-			this.inputState.input.rewind(pos);
+			inputState.input.rewind(pos);
 		}
 
 		// Token: 0x06000204 RID: 516 RVA: 0x00006BA0 File Offset: 0x00004DA0
 		public virtual void setASTFactory(ASTFactory f)
 		{
-			this.astFactory = f;
+			astFactory = f;
 		}
 
 		// Token: 0x06000205 RID: 517 RVA: 0x00006BB4 File Offset: 0x00004DB4
 		public virtual void setASTNodeClass(string cl)
 		{
-			this.astFactory.setASTNodeType(cl);
+			astFactory.setASTNodeType(cl);
 		}
 
 		// Token: 0x06000206 RID: 518 RVA: 0x00006BD0 File Offset: 0x00004DD0
 		[Obsolete("Replaced by setASTNodeClass(string) since version 2.7.1", true)]
 		public virtual void setASTNodeType(string nodeType)
 		{
-			this.setASTNodeClass(nodeType);
+			setASTNodeClass(nodeType);
 		}
 
 		// Token: 0x06000207 RID: 519 RVA: 0x00006BE4 File Offset: 0x00004DE4
 		public virtual void setDebugMode(bool debugMode)
 		{
-			if (!this.ignoreInvalidDebugCalls)
+			if (!ignoreInvalidDebugCalls)
 			{
 				throw new SystemException("setDebugMode() only valid if parser built for debugging");
 			}
@@ -585,25 +585,25 @@ namespace pcomps.Antlr
 		// Token: 0x06000208 RID: 520 RVA: 0x00006C04 File Offset: 0x00004E04
 		public virtual void setFilename(string f)
 		{
-			this.inputState.filename = f;
+			inputState.filename = f;
 		}
 
 		// Token: 0x06000209 RID: 521 RVA: 0x00006C20 File Offset: 0x00004E20
 		public virtual void setIgnoreInvalidDebugCalls(bool Value)
 		{
-			this.ignoreInvalidDebugCalls = Value;
+			ignoreInvalidDebugCalls = Value;
 		}
 
 		// Token: 0x0600020A RID: 522 RVA: 0x00006C34 File Offset: 0x00004E34
 		public virtual void setTokenBuffer(TokenBuffer t)
 		{
-			this.inputState.input = t;
+			inputState.input = t;
 		}
 
 		// Token: 0x0600020B RID: 523 RVA: 0x00006C50 File Offset: 0x00004E50
 		public virtual void traceIndent()
 		{
-			for (int i = 0; i < this.traceDepth; i++)
+			for (int i = 0; i < traceDepth; i++)
 			{
 				Console.Out.Write(" ");
 			}
@@ -612,31 +612,31 @@ namespace pcomps.Antlr
 		// Token: 0x0600020C RID: 524 RVA: 0x00006C80 File Offset: 0x00004E80
 		public virtual void traceIn(string rname)
 		{
-			this.traceDepth++;
-			this.traceIndent();
+			traceDepth++;
+			traceIndent();
 			Console.Out.WriteLine(string.Concat(new string[]
 			{
 				"> ",
 				rname,
 				"; LA(1)==",
-				this.LT(1).getText(),
-				(this.inputState.guessing > 0) ? " [guessing]" : ""
+				LT(1).getText(),
+				(inputState.guessing > 0) ? " [guessing]" : ""
 			}));
 		}
 
 		// Token: 0x0600020D RID: 525 RVA: 0x00006CF8 File Offset: 0x00004EF8
 		public virtual void traceOut(string rname)
 		{
-			this.traceIndent();
+			traceIndent();
 			Console.Out.WriteLine(string.Concat(new string[]
 			{
 				"< ",
 				rname,
 				"; LA(1)==",
-				this.LT(1).getText(),
-				(this.inputState.guessing > 0) ? " [guessing]" : ""
+				LT(1).getText(),
+				(inputState.guessing > 0) ? " [guessing]" : ""
 			}));
-			this.traceDepth--;
+			traceDepth--;
 		}
 
 		// Token: 0x04000073 RID: 115

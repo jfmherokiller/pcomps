@@ -12,11 +12,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this.subtemplate;
+				return subtemplate;
 			}
 			set
 			{
-				this.subtemplate = value;
+				subtemplate = value;
 			}
 		}
 
@@ -27,11 +27,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this.elseSubtemplate;
+				return elseSubtemplate;
 			}
 			set
 			{
-				this.elseSubtemplate = value;
+				elseSubtemplate = value;
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001130 RID: 4400 RVA: 0x0007C0AC File Offset: 0x0007A2AC
 		public override int Write(StringTemplate self, IStringTemplateWriter output)
 		{
-			if (this.exprTree == null || self == null || output == null)
+			if (exprTree == null || self == null || output == null)
 			{
 				return 0;
 			}
@@ -52,19 +52,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 			int result = 0;
 			try
 			{
-				AST firstChild = this.exprTree.getFirstChild();
+				AST firstChild = exprTree.getFirstChild();
 				bool flag = actionEvaluator.ifCondition(firstChild);
 				if (flag)
 				{
-					StringTemplate instanceOf = this.subtemplate.GetInstanceOf();
+					StringTemplate instanceOf = subtemplate.GetInstanceOf();
 					instanceOf.EnclosingInstance = self;
 					instanceOf.Group = self.Group;
 					instanceOf.NativeGroup = self.NativeGroup;
 					result = instanceOf.Write(output);
 				}
-				else if (this.elseSubtemplate != null)
+				else if (elseSubtemplate != null)
 				{
-					StringTemplate instanceOf2 = this.elseSubtemplate.GetInstanceOf();
+					StringTemplate instanceOf2 = elseSubtemplate.GetInstanceOf();
 					instanceOf2.EnclosingInstance = self;
 					instanceOf2.Group = self.Group;
 					instanceOf2.NativeGroup = self.NativeGroup;
@@ -73,7 +73,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException e)
 			{
-				self.Error($"can't evaluate tree: {this.exprTree.ToStringList()}", e);
+				self.Error($"can't evaluate tree: {exprTree.ToStringList()}", e);
 			}
 			return result;
 		}

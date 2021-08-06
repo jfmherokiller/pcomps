@@ -15,16 +15,16 @@ namespace pcomps.Antlr
 		protected internal override int getLeftmostDerivation(StringBuilder buf, int step)
 		{
 			buf.Append(' ');
-			buf.Append(this.ToString());
+			buf.Append(ToString());
 			return step;
 		}
 
 		// Token: 0x06000246 RID: 582 RVA: 0x00007D7C File Offset: 0x00005F7C
 		public override string ToString()
 		{
-			if (this.token != null)
+			if (token != null)
 			{
-				return this.token.getText();
+				return token.getText();
 			}
 			return "<missing token>";
 		}

@@ -18,7 +18,7 @@ namespace pcomps
         // Token: 0x060004AA RID: 1194 RVA: 0x0000E6DC File Offset: 0x0000C8DC
         public static int URShift(int number, long bits)
         {
-            return SupportClass.URShift(number, (int)bits);
+            return URShift(number, (int)bits);
         }
 
         // Token: 0x060004AB RID: 1195 RVA: 0x0000E6F4 File Offset: 0x0000C8F4
@@ -34,7 +34,7 @@ namespace pcomps
         // Token: 0x060004AC RID: 1196 RVA: 0x0000E71C File Offset: 0x0000C91C
         public static long URShift(long number, long bits)
         {
-            return SupportClass.URShift(number, (int)bits);
+            return URShift(number, (int)bits);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008F4 RID: 2292 RVA: 0x00019D64 File Offset: 0x00017F64
 		public CommonTokenStream()
 		{
-			this.channel = 0;
-			this.tokens = new ArrayList(500);
+			channel = 0;
+			tokens = new ArrayList(500);
 		}
 
 		// Token: 0x060008F5 RID: 2293 RVA: 0x00019D98 File Offset: 0x00017F98
@@ -30,9 +30,9 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008F7 RID: 2295 RVA: 0x00019DB8 File Offset: 0x00017FB8
 		public virtual IToken LT(int k)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			if (k == 0)
 			{
@@ -40,28 +40,28 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (k < 0)
 			{
-				return this.LB(-k);
+				return LB(-k);
 			}
-			if (this.p + k - 1 >= this.tokens.Count)
+			if (p + k - 1 >= tokens.Count)
 			{
 				return Token.EOF_TOKEN;
 			}
-			int num = this.p;
+			int num = p;
 			for (int i = 1; i < k; i++)
 			{
-				num = this.SkipOffTokenChannels(num + 1);
+				num = SkipOffTokenChannels(num + 1);
 			}
-			if (num >= this.tokens.Count)
+			if (num >= tokens.Count)
 			{
 				return Token.EOF_TOKEN;
 			}
-			return (IToken)this.tokens[num];
+			return (IToken)tokens[num];
 		}
 
 		// Token: 0x060008F8 RID: 2296 RVA: 0x00019E5C File Offset: 0x0001805C
 		public virtual IToken Get(int i)
 		{
-			return (IToken)this.tokens[i];
+			return (IToken)tokens[i];
 		}
 
 		// Token: 0x170000E1 RID: 225
@@ -71,14 +71,14 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.tokenSource;
+				return tokenSource;
 			}
 			set
 			{
-				this.tokenSource = value;
-				this.tokens.Clear();
-				this.p = -1;
-				this.channel = 0;
+				tokenSource = value;
+				tokens.Clear();
+				p = -1;
+				channel = 0;
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.TokenSource.SourceName;
+				return TokenSource.SourceName;
 			}
 		}
 
@@ -99,18 +99,18 @@ namespace pcomps.Antlr.Runtime
 			{
 				return null;
 			}
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			if (stop >= this.tokens.Count)
+			if (stop >= tokens.Count)
 			{
-				stop = this.tokens.Count - 1;
+				stop = tokens.Count - 1;
 			}
 			StringBuilder stringBuilder = new StringBuilder();
 			for (int i = start; i <= stop; i++)
 			{
-				IToken token = (IToken)this.tokens[i];
+				IToken token = (IToken)tokens[i];
 				stringBuilder.Append(token.Text);
 			}
 			return stringBuilder.ToString();
@@ -121,7 +121,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (start != null && stop != null)
 			{
-				return this.ToString(start.TokenIndex, stop.TokenIndex);
+				return ToString(start.TokenIndex, stop.TokenIndex);
 			}
 			return null;
 		}
@@ -129,53 +129,53 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008FE RID: 2302 RVA: 0x00019F74 File Offset: 0x00018174
 		public virtual void Consume()
 		{
-			if (this.p < this.tokens.Count)
+			if (p < tokens.Count)
 			{
-				this.p++;
-				this.p = this.SkipOffTokenChannels(this.p);
+				p++;
+				p = SkipOffTokenChannels(p);
 			}
 		}
 
 		// Token: 0x060008FF RID: 2303 RVA: 0x00019FB8 File Offset: 0x000181B8
 		public virtual int LA(int i)
 		{
-			return this.LT(i).Type;
+			return LT(i).Type;
 		}
 
 		// Token: 0x06000900 RID: 2304 RVA: 0x00019FC8 File Offset: 0x000181C8
 		public virtual int Mark()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			this.lastMarker = this.Index();
-			return this.lastMarker;
+			lastMarker = Index();
+			return lastMarker;
 		}
 
 		// Token: 0x06000901 RID: 2305 RVA: 0x00019FFC File Offset: 0x000181FC
 		public virtual int Index()
 		{
-			return this.p;
+			return p;
 		}
 
 		// Token: 0x06000902 RID: 2306 RVA: 0x0001A004 File Offset: 0x00018204
 		public virtual void Rewind(int marker)
 		{
-			this.Seek(marker);
+			Seek(marker);
 		}
 
 		// Token: 0x06000903 RID: 2307 RVA: 0x0001A010 File Offset: 0x00018210
 		public virtual void Rewind()
 		{
-			this.Seek(this.lastMarker);
+			Seek(lastMarker);
 		}
 
 		// Token: 0x06000904 RID: 2308 RVA: 0x0001A020 File Offset: 0x00018220
 		public virtual void Reset()
 		{
-			this.p = 0;
-			this.lastMarker = 0;
+			p = 0;
+			lastMarker = 0;
 		}
 
 		// Token: 0x06000905 RID: 2309 RVA: 0x0001A030 File Offset: 0x00018230
@@ -186,14 +186,14 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000906 RID: 2310 RVA: 0x0001A034 File Offset: 0x00018234
 		public virtual void Seek(int index)
 		{
-			this.p = index;
+			p = index;
 		}
 
 		// Token: 0x06000907 RID: 2311 RVA: 0x0001A040 File Offset: 0x00018240
 		[Obsolete("Please use the property Count instead.")]
 		public virtual int Size()
 		{
-			return this.Count;
+			return Count;
 		}
 
 		// Token: 0x170000E3 RID: 227
@@ -202,7 +202,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.tokens.Count;
+				return tokens.Count;
 			}
 		}
 
@@ -210,43 +210,43 @@ namespace pcomps.Antlr.Runtime
 		protected virtual void FillBuffer()
 		{
 			int num = 0;
-			IToken token = this.tokenSource.NextToken();
+			IToken token = tokenSource.NextToken();
 			while (token != null && token.Type != -1)
 			{
 				bool flag = false;
-				if (this.channelOverrideMap != null)
+				if (channelOverrideMap != null)
 				{
-					object obj = this.channelOverrideMap[token.Type];
+					object obj = channelOverrideMap[token.Type];
 					if (obj != null)
 					{
 						token.Channel = (int)obj;
 					}
 				}
-				if (this.discardSet != null && this.discardSet.Contains(token.Type.ToString()))
+				if (discardSet != null && discardSet.Contains(token.Type.ToString()))
 				{
 					flag = true;
 				}
-				else if (this.discardOffChannelTokens && token.Channel != this.channel)
+				else if (discardOffChannelTokens && token.Channel != channel)
 				{
 					flag = true;
 				}
 				if (!flag)
 				{
 					token.TokenIndex = num;
-					this.tokens.Add(token);
+					tokens.Add(token);
 					num++;
 				}
-				token = this.tokenSource.NextToken();
+				token = tokenSource.NextToken();
 			}
-			this.p = 0;
-			this.p = this.SkipOffTokenChannels(this.p);
+			p = 0;
+			p = SkipOffTokenChannels(p);
 		}
 
 		// Token: 0x0600090A RID: 2314 RVA: 0x0001A154 File Offset: 0x00018354
 		protected virtual int SkipOffTokenChannels(int i)
 		{
-			int count = this.tokens.Count;
-			while (i < count && ((IToken)this.tokens[i]).Channel != this.channel)
+			int count = tokens.Count;
+			while (i < count && ((IToken)tokens[i]).Channel != channel)
 			{
 				i++;
 			}
@@ -256,7 +256,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600090B RID: 2315 RVA: 0x0001A1A0 File Offset: 0x000183A0
 		protected virtual int SkipOffTokenChannelsReverse(int i)
 		{
-			while (i >= 0 && ((IToken)this.tokens[i]).Channel != this.channel)
+			while (i >= 0 && ((IToken)tokens[i]).Channel != channel)
 			{
 				i--;
 			}
@@ -266,21 +266,21 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600090C RID: 2316 RVA: 0x0001A1D8 File Offset: 0x000183D8
 		public virtual void SetTokenTypeChannel(int ttype, int channel)
 		{
-			if (this.channelOverrideMap == null)
+			if (channelOverrideMap == null)
 			{
-				this.channelOverrideMap = new Hashtable();
+				channelOverrideMap = new Hashtable();
 			}
-			this.channelOverrideMap[ttype] = channel;
+			channelOverrideMap[ttype] = channel;
 		}
 
 		// Token: 0x0600090D RID: 2317 RVA: 0x0001A208 File Offset: 0x00018408
 		public virtual void DiscardTokenType(int ttype)
 		{
-			if (this.discardSet == null)
+			if (discardSet == null)
 			{
-				this.discardSet = new HashList();
+				discardSet = new HashList();
 			}
-			this.discardSet.Add(ttype.ToString(), ttype);
+			discardSet.Add(ttype.ToString(), ttype);
 		}
 
 		// Token: 0x0600090E RID: 2318 RVA: 0x0001A244 File Offset: 0x00018444
@@ -292,29 +292,29 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600090F RID: 2319 RVA: 0x0001A250 File Offset: 0x00018450
 		public virtual IList GetTokens()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			return this.tokens;
+			return tokens;
 		}
 
 		// Token: 0x06000910 RID: 2320 RVA: 0x0001A26C File Offset: 0x0001846C
 		public virtual IList GetTokens(int start, int stop)
 		{
-			return this.GetTokens(start, stop, new BitSet());
+			return GetTokens(start, stop, new BitSet());
 		}
 
 		// Token: 0x06000911 RID: 2321 RVA: 0x0001A278 File Offset: 0x00018478
 		public virtual IList GetTokens(int start, int stop, BitSet types)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			if (stop >= this.tokens.Count)
+			if (stop >= tokens.Count)
 			{
-				stop = this.tokens.Count - 1;
+				stop = tokens.Count - 1;
 			}
 			if (start < 0)
 			{
@@ -327,7 +327,7 @@ namespace pcomps.Antlr.Runtime
 			IList list = new ArrayList();
 			for (int i = start; i <= stop; i++)
 			{
-				IToken token = (IToken)this.tokens[i];
+				IToken token = (IToken)tokens[i];
 				if (types == null || types.Member(token.Type))
 				{
 					list.Add(token);
@@ -343,50 +343,50 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000912 RID: 2322 RVA: 0x0001A324 File Offset: 0x00018524
 		public virtual IList GetTokens(int start, int stop, IList types)
 		{
-			return this.GetTokens(start, stop, new BitSet(types));
+			return GetTokens(start, stop, new BitSet(types));
 		}
 
 		// Token: 0x06000913 RID: 2323 RVA: 0x0001A334 File Offset: 0x00018534
 		public virtual IList GetTokens(int start, int stop, int ttype)
 		{
-			return this.GetTokens(start, stop, BitSet.Of(ttype));
+			return GetTokens(start, stop, BitSet.Of(ttype));
 		}
 
 		// Token: 0x06000914 RID: 2324 RVA: 0x0001A344 File Offset: 0x00018544
 		protected virtual IToken LB(int k)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			if (k == 0)
 			{
 				return null;
 			}
-			if (this.p - k < 0)
+			if (p - k < 0)
 			{
 				return null;
 			}
-			int num = this.p;
+			int num = p;
 			for (int i = 1; i <= k; i++)
 			{
-				num = this.SkipOffTokenChannelsReverse(num - 1);
+				num = SkipOffTokenChannelsReverse(num - 1);
 			}
 			if (num < 0)
 			{
 				return null;
 			}
-			return (IToken)this.tokens[num];
+			return (IToken)tokens[num];
 		}
 
 		// Token: 0x06000915 RID: 2325 RVA: 0x0001A3B8 File Offset: 0x000185B8
 		public override string ToString()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			return this.ToString(0, this.tokens.Count - 1);
+			return ToString(0, tokens.Count - 1);
 		}
 
 		// Token: 0x04000266 RID: 614

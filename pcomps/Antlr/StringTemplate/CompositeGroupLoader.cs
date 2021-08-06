@@ -24,19 +24,19 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F1D RID: 3869 RVA: 0x0006E1C4 File Offset: 0x0006C3C4
 		public StringTemplateGroup LoadGroup(string groupName)
 		{
-			return this.LoadGroup(groupName, null, null);
+			return LoadGroup(groupName, null, null);
 		}
 
 		// Token: 0x06000F1E RID: 3870 RVA: 0x0006E1D0 File Offset: 0x0006C3D0
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup)
 		{
-			return this.LoadGroup(groupName, superGroup, null);
+			return LoadGroup(groupName, superGroup, null);
 		}
 
 		// Token: 0x06000F1F RID: 3871 RVA: 0x0006E1DC File Offset: 0x0006C3DC
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup, Type lexer)
 		{
-			foreach (object obj in this.loaders)
+			foreach (object obj in loaders)
 			{
 				IStringTemplateGroupLoader stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
 				StringTemplateGroup stringTemplateGroup = stringTemplateGroupLoader.LoadGroup(groupName, superGroup, lexer);
@@ -51,7 +51,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F20 RID: 3872 RVA: 0x0006E248 File Offset: 0x0006C448
 		public StringTemplateGroupInterface LoadInterface(string interfaceName)
 		{
-			foreach (object obj in this.loaders)
+			foreach (object obj in loaders)
 			{
 				IStringTemplateGroupLoader stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
 				StringTemplateGroupInterface stringTemplateGroupInterface = stringTemplateGroupLoader.LoadInterface(interfaceName);

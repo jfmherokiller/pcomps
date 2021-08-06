@@ -9,7 +9,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005E7 RID: 1511 RVA: 0x00011788 File Offset: 0x0000F988
 		public virtual object GetNilNode()
 		{
-			return this.Create(null);
+			return Create(null);
 		}
 
 		// Token: 0x060005E8 RID: 1512 RVA: 0x00011794 File Offset: 0x0000F994
@@ -27,7 +27,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005EA RID: 1514 RVA: 0x000117C0 File Offset: 0x0000F9C0
 		public virtual object DupTree(object tree)
 		{
-			return this.DupTree(tree, null);
+			return DupTree(tree, null);
 		}
 
 		// Token: 0x060005EB RID: 1515 RVA: 0x000117CC File Offset: 0x0000F9CC
@@ -37,15 +37,15 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			object obj = this.DupNode(t);
-			this.SetChildIndex(obj, this.GetChildIndex(t));
-			this.SetParent(obj, parent);
-			int childCount = this.GetChildCount(t);
+			object obj = DupNode(t);
+			SetChildIndex(obj, GetChildIndex(t));
+			SetParent(obj, parent);
+			int childCount = GetChildCount(t);
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.GetChild(t, i);
-				object child2 = this.DupTree(child, t);
-				this.AddChild(obj, child2);
+				object child = GetChild(t, i);
+				object child2 = DupTree(child, t);
+				AddChild(obj, child2);
 			}
 			return obj;
 		}
@@ -107,31 +107,31 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005EF RID: 1519 RVA: 0x00011918 File Offset: 0x0000FB18
 		public virtual object BecomeRoot(IToken newRoot, object oldRoot)
 		{
-			return this.BecomeRoot(this.Create(newRoot), oldRoot);
+			return BecomeRoot(Create(newRoot), oldRoot);
 		}
 
 		// Token: 0x060005F0 RID: 1520 RVA: 0x00011928 File Offset: 0x0000FB28
 		public virtual object Create(int tokenType, IToken fromToken)
 		{
-			fromToken = this.CreateToken(fromToken);
+			fromToken = CreateToken(fromToken);
 			fromToken.Type = tokenType;
-			return (ITree)this.Create(fromToken);
+			return (ITree)Create(fromToken);
 		}
 
 		// Token: 0x060005F1 RID: 1521 RVA: 0x00011954 File Offset: 0x0000FB54
 		public virtual object Create(int tokenType, IToken fromToken, string text)
 		{
-			fromToken = this.CreateToken(fromToken);
+			fromToken = CreateToken(fromToken);
 			fromToken.Type = tokenType;
 			fromToken.Text = text;
-			return (ITree)this.Create(fromToken);
+			return (ITree)Create(fromToken);
 		}
 
 		// Token: 0x060005F2 RID: 1522 RVA: 0x00011988 File Offset: 0x0000FB88
 		public virtual object Create(int tokenType, string text)
 		{
-			IToken param = this.CreateToken(tokenType, text);
-			return (ITree)this.Create(param);
+			IToken param = CreateToken(tokenType, text);
+			return (ITree)Create(param);
 		}
 
 		// Token: 0x060005F3 RID: 1523 RVA: 0x000119AC File Offset: 0x0000FBAC
@@ -203,18 +203,18 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000601 RID: 1537 RVA: 0x00011A28 File Offset: 0x0000FC28
 		public int GetUniqueID(object node)
 		{
-			if (this.treeToUniqueIDMap == null)
+			if (treeToUniqueIDMap == null)
 			{
-				this.treeToUniqueIDMap = new Hashtable();
+				treeToUniqueIDMap = new Hashtable();
 			}
-			object obj = this.treeToUniqueIDMap[node];
+			object obj = treeToUniqueIDMap[node];
 			if (obj != null)
 			{
 				return (int)obj;
 			}
-			int num = this.uniqueNodeID;
-			this.treeToUniqueIDMap[node] = num;
-			this.uniqueNodeID++;
+			int num = uniqueNodeID;
+			treeToUniqueIDMap[node] = num;
+			uniqueNodeID++;
 			return num;
 		}
 

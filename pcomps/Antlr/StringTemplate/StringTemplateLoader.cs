@@ -26,19 +26,19 @@
 		{
 			get
 			{
-				return this.locationRoot;
+				return locationRoot;
 			}
 		}
 
 		// Token: 0x06000F3D RID: 3901 RVA: 0x0006E5A0 File Offset: 0x0006C7A0
 		public string LoadTemplate(string templateName)
 		{
-			string text = this.InternalLoadTemplateContents(templateName);
+			string text = InternalLoadTemplateContents(templateName);
 			if (text != null && text.Length > 0)
 			{
 				return text;
 			}
-			if (this.raiseExceptionForEmptyTemplate)
+			if (raiseExceptionForEmptyTemplate)
 			{
 				throw new TemplateLoadException($"no text in template '{templateName}'");
 			}

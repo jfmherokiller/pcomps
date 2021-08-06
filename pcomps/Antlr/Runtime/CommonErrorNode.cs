@@ -17,7 +17,7 @@ namespace pcomps.Antlr.Runtime
 			this.input = input;
 			this.start = start;
 			this.stop = stop;
-			this.trappedException = e;
+			trappedException = e;
 		}
 
 		// Token: 0x17000068 RID: 104
@@ -47,19 +47,19 @@ namespace pcomps.Antlr.Runtime
 			get
 			{
 				string result;
-				if (this.start is IToken)
+				if (start is IToken)
 				{
-					int tokenIndex = this.start.TokenIndex;
-					int num = this.stop.TokenIndex;
-					if (this.stop.Type == Antlr.Runtime.Token.EOF)
+					int tokenIndex = start.TokenIndex;
+					int num = stop.TokenIndex;
+					if (stop.Type == Antlr.Runtime.Token.EOF)
 					{
-						num = ((ITokenStream)this.input).Count;
+						num = ((ITokenStream)input).Count;
 					}
-					result = ((ITokenStream)this.input).ToString(tokenIndex, num);
+					result = ((ITokenStream)input).ToString(tokenIndex, num);
 				}
-				else if (this.start is ITree)
+				else if (start is ITree)
 				{
-					result = ((ITreeNodeStream)this.input).ToString(this.start, this.stop);
+					result = ((ITreeNodeStream)input).ToString(start, stop);
 				}
 				else
 				{
@@ -72,44 +72,44 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600058A RID: 1418 RVA: 0x000104D4 File Offset: 0x0000E6D4
 		public override string ToString()
 		{
-			if (this.trappedException is MissingTokenException)
+			if (trappedException is MissingTokenException)
 			{
-				return $"<missing type: {((MissingTokenException)this.trappedException).MissingType}>";
+				return $"<missing type: {((MissingTokenException)trappedException).MissingType}>";
 			}
-			if (this.trappedException is UnwantedTokenException)
+			if (trappedException is UnwantedTokenException)
 			{
 				return string.Concat(new object[]
 				{
 					"<extraneous: ",
-					((UnwantedTokenException)this.trappedException).UnexpectedToken,
+					((UnwantedTokenException)trappedException).UnexpectedToken,
 					", resync=",
-					this.Text,
+					Text,
 					">"
 				});
 			}
-			if (this.trappedException is MismatchedTokenException)
+			if (trappedException is MismatchedTokenException)
 			{
 				return string.Concat(new object[]
 				{
 					"<mismatched token: ",
-					this.trappedException.Token,
+					trappedException.Token,
 					", resync=",
-					this.Text,
+					Text,
 					">"
 				});
 			}
-			if (this.trappedException is NoViableAltException)
+			if (trappedException is NoViableAltException)
 			{
 				return string.Concat(new object[]
 				{
 					"<unexpected: ",
-					this.trappedException.Token,
+					trappedException.Token,
 					", resync=",
-					this.Text,
+					Text,
 					">"
 				});
 			}
-			return $"<error: {this.Text}>";
+			return $"<error: {Text}>";
 		}
 
 		// Token: 0x0400018A RID: 394

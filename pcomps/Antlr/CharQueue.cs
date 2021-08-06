@@ -8,72 +8,72 @@
 		{
 			if (minSize < 0)
 			{
-				this.init(16);
+				init(16);
 				return;
 			}
 			if (minSize >= 1073741823)
 			{
-				this.init(int.MaxValue);
+				init(int.MaxValue);
 				return;
 			}
 			int i;
 			for (i = 2; i < minSize; i *= 2)
 			{
 			}
-			this.init(i);
+			init(i);
 		}
 
 		// Token: 0x060000B9 RID: 185 RVA: 0x00004460 File Offset: 0x00002660
 		public void append(char tok)
 		{
-			if (this.nbrEntries == this.buffer.Length)
+			if (nbrEntries == buffer.Length)
 			{
-				this.expand();
+				expand();
 			}
-			this.buffer[this.offset + this.nbrEntries & this.sizeLessOne] = tok;
-			this.nbrEntries++;
+			buffer[offset + nbrEntries & sizeLessOne] = tok;
+			nbrEntries++;
 		}
 
 		// Token: 0x060000BA RID: 186 RVA: 0x000044B0 File Offset: 0x000026B0
 		public char elementAt(int idx)
 		{
-			return this.buffer[this.offset + idx & this.sizeLessOne];
+			return buffer[offset + idx & sizeLessOne];
 		}
 
 		// Token: 0x060000BB RID: 187 RVA: 0x000044D4 File Offset: 0x000026D4
 		private void expand()
 		{
-			char[] array = new char[this.buffer.Length * 2];
-			for (int i = 0; i < this.buffer.Length; i++)
+			char[] array = new char[buffer.Length * 2];
+			for (int i = 0; i < buffer.Length; i++)
 			{
-				array[i] = this.elementAt(i);
+				array[i] = elementAt(i);
 			}
-			this.buffer = array;
-			this.sizeLessOne = this.buffer.Length - 1;
-			this.offset = 0;
+			buffer = array;
+			sizeLessOne = buffer.Length - 1;
+			offset = 0;
 		}
 
 		// Token: 0x060000BC RID: 188 RVA: 0x0000452C File Offset: 0x0000272C
 		public virtual void init(int size)
 		{
-			this.buffer = new char[size];
-			this.sizeLessOne = size - 1;
-			this.offset = 0;
-			this.nbrEntries = 0;
+			buffer = new char[size];
+			sizeLessOne = size - 1;
+			offset = 0;
+			nbrEntries = 0;
 		}
 
 		// Token: 0x060000BD RID: 189 RVA: 0x0000455C File Offset: 0x0000275C
 		public void reset()
 		{
-			this.offset = 0;
-			this.nbrEntries = 0;
+			offset = 0;
+			nbrEntries = 0;
 		}
 
 		// Token: 0x060000BE RID: 190 RVA: 0x00004578 File Offset: 0x00002778
 		public void removeFirst()
 		{
-			this.offset = (this.offset + 1 & this.sizeLessOne);
-			this.nbrEntries--;
+			offset = (offset + 1 & sizeLessOne);
+			nbrEntries--;
 		}
 
 		// Token: 0x0400002E RID: 46

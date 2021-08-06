@@ -15,45 +15,45 @@ namespace pcomps.Antlr
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				switch (this.mismatchType)
+				switch (mismatchType)
 				{
-				case MismatchedCharException.CharTypeEnum.CharType:
+				case CharTypeEnum.CharType:
 					stringBuilder.Append("expecting ");
-					this.appendCharName(stringBuilder, this.expecting);
+					appendCharName(stringBuilder, expecting);
 					stringBuilder.Append(", found ");
-					this.appendCharName(stringBuilder, this.foundChar);
+					appendCharName(stringBuilder, foundChar);
 					break;
-				case MismatchedCharException.CharTypeEnum.NotCharType:
+				case CharTypeEnum.NotCharType:
 					stringBuilder.Append("expecting anything but '");
-					this.appendCharName(stringBuilder, this.expecting);
+					appendCharName(stringBuilder, expecting);
 					stringBuilder.Append("'; got it anyway");
 					break;
-				case MismatchedCharException.CharTypeEnum.RangeType:
-				case MismatchedCharException.CharTypeEnum.NotRangeType:
+				case CharTypeEnum.RangeType:
+				case CharTypeEnum.NotRangeType:
 					stringBuilder.Append("expecting token ");
-					if (this.mismatchType == MismatchedCharException.CharTypeEnum.NotRangeType)
+					if (mismatchType == CharTypeEnum.NotRangeType)
 					{
 						stringBuilder.Append("NOT ");
 					}
 					stringBuilder.Append("in range: ");
-					this.appendCharName(stringBuilder, this.expecting);
+					appendCharName(stringBuilder, expecting);
 					stringBuilder.Append("..");
-					this.appendCharName(stringBuilder, this.upper);
+					appendCharName(stringBuilder, upper);
 					stringBuilder.Append(", found ");
-					this.appendCharName(stringBuilder, this.foundChar);
+					appendCharName(stringBuilder, foundChar);
 					break;
-				case MismatchedCharException.CharTypeEnum.SetType:
-				case MismatchedCharException.CharTypeEnum.NotSetType:
+				case CharTypeEnum.SetType:
+				case CharTypeEnum.NotSetType:
 				{
 					stringBuilder.Append(
-                        $"expecting {((this.mismatchType == MismatchedCharException.CharTypeEnum.NotSetType) ? "NOT " : "")}one of (");
-					int[] array = this.bset.toArray();
+                        $"expecting {((mismatchType == CharTypeEnum.NotSetType) ? "NOT " : "")}one of (");
+					int[] array = bset.toArray();
 					for (int i = 0; i < array.Length; i++)
 					{
-						this.appendCharName(stringBuilder, array[i]);
+						appendCharName(stringBuilder, array[i]);
 					}
 					stringBuilder.Append("), found ");
-					this.appendCharName(stringBuilder, this.foundChar);
+					appendCharName(stringBuilder, foundChar);
 					break;
 				}
 				default:
@@ -72,29 +72,29 @@ namespace pcomps.Antlr
 		// Token: 0x06000223 RID: 547 RVA: 0x000072EC File Offset: 0x000054EC
 		public MismatchedCharException(char c, char lower, char upper_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
-			this.mismatchType = (matchNot ? MismatchedCharException.CharTypeEnum.NotRangeType : MismatchedCharException.CharTypeEnum.RangeType);
-			this.foundChar = (int)c;
-			this.expecting = (int)lower;
-			this.upper = (int)upper_;
-			this.scanner = scanner_;
+			mismatchType = (matchNot ? CharTypeEnum.NotRangeType : CharTypeEnum.RangeType);
+			foundChar = (int)c;
+			expecting = (int)lower;
+			upper = (int)upper_;
+			scanner = scanner_;
 		}
 
 		// Token: 0x06000224 RID: 548 RVA: 0x00007344 File Offset: 0x00005544
 		public MismatchedCharException(char c, char expecting_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
-			this.mismatchType = (matchNot ? MismatchedCharException.CharTypeEnum.NotCharType : MismatchedCharException.CharTypeEnum.CharType);
-			this.foundChar = (int)c;
-			this.expecting = (int)expecting_;
-			this.scanner = scanner_;
+			mismatchType = (matchNot ? CharTypeEnum.NotCharType : CharTypeEnum.CharType);
+			foundChar = (int)c;
+			expecting = (int)expecting_;
+			scanner = scanner_;
 		}
 
 		// Token: 0x06000225 RID: 549 RVA: 0x00007394 File Offset: 0x00005594
 		public MismatchedCharException(char c, BitSet set_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
-			this.mismatchType = (matchNot ? MismatchedCharException.CharTypeEnum.NotSetType : MismatchedCharException.CharTypeEnum.SetType);
-			this.foundChar = (int)c;
-			this.bset = set_;
-			this.scanner = scanner_;
+			mismatchType = (matchNot ? CharTypeEnum.NotSetType : CharTypeEnum.SetType);
+			foundChar = (int)c;
+			bset = set_;
+			scanner = scanner_;
 		}
 
 		// Token: 0x06000226 RID: 550 RVA: 0x000073E4 File Offset: 0x000055E4
@@ -128,7 +128,7 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x0400008E RID: 142
-		public MismatchedCharException.CharTypeEnum mismatchType;
+		public CharTypeEnum mismatchType;
 
 		// Token: 0x0400008F RID: 143
 		public int foundChar;

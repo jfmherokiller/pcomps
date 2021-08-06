@@ -24,11 +24,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.expecting;
+				return expecting;
 			}
 			set
 			{
-				this.expecting = value;
+				expecting = value;
 			}
 		}
 
@@ -38,9 +38,9 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"MismatchedTokenException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				"!=",
-				this.expecting,
+				expecting,
 				")"
 			});
 		}

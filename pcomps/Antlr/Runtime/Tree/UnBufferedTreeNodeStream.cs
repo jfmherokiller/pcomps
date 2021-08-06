@@ -16,12 +16,12 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000897 RID: 2199 RVA: 0x000184A4 File Offset: 0x000166A4
 		public UnBufferedTreeNodeStream(ITreeAdaptor adaptor, object tree)
 		{
-			this.root = tree;
+			root = tree;
 			this.adaptor = adaptor;
-			this.Reset();
-			this.down = adaptor.Create(2, "DOWN");
-			this.up = adaptor.Create(3, "UP");
-			this.eof = adaptor.Create(Token.EOF, "EOF");
+			Reset();
+			down = adaptor.Create(2, "DOWN");
+			up = adaptor.Create(3, "UP");
+			eof = adaptor.Create(Token.EOF, "EOF");
 		}
 
 		// Token: 0x170000D3 RID: 211
@@ -30,43 +30,43 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.root;
+				return root;
 			}
 		}
 
 		// Token: 0x06000899 RID: 2201 RVA: 0x00018530 File Offset: 0x00016730
 		public virtual void Reset()
 		{
-			this.currentNode = this.root;
-			this.previousNode = null;
-			this.currentChildIndex = -1;
-			this.absoluteNodeIndex = -1;
-			this.head = (this.tail = 0);
+			currentNode = root;
+			previousNode = null;
+			currentChildIndex = -1;
+			absoluteNodeIndex = -1;
+			head = (tail = 0);
 		}
 
 		// Token: 0x0600089A RID: 2202 RVA: 0x00018570 File Offset: 0x00016770
 		public virtual bool MoveNext()
 		{
-			if (this.currentNode == null)
+			if (currentNode == null)
 			{
-				this.AddLookahead(this.eof);
-				this.currentEnumerationNode = null;
+				AddLookahead(eof);
+				currentEnumerationNode = null;
 				return false;
 			}
-			if (this.currentChildIndex == -1)
+			if (currentChildIndex == -1)
 			{
-				this.currentEnumerationNode = (ITree)this.handleRootNode();
+				currentEnumerationNode = (ITree)handleRootNode();
 				return true;
 			}
-			if (this.currentChildIndex < this.adaptor.GetChildCount(this.currentNode))
+			if (currentChildIndex < adaptor.GetChildCount(currentNode))
 			{
-				this.currentEnumerationNode = (ITree)this.VisitChild(this.currentChildIndex);
+				currentEnumerationNode = (ITree)VisitChild(currentChildIndex);
 				return true;
 			}
-			this.WalkBackToMostRecentNodeWithUnvisitedChildren();
-			if (this.currentNode != null)
+			WalkBackToMostRecentNodeWithUnvisitedChildren();
+			if (currentNode != null)
 			{
-				this.currentEnumerationNode = (ITree)this.VisitChild(this.currentChildIndex);
+				currentEnumerationNode = (ITree)VisitChild(currentChildIndex);
 				return true;
 			}
 			return false;
@@ -78,7 +78,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.currentEnumerationNode;
+				return currentEnumerationNode;
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			if (k == -1)
 			{
-				return this.previousNode;
+				return previousNode;
 			}
 			if (k < 0)
 			{
@@ -103,156 +103,156 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return Tree.INVALID_NODE;
 			}
-			this.fill(k);
-			return this.lookahead[(this.head + k - 1) % this.lookahead.Length];
+			fill(k);
+			return lookahead[(head + k - 1) % lookahead.Length];
 		}
 
 		// Token: 0x0600089E RID: 2206 RVA: 0x00018690 File Offset: 0x00016890
 		protected internal virtual void fill(int k)
 		{
-			int lookaheadSize = this.LookaheadSize;
+			int lookaheadSize = LookaheadSize;
 			for (int i = 1; i <= k - lookaheadSize; i++)
 			{
-				this.MoveNext();
+				MoveNext();
 			}
 		}
 
 		// Token: 0x0600089F RID: 2207 RVA: 0x000186C0 File Offset: 0x000168C0
 		protected internal virtual void AddLookahead(object node)
 		{
-			this.lookahead[this.tail] = node;
-			this.tail = (this.tail + 1) % this.lookahead.Length;
-			if (this.tail == this.head)
+			lookahead[tail] = node;
+			tail = (tail + 1) % lookahead.Length;
+			if (tail == head)
 			{
-				object[] destinationArray = new object[2 * this.lookahead.Length];
-				int num = this.lookahead.Length - this.head;
-				Array.Copy(this.lookahead, this.head, destinationArray, 0, num);
-				Array.Copy(this.lookahead, 0, destinationArray, num, this.tail);
-				this.lookahead = destinationArray;
-				this.head = 0;
-				this.tail += num;
+				object[] destinationArray = new object[2 * lookahead.Length];
+				int num = lookahead.Length - head;
+				Array.Copy(lookahead, head, destinationArray, 0, num);
+				Array.Copy(lookahead, 0, destinationArray, num, tail);
+				lookahead = destinationArray;
+				head = 0;
+				tail += num;
 			}
 		}
 
 		// Token: 0x060008A0 RID: 2208 RVA: 0x00018768 File Offset: 0x00016968
 		public virtual void Consume()
 		{
-			this.fill(1);
-			this.absoluteNodeIndex++;
-			this.previousNode = this.lookahead[this.head];
-			this.head = (this.head + 1) % this.lookahead.Length;
+			fill(1);
+			absoluteNodeIndex++;
+			previousNode = lookahead[head];
+			head = (head + 1) % lookahead.Length;
 		}
 
 		// Token: 0x060008A1 RID: 2209 RVA: 0x000187B4 File Offset: 0x000169B4
 		public virtual int LA(int i)
 		{
-			object obj = (ITree)this.LT(i);
+			object obj = (ITree)LT(i);
 			if (obj == null)
 			{
 				return 0;
 			}
-			return this.adaptor.GetNodeType(obj);
+			return adaptor.GetNodeType(obj);
 		}
 
 		// Token: 0x060008A2 RID: 2210 RVA: 0x000187E4 File Offset: 0x000169E4
 		public virtual int Mark()
 		{
-			if (this.markers == null)
+			if (markers == null)
 			{
-				this.markers = new ArrayList();
-				this.markers.Add(null);
+				markers = new ArrayList();
+				markers.Add(null);
 			}
-			this.markDepth++;
-			UnBufferedTreeNodeStream.TreeWalkState treeWalkState;
-			if (this.markDepth >= this.markers.Count)
+			markDepth++;
+			TreeWalkState treeWalkState;
+			if (markDepth >= markers.Count)
 			{
-				treeWalkState = new UnBufferedTreeNodeStream.TreeWalkState();
-				this.markers.Add(treeWalkState);
+				treeWalkState = new TreeWalkState();
+				markers.Add(treeWalkState);
 			}
 			else
 			{
-				treeWalkState = (UnBufferedTreeNodeStream.TreeWalkState)this.markers[this.markDepth];
+				treeWalkState = (TreeWalkState)markers[markDepth];
 			}
-			treeWalkState.absoluteNodeIndex = this.absoluteNodeIndex;
-			treeWalkState.currentChildIndex = this.currentChildIndex;
-			treeWalkState.currentNode = this.currentNode;
-			treeWalkState.previousNode = this.previousNode;
-			treeWalkState.nodeStackSize = this.nodeStack.Count;
-			treeWalkState.indexStackSize = this.indexStack.Count;
-			int lookaheadSize = this.LookaheadSize;
+			treeWalkState.absoluteNodeIndex = absoluteNodeIndex;
+			treeWalkState.currentChildIndex = currentChildIndex;
+			treeWalkState.currentNode = currentNode;
+			treeWalkState.previousNode = previousNode;
+			treeWalkState.nodeStackSize = nodeStack.Count;
+			treeWalkState.indexStackSize = indexStack.Count;
+			int lookaheadSize = LookaheadSize;
 			int num = 0;
 			treeWalkState.lookahead = new object[lookaheadSize];
 			int i = 1;
 			while (i <= lookaheadSize)
 			{
-				treeWalkState.lookahead[num] = this.LT(i);
+				treeWalkState.lookahead[num] = LT(i);
 				i++;
 				num++;
 			}
-			this.lastMarker = this.markDepth;
-			return this.markDepth;
+			lastMarker = markDepth;
+			return markDepth;
 		}
 
 		// Token: 0x060008A3 RID: 2211 RVA: 0x00018908 File Offset: 0x00016B08
 		public virtual void Release(int marker)
 		{
-			this.markDepth = marker;
-			this.markDepth--;
+			markDepth = marker;
+			markDepth--;
 		}
 
 		// Token: 0x060008A4 RID: 2212 RVA: 0x00018920 File Offset: 0x00016B20
 		public virtual void Rewind(int marker)
 		{
-			if (this.markers == null)
+			if (markers == null)
 			{
 				return;
 			}
-			UnBufferedTreeNodeStream.TreeWalkState treeWalkState = (UnBufferedTreeNodeStream.TreeWalkState)this.markers[marker];
-			this.absoluteNodeIndex = treeWalkState.absoluteNodeIndex;
-			this.currentChildIndex = treeWalkState.currentChildIndex;
-			this.currentNode = treeWalkState.currentNode;
-			this.previousNode = treeWalkState.previousNode;
-			this.nodeStack.Capacity = treeWalkState.nodeStackSize;
-			this.indexStack.Capacity = treeWalkState.indexStackSize;
-			this.head = (this.tail = 0);
-			while (this.tail < treeWalkState.lookahead.Length)
+			TreeWalkState treeWalkState = (TreeWalkState)markers[marker];
+			absoluteNodeIndex = treeWalkState.absoluteNodeIndex;
+			currentChildIndex = treeWalkState.currentChildIndex;
+			currentNode = treeWalkState.currentNode;
+			previousNode = treeWalkState.previousNode;
+			nodeStack.Capacity = treeWalkState.nodeStackSize;
+			indexStack.Capacity = treeWalkState.indexStackSize;
+			head = (tail = 0);
+			while (tail < treeWalkState.lookahead.Length)
 			{
-				this.lookahead[this.tail] = treeWalkState.lookahead[this.tail];
-				this.tail++;
+				lookahead[tail] = treeWalkState.lookahead[tail];
+				tail++;
 			}
-			this.Release(marker);
+			Release(marker);
 		}
 
 		// Token: 0x060008A5 RID: 2213 RVA: 0x000189F4 File Offset: 0x00016BF4
 		public void Rewind()
 		{
-			this.Rewind(this.lastMarker);
+			Rewind(lastMarker);
 		}
 
 		// Token: 0x060008A6 RID: 2214 RVA: 0x00018A04 File Offset: 0x00016C04
 		public virtual void Seek(int index)
 		{
-			if (index < this.Index())
+			if (index < Index())
 			{
 				throw new ArgumentOutOfRangeException("can't seek backwards in node stream", "index");
 			}
-			while (this.Index() < index)
+			while (Index() < index)
 			{
-				this.Consume();
+				Consume();
 			}
 		}
 
 		// Token: 0x060008A7 RID: 2215 RVA: 0x00018A3C File Offset: 0x00016C3C
 		public virtual int Index()
 		{
-			return this.absoluteNodeIndex + 1;
+			return absoluteNodeIndex + 1;
 		}
 
 		// Token: 0x060008A8 RID: 2216 RVA: 0x00018A48 File Offset: 0x00016C48
 		[Obsolete("Please use property Count instead.")]
 		public virtual int Size()
 		{
-			return this.Count;
+			return Count;
 		}
 
 		// Token: 0x170000D5 RID: 213
@@ -261,7 +261,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				CommonTreeNodeStream commonTreeNodeStream = new CommonTreeNodeStream(this.root);
+				CommonTreeNodeStream commonTreeNodeStream = new CommonTreeNodeStream(root);
 				return commonTreeNodeStream.Count;
 			}
 		}
@@ -269,18 +269,18 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060008AA RID: 2218 RVA: 0x00018A70 File Offset: 0x00016C70
 		protected internal virtual object handleRootNode()
 		{
-			object obj = this.currentNode;
-			this.currentChildIndex = 0;
-			if (this.adaptor.IsNil(obj))
+			object obj = currentNode;
+			currentChildIndex = 0;
+			if (adaptor.IsNil(obj))
 			{
-				obj = this.VisitChild(this.currentChildIndex);
+				obj = VisitChild(currentChildIndex);
 			}
 			else
 			{
-				this.AddLookahead(obj);
-				if (this.adaptor.GetChildCount(this.currentNode) == 0)
+				AddLookahead(obj);
+				if (adaptor.GetChildCount(currentNode) == 0)
 				{
-					this.currentNode = null;
+					currentNode = null;
 				}
 			}
 			return obj;
@@ -289,17 +289,17 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060008AB RID: 2219 RVA: 0x00018AD4 File Offset: 0x00016CD4
 		protected internal virtual object VisitChild(int child)
 		{
-			this.nodeStack.Push(this.currentNode);
-			this.indexStack.Push(child);
-			if (child == 0 && !this.adaptor.IsNil(this.currentNode))
+			nodeStack.Push(currentNode);
+			indexStack.Push(child);
+			if (child == 0 && !adaptor.IsNil(currentNode))
 			{
-				this.AddNavigationNode(2);
+				AddNavigationNode(2);
 			}
-			this.currentNode = this.adaptor.GetChild(this.currentNode, child);
-			this.currentChildIndex = 0;
-			object obj = this.currentNode;
-			this.AddLookahead(obj);
-			this.WalkBackToMostRecentNodeWithUnvisitedChildren();
+			currentNode = adaptor.GetChild(currentNode, child);
+			currentChildIndex = 0;
+			object obj = currentNode;
+			AddLookahead(obj);
+			WalkBackToMostRecentNodeWithUnvisitedChildren();
 			return obj;
 		}
 
@@ -309,47 +309,47 @@ namespace pcomps.Antlr.Runtime.Tree
 			object node;
 			if (ttype == 2)
 			{
-				if (this.HasUniqueNavigationNodes)
+				if (HasUniqueNavigationNodes)
 				{
-					node = this.adaptor.Create(2, "DOWN");
+					node = adaptor.Create(2, "DOWN");
 				}
 				else
 				{
-					node = this.down;
+					node = down;
 				}
 			}
-			else if (this.HasUniqueNavigationNodes)
+			else if (HasUniqueNavigationNodes)
 			{
-				node = this.adaptor.Create(3, "UP");
+				node = adaptor.Create(3, "UP");
 			}
 			else
 			{
-				node = this.up;
+				node = up;
 			}
-			this.AddLookahead(node);
+			AddLookahead(node);
 		}
 
 		// Token: 0x060008AD RID: 2221 RVA: 0x00018BD0 File Offset: 0x00016DD0
 		protected internal virtual void WalkBackToMostRecentNodeWithUnvisitedChildren()
 		{
-			while (this.currentNode != null && this.currentChildIndex >= this.adaptor.GetChildCount(this.currentNode))
+			while (currentNode != null && currentChildIndex >= adaptor.GetChildCount(currentNode))
 			{
-				this.currentNode = this.nodeStack.Pop();
-				if (this.currentNode == null)
+				currentNode = nodeStack.Pop();
+				if (currentNode == null)
 				{
 					return;
 				}
-				this.currentChildIndex = (int)this.indexStack.Pop();
-				this.currentChildIndex++;
-				if (this.currentChildIndex >= this.adaptor.GetChildCount(this.currentNode))
+				currentChildIndex = (int)indexStack.Pop();
+				currentChildIndex++;
+				if (currentChildIndex >= adaptor.GetChildCount(currentNode))
 				{
-					if (!this.adaptor.IsNil(this.currentNode))
+					if (!adaptor.IsNil(currentNode))
 					{
-						this.AddNavigationNode(3);
+						AddNavigationNode(3);
 					}
-					if (this.currentNode == this.root)
+					if (currentNode == root)
 					{
-						this.currentNode = null;
+						currentNode = null;
 					}
 				}
 			}
@@ -361,7 +361,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.adaptor;
+				return adaptor;
 			}
 		}
 
@@ -371,7 +371,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.TokenStream.SourceName;
+				return TokenStream.SourceName;
 			}
 		}
 
@@ -382,11 +382,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.tokens;
+				return tokens;
 			}
 			set
 			{
-				this.tokens = value;
+				tokens = value;
 			}
 		}
 
@@ -397,11 +397,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.uniqueNavigationNodes;
+				return uniqueNavigationNodes;
 			}
 			set
 			{
-				this.uniqueNavigationNodes = value;
+				uniqueNavigationNodes = value;
 			}
 		}
 
@@ -414,7 +414,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060008B5 RID: 2229 RVA: 0x00018CE8 File Offset: 0x00016EE8
 		public override string ToString()
 		{
-			return this.ToString(this.root, null);
+			return ToString(root, null);
 		}
 
 		// Token: 0x170000DA RID: 218
@@ -423,7 +423,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return (this.tail >= this.head) ? (this.tail - this.head) : (this.lookahead.Length - this.head + this.tail);
+				return (tail >= head) ? (tail - head) : (lookahead.Length - head + tail);
 			}
 		}
 
@@ -434,34 +434,34 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			if (this.tokens != null)
+			if (tokens != null)
 			{
-				int tokenStartIndex = this.adaptor.GetTokenStartIndex(start);
-				int stop2 = this.adaptor.GetTokenStopIndex(stop);
-				if (stop != null && this.adaptor.GetNodeType(stop) == 3)
+				int tokenStartIndex = adaptor.GetTokenStartIndex(start);
+				int stop2 = adaptor.GetTokenStopIndex(stop);
+				if (stop != null && adaptor.GetNodeType(stop) == 3)
 				{
-					stop2 = this.adaptor.GetTokenStopIndex(start);
+					stop2 = adaptor.GetTokenStopIndex(start);
 				}
 				else
 				{
-					stop2 = this.Count - 1;
+					stop2 = Count - 1;
 				}
-				return this.tokens.ToString(tokenStartIndex, stop2);
+				return tokens.ToString(tokenStartIndex, stop2);
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			this.ToStringWork(start, stop, stringBuilder);
+			ToStringWork(start, stop, stringBuilder);
 			return stringBuilder.ToString();
 		}
 
 		// Token: 0x060008B8 RID: 2232 RVA: 0x00018DC4 File Offset: 0x00016FC4
 		protected internal virtual void ToStringWork(object p, object stop, StringBuilder buf)
 		{
-			if (!this.adaptor.IsNil(p))
+			if (!adaptor.IsNil(p))
 			{
-				string text = this.adaptor.GetNodeText(p);
+				string text = adaptor.GetNodeText(p);
 				if (text == null)
 				{
-					text = $" {this.adaptor.GetNodeType(p)}";
+					text = $" {adaptor.GetNodeType(p)}";
 				}
 				buf.Append(text);
 			}
@@ -469,18 +469,18 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return;
 			}
-			int childCount = this.adaptor.GetChildCount(p);
-			if (childCount > 0 && !this.adaptor.IsNil(p))
+			int childCount = adaptor.GetChildCount(p);
+			if (childCount > 0 && !adaptor.IsNil(p))
 			{
 				buf.Append(" ");
 				buf.Append(2);
 			}
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.adaptor.GetChild(p, i);
-				this.ToStringWork(child, stop, buf);
+				object child = adaptor.GetChild(p, i);
+				ToStringWork(child, stop, buf);
 			}
-			if (childCount > 0 && !this.adaptor.IsNil(p))
+			if (childCount > 0 && !adaptor.IsNil(p))
 			{
 				buf.Append(" ");
 				buf.Append(3);

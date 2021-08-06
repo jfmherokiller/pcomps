@@ -11,38 +11,38 @@
 		// Token: 0x06000182 RID: 386 RVA: 0x00005CC4 File Offset: 0x00003EC4
 		public CommonToken(int t, string txt)
 		{
-			this.type_ = t;
-			this.setText(txt);
+			type_ = t;
+			setText(txt);
 		}
 
 		// Token: 0x06000183 RID: 387 RVA: 0x00005CEC File Offset: 0x00003EEC
 		public CommonToken(string s)
 		{
-			this.text = s;
+			text = s;
 		}
 
 		// Token: 0x06000184 RID: 388 RVA: 0x00005D10 File Offset: 0x00003F10
 		public override int getLine()
 		{
-			return this.line;
+			return line;
 		}
 
 		// Token: 0x06000185 RID: 389 RVA: 0x00005D24 File Offset: 0x00003F24
 		public override string getText()
 		{
-			return this.text;
+			return text;
 		}
 
 		// Token: 0x06000186 RID: 390 RVA: 0x00005D38 File Offset: 0x00003F38
 		public override void setLine(int l)
 		{
-			this.line = l;
+			line = l;
 		}
 
 		// Token: 0x06000187 RID: 391 RVA: 0x00005D4C File Offset: 0x00003F4C
 		public override void setText(string s)
 		{
-			this.text = s;
+			text = s;
 		}
 
 		// Token: 0x06000188 RID: 392 RVA: 0x00005D60 File Offset: 0x00003F60
@@ -51,13 +51,13 @@
 			return string.Concat(new object[]
 			{
 				"[\"",
-				this.getText(),
+				getText(),
 				"\",<",
-				this.type_,
+				type_,
 				">,line=",
-				this.line,
+				line,
 				",col=",
-				this.col,
+				col,
 				"]"
 			});
 		}
@@ -65,17 +65,17 @@
 		// Token: 0x06000189 RID: 393 RVA: 0x00005DD8 File Offset: 0x00003FD8
 		public override int getColumn()
 		{
-			return this.col;
+			return col;
 		}
 
 		// Token: 0x0600018A RID: 394 RVA: 0x00005DEC File Offset: 0x00003FEC
 		public override void setColumn(int c)
 		{
-			this.col = c;
+			col = c;
 		}
 
 		// Token: 0x04000063 RID: 99
-		public static readonly CommonToken.CommonTokenCreator Creator = new CommonToken.CommonTokenCreator();
+		public static readonly CommonTokenCreator Creator = new CommonTokenCreator();
 
 		// Token: 0x04000064 RID: 100
 		protected internal int line;

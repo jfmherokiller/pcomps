@@ -44,8 +44,8 @@ namespace pcomps.Antlr.StringTemplate
 			StreamReader streamReader = null;
 			try
 			{
-				string name = $"{base.LocationRoot}.{this.GetLocationFromTemplateName(templateName)}";
-				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(name);
+				string name = $"{LocationRoot}.{GetLocationFromTemplateName(templateName)}";
+				Stream manifestResourceStream = assembly.GetManifestResourceStream(name);
 				if (manifestResourceStream != null)
 				{
 					streamReader = new StreamReader(manifestResourceStream);

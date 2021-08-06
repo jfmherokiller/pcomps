@@ -37,13 +37,13 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F33 RID: 3891 RVA: 0x0006E3D0 File Offset: 0x0006C5D0
 		public StringTemplateGroup LoadGroup(string groupName)
 		{
-			return this.LoadGroup(groupName, null, null);
+			return LoadGroup(groupName, null, null);
 		}
 
 		// Token: 0x06000F34 RID: 3892 RVA: 0x0006E3DC File Offset: 0x0006C5DC
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup)
 		{
-			return this.LoadGroup(groupName, superGroup, null);
+			return LoadGroup(groupName, superGroup, null);
 		}
 
 		// Token: 0x06000F35 RID: 3893 RVA: 0x0006E3E8 File Offset: 0x0006C5E8
@@ -52,20 +52,20 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroup result = null;
 			try
 			{
-				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(
-                    $"{this.namespaceRoot}.{groupName}.stg");
-				result = this.factory.CreateGroup(new StreamReader(manifestResourceStream), lexer, this.errorListener, superGroup);
+				Stream manifestResourceStream = assembly.GetManifestResourceStream(
+                    $"{namespaceRoot}.{groupName}.stg");
+				result = factory.CreateGroup(new StreamReader(manifestResourceStream), lexer, errorListener, superGroup);
 			}
 			catch (Exception e)
 			{
-				this.Error(string.Concat(new string[]
+				Error(string.Concat(new string[]
 				{
 					"Resource Error: can't load group '",
-					this.namespaceRoot,
+					namespaceRoot,
 					".",
 					groupName,
 					".stg' from assembly '",
-					this.assembly.FullName,
+					assembly.FullName,
 					"'"
 				}), e);
 			}
@@ -78,23 +78,23 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroupInterface result = null;
 			try
 			{
-				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(
-                    $"{this.namespaceRoot}.{interfaceName}.sti");
+				Stream manifestResourceStream = assembly.GetManifestResourceStream(
+                    $"{namespaceRoot}.{interfaceName}.sti");
 				if (manifestResourceStream != null)
 				{
-					result = this.factory.CreateInterface(new StreamReader(manifestResourceStream), this.errorListener, null);
+					result = factory.CreateInterface(new StreamReader(manifestResourceStream), errorListener, null);
 				}
 			}
 			catch (Exception e)
 			{
-				this.Error(string.Concat(new string[]
+				Error(string.Concat(new string[]
 				{
 					"Resource Error: can't load interface '",
-					this.namespaceRoot,
+					namespaceRoot,
 					".",
 					interfaceName,
 					".sti' from assembly '",
-					this.assembly.FullName,
+					assembly.FullName,
 					"'"
 				}), e);
 			}
@@ -104,13 +104,13 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F37 RID: 3895 RVA: 0x0006E54C File Offset: 0x0006C74C
 		public void Error(string msg)
 		{
-			this.errorListener.Error(msg, null);
+			errorListener.Error(msg, null);
 		}
 
 		// Token: 0x06000F38 RID: 3896 RVA: 0x0006E55C File Offset: 0x0006C75C
 		public void Error(string msg, Exception e)
 		{
-			this.errorListener.Error(msg, e);
+			errorListener.Error(msg, e);
 		}
 
 		// Token: 0x04000CC2 RID: 3266

@@ -10,11 +10,11 @@
 		{
 			get
 			{
-				return this.start;
+				return start;
 			}
 			set
 			{
-				this.start = value;
+				start = value;
 			}
 		}
 

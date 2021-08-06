@@ -16,23 +16,23 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BC2 RID: 3010 RVA: 0x00046450 File Offset: 0x00044650
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
 		{
-			if (this.ErrorHandler != null)
+			if (ErrorHandler != null)
 			{
-				this.ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
 			}
 		}
 
 		// Token: 0x06000BC3 RID: 3011 RVA: 0x00046470 File Offset: 0x00044670
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.OnError(errorMessage, e.Line, e.CharPositionInLine);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000BC4 RID: 3012 RVA: 0x0004649C File Offset: 0x0004469C
 		public PapyrusLexer()
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x06000BC5 RID: 3013 RVA: 0x000464AC File Offset: 0x000446AC
@@ -43,7 +43,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BC6 RID: 3014 RVA: 0x000464B8 File Offset: 0x000446B8
 		public PapyrusLexer(ICharStream input, RecognizerSharedState state) : base(input, state)
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x1700016D RID: 365
@@ -61,11 +61,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 37;
 			int channel = 0;
-			this.Match("scriptname");
-			if (!this.state.failed)
+			Match("scriptname");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -74,11 +74,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 6;
 			int channel = 0;
-			this.Match("function");
-			if (!this.state.failed)
+			Match("function");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -87,11 +87,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 45;
 			int channel = 0;
-			this.Match("endfunction");
-			if (!this.state.failed)
+			Match("endfunction");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -100,11 +100,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 7;
 			int channel = 0;
-			this.Match("event");
-			if (!this.state.failed)
+			Match("event");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -113,11 +113,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 48;
 			int channel = 0;
-			this.Match("endevent");
-			if (!this.state.failed)
+			Match("endevent");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -126,11 +126,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 47;
 			int channel = 0;
-			this.Match("native");
-			if (!this.state.failed)
+			Match("native");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -139,11 +139,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 46;
 			int channel = 0;
-			this.Match("global");
-			if (!this.state.failed)
+			Match("global");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -152,11 +152,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 83;
 			int channel = 0;
-			this.Match("return");
-			if (!this.state.failed)
+			Match("return");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -165,11 +165,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 79;
 			int channel = 0;
-			this.Match("as");
-			if (!this.state.failed)
+			Match("as");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -178,11 +178,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 84;
 			int channel = 0;
-			this.Match("if");
-			if (!this.state.failed)
+			Match("if");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -191,11 +191,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 86;
 			int channel = 0;
-			this.Match("elseif");
-			if (!this.state.failed)
+			Match("elseif");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -204,11 +204,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 87;
 			int channel = 0;
-			this.Match("else");
-			if (!this.state.failed)
+			Match("else");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -217,11 +217,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 85;
 			int channel = 0;
-			this.Match("endif");
-			if (!this.state.failed)
+			Match("endif");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -230,11 +230,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 39;
 			int channel = 0;
-			this.Match("extends");
-			if (!this.state.failed)
+			Match("extends");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -243,11 +243,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 42;
 			int channel = 0;
-			this.Match("import");
-			if (!this.state.failed)
+			Match("import");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -256,11 +256,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 50;
 			int channel = 0;
-			this.Match("auto");
-			if (!this.state.failed)
+			Match("auto");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -269,11 +269,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 56;
 			int channel = 0;
-			this.Match("autoreadonly");
-			if (!this.state.failed)
+			Match("autoreadonly");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -282,11 +282,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 51;
 			int channel = 0;
-			this.Match("state");
-			if (!this.state.failed)
+			Match("state");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -295,11 +295,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 52;
 			int channel = 0;
-			this.Match("endstate");
-			if (!this.state.failed)
+			Match("endstate");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -308,11 +308,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 54;
 			int channel = 0;
-			this.Match("property");
-			if (!this.state.failed)
+			Match("property");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -321,11 +321,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 53;
 			int channel = 0;
-			this.Match("endproperty");
-			if (!this.state.failed)
+			Match("endproperty");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -334,11 +334,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 88;
 			int channel = 0;
-			this.Match("while");
-			if (!this.state.failed)
+			Match("while");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -347,11 +347,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 89;
 			int channel = 0;
-			this.Match("endwhile");
-			if (!this.state.failed)
+			Match("endwhile");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -360,7 +360,7 @@ namespace pcomps.PCompiler
 		{
 			int type = 55;
 			int channel = 0;
-			int num = this.input.LA(1);
+			int num = input.LA(1);
 			int num2;
 			if (num <= 102)
 			{
@@ -388,47 +388,47 @@ namespace pcomps.PCompiler
 					goto IL_7B;
 				}
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return;
 			}
-			NoViableAltException ex = new NoViableAltException("", 1, 0, this.input);
+			NoViableAltException ex = new NoViableAltException("", 1, 0, input);
 			throw ex;
 			IL_7B:
 			switch (num2)
 			{
 			case 1:
-				this.Match("int");
-				if (this.state.failed)
+				Match("int");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 2:
-				this.Match("float");
-				if (this.state.failed)
+				Match("float");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 3:
-				this.Match("string");
-				if (this.state.failed)
+				Match("string");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 4:
-				this.Match("bool");
-				if (this.state.failed)
+				Match("bool");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			}
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000BE0 RID: 3040 RVA: 0x00046C14 File Offset: 0x00044E14
@@ -436,11 +436,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 92;
 			int channel = 0;
-			this.Match("none");
-			if (!this.state.failed)
+			Match("none");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -449,11 +449,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 80;
 			int channel = 0;
-			this.Match("new");
-			if (!this.state.failed)
+			Match("new");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -462,11 +462,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 82;
 			int channel = 0;
-			this.Match("length");
-			if (!this.state.failed)
+			Match("length");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -475,7 +475,7 @@ namespace pcomps.PCompiler
 		{
 			int type = 91;
 			int channel = 0;
-			int num = this.input.LA(1);
+			int num = input.LA(1);
 			int num2;
 			if (num == 116)
 			{
@@ -487,33 +487,33 @@ namespace pcomps.PCompiler
 			}
 			else
 			{
-				if (this.state.backtracking > 0)
+				if (state.backtracking > 0)
 				{
-					this.state.failed = true;
+					state.failed = true;
 					return;
 				}
-				NoViableAltException ex = new NoViableAltException("", 2, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 2, 0, input);
 				throw ex;
 			}
 			switch (num2)
 			{
 			case 1:
-				this.Match("true");
-				if (this.state.failed)
+				Match("true");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 2:
-				this.Match("false");
-				if (this.state.failed)
+				Match("false");
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			}
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000BE4 RID: 3044 RVA: 0x00046DA8 File Offset: 0x00044FA8
@@ -521,14 +521,14 @@ namespace pcomps.PCompiler
 		{
 			int type = 38;
 			int channel = 0;
-			if ((this.input.LA(1) >= 65 && this.input.LA(1) <= 90) || this.input.LA(1) == 95 || (this.input.LA(1) >= 97 && this.input.LA(1) <= 122))
+			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || input.LA(1) == 95 || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if ((num2 >= 48 && num2 <= 57) || (num2 >= 65 && num2 <= 90) || num2 == 95 || (num2 >= 97 && num2 <= 122))
 					{
 						num = 1;
@@ -538,34 +538,34 @@ namespace pcomps.PCompiler
 					{
 						goto IL_1AB;
 					}
-					if ((this.input.LA(1) < 48 || this.input.LA(1) > 57) && (this.input.LA(1) < 65 || this.input.LA(1) > 90) && this.input.LA(1) != 95 && (this.input.LA(1) < 97 || this.input.LA(1) > 122))
+					if ((input.LA(1) < 48 || input.LA(1) > 57) && (input.LA(1) < 65 || input.LA(1) > 90) && input.LA(1) != 95 && (input.LA(1) < 97 || input.LA(1) > 122))
 					{
 						break;
 					}
-					this.input.Consume();
-					this.state.failed = false;
+					input.Consume();
+					state.failed = false;
 				}
-				if (this.state.backtracking > 0)
+				if (state.backtracking > 0)
 				{
-					this.state.failed = true;
+					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, this.input);
-				this.Recover(ex);
+				MismatchedSetException ex = new MismatchedSetException(null, input);
+				Recover(ex);
 				throw ex;
 				IL_1AB:
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 			else
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex2 = new MismatchedSetException(null, this.input);
-					this.Recover(ex2);
+					MismatchedSetException ex2 = new MismatchedSetException(null, input);
+					Recover(ex2);
 					throw ex2;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 		}
 
@@ -574,7 +574,7 @@ namespace pcomps.PCompiler
 		{
 			int type = 81;
 			int channel = 0;
-			int num = this.input.LA(1);
+			int num = input.LA(1);
 			int num2;
 			if (num == 45 || (num >= 49 && num <= 57))
 			{
@@ -582,7 +582,7 @@ namespace pcomps.PCompiler
 			}
 			else if (num == 48)
 			{
-				int num3 = this.input.LA(2);
+				int num3 = input.LA(2);
 				if (num3 == 120)
 				{
 					num2 = 2;
@@ -594,12 +594,12 @@ namespace pcomps.PCompiler
 			}
 			else
 			{
-				if (this.state.backtracking > 0)
+				if (state.backtracking > 0)
 				{
-					this.state.failed = true;
+					state.failed = true;
 					return;
 				}
-				NoViableAltException ex = new NoViableAltException("", 7, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 7, 0, input);
 				throw ex;
 			}
 			switch (num2)
@@ -607,7 +607,7 @@ namespace pcomps.PCompiler
 			case 1:
 			{
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 45)
 				{
 					num4 = 1;
@@ -615,8 +615,8 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					this.mMINUS();
-					if (this.state.failed)
+					mMINUS();
+					if (state.failed)
 					{
 						return;
 					}
@@ -625,7 +625,7 @@ namespace pcomps.PCompiler
 				for (;;)
 				{
 					int num8 = 2;
-					int num9 = this.input.LA(1);
+					int num9 = input.LA(1);
 					if (num9 >= 48 && num9 <= 57)
 					{
 						num8 = 1;
@@ -635,8 +635,8 @@ namespace pcomps.PCompiler
 					{
 						goto IL_116;
 					}
-					this.mDIGIT();
-					if (this.state.failed)
+					mDIGIT();
+					if (state.failed)
 					{
 						break;
 					}
@@ -646,20 +646,20 @@ namespace pcomps.PCompiler
 				IL_116:
 				if (num7 < 1)
 				{
-					if (this.state.backtracking > 0)
+					if (state.backtracking > 0)
 					{
-						this.state.failed = true;
+						state.failed = true;
 						return;
 					}
-					EarlyExitException ex2 = new EarlyExitException(5, this.input);
+					EarlyExitException ex2 = new EarlyExitException(5, input);
 					throw ex2;
 				}
 				break;
 			}
 			case 2:
 			{
-				this.Match("0x");
-				if (this.state.failed)
+				Match("0x");
+				if (state.failed)
 				{
 					return;
 				}
@@ -667,7 +667,7 @@ namespace pcomps.PCompiler
 				for (;;)
 				{
 					int num12 = 2;
-					int num13 = this.input.LA(1);
+					int num13 = input.LA(1);
 					if ((num13 >= 48 && num13 <= 57) || (num13 >= 65 && num13 <= 70) || (num13 >= 97 && num13 <= 102))
 					{
 						num12 = 1;
@@ -677,42 +677,42 @@ namespace pcomps.PCompiler
 					{
 						goto IL_26E;
 					}
-					if ((this.input.LA(1) < 48 || this.input.LA(1) > 57) && (this.input.LA(1) < 65 || this.input.LA(1) > 70) && (this.input.LA(1) < 97 || this.input.LA(1) > 102))
+					if ((input.LA(1) < 48 || input.LA(1) > 57) && (input.LA(1) < 65 || input.LA(1) > 70) && (input.LA(1) < 97 || input.LA(1) > 102))
 					{
 						break;
 					}
-					this.input.Consume();
-					this.state.failed = false;
+					input.Consume();
+					state.failed = false;
 					num11++;
 				}
-				if (this.state.backtracking > 0)
+				if (state.backtracking > 0)
 				{
-					this.state.failed = true;
+					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex3 = new MismatchedSetException(null, this.input);
-				this.Recover(ex3);
+				MismatchedSetException ex3 = new MismatchedSetException(null, input);
+				Recover(ex3);
 				throw ex3;
 				IL_26E:
 				if (num11 < 1)
 				{
-					if (this.state.backtracking > 0)
+					if (state.backtracking > 0)
 					{
-						this.state.failed = true;
+						state.failed = true;
 						return;
 					}
-					EarlyExitException ex4 = new EarlyExitException(6, this.input);
+					EarlyExitException ex4 = new EarlyExitException(6, input);
 					throw ex4;
 				}
-				else if (this.state.backtracking == 0)
+				else if (state.backtracking == 0)
 				{
-					this.Text = this.HexToDecString(this.Text);
+					Text = HexToDecString(Text);
 				}
 				break;
 			}
 			}
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000BE6 RID: 3046 RVA: 0x00047268 File Offset: 0x00045468
@@ -721,7 +721,7 @@ namespace pcomps.PCompiler
 			int type = 93;
 			int channel = 0;
 			int num = 2;
-			int num2 = this.input.LA(1);
+			int num2 = input.LA(1);
 			if (num2 == 45)
 			{
 				num = 1;
@@ -729,8 +729,8 @@ namespace pcomps.PCompiler
 			int num3 = num;
 			if (num3 == 1)
 			{
-				this.mMINUS();
-				if (this.state.failed)
+				mMINUS();
+				if (state.failed)
 				{
 					return;
 				}
@@ -739,7 +739,7 @@ namespace pcomps.PCompiler
 			for (;;)
 			{
 				int num5 = 2;
-				int num6 = this.input.LA(1);
+				int num6 = input.LA(1);
 				if (num6 >= 48 && num6 <= 57)
 				{
 					num5 = 1;
@@ -749,8 +749,8 @@ namespace pcomps.PCompiler
 				{
 					goto IL_7F;
 				}
-				this.mDIGIT();
-				if (this.state.failed)
+				mDIGIT();
+				if (state.failed)
 				{
 					break;
 				}
@@ -760,17 +760,17 @@ namespace pcomps.PCompiler
 			IL_7F:
 			if (num4 < 1)
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					EarlyExitException ex = new EarlyExitException(9, this.input);
+					EarlyExitException ex = new EarlyExitException(9, input);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 			else
 			{
 				int num8 = 2;
-				int num9 = this.input.LA(1);
+				int num9 = input.LA(1);
 				if (num9 == 46)
 				{
 					num8 = 1;
@@ -778,8 +778,8 @@ namespace pcomps.PCompiler
 				int num10 = num8;
 				if (num10 == 1)
 				{
-					this.mDOT();
-					if (this.state.failed)
+					mDOT();
+					if (state.failed)
 					{
 						return;
 					}
@@ -787,7 +787,7 @@ namespace pcomps.PCompiler
 					for (;;)
 					{
 						int num12 = 2;
-						int num13 = this.input.LA(1);
+						int num13 = input.LA(1);
 						if (num13 >= 48 && num13 <= 57)
 						{
 							num12 = 1;
@@ -797,8 +797,8 @@ namespace pcomps.PCompiler
 						{
 							goto IL_13C;
 						}
-						this.mDIGIT();
-						if (this.state.failed)
+						mDIGIT();
+						if (state.failed)
 						{
 							break;
 						}
@@ -808,17 +808,17 @@ namespace pcomps.PCompiler
 					IL_13C:
 					if (num11 < 1)
 					{
-						if (this.state.backtracking > 0)
+						if (state.backtracking > 0)
 						{
-							this.state.failed = true;
+							state.failed = true;
 							return;
 						}
-						EarlyExitException ex2 = new EarlyExitException(10, this.input);
+						EarlyExitException ex2 = new EarlyExitException(10, input);
 						throw ex2;
 					}
 				}
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -827,20 +827,20 @@ namespace pcomps.PCompiler
 		{
 			int type = 90;
 			int channel = 0;
-			this.mDQUOTE();
-			if (!this.state.failed)
+			mDQUOTE();
+			if (!state.failed)
 			{
 				for (;;)
 				{
 					int num = 6;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if ((num2 >= 0 && num2 <= 9) || (num2 >= 11 && num2 <= 12) || (num2 >= 14 && num2 <= 33) || (num2 >= 35 && num2 <= 91) || (num2 >= 93 && num2 <= 65535))
 					{
 						num = 1;
 					}
 					else if (num2 == 92)
 					{
-						int num3 = this.input.LA(2);
+						int num3 = input.LA(2);
 						if (num3 <= 92)
 						{
 							if (num3 != 34)
@@ -870,37 +870,37 @@ namespace pcomps.PCompiler
 					switch (num)
 					{
 					case 1:
-						if ((this.input.LA(1) >= 0 && this.input.LA(1) <= 9) || (this.input.LA(1) >= 11 && this.input.LA(1) <= 12) || (this.input.LA(1) >= 14 && this.input.LA(1) <= 33) || (this.input.LA(1) >= 35 && this.input.LA(1) <= 91) || (this.input.LA(1) >= 93 && this.input.LA(1) <= 65535))
+						if ((input.LA(1) >= 0 && input.LA(1) <= 9) || (input.LA(1) >= 11 && input.LA(1) <= 12) || (input.LA(1) >= 14 && input.LA(1) <= 33) || (input.LA(1) >= 35 && input.LA(1) <= 91) || (input.LA(1) >= 93 && input.LA(1) <= 65535))
 						{
-							this.input.Consume();
-							this.state.failed = false;
+							input.Consume();
+							state.failed = false;
 							continue;
 						}
 						goto IL_18D;
 					case 2:
-						this.Match("\\n");
-						if (this.state.failed)
+						Match("\\n");
+						if (state.failed)
 						{
 							goto Block_20;
 						}
 						continue;
 					case 3:
-						this.Match("\\t");
-						if (this.state.failed)
+						Match("\\t");
+						if (state.failed)
 						{
 							goto Block_21;
 						}
 						continue;
 					case 4:
-						this.Match("\\\\");
-						if (this.state.failed)
+						Match("\\\\");
+						if (state.failed)
 						{
 							goto Block_22;
 						}
 						continue;
 					case 5:
-						this.Match("\\\"");
-						if (this.state.failed)
+						Match("\\\"");
+						if (state.failed)
 						{
 							goto Block_23;
 						}
@@ -908,22 +908,22 @@ namespace pcomps.PCompiler
 					}
 					break;
 				}
-				this.mDQUOTE();
-				if (this.state.failed)
+				mDQUOTE();
+				if (state.failed)
 				{
 					return;
 				}
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 				return;
 				IL_18D:
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
-					this.Recover(ex);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
+					Recover(ex);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 				Block_20:
 				Block_21:
 				Block_22:
@@ -936,13 +936,13 @@ namespace pcomps.PCompiler
 		{
 			int type = 40;
 			int channel = 0;
-			this.mLBRACE();
-			if (!this.state.failed)
+			mLBRACE();
+			if (!state.failed)
 			{
 				do
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 125)
 					{
 						num = 2;
@@ -956,20 +956,20 @@ namespace pcomps.PCompiler
 					{
 						goto IL_6A;
 					}
-					this.MatchAny();
+					MatchAny();
 				}
-				while (!this.state.failed);
+				while (!state.failed);
 				return;
 				IL_6A:
-				this.mRBRACE();
-				if (!this.state.failed)
+				mRBRACE();
+				if (!state.failed)
 				{
-					if (this.state.backtracking == 0)
+					if (state.backtracking == 0)
 					{
-						this.Text = this.DocStringToEscapedString(this.Text);
+						Text = DocStringToEscapedString(Text);
 					}
-					this.state.type = type;
-					this.state.channel = channel;
+					state.type = type;
+					state.channel = channel;
 				}
 			}
 		}
@@ -979,11 +979,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 43;
 			int channel = 0;
-			this.Match(40);
-			if (!this.state.failed)
+			Match(40);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -992,11 +992,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 44;
 			int channel = 0;
-			this.Match(41);
-			if (!this.state.failed)
+			Match(41);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1005,11 +1005,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 99;
 			int channel = 0;
-			this.Match(123);
-			if (!this.state.failed)
+			Match(123);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1018,11 +1018,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 100;
 			int channel = 0;
-			this.Match(125);
-			if (!this.state.failed)
+			Match(125);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1031,11 +1031,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 63;
 			int channel = 0;
-			this.Match(91);
-			if (!this.state.failed)
+			Match(91);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1044,11 +1044,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 64;
 			int channel = 0;
-			this.Match(93);
-			if (!this.state.failed)
+			Match(93);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1057,11 +1057,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 49;
 			int channel = 0;
-			this.Match(44);
-			if (!this.state.failed)
+			Match(44);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1070,11 +1070,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 41;
 			int channel = 0;
-			this.Match(61);
-			if (!this.state.failed)
+			Match(61);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1083,11 +1083,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 73;
 			int channel = 0;
-			this.Match(43);
-			if (!this.state.failed)
+			Match(43);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1096,11 +1096,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 74;
 			int channel = 0;
-			this.Match(45);
-			if (!this.state.failed)
+			Match(45);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1109,11 +1109,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 75;
 			int channel = 0;
-			this.Match(42);
-			if (!this.state.failed)
+			Match(42);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1122,11 +1122,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 76;
 			int channel = 0;
-			this.Match(47);
-			if (!this.state.failed)
+			Match(47);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1135,11 +1135,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 77;
 			int channel = 0;
-			this.Match(37);
-			if (!this.state.failed)
+			Match(37);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1148,11 +1148,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 62;
 			int channel = 0;
-			this.Match(46);
-			if (!this.state.failed)
+			Match(46);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1161,11 +1161,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 98;
 			int channel = 0;
-			this.Match(34);
-			if (!this.state.failed)
+			Match(34);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1174,11 +1174,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 78;
 			int channel = 0;
-			this.Match(33);
-			if (!this.state.failed)
+			Match(33);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1187,11 +1187,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 67;
 			int channel = 0;
-			this.Match("==");
-			if (!this.state.failed)
+			Match("==");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1200,11 +1200,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 68;
 			int channel = 0;
-			this.Match("!=");
-			if (!this.state.failed)
+			Match("!=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1213,11 +1213,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 69;
 			int channel = 0;
-			this.Match(62);
-			if (!this.state.failed)
+			Match(62);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1226,11 +1226,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 70;
 			int channel = 0;
-			this.Match(60);
-			if (!this.state.failed)
+			Match(60);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1239,11 +1239,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 71;
 			int channel = 0;
-			this.Match(">=");
-			if (!this.state.failed)
+			Match(">=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1252,11 +1252,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 72;
 			int channel = 0;
-			this.Match("<=");
-			if (!this.state.failed)
+			Match("<=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1265,11 +1265,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 65;
 			int channel = 0;
-			this.Match("||");
-			if (!this.state.failed)
+			Match("||");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1278,11 +1278,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 66;
 			int channel = 0;
-			this.Match("&&");
-			if (!this.state.failed)
+			Match("&&");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1291,11 +1291,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 57;
 			int channel = 0;
-			this.Match("+=");
-			if (!this.state.failed)
+			Match("+=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1304,11 +1304,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 58;
 			int channel = 0;
-			this.Match("-=");
-			if (!this.state.failed)
+			Match("-=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1317,11 +1317,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 59;
 			int channel = 0;
-			this.Match("*=");
-			if (!this.state.failed)
+			Match("*=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1330,11 +1330,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 60;
 			int channel = 0;
-			this.Match("/=");
-			if (!this.state.failed)
+			Match("/=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1343,11 +1343,11 @@ namespace pcomps.PCompiler
 		{
 			int type = 61;
 			int channel = 0;
-			this.Match("%=");
-			if (!this.state.failed)
+			Match("%=");
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1357,7 +1357,7 @@ namespace pcomps.PCompiler
 			int type = 94;
 			int channel = 0;
 			int num = 2;
-			int num2 = this.input.LA(1);
+			int num2 = input.LA(1);
 			if (num2 == 13)
 			{
 				num = 1;
@@ -1365,17 +1365,17 @@ namespace pcomps.PCompiler
 			int num3 = num;
 			if (num3 == 1)
 			{
-				this.Match(13);
-				if (this.state.failed)
+				Match(13);
+				if (state.failed)
 				{
 					return;
 				}
 			}
-			this.Match(10);
-			if (!this.state.failed)
+			Match(10);
+			if (!state.failed)
 			{
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1388,7 +1388,7 @@ namespace pcomps.PCompiler
 			for (;;)
 			{
 				int num2 = 2;
-				int num3 = this.input.LA(1);
+				int num3 = input.LA(1);
 				if (num3 == 9 || num3 == 32)
 				{
 					num2 = 1;
@@ -1398,8 +1398,8 @@ namespace pcomps.PCompiler
 				{
 					goto IL_42;
 				}
-				this.mWS_CHAR();
-				if (this.state.failed)
+				mWS_CHAR();
+				if (state.failed)
 				{
 					break;
 				}
@@ -1409,21 +1409,21 @@ namespace pcomps.PCompiler
 			IL_42:
 			if (num < 1)
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					EarlyExitException ex = new EarlyExitException(15, this.input);
+					EarlyExitException ex = new EarlyExitException(15, input);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 			else
 			{
-				if (this.state.backtracking == 0)
+				if (state.backtracking == 0)
 				{
 					channel = 99;
 				}
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 			}
 		}
 
@@ -1432,13 +1432,13 @@ namespace pcomps.PCompiler
 		{
 			int type = 103;
 			int channel = 0;
-			this.Match(92);
-			if (!this.state.failed)
+			Match(92);
+			if (!state.failed)
 			{
 				do
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 9 || num2 == 32)
 					{
 						num = 1;
@@ -1448,20 +1448,20 @@ namespace pcomps.PCompiler
 					{
 						goto IL_54;
 					}
-					this.mWS_CHAR();
+					mWS_CHAR();
 				}
-				while (!this.state.failed);
+				while (!state.failed);
 				return;
 				IL_54:
-				this.mEOL();
-				if (!this.state.failed)
+				mEOL();
+				if (!state.failed)
 				{
-					if (this.state.backtracking == 0)
+					if (state.backtracking == 0)
 					{
 						channel = 99;
 					}
-					this.state.type = type;
-					this.state.channel = channel;
+					state.type = type;
+					state.channel = channel;
 				}
 			}
 		}
@@ -1471,21 +1471,21 @@ namespace pcomps.PCompiler
 		{
 			int type = 104;
 			int channel = 0;
-			switch (this.dfa19.Predict(this.input))
+			switch (dfa19.Predict(input))
 			{
 			case 1:
-				this.Match(";/");
-				if (this.state.failed)
+				Match(";/");
+				if (state.failed)
 				{
 					return;
 				}
 				do
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 47)
 					{
-						int num3 = this.input.LA(2);
+						int num3 = input.LA(2);
 						if (num3 == 59)
 						{
 							num = 2;
@@ -1504,32 +1504,32 @@ namespace pcomps.PCompiler
 					{
 						goto IL_DA;
 					}
-					this.MatchAny();
+					MatchAny();
 				}
-				while (!this.state.failed);
+				while (!state.failed);
 				return;
 				IL_DA:
-				this.Match("/;");
-				if (this.state.failed)
+				Match("/;");
+				if (state.failed)
 				{
 					return;
 				}
-				if (this.state.backtracking == 0)
+				if (state.backtracking == 0)
 				{
 					channel = 99;
 				}
 				break;
 			case 2:
 			{
-				this.Match(59);
-				if (this.state.failed)
+				Match(59);
+				if (state.failed)
 				{
 					return;
 				}
 				for (;;)
 				{
 					int num5 = 2;
-					int num6 = this.input.LA(1);
+					int num6 = input.LA(1);
 					if ((num6 >= 0 && num6 <= 9) || (num6 >= 11 && num6 <= 65535))
 					{
 						num5 = 1;
@@ -1539,58 +1539,58 @@ namespace pcomps.PCompiler
 					{
 						goto IL_1F6;
 					}
-					if ((this.input.LA(1) < 0 || this.input.LA(1) > 9) && (this.input.LA(1) < 11 || this.input.LA(1) > 65535))
+					if ((input.LA(1) < 0 || input.LA(1) > 9) && (input.LA(1) < 11 || input.LA(1) > 65535))
 					{
 						break;
 					}
-					this.input.Consume();
-					this.state.failed = false;
+					input.Consume();
+					state.failed = false;
 				}
-				if (this.state.backtracking > 0)
+				if (state.backtracking > 0)
 				{
-					this.state.failed = true;
+					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, this.input);
-				this.Recover(ex);
+				MismatchedSetException ex = new MismatchedSetException(null, input);
+				Recover(ex);
 				throw ex;
 				IL_1F6:
-				if (this.state.backtracking == 0)
+				if (state.backtracking == 0)
 				{
 					channel = 99;
 				}
 				break;
 			}
 			}
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000C0A RID: 3082 RVA: 0x000482E8 File Offset: 0x000464E8
 		public void mALPHA()
 		{
-			if ((this.input.LA(1) >= 65 && this.input.LA(1) <= 90) || (this.input.LA(1) >= 97 && this.input.LA(1) <= 122))
+			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 			}
 			else
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
-					this.Recover(ex);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
+					Recover(ex);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 		}
 
 		// Token: 0x06000C0B RID: 3083 RVA: 0x00048380 File Offset: 0x00046580
 		public void mDIGIT()
 		{
-			this.MatchRange(48, 57);
-			if (this.state.failed)
+			MatchRange(48, 57);
+			if (state.failed)
 			{
 			}
 		}
@@ -1598,507 +1598,507 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C0C RID: 3084 RVA: 0x0004839C File Offset: 0x0004659C
 		public void mHEX_DIGIT()
 		{
-			if ((this.input.LA(1) >= 65 && this.input.LA(1) <= 70) || (this.input.LA(1) >= 97 && this.input.LA(1) <= 102))
+			if ((input.LA(1) >= 65 && input.LA(1) <= 70) || (input.LA(1) >= 97 && input.LA(1) <= 102))
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 			}
 			else
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
-					this.Recover(ex);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
+					Recover(ex);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 		}
 
 		// Token: 0x06000C0D RID: 3085 RVA: 0x00048434 File Offset: 0x00046634
 		public void mWS_CHAR()
 		{
-			if (this.input.LA(1) == 9 || this.input.LA(1) == 32)
+			if (input.LA(1) == 9 || input.LA(1) == 32)
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 			}
 			else
 			{
-				if (this.state.backtracking <= 0)
+				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
-					this.Recover(ex);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
+					Recover(ex);
 					throw ex;
 				}
-				this.state.failed = true;
+				state.failed = true;
 			}
 		}
 
 		// Token: 0x06000C0E RID: 3086 RVA: 0x000484AC File Offset: 0x000466AC
 		public override void mTokens()
 		{
-			switch (this.dfa20.Predict(this.input))
+			switch (dfa20.Predict(input))
 			{
 			case 1:
-				this.mSCRIPTNAME();
-				if (this.state.failed)
+				mSCRIPTNAME();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 2:
-				this.mFUNCTION();
-				if (this.state.failed)
+				mFUNCTION();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 3:
-				this.mENDFUNCTION();
-				if (this.state.failed)
+				mENDFUNCTION();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 4:
-				this.mEVENT();
-				if (this.state.failed)
+				mEVENT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 5:
-				this.mENDEVENT();
-				if (this.state.failed)
+				mENDEVENT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 6:
-				this.mNATIVE();
-				if (this.state.failed)
+				mNATIVE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 7:
-				this.mGLOBAL();
-				if (this.state.failed)
+				mGLOBAL();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 8:
-				this.mRETURN();
-				if (this.state.failed)
+				mRETURN();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 9:
-				this.mAS();
-				if (this.state.failed)
+				mAS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 10:
-				this.mIF();
-				if (this.state.failed)
+				mIF();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 11:
-				this.mELSEIF();
-				if (this.state.failed)
+				mELSEIF();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 12:
-				this.mELSE();
-				if (this.state.failed)
+				mELSE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 13:
-				this.mENDIF();
-				if (this.state.failed)
+				mENDIF();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 14:
-				this.mEXTENDS();
-				if (this.state.failed)
+				mEXTENDS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 15:
-				this.mIMPORT();
-				if (this.state.failed)
+				mIMPORT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 16:
-				this.mAUTO();
-				if (this.state.failed)
+				mAUTO();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 17:
-				this.mAUTOREADONLY();
-				if (this.state.failed)
+				mAUTOREADONLY();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 18:
-				this.mSTATE();
-				if (this.state.failed)
+				mSTATE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 19:
-				this.mENDSTATE();
-				if (this.state.failed)
+				mENDSTATE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 20:
-				this.mPROPERTY();
-				if (this.state.failed)
+				mPROPERTY();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 21:
-				this.mENDPROPERTY();
-				if (this.state.failed)
+				mENDPROPERTY();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 22:
-				this.mWHILE();
-				if (this.state.failed)
+				mWHILE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 23:
-				this.mENDWHILE();
-				if (this.state.failed)
+				mENDWHILE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 24:
-				this.mBASETYPE();
-				if (this.state.failed)
+				mBASETYPE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 25:
-				this.mNONE();
-				if (this.state.failed)
+				mNONE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 26:
-				this.mNEW();
-				if (this.state.failed)
+				mNEW();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 27:
-				this.mLENGTH();
-				if (this.state.failed)
+				mLENGTH();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 28:
-				this.mBOOL();
-				if (this.state.failed)
+				mBOOL();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 29:
-				this.mID();
-				if (this.state.failed)
+				mID();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 30:
-				this.mINTEGER();
-				if (this.state.failed)
+				mINTEGER();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 31:
-				this.mFLOAT();
-				if (this.state.failed)
+				mFLOAT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 32:
-				this.mSTRING();
-				if (this.state.failed)
+				mSTRING();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 33:
-				this.mDOCSTRING();
-				if (this.state.failed)
+				mDOCSTRING();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 34:
-				this.mLPAREN();
-				if (this.state.failed)
+				mLPAREN();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 35:
-				this.mRPAREN();
-				if (this.state.failed)
+				mRPAREN();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 36:
-				this.mLBRACE();
-				if (this.state.failed)
+				mLBRACE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 37:
-				this.mRBRACE();
-				if (this.state.failed)
+				mRBRACE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 38:
-				this.mLBRACKET();
-				if (this.state.failed)
+				mLBRACKET();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 39:
-				this.mRBRACKET();
-				if (this.state.failed)
+				mRBRACKET();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 40:
-				this.mCOMMA();
-				if (this.state.failed)
+				mCOMMA();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 41:
-				this.mEQUALS();
-				if (this.state.failed)
+				mEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 42:
-				this.mPLUS();
-				if (this.state.failed)
+				mPLUS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 43:
-				this.mMINUS();
-				if (this.state.failed)
+				mMINUS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 44:
-				this.mMULT();
-				if (this.state.failed)
+				mMULT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 45:
-				this.mDIVIDE();
-				if (this.state.failed)
+				mDIVIDE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 46:
-				this.mMOD();
-				if (this.state.failed)
+				mMOD();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 47:
-				this.mDOT();
-				if (this.state.failed)
+				mDOT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 48:
-				this.mDQUOTE();
-				if (this.state.failed)
+				mDQUOTE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 49:
-				this.mNOT();
-				if (this.state.failed)
+				mNOT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 50:
-				this.mEQ();
-				if (this.state.failed)
+				mEQ();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 51:
-				this.mNE();
-				if (this.state.failed)
+				mNE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 52:
-				this.mGT();
-				if (this.state.failed)
+				mGT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 53:
-				this.mLT();
-				if (this.state.failed)
+				mLT();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 54:
-				this.mGTE();
-				if (this.state.failed)
+				mGTE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 55:
-				this.mLTE();
-				if (this.state.failed)
+				mLTE();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 56:
-				this.mOR();
-				if (this.state.failed)
+				mOR();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 57:
-				this.mAND();
-				if (this.state.failed)
+				mAND();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 58:
-				this.mPLUSEQUALS();
-				if (this.state.failed)
+				mPLUSEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 59:
-				this.mMINUSEQUALS();
-				if (this.state.failed)
+				mMINUSEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 60:
-				this.mMULTEQUALS();
-				if (this.state.failed)
+				mMULTEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 61:
-				this.mDIVEQUALS();
-				if (this.state.failed)
+				mDIVEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 62:
-				this.mMODEQUALS();
-				if (this.state.failed)
+				mMODEQUALS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 63:
-				this.mEOL();
-				if (this.state.failed)
+				mEOL();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 64:
-				this.mWS();
-				if (this.state.failed)
+				mWS();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 65:
-				this.mEAT_EOL();
-				if (this.state.failed)
+				mEAT_EOL();
+				if (state.failed)
 				{
 					return;
 				}
 				break;
 			case 66:
 			{
-				this.mCOMMENT();
-				bool failed = this.state.failed;
+				mCOMMENT();
+				bool failed = state.failed;
 				break;
 			}
 			default:
@@ -2109,37 +2109,37 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C0F RID: 3087 RVA: 0x00048BB8 File Offset: 0x00046DB8
 		public void synpred1_Papyrus_fragment()
 		{
-			this.Match(";/");
-			bool failed = this.state.failed;
+			Match(";/");
+			bool failed = state.failed;
 		}
 
 		// Token: 0x06000C10 RID: 3088 RVA: 0x00048BD4 File Offset: 0x00046DD4
 		public bool synpred1_Papyrus()
 		{
-			this.state.backtracking++;
-			int marker = this.input.Mark();
+			state.backtracking++;
+			int marker = input.Mark();
 			try
 			{
-				this.synpred1_Papyrus_fragment();
+				synpred1_Papyrus_fragment();
 			}
 			catch (RecognitionException arg)
 			{
 				Console.Error.WriteLine($"impossible: {arg}");
 			}
-			bool result = !this.state.failed;
-			this.input.Rewind(marker);
-			this.state.backtracking--;
-			this.state.failed = false;
+			bool result = !state.failed;
+			input.Rewind(marker);
+			state.backtracking--;
+			state.failed = false;
 			return result;
 		}
 
 		// Token: 0x06000C11 RID: 3089 RVA: 0x00048C6C File Offset: 0x00046E6C
 		private void InitializeCyclicDFAs()
 		{
-			this.dfa19 = new PapyrusLexer.DFA19(this);
-			this.dfa20 = new PapyrusLexer.DFA20(this);
-			this.dfa19.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(this.DFA19_SpecialStateTransition);
-			this.dfa20.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(this.DFA20_SpecialStateTransition);
+			dfa19 = new DFA19(this);
+			dfa20 = new DFA20(this);
+			dfa19.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA19_SpecialStateTransition);
+			dfa20.specialStateTransitionHandler = new DFA.SpecialStateTransitionHandler(DFA20_SpecialStateTransition);
 		}
 
 		// Token: 0x06000C12 RID: 3090 RVA: 0x00048CC0 File Offset: 0x00046EC0
@@ -2154,7 +2154,7 @@ namespace pcomps.PCompiler
 				int index = _input.Index();
 				_input.Rewind();
 				s = -1;
-				if (this.synpred1_Papyrus())
+				if (synpred1_Papyrus())
 				{
 					s = 5;
 				}
@@ -2183,7 +2183,7 @@ namespace pcomps.PCompiler
 				{
 					s = 6;
 				}
-				else if (num == 10 && this.synpred1_Papyrus())
+				else if (num == 10 && synpred1_Papyrus())
 				{
 					s = 5;
 				}
@@ -2208,7 +2208,7 @@ namespace pcomps.PCompiler
 				{
 					s = 4;
 				}
-				else if (num2 == 10 && this.synpred1_Papyrus())
+				else if (num2 == 10 && synpred1_Papyrus())
 				{
 					s = 5;
 				}
@@ -2245,7 +2245,7 @@ namespace pcomps.PCompiler
 				{
 					s = 6;
 				}
-				else if (num3 == 10 && this.synpred1_Papyrus())
+				else if (num3 == 10 && synpred1_Papyrus())
 				{
 					s = 5;
 				}
@@ -2261,9 +2261,9 @@ namespace pcomps.PCompiler
 				break;
 			}
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return -1;
 			}
 			NoViableAltException ex = new NoViableAltException(dfa.Description, 19, stateNumber, _input);
@@ -2314,9 +2314,9 @@ namespace pcomps.PCompiler
 				break;
 			}
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return -1;
 			}
 			NoViableAltException ex = new NoViableAltException(dfa.Description, 20, stateNumber, _input);
@@ -2706,10 +2706,10 @@ namespace pcomps.PCompiler
 		private const string DFA20_specialS = "\u0012￿\u0001\u0001\u0001\0Ù￿}>";
 
 		// Token: 0x040007BD RID: 1981
-		protected PapyrusLexer.DFA19 dfa19;
+		protected DFA19 dfa19;
 
 		// Token: 0x040007BE RID: 1982
-		protected PapyrusLexer.DFA20 dfa20;
+		protected DFA20 dfa20;
 
 		// Token: 0x040007BF RID: 1983
 		private static readonly string[] DFA19_transitionS = new string[]
@@ -2743,7 +2743,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA19_special = DFA.UnpackEncodedString("\u0002￿\u0001\u0002\u0001￿\u0001\u0003\u0001￿\u0001\u0001\u0001\0}>");
 
 		// Token: 0x040007C6 RID: 1990
-		private static readonly short[][] DFA19_transition = DFA.UnpackEncodedStringArray(PapyrusLexer.DFA19_transitionS);
+		private static readonly short[][] DFA19_transition = DFA.UnpackEncodedStringArray(DFA19_transitionS);
 
 		// Token: 0x040007C7 RID: 1991
 		private static readonly string[] DFA20_transitionS = new string[]
@@ -3006,7 +3006,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA20_special = DFA.UnpackEncodedString("\u0012￿\u0001\u0001\u0001\0Ù￿}>");
 
 		// Token: 0x040007CE RID: 1998
-		private static readonly short[][] DFA20_transition = DFA.UnpackEncodedStringArray(PapyrusLexer.DFA20_transitionS);
+		private static readonly short[][] DFA20_transition = DFA.UnpackEncodedStringArray(DFA20_transitionS);
 
 		// Token: 0x02000176 RID: 374
 		protected class DFA19 : DFA
@@ -3015,14 +3015,14 @@ namespace pcomps.PCompiler
 			public DFA19(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 19;
-				this.eot = PapyrusLexer.DFA19_eot;
-				this.eof = PapyrusLexer.DFA19_eof;
-				this.min = PapyrusLexer.DFA19_min;
-				this.max = PapyrusLexer.DFA19_max;
-				this.accept = PapyrusLexer.DFA19_accept;
-				this.special = PapyrusLexer.DFA19_special;
-				this.transition = PapyrusLexer.DFA19_transition;
+				decisionNumber = 19;
+				eot = DFA19_eot;
+				eof = DFA19_eof;
+				min = DFA19_min;
+				max = DFA19_max;
+				accept = DFA19_accept;
+				special = DFA19_special;
+				transition = DFA19_transition;
 			}
 
 			// Token: 0x1700016E RID: 366
@@ -3043,14 +3043,14 @@ namespace pcomps.PCompiler
 			public DFA20(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 20;
-				this.eot = PapyrusLexer.DFA20_eot;
-				this.eof = PapyrusLexer.DFA20_eof;
-				this.min = PapyrusLexer.DFA20_min;
-				this.max = PapyrusLexer.DFA20_max;
-				this.accept = PapyrusLexer.DFA20_accept;
-				this.special = PapyrusLexer.DFA20_special;
-				this.transition = PapyrusLexer.DFA20_transition;
+				decisionNumber = 20;
+				eot = DFA20_eot;
+				eof = DFA20_eof;
+				min = DFA20_min;
+				max = DFA20_max;
+				accept = DFA20_accept;
+				special = DFA20_special;
+				transition = DFA20_transition;
 			}
 
 			// Token: 0x1700016F RID: 367

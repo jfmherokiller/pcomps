@@ -20,27 +20,27 @@ namespace pcomps.Antlr
 		[Obsolete("Deprecated since version 2.7.2. Use ASTFactory.dup() instead.", false)]
 		protected CommonASTWithHiddenTokens(CommonASTWithHiddenTokens another) : base(another)
 		{
-			this.hiddenBefore = another.hiddenBefore;
-			this.hiddenAfter = another.hiddenAfter;
+			hiddenBefore = another.hiddenBefore;
+			hiddenAfter = another.hiddenAfter;
 		}
 
 		// Token: 0x0600015E RID: 350 RVA: 0x00005A18 File Offset: 0x00003C18
 		public virtual IHiddenStreamToken getHiddenAfter()
 		{
-			return this.hiddenAfter;
+			return hiddenAfter;
 		}
 
 		// Token: 0x0600015F RID: 351 RVA: 0x00005A2C File Offset: 0x00003C2C
 		public virtual IHiddenStreamToken getHiddenBefore()
 		{
-			return this.hiddenBefore;
+			return hiddenBefore;
 		}
 
 		// Token: 0x06000160 RID: 352 RVA: 0x00005A40 File Offset: 0x00003C40
 		public override void initialize(AST t)
 		{
-			this.hiddenBefore = ((CommonASTWithHiddenTokens)t).getHiddenBefore();
-			this.hiddenAfter = ((CommonASTWithHiddenTokens)t).getHiddenAfter();
+			hiddenBefore = ((CommonASTWithHiddenTokens)t).getHiddenBefore();
+			hiddenAfter = ((CommonASTWithHiddenTokens)t).getHiddenAfter();
 			base.initialize(t);
 		}
 
@@ -49,8 +49,8 @@ namespace pcomps.Antlr
 		{
 			IHiddenStreamToken hiddenStreamToken = (IHiddenStreamToken)tok;
 			base.initialize(hiddenStreamToken);
-			this.hiddenBefore = hiddenStreamToken.getHiddenBefore();
-			this.hiddenAfter = hiddenStreamToken.getHiddenAfter();
+			hiddenBefore = hiddenStreamToken.getHiddenBefore();
+			hiddenAfter = hiddenStreamToken.getHiddenAfter();
 		}
 
 		// Token: 0x06000162 RID: 354 RVA: 0x00005AAC File Offset: 0x00003CAC
@@ -61,7 +61,7 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x04000059 RID: 89
-		public new static readonly CommonASTWithHiddenTokens.CommonASTWithHiddenTokensCreator Creator = new CommonASTWithHiddenTokens.CommonASTWithHiddenTokensCreator();
+		public new static readonly CommonASTWithHiddenTokensCreator Creator = new CommonASTWithHiddenTokensCreator();
 
 		// Token: 0x0400005A RID: 90
 		protected internal IHiddenStreamToken hiddenBefore;

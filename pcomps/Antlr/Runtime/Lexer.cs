@@ -29,13 +29,13 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 			set
 			{
-				this.input = null;
-				this.Reset();
-				this.input = value;
+				input = null;
+				Reset();
+				input = value;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input.SourceName;
+				return input.SourceName;
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input.Line;
+				return input.Line;
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input.CharPositionInLine;
+				return input.CharPositionInLine;
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input.Index();
+				return input.Index();
 			}
 		}
 
@@ -96,15 +96,15 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				if (this.state.text != null)
+				if (state.text != null)
 				{
-					return this.state.text;
+					return state.text;
 				}
-				return this.input.Substring(this.state.tokenStartCharIndex, this.CharIndex - 1);
+				return input.Substring(state.tokenStartCharIndex, CharIndex - 1);
 			}
 			set
 			{
-				this.state.text = value;
+				state.text = value;
 			}
 		}
 
@@ -112,21 +112,21 @@ namespace pcomps.Antlr.Runtime
 		public override void Reset()
 		{
 			base.Reset();
-			if (this.input != null)
+			if (input != null)
 			{
-				this.input.Seek(0);
+				input.Seek(0);
 			}
-			if (this.state == null)
+			if (state == null)
 			{
 				return;
 			}
-			this.state.token = null;
-			this.state.type = 0;
-			this.state.channel = 0;
-			this.state.tokenStartCharIndex = -1;
-			this.state.tokenStartCharPositionInLine = -1;
-			this.state.tokenStartLine = -1;
-			this.state.text = null;
+			state.token = null;
+			state.type = 0;
+			state.channel = 0;
+			state.tokenStartCharIndex = -1;
+			state.tokenStartCharPositionInLine = -1;
+			state.tokenStartLine = -1;
+			state.text = null;
 		}
 
 		// Token: 0x06000935 RID: 2357 RVA: 0x0001A598 File Offset: 0x00018798
@@ -134,37 +134,37 @@ namespace pcomps.Antlr.Runtime
 		{
 			for (;;)
 			{
-				this.state.token = null;
-				this.state.channel = 0;
-				this.state.tokenStartCharIndex = this.input.Index();
-				this.state.tokenStartCharPositionInLine = this.input.CharPositionInLine;
-				this.state.tokenStartLine = this.input.Line;
-				this.state.text = null;
-				if (this.input.LA(1) == -1)
+				state.token = null;
+				state.channel = 0;
+				state.tokenStartCharIndex = input.Index();
+				state.tokenStartCharPositionInLine = input.CharPositionInLine;
+				state.tokenStartLine = input.Line;
+				state.text = null;
+				if (input.LA(1) == -1)
 				{
 					break;
 				}
 				try
 				{
-					this.mTokens();
-					if (this.state.token == null)
+					mTokens();
+					if (state.token == null)
 					{
-						this.Emit();
+						Emit();
 					}
-					else if (this.state.token == Token.SKIP_TOKEN)
+					else if (state.token == Token.SKIP_TOKEN)
 					{
 						continue;
 					}
-					return this.state.token;
+					return state.token;
 				}
 				catch (NoViableAltException ex)
 				{
-					this.ReportError(ex);
-					this.Recover(ex);
+					ReportError(ex);
+					Recover(ex);
 				}
 				catch (RecognitionException e)
 				{
-					this.ReportError(e);
+					ReportError(e);
 				}
 			}
 			return Token.EOF_TOKEN;
@@ -173,7 +173,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000936 RID: 2358 RVA: 0x0001A6B8 File Offset: 0x000188B8
 		public void Skip()
 		{
-			this.state.token = Token.SKIP_TOKEN;
+			state.token = Token.SKIP_TOKEN;
 		}
 
 		// Token: 0x06000937 RID: 2359
@@ -182,17 +182,17 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000938 RID: 2360 RVA: 0x0001A6CC File Offset: 0x000188CC
 		public virtual void Emit(IToken token)
 		{
-			this.state.token = token;
+			state.token = token;
 		}
 
 		// Token: 0x06000939 RID: 2361 RVA: 0x0001A6DC File Offset: 0x000188DC
 		public virtual IToken Emit()
 		{
-			IToken token = new CommonToken(this.input, this.state.type, this.state.channel, this.state.tokenStartCharIndex, this.CharIndex - 1);
-			token.Line = this.state.tokenStartLine;
-			token.Text = this.state.text;
-			token.CharPositionInLine = this.state.tokenStartCharPositionInLine;
-			this.Emit(token);
+			IToken token = new CommonToken(input, state.type, state.channel, state.tokenStartCharIndex, CharIndex - 1);
+			token.Line = state.tokenStartLine;
+			token.Text = state.text;
+			token.CharPositionInLine = state.tokenStartCharPositionInLine;
+			Emit(token);
 			return token;
 		}
 
@@ -202,22 +202,22 @@ namespace pcomps.Antlr.Runtime
 			int i = 0;
 			while (i < s.Length)
 			{
-				if (this.input.LA(1) != (int)s[i])
+				if (input.LA(1) != (int)s[i])
 				{
-					if (this.state.backtracking > 0)
+					if (state.backtracking > 0)
 					{
-						this.state.failed = true;
+						state.failed = true;
 						return;
 					}
-					MismatchedTokenException ex = new MismatchedTokenException((int)s[i], this.input);
-					this.Recover(ex);
+					MismatchedTokenException ex = new MismatchedTokenException((int)s[i], input);
+					Recover(ex);
 					throw ex;
 				}
 				else
 				{
 					i++;
-					this.input.Consume();
-					this.state.failed = false;
+					input.Consume();
+					state.failed = false;
 				}
 			}
 		}
@@ -225,57 +225,57 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600093B RID: 2363 RVA: 0x0001A7EC File Offset: 0x000189EC
 		public virtual void MatchAny()
 		{
-			this.input.Consume();
+			input.Consume();
 		}
 
 		// Token: 0x0600093C RID: 2364 RVA: 0x0001A7FC File Offset: 0x000189FC
 		public virtual void Match(int c)
 		{
-			if (this.input.LA(1) == c)
+			if (input.LA(1) == c)
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 				return;
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return;
 			}
-			MismatchedTokenException ex = new MismatchedTokenException(c, this.input);
-			this.Recover(ex);
+			MismatchedTokenException ex = new MismatchedTokenException(c, input);
+			Recover(ex);
 			throw ex;
 		}
 
 		// Token: 0x0600093D RID: 2365 RVA: 0x0001A868 File Offset: 0x00018A68
 		public virtual void MatchRange(int a, int b)
 		{
-			if (this.input.LA(1) >= a && this.input.LA(1) <= b)
+			if (input.LA(1) >= a && input.LA(1) <= b)
 			{
-				this.input.Consume();
-				this.state.failed = false;
+				input.Consume();
+				state.failed = false;
 				return;
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return;
 			}
-			MismatchedRangeException ex = new MismatchedRangeException(a, b, this.input);
-			this.Recover(ex);
+			MismatchedRangeException ex = new MismatchedRangeException(a, b, input);
+			Recover(ex);
 			throw ex;
 		}
 
 		// Token: 0x0600093E RID: 2366 RVA: 0x0001A8E8 File Offset: 0x00018AE8
 		public virtual void Recover(RecognitionException re)
 		{
-			this.input.Consume();
+			input.Consume();
 		}
 
 		// Token: 0x0600093F RID: 2367 RVA: 0x0001A8F8 File Offset: 0x00018AF8
 		public override void ReportError(RecognitionException e)
 		{
-			this.DisplayRecognitionError(this.TokenNames, e);
+			DisplayRecognitionError(TokenNames, e);
 		}
 
 		// Token: 0x06000940 RID: 2368 RVA: 0x0001A908 File Offset: 0x00018B08
@@ -286,18 +286,18 @@ namespace pcomps.Antlr.Runtime
 			{
 				MismatchedTokenException ex = (MismatchedTokenException)e;
 				result =
-                    $"mismatched character {this.GetCharErrorDisplay(e.Char)} expecting {this.GetCharErrorDisplay(ex.Expecting)}";
+                    $"mismatched character {GetCharErrorDisplay(e.Char)} expecting {GetCharErrorDisplay(ex.Expecting)}";
 			}
 			else if (e is NoViableAltException)
 			{
 				NoViableAltException ex2 = (NoViableAltException)e;
-				result = $"no viable alternative at character {this.GetCharErrorDisplay(ex2.Char)}";
+				result = $"no viable alternative at character {GetCharErrorDisplay(ex2.Char)}";
 			}
 			else if (e is EarlyExitException)
 			{
 				EarlyExitException ex3 = (EarlyExitException)e;
 				result =
-                    $"required (...)+ loop did not match anything at character {this.GetCharErrorDisplay(ex3.Char)}";
+                    $"required (...)+ loop did not match anything at character {GetCharErrorDisplay(ex3.Char)}";
 			}
 			else if (e is MismatchedNotSetException)
 			{
@@ -305,7 +305,7 @@ namespace pcomps.Antlr.Runtime
 				result = string.Concat(new object[]
 				{
 					"mismatched character ",
-					this.GetCharErrorDisplay(ex4.Char),
+					GetCharErrorDisplay(ex4.Char),
 					" expecting set ",
 					ex4.expecting
 				});
@@ -316,7 +316,7 @@ namespace pcomps.Antlr.Runtime
 				result = string.Concat(new object[]
 				{
 					"mismatched character ",
-					this.GetCharErrorDisplay(ex5.Char),
+					GetCharErrorDisplay(ex5.Char),
 					" expecting set ",
 					ex5.expecting
 				});
@@ -327,11 +327,11 @@ namespace pcomps.Antlr.Runtime
 				result = string.Concat(new string[]
 				{
 					"mismatched character ",
-					this.GetCharErrorDisplay(ex6.Char),
+					GetCharErrorDisplay(ex6.Char),
 					" expecting set ",
-					this.GetCharErrorDisplay(ex6.A),
+					GetCharErrorDisplay(ex6.A),
 					"..",
-					this.GetCharErrorDisplay(ex6.B)
+					GetCharErrorDisplay(ex6.B)
 				});
 			}
 			else
@@ -375,11 +375,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			string inputSymbol = string.Concat(new object[]
 			{
-				(char)this.input.LT(1),
+				(char)input.LT(1),
 				" line=",
-				this.Line,
+				Line,
 				":",
-				this.CharPositionInLine
+				CharPositionInLine
 			});
 			base.TraceIn(ruleName, ruleIndex, inputSymbol);
 		}
@@ -389,11 +389,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			string inputSymbol = string.Concat(new object[]
 			{
-				(char)this.input.LT(1),
+				(char)input.LT(1),
 				" line=",
-				this.Line,
+				Line,
 				":",
-				this.CharPositionInLine
+				CharPositionInLine
 			});
 			base.TraceOut(ruleName, ruleIndex, inputSymbol);
 		}

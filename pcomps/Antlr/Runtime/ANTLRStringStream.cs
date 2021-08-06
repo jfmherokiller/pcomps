@@ -14,15 +14,15 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004B5 RID: 1205 RVA: 0x0000E838 File Offset: 0x0000CA38
 		public ANTLRStringStream(string input)
 		{
-			this.data = input.ToCharArray();
-			this.n = input.Length;
+			data = input.ToCharArray();
+			n = input.Length;
 		}
 
 		// Token: 0x060004B6 RID: 1206 RVA: 0x0000E860 File Offset: 0x0000CA60
 		public ANTLRStringStream(char[] data, int numberOfActualCharsInArray)
 		{
 			this.data = data;
-			this.n = numberOfActualCharsInArray;
+			n = numberOfActualCharsInArray;
 		}
 
 		// Token: 0x17000036 RID: 54
@@ -32,11 +32,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.line;
+				return line;
 			}
 			set
 			{
-				this.line = value;
+				line = value;
 			}
 		}
 
@@ -47,35 +47,35 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.charPositionInLine;
+				return charPositionInLine;
 			}
 			set
 			{
-				this.charPositionInLine = value;
+				charPositionInLine = value;
 			}
 		}
 
 		// Token: 0x060004BB RID: 1211 RVA: 0x0000E8A8 File Offset: 0x0000CAA8
 		public virtual void Reset()
 		{
-			this.p = 0;
-			this.line = 1;
-			this.charPositionInLine = 0;
-			this.markDepth = 0;
+			p = 0;
+			line = 1;
+			charPositionInLine = 0;
+			markDepth = 0;
 		}
 
 		// Token: 0x060004BC RID: 1212 RVA: 0x0000E8C8 File Offset: 0x0000CAC8
 		public virtual void Consume()
 		{
-			if (this.p < this.n)
+			if (p < n)
 			{
-				this.charPositionInLine++;
-				if (this.data[this.p] == '\n')
+				charPositionInLine++;
+				if (data[p] == '\n')
 				{
-					this.line++;
-					this.charPositionInLine = 0;
+					line++;
+					charPositionInLine = 0;
 				}
-				this.p++;
+				p++;
 			}
 		}
 
@@ -89,35 +89,35 @@ namespace pcomps.Antlr.Runtime
 			if (i < 0)
 			{
 				i++;
-				if (this.p + i - 1 < 0)
+				if (p + i - 1 < 0)
 				{
 					return -1;
 				}
 			}
-			if (this.p + i - 1 >= this.n)
+			if (p + i - 1 >= n)
 			{
 				return -1;
 			}
-			return (int)this.data[this.p + i - 1];
+			return (int)data[p + i - 1];
 		}
 
 		// Token: 0x060004BE RID: 1214 RVA: 0x0000E988 File Offset: 0x0000CB88
 		public virtual int LT(int i)
 		{
-			return this.LA(i);
+			return LA(i);
 		}
 
 		// Token: 0x060004BF RID: 1215 RVA: 0x0000E994 File Offset: 0x0000CB94
 		public virtual int Index()
 		{
-			return this.p;
+			return p;
 		}
 
 		// Token: 0x060004C0 RID: 1216 RVA: 0x0000E99C File Offset: 0x0000CB9C
 		[Obsolete("Please use property Count instead.")]
 		public virtual int Size()
 		{
-			return this.Count;
+			return Count;
 		}
 
 		// Token: 0x17000038 RID: 56
@@ -126,77 +126,77 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.n;
+				return n;
 			}
 		}
 
 		// Token: 0x060004C2 RID: 1218 RVA: 0x0000E9AC File Offset: 0x0000CBAC
 		public virtual int Mark()
 		{
-			if (this.markers == null)
+			if (markers == null)
 			{
-				this.markers = new ArrayList();
-				this.markers.Add(null);
+				markers = new ArrayList();
+				markers.Add(null);
 			}
-			this.markDepth++;
+			markDepth++;
 			CharStreamState charStreamState;
-			if (this.markDepth >= this.markers.Count)
+			if (markDepth >= markers.Count)
 			{
 				charStreamState = new CharStreamState();
-				this.markers.Add(charStreamState);
+				markers.Add(charStreamState);
 			}
 			else
 			{
-				charStreamState = (CharStreamState)this.markers[this.markDepth];
+				charStreamState = (CharStreamState)markers[markDepth];
 			}
-			charStreamState.p = this.p;
-			charStreamState.line = this.line;
-			charStreamState.charPositionInLine = this.charPositionInLine;
-			this.lastMarker = this.markDepth;
-			return this.markDepth;
+			charStreamState.p = p;
+			charStreamState.line = line;
+			charStreamState.charPositionInLine = charPositionInLine;
+			lastMarker = markDepth;
+			return markDepth;
 		}
 
 		// Token: 0x060004C3 RID: 1219 RVA: 0x0000EA68 File Offset: 0x0000CC68
 		public virtual void Rewind(int m)
 		{
-			CharStreamState charStreamState = (CharStreamState)this.markers[m];
-			this.Seek(charStreamState.p);
-			this.line = charStreamState.line;
-			this.charPositionInLine = charStreamState.charPositionInLine;
-			this.Release(m);
+			CharStreamState charStreamState = (CharStreamState)markers[m];
+			Seek(charStreamState.p);
+			line = charStreamState.line;
+			charPositionInLine = charStreamState.charPositionInLine;
+			Release(m);
 		}
 
 		// Token: 0x060004C4 RID: 1220 RVA: 0x0000EAB4 File Offset: 0x0000CCB4
 		public virtual void Rewind()
 		{
-			this.Rewind(this.lastMarker);
+			Rewind(lastMarker);
 		}
 
 		// Token: 0x060004C5 RID: 1221 RVA: 0x0000EAC4 File Offset: 0x0000CCC4
 		public virtual void Release(int marker)
 		{
-			this.markDepth = marker;
-			this.markDepth--;
+			markDepth = marker;
+			markDepth--;
 		}
 
 		// Token: 0x060004C6 RID: 1222 RVA: 0x0000EADC File Offset: 0x0000CCDC
 		public virtual void Seek(int index)
 		{
-			if (index <= this.p)
+			if (index <= p)
 			{
-				this.p = index;
+				p = index;
 				return;
 			}
-			while (this.p < index)
+			while (p < index)
 			{
-				this.Consume();
+				Consume();
 			}
 		}
 
 		// Token: 0x060004C7 RID: 1223 RVA: 0x0000EB0C File Offset: 0x0000CD0C
 		public virtual string Substring(int start, int stop)
 		{
-			return new string(this.data, start, stop - start + 1);
+			return new string(data, start, stop - start + 1);
 		}
 
 		// Token: 0x17000039 RID: 57
@@ -206,11 +206,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.name;
+				return name;
 			}
 			set
 			{
-				this.name = value;
+				name = value;
 			}
 		}
 

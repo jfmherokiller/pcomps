@@ -12,11 +12,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			if (collection == null || collection.Count < 2)
 			{
-				this._inner = new object[0];
+				_inner = new object[0];
 				return;
 			}
-			this._inner = collection;
-			this._count = this._inner.Count - 1;
+			_inner = collection;
+			_count = _inner.Count - 1;
 		}
 
 		// Token: 0x060011BE RID: 4542 RVA: 0x00082370 File Offset: 0x00080570
@@ -24,7 +24,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			if (enumerator == null)
 			{
-				this._inner = new object[0];
+				_inner = new object[0];
 				return;
 			}
 			ArrayList arrayList = new ArrayList();
@@ -33,8 +33,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				object value = enumerator.Current;
 				arrayList.Add(value);
 			}
-			this._inner = arrayList;
-			this._count = this._inner.Count - 1;
+			_inner = arrayList;
+			_count = _inner.Count - 1;
 		}
 
 		// Token: 0x060011BF RID: 4543 RVA: 0x000823CC File Offset: 0x000805CC
@@ -43,13 +43,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			if (o is RestCollection)
 			{
 				RestCollection restCollection = (RestCollection)o;
-				if (this.Count == 0 && restCollection.Count == 0)
+				if (Count == 0 && restCollection.Count == 0)
 				{
 					return true;
 				}
-				if (this.Count == restCollection.Count)
+				if (Count == restCollection.Count)
 				{
-					IEnumerator enumerator = this.GetEnumerator();
+					IEnumerator enumerator = GetEnumerator();
 					IEnumerator enumerator2 = restCollection.GetEnumerator();
 					while (enumerator.MoveNext())
 					{
@@ -76,7 +76,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this._inner.IsSynchronized;
+				return _inner.IsSynchronized;
 			}
 		}
 
@@ -86,14 +86,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this._count;
+				return _count;
 			}
 		}
 
 		// Token: 0x060011C3 RID: 4547 RVA: 0x00082468 File Offset: 0x00080668
 		public void CopyTo(Array array, int index)
 		{
-			this._inner.CopyTo(array, index);
+			_inner.CopyTo(array, index);
 		}
 
 		// Token: 0x1700026E RID: 622
@@ -102,14 +102,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this._inner.SyncRoot;
+				return _inner.SyncRoot;
 			}
 		}
 
 		// Token: 0x060011C5 RID: 4549 RVA: 0x00082488 File Offset: 0x00080688
 		public IEnumerator GetEnumerator()
 		{
-			return new RestCollection.RestCollectionIterator(this);
+			return new RestCollectionIterator(this);
 		}
 
 		// Token: 0x04000EFC RID: 3836
@@ -125,19 +125,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 			public RestCollectionIterator(RestCollection collection)
 			{
 				this.collection = collection._inner;
-				this.Reset();
+				Reset();
 			}
 
 			// Token: 0x060011C7 RID: 4551 RVA: 0x000824AC File Offset: 0x000806AC
 			public void Reset()
 			{
-				if (this.inner == null)
+				if (inner == null)
 				{
-					this.inner = this.collection.GetEnumerator();
+					inner = collection.GetEnumerator();
 				}
-				this.inner.Reset();
-				this.inner.MoveNext();
-				this.beforeMoveNext = true;
+				inner.Reset();
+				inner.MoveNext();
+				beforeMoveNext = true;
 			}
 
 			// Token: 0x1700026F RID: 623
@@ -146,28 +146,28 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				get
 				{
-					if (this.beforeMoveNext)
+					if (beforeMoveNext)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					return this.inner.Current;
+					return inner.Current;
 				}
 			}
 
 			// Token: 0x060011C9 RID: 4553 RVA: 0x00082508 File Offset: 0x00080708
 			public bool MoveNext()
 			{
-				this.beforeMoveNext = false;
-				return this.inner.MoveNext();
+				beforeMoveNext = false;
+				return inner.MoveNext();
 			}
 
 			// Token: 0x060011CA RID: 4554 RVA: 0x0008251C File Offset: 0x0008071C
 			public override string ToString()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				while (this.MoveNext())
+				while (MoveNext())
 				{
-					object value = this.Current;
+					object value = Current;
 					stringBuilder.Append(value);
 				}
 				return stringBuilder.ToString();

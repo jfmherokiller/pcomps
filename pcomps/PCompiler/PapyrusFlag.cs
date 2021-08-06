@@ -8,20 +8,20 @@
 		{
 			if (aiIndex < 0)
 			{
-				this.iIndex = 0;
+				iIndex = 0;
 			}
 			else if (aiIndex > 31)
 			{
-				this.iIndex = 31;
+				iIndex = 31;
 			}
 			else
 			{
-				this.iIndex = aiIndex;
+				iIndex = aiIndex;
 			}
-			this.bAllowedOnObj = abOnObj;
-			this.bAllowedOnProp = abOnProp;
-			this.bAllowedOnVar = abOnVar;
-			this.bAllowedOnFunc = abOnFunc;
+			bAllowedOnObj = abOnObj;
+			bAllowedOnProp = abOnProp;
+			bAllowedOnVar = abOnVar;
+			bAllowedOnFunc = abOnFunc;
 		}
 
 		// Token: 0x06000D22 RID: 3362 RVA: 0x0005CB64 File Offset: 0x0005AD64
@@ -36,7 +36,7 @@
 		{
 			get
 			{
-				return this.iIndex;
+				return iIndex;
 			}
 		}
 
@@ -46,7 +46,7 @@
 		{
 			get
 			{
-				return this.bAllowedOnObj;
+				return bAllowedOnObj;
 			}
 		}
 
@@ -56,7 +56,7 @@
 		{
 			get
 			{
-				return this.bAllowedOnProp;
+				return bAllowedOnProp;
 			}
 		}
 
@@ -66,7 +66,7 @@
 		{
 			get
 			{
-				return this.bAllowedOnVar;
+				return bAllowedOnVar;
 			}
 		}
 
@@ -76,7 +76,7 @@
 		{
 			get
 			{
-				return this.bAllowedOnFunc;
+				return bAllowedOnFunc;
 			}
 		}
 

@@ -21,29 +21,29 @@
 		// Token: 0x06000196 RID: 406 RVA: 0x00005E9C File Offset: 0x0000409C
 		public virtual IHiddenStreamToken getHiddenAfter()
 		{
-			return this.hiddenAfter;
+			return hiddenAfter;
 		}
 
 		// Token: 0x06000197 RID: 407 RVA: 0x00005EB0 File Offset: 0x000040B0
 		public virtual IHiddenStreamToken getHiddenBefore()
 		{
-			return this.hiddenBefore;
+			return hiddenBefore;
 		}
 
 		// Token: 0x06000198 RID: 408 RVA: 0x00005EC4 File Offset: 0x000040C4
 		public virtual void setHiddenAfter(IHiddenStreamToken t)
 		{
-			this.hiddenAfter = t;
+			hiddenAfter = t;
 		}
 
 		// Token: 0x06000199 RID: 409 RVA: 0x00005ED8 File Offset: 0x000040D8
 		public virtual void setHiddenBefore(IHiddenStreamToken t)
 		{
-			this.hiddenBefore = t;
+			hiddenBefore = t;
 		}
 
 		// Token: 0x04000067 RID: 103
-		public new static readonly CommonHiddenStreamToken.CommonHiddenStreamTokenCreator Creator = new CommonHiddenStreamToken.CommonHiddenStreamTokenCreator();
+		public new static readonly CommonHiddenStreamTokenCreator Creator = new CommonHiddenStreamTokenCreator();
 
 		// Token: 0x04000068 RID: 104
 		protected internal IHiddenStreamToken hiddenBefore;

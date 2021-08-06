@@ -10,7 +10,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008C6 RID: 2246 RVA: 0x00019044 File Offset: 0x00017244
 		public BaseRecognizer()
 		{
-			this.state = new RecognizerSharedState();
+			state = new RecognizerSharedState();
 		}
 
 		// Token: 0x060008C7 RID: 2247 RVA: 0x00019058 File Offset: 0x00017258
@@ -44,37 +44,37 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.state.backtracking;
+				return state.backtracking;
 			}
 			set
 			{
-				this.state.backtracking = value;
+				state.backtracking = value;
 			}
 		}
 
 		// Token: 0x060008CE RID: 2254 RVA: 0x000190A8 File Offset: 0x000172A8
 		public bool Failed()
 		{
-			return this.state.failed;
+			return state.failed;
 		}
 
 		// Token: 0x060008CF RID: 2255 RVA: 0x000190B8 File Offset: 0x000172B8
 		public virtual void Reset()
 		{
-			if (this.state == null)
+			if (state == null)
 			{
 				return;
 			}
-			this.state.followingStackPointer = -1;
-			this.state.errorRecovery = false;
-			this.state.lastErrorIndex = -1;
-			this.state.failed = false;
-			this.state.syntaxErrors = 0;
-			this.state.backtracking = 0;
+			state.followingStackPointer = -1;
+			state.errorRecovery = false;
+			state.lastErrorIndex = -1;
+			state.failed = false;
+			state.syntaxErrors = 0;
+			state.backtracking = 0;
 			int num = 0;
-			while (this.state.ruleMemo != null && num < this.state.ruleMemo.Length)
+			while (state.ruleMemo != null && num < state.ruleMemo.Length)
 			{
-				this.state.ruleMemo[num] = null;
+				state.ruleMemo[num] = null;
 				num++;
 			}
 		}
@@ -82,27 +82,27 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008D0 RID: 2256 RVA: 0x00019158 File Offset: 0x00017358
 		public virtual object Match(IIntStream input, int ttype, BitSet follow)
 		{
-			object currentInputSymbol = this.GetCurrentInputSymbol(input);
+			object currentInputSymbol = GetCurrentInputSymbol(input);
 			if (input.LA(1) == ttype)
 			{
 				input.Consume();
-				this.state.errorRecovery = false;
-				this.state.failed = false;
+				state.errorRecovery = false;
+				state.failed = false;
 				return currentInputSymbol;
 			}
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				this.state.failed = true;
+				state.failed = true;
 				return currentInputSymbol;
 			}
-			return this.RecoverFromMismatchedToken(input, ttype, follow);
+			return RecoverFromMismatchedToken(input, ttype, follow);
 		}
 
 		// Token: 0x060008D1 RID: 2257 RVA: 0x000191C4 File Offset: 0x000173C4
 		public virtual void MatchAny(IIntStream input)
 		{
-			this.state.errorRecovery = false;
-			this.state.failed = false;
+			state.errorRecovery = false;
+			state.failed = false;
 			input.Consume();
 		}
 
@@ -121,9 +121,9 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (follow.Member(1))
 			{
-				BitSet a = this.ComputeContextSensitiveRuleFOLLOW();
+				BitSet a = ComputeContextSensitiveRuleFOLLOW();
 				follow = follow.Or(a);
-				if (this.state.followingStackPointer >= 0)
+				if (state.followingStackPointer >= 0)
 				{
 					follow.Remove(1);
 				}
@@ -134,21 +134,21 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008D4 RID: 2260 RVA: 0x0001925C File Offset: 0x0001745C
 		public virtual void ReportError(RecognitionException e)
 		{
-			if (this.state.errorRecovery)
+			if (state.errorRecovery)
 			{
 				return;
 			}
-			this.state.syntaxErrors++;
-			this.state.errorRecovery = true;
-			this.DisplayRecognitionError(this.TokenNames, e);
+			state.syntaxErrors++;
+			state.errorRecovery = true;
+			DisplayRecognitionError(TokenNames, e);
 		}
 
 		// Token: 0x060008D5 RID: 2261 RVA: 0x0001929C File Offset: 0x0001749C
 		public virtual void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorHeader = this.GetErrorHeader(e);
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.EmitErrorMessage($"{errorHeader} {errorMessage}");
+			string errorHeader = GetErrorHeader(e);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			EmitErrorMessage($"{errorHeader} {errorMessage}");
 		}
 
 		// Token: 0x060008D6 RID: 2262 RVA: 0x000192CC File Offset: 0x000174CC
@@ -167,7 +167,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str = tokenNames[ex.Expecting];
 				}
-				result = $"extraneous input {this.GetTokenErrorDisplay(ex.UnexpectedToken)} expecting {str}";
+				result = $"extraneous input {GetTokenErrorDisplay(ex.UnexpectedToken)} expecting {str}";
 			}
 			else if (e is MissingTokenException)
 			{
@@ -181,7 +181,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str2 = tokenNames[ex2.Expecting];
 				}
-				result = $"missing {str2} at {this.GetTokenErrorDisplay(e.Token)}";
+				result = $"missing {str2} at {GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is MismatchedTokenException)
 			{
@@ -195,7 +195,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str3 = tokenNames[ex3.Expecting];
 				}
-				result = $"mismatched input {this.GetTokenErrorDisplay(e.Token)} expecting {str3}";
+				result = $"mismatched input {GetTokenErrorDisplay(e.Token)} expecting {str3}";
 			}
 			else if (e is MismatchedTreeNodeException)
 			{
@@ -219,11 +219,11 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is NoViableAltException)
 			{
-				result = $"no viable alternative at input {this.GetTokenErrorDisplay(e.Token)}";
+				result = $"no viable alternative at input {GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is EarlyExitException)
 			{
-				result = $"required (...)+ loop did not match anything at input {this.GetTokenErrorDisplay(e.Token)}";
+				result = $"required (...)+ loop did not match anything at input {GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is MismatchedSetException)
 			{
@@ -231,7 +231,7 @@ namespace pcomps.Antlr.Runtime
 				result = string.Concat(new object[]
 				{
 					"mismatched input ",
-					this.GetTokenErrorDisplay(e.Token),
+					GetTokenErrorDisplay(e.Token),
 					" expecting set ",
 					ex5.expecting
 				});
@@ -242,7 +242,7 @@ namespace pcomps.Antlr.Runtime
 				result = string.Concat(new object[]
 				{
 					"mismatched input ",
-					this.GetTokenErrorDisplay(e.Token),
+					GetTokenErrorDisplay(e.Token),
 					" expecting set ",
 					ex6.expecting
 				});
@@ -268,7 +268,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.state.syntaxErrors;
+				return state.syntaxErrors;
 			}
 		}
 
@@ -314,15 +314,15 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008DB RID: 2267 RVA: 0x000196CC File Offset: 0x000178CC
 		public virtual void Recover(IIntStream input, RecognitionException re)
 		{
-			if (this.state.lastErrorIndex == input.Index())
+			if (state.lastErrorIndex == input.Index())
 			{
 				input.Consume();
 			}
-			this.state.lastErrorIndex = input.Index();
-			BitSet set = this.ComputeErrorRecoverySet();
-			this.BeginResync();
-			this.ConsumeUntil(input, set);
-			this.EndResync();
+			state.lastErrorIndex = input.Index();
+			BitSet set = ComputeErrorRecoverySet();
+			BeginResync();
+			ConsumeUntil(input, set);
+			EndResync();
 		}
 
 		// Token: 0x060008DC RID: 2268 RVA: 0x00019724 File Offset: 0x00017924
@@ -339,22 +339,22 @@ namespace pcomps.Antlr.Runtime
 		protected internal virtual object RecoverFromMismatchedToken(IIntStream input, int ttype, BitSet follow)
 		{
 			RecognitionException ex = null;
-			if (this.MismatchIsUnwantedToken(input, ttype))
+			if (MismatchIsUnwantedToken(input, ttype))
 			{
 				ex = new UnwantedTokenException(ttype, input);
-				this.BeginResync();
+				BeginResync();
 				input.Consume();
-				this.EndResync();
-				this.ReportError(ex);
-				object currentInputSymbol = this.GetCurrentInputSymbol(input);
+				EndResync();
+				ReportError(ex);
+				object currentInputSymbol = GetCurrentInputSymbol(input);
 				input.Consume();
 				return currentInputSymbol;
 			}
-			if (this.MismatchIsMissingToken(input, follow))
+			if (MismatchIsMissingToken(input, follow))
 			{
-				object missingSymbol = this.GetMissingSymbol(input, ex, ttype, follow);
+				object missingSymbol = GetMissingSymbol(input, ex, ttype, follow);
 				ex = new MissingTokenException(ttype, input, missingSymbol);
-				this.ReportError(ex);
+				ReportError(ex);
 				return missingSymbol;
 			}
 			ex = new MismatchedTokenException(ttype, input);
@@ -364,10 +364,10 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008DF RID: 2271 RVA: 0x000197AC File Offset: 0x000179AC
 		public virtual object RecoverFromMismatchedSet(IIntStream input, RecognitionException e, BitSet follow)
 		{
-			if (this.MismatchIsMissingToken(input, follow))
+			if (MismatchIsMissingToken(input, follow))
 			{
-				this.ReportError(e);
-				return this.GetMissingSymbol(input, e, 0, follow);
+				ReportError(e);
+				return GetMissingSymbol(input, e, 0, follow);
 			}
 			throw e;
 		}
@@ -397,8 +397,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E2 RID: 2274 RVA: 0x00019858 File Offset: 0x00017A58
 		public virtual IList GetRuleInvocationStack()
 		{
-			string fullName = base.GetType().FullName;
-			return BaseRecognizer.GetRuleInvocationStack(new Exception(), fullName);
+			string fullName = GetType().FullName;
+			return GetRuleInvocationStack(new Exception(), fullName);
 		}
 
 		// Token: 0x060008E3 RID: 2275 RVA: 0x0001987C File Offset: 0x00017A7C
@@ -411,7 +411,7 @@ namespace pcomps.Antlr.Runtime
 				StackFrame frame = stackTrace.GetFrame(i);
 				if (!frame.GetMethod().DeclaringType.FullName.StartsWith("Antlr.Runtime."))
 				{
-					if (!frame.GetMethod().Name.Equals(BaseRecognizer.NEXT_TOKEN_RULE_NAME))
+					if (!frame.GetMethod().Name.Equals(NEXT_TOKEN_RULE_NAME))
 					{
 						if (frame.GetMethod().DeclaringType.FullName.Equals(recognizerClassName))
 						{
@@ -455,11 +455,11 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E7 RID: 2279 RVA: 0x00019988 File Offset: 0x00017B88
 		public virtual int GetRuleMemoization(int ruleIndex, int ruleStartIndex)
 		{
-			if (this.state.ruleMemo[ruleIndex] == null)
+			if (state.ruleMemo[ruleIndex] == null)
 			{
-				this.state.ruleMemo[ruleIndex] = new Hashtable();
+				state.ruleMemo[ruleIndex] = new Hashtable();
 			}
-			object obj = this.state.ruleMemo[ruleIndex][ruleStartIndex];
+			object obj = state.ruleMemo[ruleIndex][ruleStartIndex];
 			if (obj == null)
 			{
 				return -1;
@@ -470,14 +470,14 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E8 RID: 2280 RVA: 0x000199E4 File Offset: 0x00017BE4
 		public virtual bool AlreadyParsedRule(IIntStream input, int ruleIndex)
 		{
-			int ruleMemoization = this.GetRuleMemoization(ruleIndex, input.Index());
+			int ruleMemoization = GetRuleMemoization(ruleIndex, input.Index());
 			if (ruleMemoization == -1)
 			{
 				return false;
 			}
 			if (ruleMemoization == -2)
 			{
-				this.state.failed = true;
+				state.failed = true;
 			}
 			else
 			{
@@ -489,10 +489,10 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E9 RID: 2281 RVA: 0x00019A2C File Offset: 0x00017C2C
 		public virtual void Memoize(IIntStream input, int ruleIndex, int ruleStartIndex)
 		{
-			int num = (!this.state.failed) ? (input.Index() - 1) : -2;
-			if (this.state.ruleMemo[ruleIndex] != null)
+			int num = (!state.failed) ? (input.Index() - 1) : -2;
+			if (state.ruleMemo[ruleIndex] != null)
 			{
-				this.state.ruleMemo[ruleIndex][ruleStartIndex] = num;
+				state.ruleMemo[ruleIndex][ruleStartIndex] = num;
 			}
 		}
 
@@ -501,9 +501,9 @@ namespace pcomps.Antlr.Runtime
 		{
 			int num = 0;
 			int num2 = 0;
-			while (this.state.ruleMemo != null && num2 < this.state.ruleMemo.Length)
+			while (state.ruleMemo != null && num2 < state.ruleMemo.Length)
 			{
-				IDictionary dictionary = this.state.ruleMemo[num2];
+				IDictionary dictionary = state.ruleMemo[num2];
 				if (dictionary != null)
 				{
 					num += dictionary.Count;
@@ -523,9 +523,9 @@ namespace pcomps.Antlr.Runtime
 				" ",
 				inputSymbol
 			}));
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				Console.Out.Write($" backtracking={this.state.backtracking}");
+				Console.Out.Write($" backtracking={state.backtracking}");
 			}
 			Console.Out.WriteLine();
 		}
@@ -540,16 +540,16 @@ namespace pcomps.Antlr.Runtime
 				" ",
 				inputSymbol
 			}));
-			if (this.state.backtracking > 0)
+			if (state.backtracking > 0)
 			{
-				Console.Out.Write($" backtracking={this.state.backtracking}");
-				if (this.state.failed)
+				Console.Out.Write($" backtracking={state.backtracking}");
+				if (state.failed)
 				{
-					Console.Out.WriteLine($" failed{this.state.failed}");
+					Console.Out.WriteLine($" failed{state.failed}");
 				}
 				else
 				{
-					Console.Out.WriteLine($" succeeded{this.state.failed}");
+					Console.Out.WriteLine($" succeeded{state.failed}");
 				}
 			}
 			Console.Out.WriteLine();
@@ -568,23 +568,23 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008EE RID: 2286 RVA: 0x00019C40 File Offset: 0x00017E40
 		protected internal virtual BitSet ComputeErrorRecoverySet()
 		{
-			return this.CombineFollows(false);
+			return CombineFollows(false);
 		}
 
 		// Token: 0x060008EF RID: 2287 RVA: 0x00019C4C File Offset: 0x00017E4C
 		protected internal virtual BitSet ComputeContextSensitiveRuleFOLLOW()
 		{
-			return this.CombineFollows(true);
+			return CombineFollows(true);
 		}
 
 		// Token: 0x060008F0 RID: 2288 RVA: 0x00019C58 File Offset: 0x00017E58
 		protected internal virtual BitSet CombineFollows(bool exact)
 		{
-			int followingStackPointer = this.state.followingStackPointer;
+			int followingStackPointer = state.followingStackPointer;
 			BitSet bitSet = new BitSet();
 			for (int i = followingStackPointer; i >= 0; i--)
 			{
-				BitSet bitSet2 = this.state.following[i];
+				BitSet bitSet2 = state.following[i];
 				bitSet.OrInPlace(bitSet2);
 				if (exact)
 				{
@@ -616,13 +616,13 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008F3 RID: 2291 RVA: 0x00019CD4 File Offset: 0x00017ED4
 		protected void PushFollow(BitSet fset)
 		{
-			if (this.state.followingStackPointer + 1 >= this.state.following.Length)
+			if (state.followingStackPointer + 1 >= state.following.Length)
 			{
-				BitSet[] array = new BitSet[this.state.following.Length * 2];
-				Array.Copy(this.state.following, 0, array, 0, this.state.following.Length);
-				this.state.following = array;
+				BitSet[] array = new BitSet[state.following.Length * 2];
+				Array.Copy(state.following, 0, array, 0, state.following.Length);
+				state.following = array;
 			}
-			this.state.following[++this.state.followingStackPointer] = fset;
+			state.following[++state.followingStackPointer] = fset;
 		}
 
 		// Token: 0x0400025F RID: 607

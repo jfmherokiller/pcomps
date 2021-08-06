@@ -11,10 +11,10 @@ namespace pcomps.Antlr
 		{
 			if (step <= 0)
 			{
-				return this.ToString();
+				return ToString();
 			}
 			StringBuilder stringBuilder = new StringBuilder(2000);
-			this.getLeftmostDerivation(stringBuilder, step);
+			getLeftmostDerivation(stringBuilder, step);
 			return stringBuilder.ToString();
 		}
 
@@ -27,7 +27,7 @@ namespace pcomps.Antlr
 			for (int i = 1; i < maxSteps; i++)
 			{
 				stringBuilder.Append(" =>");
-				stringBuilder.Append(this.getLeftmostDerivationStep(i));
+				stringBuilder.Append(getLeftmostDerivationStep(i));
 				stringBuilder.Append("\n");
 			}
 			return stringBuilder.ToString();

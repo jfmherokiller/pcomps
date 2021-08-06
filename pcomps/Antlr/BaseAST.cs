@@ -17,7 +17,7 @@ namespace pcomps.Antlr
 			{
 				return;
 			}
-			BaseAST baseAST = this.down;
+			BaseAST baseAST = down;
 			if (baseAST != null)
 			{
 				while (baseAST.right != null)
@@ -27,7 +27,7 @@ namespace pcomps.Antlr
 				baseAST.right = (BaseAST)node;
 				return;
 			}
-			this.down = (BaseAST)node;
+			down = (BaseAST)node;
 		}
 
 		// Token: 0x0600007F RID: 127 RVA: 0x000035E4 File Offset: 0x000017E4
@@ -49,13 +49,13 @@ namespace pcomps.Antlr
 		// Token: 0x06000080 RID: 128 RVA: 0x0000363C File Offset: 0x0000183C
 		public override bool Equals(object obj)
 		{
-			return obj != null && base.GetType() == obj.GetType() && this.Equals((AST)obj);
+			return obj != null && GetType() == obj.GetType() && Equals((AST)obj);
 		}
 
 		// Token: 0x06000081 RID: 129 RVA: 0x0000366C File Offset: 0x0000186C
 		public virtual bool Equals(AST t)
 		{
-			return t != null && object.Equals(this.getText(), t.getText()) && this.Type == t.Type;
+			return t != null && Equals(getText(), t.getText()) && Type == t.Type;
 		}
 
 		// Token: 0x06000082 RID: 130 RVA: 0x000036A4 File Offset: 0x000018A4
@@ -116,13 +116,13 @@ namespace pcomps.Antlr
 		// Token: 0x06000084 RID: 132 RVA: 0x00003768 File Offset: 0x00001968
 		public virtual bool EqualsTree(AST t)
 		{
-			if (!this.Equals(t))
+			if (!Equals(t))
 			{
 				return false;
 			}
-			if (this.getFirstChild() != null)
+			if (getFirstChild() != null)
 			{
-				if (!this.getFirstChild().EqualsList(t.getFirstChild()))
+				if (!getFirstChild().EqualsList(t.getFirstChild()))
 				{
 					return false;
 				}
@@ -137,7 +137,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000085 RID: 133 RVA: 0x000037A8 File Offset: 0x000019A8
 		public virtual bool EqualsTreePartial(AST sub)
 		{
-			return sub == null || (this.Equals(sub) && (this.getFirstChild() == null || this.getFirstChild().EqualsListPartial(sub.getFirstChild())));
+			return sub == null || (Equals(sub) && (getFirstChild() == null || getFirstChild().EqualsListPartial(sub.getFirstChild())));
 		}
 
 		// Token: 0x06000086 RID: 134 RVA: 0x000037E4 File Offset: 0x000019E4
@@ -148,7 +148,7 @@ namespace pcomps.Antlr
 			{
 				return null;
 			}
-			this.doWorkForFindAll(arrayList, target, false);
+			doWorkForFindAll(arrayList, target, false);
 			return arrayList.GetEnumerator();
 		}
 
@@ -160,20 +160,20 @@ namespace pcomps.Antlr
 			{
 				return null;
 			}
-			this.doWorkForFindAll(arrayList, sub, true);
+			doWorkForFindAll(arrayList, sub, true);
 			return arrayList.GetEnumerator();
 		}
 
 		// Token: 0x06000088 RID: 136 RVA: 0x0000383C File Offset: 0x00001A3C
 		public virtual AST getFirstChild()
 		{
-			return this.down;
+			return down;
 		}
 
 		// Token: 0x06000089 RID: 137 RVA: 0x00003850 File Offset: 0x00001A50
 		public virtual AST getNextSibling()
 		{
-			return this.right;
+			return right;
 		}
 
 		// Token: 0x0600008A RID: 138 RVA: 0x00003864 File Offset: 0x00001A64
@@ -211,7 +211,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600008F RID: 143 RVA: 0x000038B8 File Offset: 0x00001AB8
 		public int getNumberOfChildren()
 		{
-			BaseAST baseAST = this.down;
+			BaseAST baseAST = down;
 			int num = 0;
 			if (baseAST != null)
 			{
@@ -237,19 +237,19 @@ namespace pcomps.Antlr
 		// Token: 0x06000093 RID: 147 RVA: 0x000038EC File Offset: 0x00001AEC
 		public virtual void removeChildren()
 		{
-			this.down = null;
+			down = null;
 		}
 
 		// Token: 0x06000094 RID: 148 RVA: 0x00003900 File Offset: 0x00001B00
 		public virtual void setFirstChild(AST c)
 		{
-			this.down = (BaseAST)c;
+			down = (BaseAST)c;
 		}
 
 		// Token: 0x06000095 RID: 149 RVA: 0x0000391C File Offset: 0x00001B1C
 		public virtual void setNextSibling(AST n)
 		{
-			this.right = (BaseAST)n;
+			right = (BaseAST)n;
 		}
 
 		// Token: 0x06000096 RID: 150 RVA: 0x00003938 File Offset: 0x00001B38
@@ -260,30 +260,30 @@ namespace pcomps.Antlr
 		// Token: 0x06000097 RID: 151 RVA: 0x00003948 File Offset: 0x00001B48
 		public virtual void setType(int ttype)
 		{
-			this.Type = ttype;
+			Type = ttype;
 		}
 
 		// Token: 0x06000098 RID: 152 RVA: 0x0000395C File Offset: 0x00001B5C
 		public static void setVerboseStringConversion(bool verbose, string[] names)
 		{
-			BaseAST.verboseStringConversion = verbose;
-			BaseAST.tokenNames = names;
+			verboseStringConversion = verbose;
+			tokenNames = names;
 		}
 
 		// Token: 0x06000099 RID: 153 RVA: 0x00003978 File Offset: 0x00001B78
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			if (BaseAST.verboseStringConversion && string.Compare(this.getText(), BaseAST.tokenNames[this.Type], true) != 0 && string.Compare(this.getText(), StringUtils.stripFrontBack(BaseAST.tokenNames[this.Type], "\"", "\""), true) != 0)
+			if (verboseStringConversion && string.Compare(getText(), tokenNames[Type], true) != 0 && string.Compare(getText(), StringUtils.stripFrontBack(tokenNames[Type], "\"", "\""), true) != 0)
 			{
 				stringBuilder.Append('[');
-				stringBuilder.Append(this.getText());
+				stringBuilder.Append(getText());
 				stringBuilder.Append(",<");
-				stringBuilder.Append(BaseAST.tokenNames[this.Type]);
+				stringBuilder.Append(tokenNames[Type]);
 				stringBuilder.Append(">]");
 				return stringBuilder.ToString();
 			}
-			return this.getText();
+			return getText();
 		}
 
 		// Token: 0x0600009A RID: 154 RVA: 0x00003A28 File Offset: 0x00001C28
@@ -333,14 +333,14 @@ namespace pcomps.Antlr
 		// Token: 0x0600009C RID: 156 RVA: 0x00003B28 File Offset: 0x00001D28
 		public virtual string ToTree()
 		{
-			return this.ToTree(string.Empty);
+			return ToTree(string.Empty);
 		}
 
 		// Token: 0x0600009D RID: 157 RVA: 0x00003B40 File Offset: 0x00001D40
 		public virtual string ToTree(string prefix)
 		{
 			StringBuilder stringBuilder = new StringBuilder(prefix);
-			if (this.getNextSibling() == null)
+			if (getNextSibling() == null)
 			{
 				stringBuilder.Append("+--");
 			}
@@ -348,22 +348,22 @@ namespace pcomps.Antlr
 			{
 				stringBuilder.Append("|--");
 			}
-			stringBuilder.Append(this.ToString());
+			stringBuilder.Append(ToString());
 			stringBuilder.Append(Environment.NewLine);
-			if (this.getFirstChild() != null)
+			if (getFirstChild() != null)
 			{
-				if (this.getNextSibling() == null)
+				if (getNextSibling() == null)
 				{
-					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree($"{prefix}   "));
+					stringBuilder.Append(((BaseAST)getFirstChild()).ToTree($"{prefix}   "));
 				}
 				else
 				{
-					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree($"{prefix}|  "));
+					stringBuilder.Append(((BaseAST)getFirstChild()).ToTree($"{prefix}|  "));
 				}
 			}
-			if (this.getNextSibling() != null)
+			if (getNextSibling() != null)
 			{
-				stringBuilder.Append(((BaseAST)this.getNextSibling()).ToTree(prefix));
+				stringBuilder.Append(((BaseAST)getNextSibling()).ToTree(prefix));
 			}
 			return stringBuilder.ToString();
 		}
@@ -465,13 +465,13 @@ namespace pcomps.Antlr
 		{
 			StringBuilder stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
-			stringBuilder.Append($"{base.GetType().FullName} ");
+			stringBuilder.Append($"{GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]
 			{
 				"text=\"",
-				BaseAST.encode(this.getText()),
+				encode(getText()),
 				"\" type=\"",
-				this.Type,
+				Type,
 				"\"/>"
 			}));
 			outWriter.Write(stringBuilder.ToString());
@@ -482,13 +482,13 @@ namespace pcomps.Antlr
 		{
 			StringBuilder stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
-			stringBuilder.Append($"{base.GetType().FullName} ");
+			stringBuilder.Append($"{GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]
 			{
 				"text=\"",
-				BaseAST.encode(this.getText()),
+				encode(getText()),
 				"\" type=\"",
-				this.Type,
+				Type,
 				"\">\n"
 			}));
 			outWriter.Write(stringBuilder.ToString());
@@ -497,7 +497,7 @@ namespace pcomps.Antlr
 		// Token: 0x060000A2 RID: 162 RVA: 0x00003F5C File Offset: 0x0000215C
 		public virtual void xmlSerializeRootClose(TextWriter outWriter)
 		{
-			outWriter.Write($"</{base.GetType().FullName}>\n");
+			outWriter.Write($"</{GetType().FullName}>\n");
 		}
 
 		// Token: 0x060000A3 RID: 163 RVA: 0x00003F8C File Offset: 0x0000218C
@@ -522,7 +522,7 @@ namespace pcomps.Antlr
 		[Obsolete("Deprecated since version 2.7.2. Use ASTFactory.dup() instead.", false)]
 		public virtual object Clone()
 		{
-			return base.MemberwiseClone();
+			return MemberwiseClone();
 		}
 
 		// Token: 0x060000A5 RID: 165 RVA: 0x00003FFC File Offset: 0x000021FC

@@ -22,9 +22,9 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"MismatchedNotSetException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				"!=",
-				this.expecting,
+				expecting,
 				")"
 			});
 		}

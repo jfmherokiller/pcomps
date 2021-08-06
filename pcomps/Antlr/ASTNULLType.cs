@@ -137,31 +137,31 @@ namespace pcomps.Antlr
 		// Token: 0x06000073 RID: 115 RVA: 0x00003430 File Offset: 0x00001630
 		public virtual void setType(int ttype)
 		{
-			this.Type = ttype;
+			Type = ttype;
 		}
 
 		// Token: 0x06000074 RID: 116 RVA: 0x00003444 File Offset: 0x00001644
 		public override string ToString()
 		{
-			return this.getText();
+			return getText();
 		}
 
 		// Token: 0x06000075 RID: 117 RVA: 0x00003458 File Offset: 0x00001658
 		public virtual string ToStringList()
 		{
-			return this.getText();
+			return getText();
 		}
 
 		// Token: 0x06000076 RID: 118 RVA: 0x0000346C File Offset: 0x0000166C
 		public virtual string ToStringTree()
 		{
-			return this.getText();
+			return getText();
 		}
 
 		// Token: 0x06000077 RID: 119 RVA: 0x00003480 File Offset: 0x00001680
 		public object Clone()
 		{
-			return base.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 }

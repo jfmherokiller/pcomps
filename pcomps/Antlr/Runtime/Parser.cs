@@ -6,22 +6,22 @@
 		// Token: 0x0600054F RID: 1359 RVA: 0x0000FDAC File Offset: 0x0000DFAC
 		public Parser(ITokenStream input)
 		{
-			this.TokenStream = input;
+			TokenStream = input;
 		}
 
 		// Token: 0x06000550 RID: 1360 RVA: 0x0000FDBC File Offset: 0x0000DFBC
 		public Parser(ITokenStream input, RecognizerSharedState state) : base(state)
 		{
-			this.TokenStream = input;
+			TokenStream = input;
 		}
 
 		// Token: 0x06000551 RID: 1361 RVA: 0x0000FDCC File Offset: 0x0000DFCC
 		public override void Reset()
 		{
 			base.Reset();
-			if (this.input != null)
+			if (input != null)
 			{
-				this.input.Seek(0);
+				input.Seek(0);
 			}
 		}
 
@@ -41,7 +41,7 @@
 			}
 			else
 			{
-				text = $"<missing {this.TokenNames[expectedTokenType]}>";
+				text = $"<missing {TokenNames[expectedTokenType]}>";
 			}
 			CommonToken commonToken = new CommonToken(expectedTokenType, text);
 			IToken token = ((ITokenStream)input).LT(1);
@@ -62,13 +62,13 @@
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 			set
 			{
-				this.input = null;
-				this.Reset();
-				this.input = value;
+				input = null;
+				Reset();
+				input = value;
 			}
 		}
 
@@ -78,7 +78,7 @@
 		{
 			get
 			{
-				return this.input.SourceName;
+				return input.SourceName;
 			}
 		}
 
@@ -88,20 +88,20 @@
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 		}
 
 		// Token: 0x06000558 RID: 1368 RVA: 0x0000FEC4 File Offset: 0x0000E0C4
 		public virtual void TraceIn(string ruleName, int ruleIndex)
 		{
-			base.TraceIn(ruleName, ruleIndex, this.input.LT(1));
+			base.TraceIn(ruleName, ruleIndex, input.LT(1));
 		}
 
 		// Token: 0x06000559 RID: 1369 RVA: 0x0000FEDC File Offset: 0x0000E0DC
 		public virtual void TraceOut(string ruleName, int ruleIndex)
 		{
-			base.TraceOut(ruleName, ruleIndex, this.input.LT(1));
+			base.TraceOut(ruleName, ruleIndex, input.LT(1));
 		}
 
 		// Token: 0x04000173 RID: 371

@@ -8,11 +8,11 @@ namespace pcomps.Antlr
 		// Token: 0x06000079 RID: 121 RVA: 0x000034A8 File Offset: 0x000016A8
 		public void advanceChildToEnd()
 		{
-			if (this.child != null)
+			if (child != null)
 			{
-				while (this.child.getNextSibling() != null)
+				while (child.getNextSibling() != null)
 				{
-					this.child = this.child.getNextSibling();
+					child = child.getNextSibling();
 				}
 			}
 		}
@@ -22,23 +22,23 @@ namespace pcomps.Antlr
 		{
 			return new ASTPair
 			{
-				root = this.root,
-				child = this.child
+				root = root,
+				child = child
 			};
 		}
 
 		// Token: 0x0600007B RID: 123 RVA: 0x00003510 File Offset: 0x00001710
 		private void reset()
 		{
-			this.root = null;
-			this.child = null;
+			root = null;
+			child = null;
 		}
 
 		// Token: 0x0600007C RID: 124 RVA: 0x0000352C File Offset: 0x0000172C
 		public override string ToString()
 		{
-			string text = (this.root == null) ? "null" : this.root.getText();
-			string text2 = (this.child == null) ? "null" : this.child.getText();
+			string text = (root == null) ? "null" : root.getText();
+			string text2 = (child == null) ? "null" : child.getText();
 			return string.Concat(new string[]
 			{
 				"[",

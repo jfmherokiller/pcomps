@@ -22,7 +22,7 @@ namespace pcomps.Antlr.StringTemplate.Utils
 		{
 			get
 			{
-				return this.dateObj.ToShortDateString();
+				return dateObj.ToShortDateString();
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace pcomps.Antlr.StringTemplate.Utils
 		{
 			get
 			{
-				return this.dateObj.ToString("g", null);
+				return dateObj.ToString("g", null);
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace pcomps.Antlr.StringTemplate.Utils
 		{
 			get
 			{
-				return this.dateObj.ToLongDateString();
+				return dateObj.ToLongDateString();
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace pcomps.Antlr.StringTemplate.Utils
 		{
 			get
 			{
-				return this.dateObj.ToString("f", null);
+				return dateObj.ToString("f", null);
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace pcomps.Antlr.StringTemplate.Utils
 		{
 			get
 			{
-				return this.dateObj.ToString("u", null);
+				return dateObj.ToString("u", null);
 			}
 		}
 

@@ -13,8 +13,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011CC RID: 4556 RVA: 0x00082554 File Offset: 0x00080754
 		public StringTemplateAST(int type, string text)
 		{
-			this.Type = type;
-			this.setText(text);
+			Type = type;
+			setText(text);
 		}
 
 		// Token: 0x17000270 RID: 624
@@ -24,16 +24,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				return this.st;
+				return st;
 			}
 			set
 			{
-				this.st = value;
+				st = value;
 			}
 		}
 
 		// Token: 0x04000F01 RID: 3841
-		public new static readonly StringTemplateAST.StringTemplateASTCreator Creator = new StringTemplateAST.StringTemplateASTCreator();
+		public new static readonly StringTemplateASTCreator Creator = new StringTemplateASTCreator();
 
 		// Token: 0x04000F02 RID: 3842
 		protected StringTemplate st;

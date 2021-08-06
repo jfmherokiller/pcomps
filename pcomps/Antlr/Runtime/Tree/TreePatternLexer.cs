@@ -9,83 +9,83 @@ namespace pcomps.Antlr.Runtime.Tree
 		public TreePatternLexer(string pattern)
 		{
 			this.pattern = pattern;
-			this.n = pattern.Length;
-			this.Consume();
+			n = pattern.Length;
+			Consume();
 		}
 
 		// Token: 0x06000862 RID: 2146 RVA: 0x00017A4C File Offset: 0x00015C4C
 		public int NextToken()
 		{
-			this.sval.Length = 0;
-			while (this.c != -1)
+			sval.Length = 0;
+			while (c != -1)
 			{
-				if (this.c == 32 || this.c == 10 || this.c == 13 || this.c == 9)
+				if (c == 32 || c == 10 || c == 13 || c == 9)
 				{
-					this.Consume();
+					Consume();
 				}
 				else
 				{
-					if ((this.c >= 97 && this.c <= 122) || (this.c >= 65 && this.c <= 90) || this.c == 95)
+					if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || c == 95)
 					{
-						this.sval.Append((char)this.c);
-						this.Consume();
-						while ((this.c >= 97 && this.c <= 122) || (this.c >= 65 && this.c <= 90) || (this.c >= 48 && this.c <= 57) || this.c == 95)
+						sval.Append((char)c);
+						Consume();
+						while ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) || c == 95)
 						{
-							this.sval.Append((char)this.c);
-							this.Consume();
+							sval.Append((char)c);
+							Consume();
 						}
 						return 3;
 					}
-					if (this.c == 40)
+					if (c == 40)
 					{
-						this.Consume();
+						Consume();
 						return 1;
 					}
-					if (this.c == 41)
+					if (c == 41)
 					{
-						this.Consume();
+						Consume();
 						return 2;
 					}
-					if (this.c == 37)
+					if (c == 37)
 					{
-						this.Consume();
+						Consume();
 						return 5;
 					}
-					if (this.c == 58)
+					if (c == 58)
 					{
-						this.Consume();
+						Consume();
 						return 6;
 					}
-					if (this.c == 46)
+					if (c == 46)
 					{
-						this.Consume();
+						Consume();
 						return 7;
 					}
-					if (this.c == 91)
+					if (c == 91)
 					{
-						this.Consume();
-						while (this.c != 93)
+						Consume();
+						while (c != 93)
 						{
-							if (this.c == 92)
+							if (c == 92)
 							{
-								this.Consume();
-								if (this.c != 93)
+								Consume();
+								if (c != 93)
 								{
-									this.sval.Append('\\');
+									sval.Append('\\');
 								}
-								this.sval.Append((char)this.c);
+								sval.Append((char)c);
 							}
 							else
 							{
-								this.sval.Append((char)this.c);
+								sval.Append((char)c);
 							}
-							this.Consume();
+							Consume();
 						}
-						this.Consume();
+						Consume();
 						return 4;
 					}
-					this.Consume();
-					this.error = true;
+					Consume();
+					error = true;
 					return -1;
 				}
 			}
@@ -95,14 +95,14 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000863 RID: 2147 RVA: 0x00017C90 File Offset: 0x00015E90
 		protected void Consume()
 		{
-			this.p++;
-			if (this.p >= this.n)
+			p++;
+			if (p >= n)
 			{
-				this.c = -1;
+				c = -1;
 			}
 			else
 			{
-				this.c = (int)this.pattern[this.p];
+				c = (int)pattern[p];
 			}
 		}
 

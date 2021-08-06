@@ -20,7 +20,7 @@
 		{
 			get
 			{
-				return this.number.ToString("X");
+				return number.ToString("X");
 			}
 		}
 
@@ -30,7 +30,7 @@
 		{
 			get
 			{
-				return this.number.ToString("x");
+				return number.ToString("x");
 			}
 		}
 
@@ -40,7 +40,7 @@
 		{
 			get
 			{
-				return this.number.ToString("N");
+				return number.ToString("N");
 			}
 		}
 

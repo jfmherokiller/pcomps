@@ -23,7 +23,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return base.Expecting;
+				return Expecting;
 			}
 		}
 
@@ -34,31 +34,31 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.inserted;
+				return inserted;
 			}
 			set
 			{
-				this.inserted = value;
+				inserted = value;
 			}
 		}
 
 		// Token: 0x06000585 RID: 1413 RVA: 0x00010334 File Offset: 0x0000E534
 		public override string ToString()
 		{
-			if (this.inserted != null && this.token != null)
+			if (inserted != null && token != null)
 			{
 				return string.Concat(new object[]
 				{
 					"MissingTokenException(inserted ",
-					this.inserted,
+					inserted,
 					" at ",
-					this.token.Text,
+					token.Text,
 					")"
 				});
 			}
-			if (this.token != null)
+			if (token != null)
 			{
-				return $"MissingTokenException(at {this.token.Text})";
+				return $"MissingTokenException(at {token.Text})";
 			}
 			return "MissingTokenException";
 		}

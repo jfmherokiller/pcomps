@@ -36,14 +36,14 @@ namespace pcomps.Antlr.StringTemplate
 				this.locationRoot = AppDomain.CurrentDomain.BaseDirectory;
 			}
 			this.encoding = encoding;
-			this.fileSet = new HybridDictionary(true);
+			fileSet = new HybridDictionary(true);
 		}
 
 		// Token: 0x06000F4E RID: 3918 RVA: 0x0006E750 File Offset: 0x0006C950
 		public override bool HasChanged(string templateName)
 		{
-			string key = $"{base.LocationRoot}/{this.GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
-			return this.fileSet[key] != null;
+			string key = $"{LocationRoot}/{GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
+			return fileSet[key] != null;
 		}
 
 		// Token: 0x06000F4F RID: 3919 RVA: 0x0006E794 File Offset: 0x0006C994
@@ -53,11 +53,11 @@ namespace pcomps.Antlr.StringTemplate
 			string text2 = null;
 			try
 			{
-				text2 = $"{base.LocationRoot}/{this.GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
+				text2 = $"{LocationRoot}/{GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
 				StreamReader streamReader;
 				try
 				{
-					streamReader = new StreamReader(text2, this.encoding);
+					streamReader = new StreamReader(text2, encoding);
 				}
 				catch (FileNotFoundException)
 				{
@@ -74,18 +74,18 @@ namespace pcomps.Antlr.StringTemplate
 				try
 				{
 					text = streamReader.ReadToEnd();
-					if (text != null && text.Length > 0 && this.filesWatcher == null)
+					if (text != null && text.Length > 0 && filesWatcher == null)
 					{
-						this.filesWatcher = new FileSystemWatcher(base.LocationRoot, "*.st");
-						this.filesWatcher.NotifyFilter = (NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Attributes | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Security);
-						this.filesWatcher.IncludeSubdirectories = true;
-						this.filesWatcher.Changed += this.OnChanged;
-						this.filesWatcher.Deleted += this.OnChanged;
-						this.filesWatcher.Created += this.OnChanged;
-						this.filesWatcher.Renamed += this.OnRenamed;
-						this.filesWatcher.EnableRaisingEvents = true;
+						filesWatcher = new FileSystemWatcher(LocationRoot, "*.st");
+						filesWatcher.NotifyFilter = (NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Attributes | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.Security);
+						filesWatcher.IncludeSubdirectories = true;
+						filesWatcher.Changed += OnChanged;
+						filesWatcher.Deleted += OnChanged;
+						filesWatcher.Created += OnChanged;
+						filesWatcher.Renamed += OnRenamed;
+						filesWatcher.EnableRaisingEvents = true;
 					}
-					this.fileSet.Remove(text2);
+					fileSet.Remove(text2);
 				}
 				finally
 				{
@@ -101,12 +101,12 @@ namespace pcomps.Antlr.StringTemplate
 				string message;
 				if (text == null)
 				{
-					message = $"Invalid file character encoding: {this.encoding}";
+					message = $"Invalid file character encoding: {encoding}";
 				}
 				else
 				{
 					message =
-                        $"The location root '{base.LocationRoot}' and/or the template name '{templateName}' is invalid.";
+                        $"The location root '{LocationRoot}' and/or the template name '{templateName}' is invalid.";
 				}
 				throw new TemplateLoadException(message, innerException2);
 			}
@@ -133,16 +133,16 @@ namespace pcomps.Antlr.StringTemplate
 		private void OnChanged(object source, FileSystemEventArgs e)
 		{
 			string key = e.FullPath.Replace('\\', '/');
-			this.fileSet[key] = this.locationRoot;
+			fileSet[key] = locationRoot;
 		}
 
 		// Token: 0x06000F53 RID: 3923 RVA: 0x0006EA04 File Offset: 0x0006CC04
 		private void OnRenamed(object source, RenamedEventArgs e)
 		{
 			string key = e.FullPath.Replace('\\', '/');
-			this.fileSet[key] = this.locationRoot;
+			fileSet[key] = locationRoot;
 			key = e.OldFullPath.Replace('\\', '/');
-			this.fileSet[key] = this.locationRoot;
+			fileSet[key] = locationRoot;
 		}
 
 		// Token: 0x04000CC9 RID: 3273

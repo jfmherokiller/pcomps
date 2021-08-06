@@ -21,7 +21,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D6F RID: 3439 RVA: 0x0005E08C File Offset: 0x0005C28C
 		public PapyrusGen(ITreeNodeStream input, RecognizerSharedState state) : base(input, state)
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x170001B5 RID: 437
@@ -31,11 +31,11 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.templateLib;
+				return templateLib;
 			}
 			set
 			{
-				this.templateLib = value;
+				templateLib = value;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return PapyrusGen.tokenNames;
+				return tokenNames;
 			}
 		}
 
@@ -67,52 +67,52 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D76 RID: 3446 RVA: 0x0005E1F0 File Offset: 0x0005C3F0
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
 		{
-			if (this.ErrorHandler != null)
+			if (ErrorHandler != null)
 			{
-				this.ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
 			}
 		}
 
 		// Token: 0x06000D77 RID: 3447 RVA: 0x0005E210 File Offset: 0x0005C410
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.OnError(errorMessage, e.Line, e.CharPositionInLine);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000D78 RID: 3448 RVA: 0x0005E23C File Offset: 0x0005C43C
-		public PapyrusGen.script_return script(string asSourceFilename, ScriptObjectType akObj)
+		public script_return script(string asSourceFilename, ScriptObjectType akObj)
 		{
-			this.script_stack.Push(new PapyrusGen.script_scope());
-			PapyrusGen.script_return script_return = new PapyrusGen.script_return();
-			script_return.Start = this.input.LT(1);
-			((PapyrusGen.script_scope)this.script_stack.Peek()).sobjName = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).sparentName = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).kobjVarDefinitions = new ArrayList();
-			((PapyrusGen.script_scope)this.script_stack.Peek()).kobjPropDefinitions = new ArrayList();
-			((PapyrusGen.script_scope)this.script_stack.Peek()).sinitialState = null;
-			((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState = new ArrayList();
-			((PapyrusGen.script_scope)this.script_stack.Peek()).kstates = new Hashtable();
-			((PapyrusGen.script_scope)this.script_stack.Peek()).bhasBeginStateEvent = false;
-			((PapyrusGen.script_scope)this.script_stack.Peek()).bhasEndStateEvent = false;
-			((PapyrusGen.script_scope)this.script_stack.Peek()).smodTimeUnix = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).scompileTimeUnix = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).suserName = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).scomputerName = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).sobjFlags = "";
-			((PapyrusGen.script_scope)this.script_stack.Peek()).sdocString = "";
-			this.kObjType = akObj;
+			script_stack.Push(new script_scope());
+			script_return script_return = new script_return();
+			script_return.Start = input.LT(1);
+			((script_scope)script_stack.Peek()).sobjName = "";
+			((script_scope)script_stack.Peek()).sparentName = "";
+			((script_scope)script_stack.Peek()).kobjVarDefinitions = new ArrayList();
+			((script_scope)script_stack.Peek()).kobjPropDefinitions = new ArrayList();
+			((script_scope)script_stack.Peek()).sinitialState = null;
+			((script_scope)script_stack.Peek()).kobjEmptyState = new ArrayList();
+			((script_scope)script_stack.Peek()).kstates = new Hashtable();
+			((script_scope)script_stack.Peek()).bhasBeginStateEvent = false;
+			((script_scope)script_stack.Peek()).bhasEndStateEvent = false;
+			((script_scope)script_stack.Peek()).smodTimeUnix = "";
+			((script_scope)script_stack.Peek()).scompileTimeUnix = "";
+			((script_scope)script_stack.Peek()).suserName = "";
+			((script_scope)script_stack.Peek()).scomputerName = "";
+			((script_scope)script_stack.Peek()).sobjFlags = "";
+			((script_scope)script_stack.Peek()).sdocString = "";
+			kObjType = akObj;
 			try
 			{
-				this.Match(this.input, 4, PapyrusGen.FOLLOW_OBJECT_in_script80);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_header_in_script82);
-				this.header();
-				this.state.followingStackPointer--;
+				Match(input, 4, FOLLOW_OBJECT_in_script80);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_header_in_script82);
+				header();
+				state.followingStackPointer--;
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if ((num2 >= 5 && num2 <= 7) || num2 == 19 || num2 == 51 || num2 == 54)
 					{
 						num = 1;
@@ -122,55 +122,55 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_definitionOrBlock_in_script84);
-					this.definitionOrBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_definitionOrBlock_in_script84);
+					definitionOrBlock();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				if (((PapyrusGen.script_scope)this.script_stack.Peek()).sparentName == "")
+				Match(input, 3, null);
+				if (((script_scope)script_stack.Peek()).sparentName == "")
 				{
-					if (!((PapyrusGen.script_scope)this.script_stack.Peek()).bhasBeginStateEvent)
+					if (!((script_scope)script_stack.Peek()).bhasBeginStateEvent)
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState.Add(this.templateLib.GetInstanceOf("emptyBeginStateEvent"));
+						((script_scope)script_stack.Peek()).kobjEmptyState.Add(templateLib.GetInstanceOf("emptyBeginStateEvent"));
 					}
-					if (!((PapyrusGen.script_scope)this.script_stack.Peek()).bhasEndStateEvent)
+					if (!((script_scope)script_stack.Peek()).bhasEndStateEvent)
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState.Add(this.templateLib.GetInstanceOf("emptyEndStateEvent"));
+						((script_scope)script_stack.Peek()).kobjEmptyState.Add(templateLib.GetInstanceOf("emptyEndStateEvent"));
 					}
 				}
-				((PapyrusGen.script_scope)this.script_stack.Peek()).smodTimeUnix = this.GetFileModTimeUnix(asSourceFilename);
-				((PapyrusGen.script_scope)this.script_stack.Peek()).scompileTimeUnix = this.GetCompileTimeUnix();
-				((PapyrusGen.script_scope)this.script_stack.Peek()).suserName = Environment.UserName;
-				((PapyrusGen.script_scope)this.script_stack.Peek()).scomputerName = Environment.MachineName;
-				((PapyrusGen.script_scope)this.script_stack.Peek()).kuserFlagsRef = this.ConstructUserFlagRefInfo();
-				script_return.ST = this.templateLib.GetInstanceOf("object", new PapyrusGen.STAttrMap().Add("objName", ((PapyrusGen.script_scope)this.script_stack.Peek()).sobjName).Add("parent", ((PapyrusGen.script_scope)this.script_stack.Peek()).sparentName).Add("variableDefs", ((PapyrusGen.script_scope)this.script_stack.Peek()).kobjVarDefinitions).Add("properties", ((PapyrusGen.script_scope)this.script_stack.Peek()).kobjPropDefinitions).Add("initialState", ((PapyrusGen.script_scope)this.script_stack.Peek()).sinitialState).Add("emptyStateFuncs", ((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState).Add("stateFuncs", ((PapyrusGen.script_scope)this.script_stack.Peek()).kstates).Add("modTimeUnix", ((PapyrusGen.script_scope)this.script_stack.Peek()).smodTimeUnix).Add("compileTimeUnix", ((PapyrusGen.script_scope)this.script_stack.Peek()).scompileTimeUnix).Add("userName", ((PapyrusGen.script_scope)this.script_stack.Peek()).suserName).Add("computerName", ((PapyrusGen.script_scope)this.script_stack.Peek()).scomputerName).Add("userFlags", ((PapyrusGen.script_scope)this.script_stack.Peek()).sobjFlags).Add("userFlagsRef", ((PapyrusGen.script_scope)this.script_stack.Peek()).kuserFlagsRef).Add("docString", ((PapyrusGen.script_scope)this.script_stack.Peek()).sdocString));
+				((script_scope)script_stack.Peek()).smodTimeUnix = GetFileModTimeUnix(asSourceFilename);
+				((script_scope)script_stack.Peek()).scompileTimeUnix = GetCompileTimeUnix();
+				((script_scope)script_stack.Peek()).suserName = Environment.UserName;
+				((script_scope)script_stack.Peek()).scomputerName = Environment.MachineName;
+				((script_scope)script_stack.Peek()).kuserFlagsRef = ConstructUserFlagRefInfo();
+				script_return.ST = templateLib.GetInstanceOf("object", new STAttrMap().Add("objName", ((script_scope)script_stack.Peek()).sobjName).Add("parent", ((script_scope)script_stack.Peek()).sparentName).Add("variableDefs", ((script_scope)script_stack.Peek()).kobjVarDefinitions).Add("properties", ((script_scope)script_stack.Peek()).kobjPropDefinitions).Add("initialState", ((script_scope)script_stack.Peek()).sinitialState).Add("emptyStateFuncs", ((script_scope)script_stack.Peek()).kobjEmptyState).Add("stateFuncs", ((script_scope)script_stack.Peek()).kstates).Add("modTimeUnix", ((script_scope)script_stack.Peek()).smodTimeUnix).Add("compileTimeUnix", ((script_scope)script_stack.Peek()).scompileTimeUnix).Add("userName", ((script_scope)script_stack.Peek()).suserName).Add("computerName", ((script_scope)script_stack.Peek()).scomputerName).Add("userFlags", ((script_scope)script_stack.Peek()).sobjFlags).Add("userFlagsRef", ((script_scope)script_stack.Peek()).kuserFlagsRef).Add("docString", ((script_scope)script_stack.Peek()).sdocString));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.script_stack.Pop();
+				script_stack.Pop();
 			}
 			return script_return;
 		}
 
 		// Token: 0x06000D79 RID: 3449 RVA: 0x0005E7F8 File Offset: 0x0005C9F8
-		public PapyrusGen.header_return header()
+		public header_return header()
 		{
-			PapyrusGen.header_return header_return = new PapyrusGen.header_return();
-			header_return.Start = this.input.LT(1);
+			header_return header_return = new header_return();
+			header_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
 			try
 			{
-				CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_header224);
-				this.Match(this.input, 2, null);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 18, PapyrusGen.FOLLOW_USER_FLAGS_in_header226);
+				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header224);
+				Match(input, 2, null);
+				CommonTree commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header226);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 38)
 				{
 					num = 1;
@@ -178,10 +178,10 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_header230);
+					commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_header230);
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 40)
 				{
 					num4 = 1;
@@ -189,36 +189,36 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					commonTree2 = (CommonTree)this.Match(this.input, 40, PapyrusGen.FOLLOW_DOCSTRING_in_header233);
+					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_header233);
 				}
-				this.Match(this.input, 3, null);
-				((PapyrusGen.script_scope)this.script_stack.Peek()).sobjName = commonTree3.Text;
-				((PapyrusGen.script_scope)this.script_stack.Peek()).sobjFlags = commonTree4.Text;
+				Match(input, 3, null);
+				((script_scope)script_stack.Peek()).sobjName = commonTree3.Text;
+				((script_scope)script_stack.Peek()).sobjFlags = commonTree4.Text;
 				if (commonTree != null)
 				{
-					((PapyrusGen.script_scope)this.script_stack.Peek()).sparentName = commonTree.Text;
+					((script_scope)script_stack.Peek()).sparentName = commonTree.Text;
 				}
 				if (commonTree2 != null)
 				{
-					((PapyrusGen.script_scope)this.script_stack.Peek()).sdocString = commonTree2.Text;
+					((script_scope)script_stack.Peek()).sdocString = commonTree2.Text;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return header_return;
 		}
 
 		// Token: 0x06000D7A RID: 3450 RVA: 0x0005E99C File Offset: 0x0005CB9C
-		public PapyrusGen.definitionOrBlock_return definitionOrBlock()
+		public definitionOrBlock_return definitionOrBlock()
 		{
-			PapyrusGen.definitionOrBlock_return definitionOrBlock_return = new PapyrusGen.definitionOrBlock_return();
-			definitionOrBlock_return.Start = this.input.LT(1);
+			definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return();
+			definitionOrBlock_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 19)
 				{
@@ -256,93 +256,93 @@ namespace pcomps.PCompiler
 				num2 = 5;
 				goto IL_93;
 				IL_7C:
-				NoViableAltException ex = new NoViableAltException("", 4, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 4, 0, input);
 				throw ex;
 				IL_93:
 				switch (num2)
 				{
 				case 1:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_fieldDefinition_in_definitionOrBlock253);
-					PapyrusGen.fieldDefinition_return fieldDefinition_return = this.fieldDefinition();
-					this.state.followingStackPointer--;
-					((PapyrusGen.script_scope)this.script_stack.Peek()).kobjVarDefinitions.Add((fieldDefinition_return != null) ? fieldDefinition_return.ST : null);
+					PushFollow(FOLLOW_fieldDefinition_in_definitionOrBlock253);
+					fieldDefinition_return fieldDefinition_return = fieldDefinition();
+					state.followingStackPointer--;
+					((script_scope)script_stack.Peek()).kobjVarDefinitions.Add((fieldDefinition_return != null) ? fieldDefinition_return.ST : null);
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_function_in_definitionOrBlock264);
-					PapyrusGen.function_return function_return = this.function("", "");
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_function_in_definitionOrBlock264);
+					function_return function_return = function("", "");
+					state.followingStackPointer--;
 					if (((function_return != null) ? function_return.sName : null).ToLowerInvariant() == "onbeginstate")
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).bhasBeginStateEvent = true;
+						((script_scope)script_stack.Peek()).bhasBeginStateEvent = true;
 					}
 					else if (((function_return != null) ? function_return.sName : null).ToLowerInvariant() == "onendstate")
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).bhasEndStateEvent = true;
+						((script_scope)script_stack.Peek()).bhasEndStateEvent = true;
 					}
-					((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState.Add((function_return != null) ? function_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjEmptyState.Add((function_return != null) ? function_return.ST : null);
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_eventFunc_in_definitionOrBlock277);
-					PapyrusGen.eventFunc_return eventFunc_return = this.eventFunc("");
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_eventFunc_in_definitionOrBlock277);
+					eventFunc_return eventFunc_return = eventFunc("");
+					state.followingStackPointer--;
 					if (((eventFunc_return != null) ? eventFunc_return.sName : null).ToLowerInvariant() == "onbeginstate")
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).bhasBeginStateEvent = true;
+						((script_scope)script_stack.Peek()).bhasBeginStateEvent = true;
 					}
 					else if (((eventFunc_return != null) ? eventFunc_return.sName : null).ToLowerInvariant() == "onendstate")
 					{
-						((PapyrusGen.script_scope)this.script_stack.Peek()).bhasEndStateEvent = true;
+						((script_scope)script_stack.Peek()).bhasEndStateEvent = true;
 					}
-					((PapyrusGen.script_scope)this.script_stack.Peek()).kobjEmptyState.Add((eventFunc_return != null) ? eventFunc_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjEmptyState.Add((eventFunc_return != null) ? eventFunc_return.ST : null);
 					break;
 				}
 				case 4:
-					base.PushFollow(PapyrusGen.FOLLOW_stateBlock_in_definitionOrBlock289);
-					this.stateBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_stateBlock_in_definitionOrBlock289);
+					stateBlock();
+					state.followingStackPointer--;
 					break;
 				case 5:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_propertyBlock_in_definitionOrBlock295);
-					PapyrusGen.propertyBlock_return propertyBlock_return = this.propertyBlock();
-					this.state.followingStackPointer--;
-					((PapyrusGen.script_scope)this.script_stack.Peek()).kobjPropDefinitions.Add((propertyBlock_return != null) ? propertyBlock_return.ST : null);
+					PushFollow(FOLLOW_propertyBlock_in_definitionOrBlock295);
+					propertyBlock_return propertyBlock_return = propertyBlock();
+					state.followingStackPointer--;
+					((script_scope)script_stack.Peek()).kobjPropDefinitions.Add((propertyBlock_return != null) ? propertyBlock_return.ST : null);
 					break;
 				}
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return definitionOrBlock_return;
 		}
 
 		// Token: 0x06000D7B RID: 3451 RVA: 0x0005ECE0 File Offset: 0x0005CEE0
-		public PapyrusGen.fieldDefinition_return fieldDefinition()
+		public fieldDefinition_return fieldDefinition()
 		{
-			this.fieldDefinition_stack.Push(new PapyrusGen.fieldDefinition_scope());
-			PapyrusGen.fieldDefinition_return fieldDefinition_return = new PapyrusGen.fieldDefinition_return();
-			fieldDefinition_return.Start = this.input.LT(1);
-			PapyrusGen.constant_return constant_return = null;
-			((PapyrusGen.fieldDefinition_scope)this.fieldDefinition_stack.Peek()).sinitialValue = "None";
+			fieldDefinition_stack.Push(new fieldDefinition_scope());
+			fieldDefinition_return fieldDefinition_return = new fieldDefinition_return();
+			fieldDefinition_return.Start = input.LT(1);
+			constant_return constant_return = null;
+			((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue = "None";
 			try
 			{
-				this.Match(this.input, 5, PapyrusGen.FOLLOW_VAR_in_fieldDefinition323);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_type_in_fieldDefinition325);
-				PapyrusGen.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_fieldDefinition329);
-				CommonTree commonTree2 = (CommonTree)this.Match(this.input, 18, PapyrusGen.FOLLOW_USER_FLAGS_in_fieldDefinition331);
+				Match(input, 5, FOLLOW_VAR_in_fieldDefinition323);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_type_in_fieldDefinition325);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition329);
+				CommonTree commonTree2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition331);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
 				{
 					num = 1;
@@ -350,55 +350,55 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_constant_in_fieldDefinition333);
-					constant_return = this.constant();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_constant_in_fieldDefinition333);
+					constant_return = constant();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
+				Match(input, 3, null);
 				if (((constant_return != null) ? ((CommonTree)constant_return.Start) : null) != null)
 				{
-					((PapyrusGen.fieldDefinition_scope)this.fieldDefinition_stack.Peek()).sinitialValue = ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text;
+					((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue = ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text;
 				}
-				fieldDefinition_return.ST = this.templateLib.GetInstanceOf("variableDef", new PapyrusGen.STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text).Add("userFlags", commonTree2.Text).Add("initialValue", ((PapyrusGen.fieldDefinition_scope)this.fieldDefinition_stack.Peek()).sinitialValue));
+				fieldDefinition_return.ST = templateLib.GetInstanceOf("variableDef", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text).Add("userFlags", commonTree2.Text).Add("initialValue", ((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.fieldDefinition_stack.Pop();
+				fieldDefinition_stack.Pop();
 			}
 			return fieldDefinition_return;
 		}
 
 		// Token: 0x06000D7C RID: 3452 RVA: 0x0005EF28 File Offset: 0x0005D128
-		public PapyrusGen.function_return function(string asState, string asPropertyName)
+		public function_return function(string asState, string asPropertyName)
 		{
-			this.function_stack.Push(new PapyrusGen.function_scope());
-			PapyrusGen.function_return function_return = new PapyrusGen.function_return();
-			function_return.Start = this.input.LT(1);
-			((PapyrusGen.function_scope)this.function_stack.Peek()).sstate = asState;
-			((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName = "";
-			((PapyrusGen.function_scope)this.function_stack.Peek()).spropertyName = asPropertyName;
-			((PapyrusGen.function_scope)this.function_stack.Peek()).sreturnType = "";
-			((PapyrusGen.function_scope)this.function_stack.Peek()).bisNative = false;
-			((PapyrusGen.function_scope)this.function_stack.Peek()).bisGlobal = false;
-			((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncParams = new ArrayList();
-			((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncVarDefinitions = new ArrayList();
-			((PapyrusGen.function_scope)this.function_stack.Peek()).kstatements = new ArrayList();
-			((PapyrusGen.function_scope)this.function_stack.Peek()).suserFlags = "0";
-			((PapyrusGen.function_scope)this.function_stack.Peek()).sdocString = "";
+			function_stack.Push(new function_scope());
+			function_return function_return = new function_return();
+			function_return.Start = input.LT(1);
+			((function_scope)function_stack.Peek()).sstate = asState;
+			((function_scope)function_stack.Peek()).sfuncName = "";
+			((function_scope)function_stack.Peek()).spropertyName = asPropertyName;
+			((function_scope)function_stack.Peek()).sreturnType = "";
+			((function_scope)function_stack.Peek()).bisNative = false;
+			((function_scope)function_stack.Peek()).bisGlobal = false;
+			((function_scope)function_stack.Peek()).kfuncParams = new ArrayList();
+			((function_scope)function_stack.Peek()).kfuncVarDefinitions = new ArrayList();
+			((function_scope)function_stack.Peek()).kstatements = new ArrayList();
+			((function_scope)function_stack.Peek()).suserFlags = "0";
+			((function_scope)function_stack.Peek()).sdocString = "";
 			try
 			{
-				this.Match(this.input, 6, PapyrusGen.FOLLOW_FUNCTION_in_function408);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_functionHeader_in_function410);
-				this.functionHeader();
-				this.state.followingStackPointer--;
+				Match(input, 6, FOLLOW_FUNCTION_in_function408);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_functionHeader_in_function410);
+				functionHeader();
+				state.followingStackPointer--;
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
@@ -406,40 +406,40 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_function412);
-					this.codeBlock(((PapyrusGen.function_scope)this.function_stack.Peek()).kstatements, ((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncVarDefinitions, ((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncType.FunctionScope);
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_codeBlock_in_function412);
+					codeBlock(((function_scope)function_stack.Peek()).kstatements, ((function_scope)function_stack.Peek()).kfuncVarDefinitions, ((function_scope)function_stack.Peek()).kfuncType.FunctionScope);
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				function_return.ST = this.templateLib.GetInstanceOf("functionDef", new PapyrusGen.STAttrMap().Add("funcName", ((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName).Add("returnType", ((PapyrusGen.function_scope)this.function_stack.Peek()).sreturnType).Add("isNative", ((PapyrusGen.function_scope)this.function_stack.Peek()).bisNative).Add("isGlobal", ((PapyrusGen.function_scope)this.function_stack.Peek()).bisGlobal).Add("funcParams", ((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncParams).Add("funcVars", ((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncVarDefinitions).Add("userFlags", ((PapyrusGen.function_scope)this.function_stack.Peek()).suserFlags).Add("body", ((PapyrusGen.function_scope)this.function_stack.Peek()).kstatements).Add("docString", ((PapyrusGen.function_scope)this.function_stack.Peek()).sdocString));
-				function_return.sName = ((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName;
+				Match(input, 3, null);
+				function_return.ST = templateLib.GetInstanceOf("functionDef", new STAttrMap().Add("funcName", ((function_scope)function_stack.Peek()).sfuncName).Add("returnType", ((function_scope)function_stack.Peek()).sreturnType).Add("isNative", ((function_scope)function_stack.Peek()).bisNative).Add("isGlobal", ((function_scope)function_stack.Peek()).bisGlobal).Add("funcParams", ((function_scope)function_stack.Peek()).kfuncParams).Add("funcVars", ((function_scope)function_stack.Peek()).kfuncVarDefinitions).Add("userFlags", ((function_scope)function_stack.Peek()).suserFlags).Add("body", ((function_scope)function_stack.Peek()).kstatements).Add("docString", ((function_scope)function_stack.Peek()).sdocString));
+				function_return.sName = ((function_scope)function_stack.Peek()).sfuncName;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.function_stack.Pop();
+				function_stack.Pop();
 			}
 			return function_return;
 		}
 
 		// Token: 0x06000D7D RID: 3453 RVA: 0x0005F2FC File Offset: 0x0005D4FC
-		public PapyrusGen.functionHeader_return functionHeader()
+		public functionHeader_return functionHeader()
 		{
-			PapyrusGen.functionHeader_return functionHeader_return = new PapyrusGen.functionHeader_return();
-			functionHeader_return.Start = this.input.LT(1);
+			functionHeader_return functionHeader_return = new functionHeader_return();
+			functionHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
-			PapyrusGen.callParameters_return callParameters_return = null;
-			PapyrusGen.type_return type_return = null;
+			callParameters_return callParameters_return = null;
+			type_return type_return = null;
 			try
 			{
-				this.Match(this.input, 8, PapyrusGen.FOLLOW_HEADER_in_functionHeader504);
-				this.Match(this.input, 2, null);
-				int num = this.input.LA(1);
+				Match(input, 8, FOLLOW_HEADER_in_functionHeader504);
+				Match(input, 2, null);
+				int num = input.LA(1);
 				int num2;
 				if (num == 38 || num == 55)
 				{
@@ -449,7 +449,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 92)
 					{
-						NoViableAltException ex = new NoViableAltException("", 7, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 7, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -457,18 +457,18 @@ namespace pcomps.PCompiler
 				switch (num2)
 				{
 				case 1:
-					base.PushFollow(PapyrusGen.FOLLOW_type_in_functionHeader507);
-					type_return = this.type();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_type_in_functionHeader507);
+					type_return = type();
+					state.followingStackPointer--;
 					break;
 				case 2:
-					commonTree = (CommonTree)this.Match(this.input, 92, PapyrusGen.FOLLOW_NONE_in_functionHeader511);
+					commonTree = (CommonTree)Match(input, 92, FOLLOW_NONE_in_functionHeader511);
 					break;
 				}
-				CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_functionHeader516);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 18, PapyrusGen.FOLLOW_USER_FLAGS_in_functionHeader518);
+				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader516);
+				CommonTree commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader518);
 				int num3 = 2;
-				int num4 = this.input.LA(1);
+				int num4 = input.LA(1);
 				if (num4 == 9)
 				{
 					num3 = 1;
@@ -476,14 +476,14 @@ namespace pcomps.PCompiler
 				int num5 = num3;
 				if (num5 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_callParameters_in_functionHeader520);
-					callParameters_return = this.callParameters();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_callParameters_in_functionHeader520);
+					callParameters_return = callParameters();
+					state.followingStackPointer--;
 				}
 				for (;;)
 				{
 					int num6 = 2;
-					int num7 = this.input.LA(1);
+					int num7 = input.LA(1);
 					if (num7 >= 46 && num7 <= 47)
 					{
 						num6 = 1;
@@ -493,12 +493,12 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_functionModifier_in_functionHeader523);
-					this.functionModifier();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_functionModifier_in_functionHeader523);
+					functionModifier();
+					state.followingStackPointer--;
 				}
 				int num9 = 2;
-				int num10 = this.input.LA(1);
+				int num10 = input.LA(1);
 				if (num10 == 40)
 				{
 					num9 = 1;
@@ -506,53 +506,53 @@ namespace pcomps.PCompiler
 				int num11 = num9;
 				if (num11 == 1)
 				{
-					commonTree2 = (CommonTree)this.Match(this.input, 40, PapyrusGen.FOLLOW_DOCSTRING_in_functionHeader526);
+					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_functionHeader526);
 				}
-				this.Match(this.input, 3, null);
-				((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
-				((PapyrusGen.function_scope)this.function_stack.Peek()).sreturnType = ((((type_return != null) ? ((CommonTree)type_return.Start) : null) != null) ? ((type_return != null) ? type_return.sTypeString : null) : commonTree.Text);
-				((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName = commonTree3.Text;
-				((PapyrusGen.function_scope)this.function_stack.Peek()).suserFlags = commonTree4.Text;
+				Match(input, 3, null);
+				((function_scope)function_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
+				((function_scope)function_stack.Peek()).sreturnType = ((((type_return != null) ? ((CommonTree)type_return.Start) : null) != null) ? ((type_return != null) ? type_return.sTypeString : null) : commonTree.Text);
+				((function_scope)function_stack.Peek()).sfuncName = commonTree3.Text;
+				((function_scope)function_stack.Peek()).suserFlags = commonTree4.Text;
 				if (commonTree2 != null)
 				{
-					((PapyrusGen.function_scope)this.function_stack.Peek()).sdocString = commonTree2.Text;
+					((function_scope)function_stack.Peek()).sdocString = commonTree2.Text;
 				}
-				if (((PapyrusGen.function_scope)this.function_stack.Peek()).spropertyName == "")
+				if (((function_scope)function_stack.Peek()).spropertyName == "")
 				{
-					this.kObjType.TryGetFunction(((PapyrusGen.function_scope)this.function_stack.Peek()).sstate, ((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName, out ((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncType);
+					kObjType.TryGetFunction(((function_scope)function_stack.Peek()).sstate, ((function_scope)function_stack.Peek()).sfuncName, out ((function_scope)function_stack.Peek()).kfuncType);
 				}
 				else
 				{
 					ScriptPropertyType scriptPropertyType;
-					this.kObjType.TryGetProperty(((PapyrusGen.function_scope)this.function_stack.Peek()).spropertyName, out scriptPropertyType);
-					string a = ((PapyrusGen.function_scope)this.function_stack.Peek()).sfuncName.ToLowerInvariant();
+					kObjType.TryGetProperty(((function_scope)function_stack.Peek()).spropertyName, out scriptPropertyType);
+					string a = ((function_scope)function_stack.Peek()).sfuncName.ToLowerInvariant();
 					if (a == "get")
 					{
-						((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
+						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
 					}
 					else
 					{
-						((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncType = scriptPropertyType.kSetFunction;
+						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kSetFunction;
 					}
 				}
-				this.MangleFunctionVariables(((PapyrusGen.function_scope)this.function_stack.Peek()).kfuncType);
+				MangleFunctionVariables(((function_scope)function_stack.Peek()).kfuncType);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return functionHeader_return;
 		}
 
 		// Token: 0x06000D7E RID: 3454 RVA: 0x0005F70C File Offset: 0x0005D90C
-		public PapyrusGen.functionModifier_return functionModifier()
+		public functionModifier_return functionModifier()
 		{
-			PapyrusGen.functionModifier_return functionModifier_return = new PapyrusGen.functionModifier_return();
-			functionModifier_return.Start = this.input.LT(1);
+			functionModifier_return functionModifier_return = new functionModifier_return();
+			functionModifier_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 47)
 				{
@@ -562,7 +562,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 46)
 					{
-						NoViableAltException ex = new NoViableAltException("", 11, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 11, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -570,48 +570,48 @@ namespace pcomps.PCompiler
 				switch (num2)
 				{
 				case 1:
-					this.Match(this.input, 47, PapyrusGen.FOLLOW_NATIVE_in_functionModifier545);
-					((PapyrusGen.function_scope)this.function_stack.Peek()).bisNative = true;
+					Match(input, 47, FOLLOW_NATIVE_in_functionModifier545);
+					((function_scope)function_stack.Peek()).bisNative = true;
 					break;
 				case 2:
-					this.Match(this.input, 46, PapyrusGen.FOLLOW_GLOBAL_in_functionModifier553);
-					((PapyrusGen.function_scope)this.function_stack.Peek()).bisGlobal = true;
+					Match(input, 46, FOLLOW_GLOBAL_in_functionModifier553);
+					((function_scope)function_stack.Peek()).bisGlobal = true;
 					break;
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return functionModifier_return;
 		}
 
 		// Token: 0x06000D7F RID: 3455 RVA: 0x0005F804 File Offset: 0x0005DA04
-		public PapyrusGen.eventFunc_return eventFunc(string asState)
+		public eventFunc_return eventFunc(string asState)
 		{
-			this.eventFunc_stack.Push(new PapyrusGen.eventFunc_scope());
-			PapyrusGen.eventFunc_return eventFunc_return = new PapyrusGen.eventFunc_return();
-			eventFunc_return.Start = this.input.LT(1);
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sstate = asState;
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName = "";
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sreturnType = "";
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).bisNative = false;
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).bisGlobal = false;
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncParams = new ArrayList();
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncVarDefinitions = new ArrayList();
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kstatements = new ArrayList();
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).suserFlags = "0";
-			((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sdocString = "";
+			eventFunc_stack.Push(new eventFunc_scope());
+			eventFunc_return eventFunc_return = new eventFunc_return();
+			eventFunc_return.Start = input.LT(1);
+			((eventFunc_scope)eventFunc_stack.Peek()).sstate = asState;
+			((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = "";
+			((eventFunc_scope)eventFunc_stack.Peek()).sreturnType = "";
+			((eventFunc_scope)eventFunc_stack.Peek()).bisNative = false;
+			((eventFunc_scope)eventFunc_stack.Peek()).bisGlobal = false;
+			((eventFunc_scope)eventFunc_stack.Peek()).kfuncParams = new ArrayList();
+			((eventFunc_scope)eventFunc_stack.Peek()).kfuncVarDefinitions = new ArrayList();
+			((eventFunc_scope)eventFunc_stack.Peek()).kstatements = new ArrayList();
+			((eventFunc_scope)eventFunc_stack.Peek()).suserFlags = "0";
+			((eventFunc_scope)eventFunc_stack.Peek()).sdocString = "";
 			try
 			{
-				this.Match(this.input, 7, PapyrusGen.FOLLOW_EVENT_in_eventFunc588);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_eventHeader_in_eventFunc590);
-				this.eventHeader();
-				this.state.followingStackPointer--;
+				Match(input, 7, FOLLOW_EVENT_in_eventFunc588);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_eventHeader_in_eventFunc590);
+				eventHeader();
+				state.followingStackPointer--;
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
@@ -619,43 +619,43 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_eventFunc592);
-					this.codeBlock(((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kstatements, ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncVarDefinitions, ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType.FunctionScope);
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_codeBlock_in_eventFunc592);
+					codeBlock(((eventFunc_scope)eventFunc_stack.Peek()).kstatements, ((eventFunc_scope)eventFunc_stack.Peek()).kfuncVarDefinitions, ((eventFunc_scope)eventFunc_stack.Peek()).kfuncType.FunctionScope);
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				eventFunc_return.ST = this.templateLib.GetInstanceOf("functionDef", new PapyrusGen.STAttrMap().Add("funcName", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName).Add("returnType", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sreturnType).Add("isNative", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).bisNative).Add("isGlobal", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).bisGlobal).Add("funcParams", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncParams).Add("funcVars", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncVarDefinitions).Add("userFlags", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).suserFlags).Add("body", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kstatements).Add("docString", ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sdocString));
-				eventFunc_return.sName = ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName;
+				Match(input, 3, null);
+				eventFunc_return.ST = templateLib.GetInstanceOf("functionDef", new STAttrMap().Add("funcName", ((eventFunc_scope)eventFunc_stack.Peek()).sfuncName).Add("returnType", ((eventFunc_scope)eventFunc_stack.Peek()).sreturnType).Add("isNative", ((eventFunc_scope)eventFunc_stack.Peek()).bisNative).Add("isGlobal", ((eventFunc_scope)eventFunc_stack.Peek()).bisGlobal).Add("funcParams", ((eventFunc_scope)eventFunc_stack.Peek()).kfuncParams).Add("funcVars", ((eventFunc_scope)eventFunc_stack.Peek()).kfuncVarDefinitions).Add("userFlags", ((eventFunc_scope)eventFunc_stack.Peek()).suserFlags).Add("body", ((eventFunc_scope)eventFunc_stack.Peek()).kstatements).Add("docString", ((eventFunc_scope)eventFunc_stack.Peek()).sdocString));
+				eventFunc_return.sName = ((eventFunc_scope)eventFunc_stack.Peek()).sfuncName;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.eventFunc_stack.Pop();
+				eventFunc_stack.Pop();
 			}
 			return eventFunc_return;
 		}
 
 		// Token: 0x06000D80 RID: 3456 RVA: 0x0005FBC4 File Offset: 0x0005DDC4
-		public PapyrusGen.eventHeader_return eventHeader()
+		public eventHeader_return eventHeader()
 		{
-			PapyrusGen.eventHeader_return eventHeader_return = new PapyrusGen.eventHeader_return();
-			eventHeader_return.Start = this.input.LT(1);
+			eventHeader_return eventHeader_return = new eventHeader_return();
+			eventHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
-			PapyrusGen.callParameters_return callParameters_return = null;
+			callParameters_return callParameters_return = null;
 			try
 			{
-				this.Match(this.input, 8, PapyrusGen.FOLLOW_HEADER_in_eventHeader684);
-				this.Match(this.input, 2, null);
-				CommonTree commonTree3 = (CommonTree)this.Match(this.input, 92, PapyrusGen.FOLLOW_NONE_in_eventHeader686);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_eventHeader688);
-				CommonTree commonTree5 = (CommonTree)this.Match(this.input, 18, PapyrusGen.FOLLOW_USER_FLAGS_in_eventHeader690);
+				Match(input, 8, FOLLOW_HEADER_in_eventHeader684);
+				Match(input, 2, null);
+				CommonTree commonTree3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader686);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader688);
+				CommonTree commonTree5 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader690);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 9)
 				{
 					num = 1;
@@ -663,12 +663,12 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_callParameters_in_eventHeader692);
-					callParameters_return = this.callParameters();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_callParameters_in_eventHeader692);
+					callParameters_return = callParameters();
+					state.followingStackPointer--;
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 47)
 				{
 					num4 = 1;
@@ -676,10 +676,10 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					commonTree = (CommonTree)this.Match(this.input, 47, PapyrusGen.FOLLOW_NATIVE_in_eventHeader695);
+					commonTree = (CommonTree)Match(input, 47, FOLLOW_NATIVE_in_eventHeader695);
 				}
 				int num7 = 2;
-				int num8 = this.input.LA(1);
+				int num8 = input.LA(1);
 				if (num8 == 40)
 				{
 					num7 = 1;
@@ -687,37 +687,37 @@ namespace pcomps.PCompiler
 				int num9 = num7;
 				if (num9 == 1)
 				{
-					commonTree2 = (CommonTree)this.Match(this.input, 40, PapyrusGen.FOLLOW_DOCSTRING_in_eventHeader698);
+					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_eventHeader698);
 				}
-				this.Match(this.input, 3, null);
-				((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
-				((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sreturnType = commonTree3.Text;
-				((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName = commonTree4.Text;
+				Match(input, 3, null);
+				((eventFunc_scope)eventFunc_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
+				((eventFunc_scope)eventFunc_stack.Peek()).sreturnType = commonTree3.Text;
+				((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = commonTree4.Text;
 				if (commonTree != null)
 				{
-					((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).bisNative = true;
+					((eventFunc_scope)eventFunc_stack.Peek()).bisNative = true;
 				}
-				((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).suserFlags = commonTree5.Text;
+				((eventFunc_scope)eventFunc_stack.Peek()).suserFlags = commonTree5.Text;
 				if (commonTree2 != null)
 				{
-					((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sdocString = commonTree2.Text;
+					((eventFunc_scope)eventFunc_stack.Peek()).sdocString = commonTree2.Text;
 				}
-				this.kObjType.TryGetFunction(((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sstate, ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName, out ((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType);
-				this.MangleFunctionVariables(((PapyrusGen.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType);
+				kObjType.TryGetFunction(((eventFunc_scope)eventFunc_stack.Peek()).sstate, ((eventFunc_scope)eventFunc_stack.Peek()).sfuncName, out ((eventFunc_scope)eventFunc_stack.Peek()).kfuncType);
+				MangleFunctionVariables(((eventFunc_scope)eventFunc_stack.Peek()).kfuncType);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return eventHeader_return;
 		}
 
 		// Token: 0x06000D81 RID: 3457 RVA: 0x0005FE84 File Offset: 0x0005E084
-		public PapyrusGen.callParameters_return callParameters()
+		public callParameters_return callParameters()
 		{
-			PapyrusGen.callParameters_return callParameters_return = new PapyrusGen.callParameters_return();
-			callParameters_return.Start = this.input.LT(1);
+			callParameters_return callParameters_return = new callParameters_return();
+			callParameters_return.Start = input.LT(1);
 			IList list = null;
 			try
 			{
@@ -725,7 +725,7 @@ namespace pcomps.PCompiler
 				for (;;)
 				{
 					int num2 = 2;
-					int num3 = this.input.LA(1);
+					int num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
@@ -735,9 +735,9 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_callParameter_in_callParameters725);
-					PapyrusGen.callParameter_return callParameter_return = this.callParameter();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_callParameter_in_callParameters725);
+					callParameter_return callParameter_return = callParameter();
+					state.followingStackPointer--;
 					if (list == null)
 					{
 						list = new ArrayList();
@@ -747,34 +747,34 @@ namespace pcomps.PCompiler
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(16, this.input);
+					EarlyExitException ex = new EarlyExitException(16, input);
 					throw ex;
 				}
 				callParameters_return.kParams = list;
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return callParameters_return;
 		}
 
 		// Token: 0x06000D82 RID: 3458 RVA: 0x0005FF64 File Offset: 0x0005E164
-		public PapyrusGen.callParameter_return callParameter()
+		public callParameter_return callParameter()
 		{
-			PapyrusGen.callParameter_return callParameter_return = new PapyrusGen.callParameter_return();
-			callParameter_return.Start = this.input.LT(1);
+			callParameter_return callParameter_return = new callParameter_return();
+			callParameter_return.Start = input.LT(1);
 			try
 			{
-				this.Match(this.input, 9, PapyrusGen.FOLLOW_PARAM_in_callParameter742);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_type_in_callParameter744);
-				PapyrusGen.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_callParameter748);
+				Match(input, 9, FOLLOW_PARAM_in_callParameter742);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_type_in_callParameter744);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter748);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
 				{
 					num = 1;
@@ -782,35 +782,35 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_constant_in_callParameter750);
-					this.constant();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_constant_in_callParameter750);
+					constant();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				callParameter_return.ST = this.templateLib.GetInstanceOf("funcParam", new PapyrusGen.STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text));
+				Match(input, 3, null);
+				callParameter_return.ST = templateLib.GetInstanceOf("funcParam", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return callParameter_return;
 		}
 
 		// Token: 0x06000D83 RID: 3459 RVA: 0x000600C8 File Offset: 0x0005E2C8
-		public PapyrusGen.stateBlock_return stateBlock()
+		public stateBlock_return stateBlock()
 		{
-			PapyrusGen.stateBlock_return stateBlock_return = new PapyrusGen.stateBlock_return();
-			stateBlock_return.Start = this.input.LT(1);
+			stateBlock_return stateBlock_return = new stateBlock_return();
+			stateBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			IList list = null;
 			try
 			{
-				this.Match(this.input, 51, PapyrusGen.FOLLOW_STATE_in_stateBlock787);
-				this.Match(this.input, 2, null);
-				CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_stateBlock789);
+				Match(input, 51, FOLLOW_STATE_in_stateBlock787);
+				Match(input, 2, null);
+				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock789);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 50)
 				{
 					num = 1;
@@ -818,12 +818,12 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree = (CommonTree)this.Match(this.input, 50, PapyrusGen.FOLLOW_AUTO_in_stateBlock791);
+					commonTree = (CommonTree)Match(input, 50, FOLLOW_AUTO_in_stateBlock791);
 				}
 				for (;;)
 				{
 					int num4 = 2;
-					int num5 = this.input.LA(1);
+					int num5 = input.LA(1);
 					if (num5 >= 6 && num5 <= 7)
 					{
 						num4 = 1;
@@ -833,48 +833,48 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_stateFuncOrEvent_in_stateBlock797);
-					PapyrusGen.stateFuncOrEvent_return stateFuncOrEvent_return = this.stateFuncOrEvent(commonTree2.Text);
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_stateFuncOrEvent_in_stateBlock797);
+					stateFuncOrEvent_return stateFuncOrEvent_return = stateFuncOrEvent(commonTree2.Text);
+					state.followingStackPointer--;
 					if (list == null)
 					{
 						list = new ArrayList();
 					}
 					list.Add(stateFuncOrEvent_return.Template);
 				}
-				this.Match(this.input, 3, null);
+				Match(input, 3, null);
 				string key = commonTree2.Text.ToLowerInvariant();
-				object obj = ((PapyrusGen.script_scope)this.script_stack.Peek()).kstates[key];
+				object obj = ((script_scope)script_stack.Peek()).kstates[key];
 				string val = "";
 				if (obj != null)
 				{
 					val = obj.ToString();
 				}
-				StringTemplate instanceOf = this.TemplateLib.GetInstanceOf("stateConcatinate");
+				StringTemplate instanceOf = TemplateLib.GetInstanceOf("stateConcatinate");
 				instanceOf.SetAttribute("prevText", val);
 				instanceOf.SetAttribute("funcs", list);
-				((PapyrusGen.script_scope)this.script_stack.Peek()).kstates[key] = instanceOf.ToString();
+				((script_scope)script_stack.Peek()).kstates[key] = instanceOf.ToString();
 				if (commonTree != null)
 				{
-					((PapyrusGen.script_scope)this.script_stack.Peek()).sinitialState = commonTree2.Text;
+					((script_scope)script_stack.Peek()).sinitialState = commonTree2.Text;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return stateBlock_return;
 		}
 
 		// Token: 0x06000D84 RID: 3460 RVA: 0x000602D4 File Offset: 0x0005E4D4
-		public PapyrusGen.stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
+		public stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
 		{
-			PapyrusGen.stateFuncOrEvent_return stateFuncOrEvent_return = new PapyrusGen.stateFuncOrEvent_return();
-			stateFuncOrEvent_return.Start = this.input.LT(1);
+			stateFuncOrEvent_return stateFuncOrEvent_return = new stateFuncOrEvent_return();
+			stateFuncOrEvent_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 6)
 				{
@@ -884,7 +884,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 7)
 					{
-						NoViableAltException ex = new NoViableAltException("", 20, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 20, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -893,17 +893,17 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_function_in_stateFuncOrEvent819);
-					PapyrusGen.function_return function_return = this.function(asStateName, "");
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_function_in_stateFuncOrEvent819);
+					function_return function_return = function(asStateName, "");
+					state.followingStackPointer--;
 					stateFuncOrEvent_return.ST = ((function_return != null) ? function_return.ST : null);
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_eventFunc_in_stateFuncOrEvent832);
-					PapyrusGen.eventFunc_return eventFunc_return = this.eventFunc(asStateName);
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_eventFunc_in_stateFuncOrEvent832);
+					eventFunc_return eventFunc_return = eventFunc(asStateName);
+					state.followingStackPointer--;
 					stateFuncOrEvent_return.ST = ((eventFunc_return != null) ? eventFunc_return.ST : null);
 					break;
 				}
@@ -911,25 +911,25 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return stateFuncOrEvent_return;
 		}
 
 		// Token: 0x06000D85 RID: 3461 RVA: 0x000603F4 File Offset: 0x0005E5F4
-		public PapyrusGen.propertyBlock_return propertyBlock()
+		public propertyBlock_return propertyBlock()
 		{
-			this.propertyBlock_stack.Push(new PapyrusGen.propertyBlock_scope());
-			PapyrusGen.propertyBlock_return propertyBlock_return = new PapyrusGen.propertyBlock_return();
-			propertyBlock_return.Start = this.input.LT(1);
-			((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName = "";
-			((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropType = "";
-			((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).suserFlags = "0";
-			((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).sdocString = "";
+			propertyBlock_stack.Push(new propertyBlock_scope());
+			propertyBlock_return propertyBlock_return = new propertyBlock_return();
+			propertyBlock_return.Start = input.LT(1);
+			((propertyBlock_scope)propertyBlock_stack.Peek()).spropName = "";
+			((propertyBlock_scope)propertyBlock_stack.Peek()).spropType = "";
+			((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags = "0";
+			((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString = "";
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 54)
 				{
@@ -939,7 +939,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 19)
 					{
-						NoViableAltException ex = new NoViableAltException("", 21, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 21, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -948,64 +948,64 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					this.Match(this.input, 54, PapyrusGen.FOLLOW_PROPERTY_in_propertyBlock861);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_propertyHeader_in_propertyBlock863);
-					this.propertyHeader();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_propertyFunc_in_propertyBlock867);
-					PapyrusGen.propertyFunc_return propertyFunc_return = this.propertyFunc(((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName);
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_propertyFunc_in_propertyBlock872);
-					PapyrusGen.propertyFunc_return propertyFunc_return2 = this.propertyFunc(((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName);
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					propertyBlock_return.ST = this.templateLib.GetInstanceOf("fullProp", new PapyrusGen.STAttrMap().Add("name", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName).Add("type", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropType).Add("get", (propertyFunc_return != null) ? propertyFunc_return.ST : null).Add("set", (propertyFunc_return2 != null) ? propertyFunc_return2.ST : null).Add("userFlags", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).suserFlags).Add("docString", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).sdocString));
+					Match(input, 54, FOLLOW_PROPERTY_in_propertyBlock861);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_propertyHeader_in_propertyBlock863);
+					propertyHeader();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_propertyFunc_in_propertyBlock867);
+					propertyFunc_return propertyFunc_return = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_propertyFunc_in_propertyBlock872);
+					propertyFunc_return propertyFunc_return2 = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					propertyBlock_return.ST = templateLib.GetInstanceOf("fullProp", new STAttrMap().Add("name", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropName).Add("type", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropType).Add("get", (propertyFunc_return != null) ? propertyFunc_return.ST : null).Add("set", (propertyFunc_return2 != null) ? propertyFunc_return2.ST : null).Add("userFlags", ((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags).Add("docString", ((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString));
 					break;
 				}
 				case 2:
 				{
-					this.Match(this.input, 19, PapyrusGen.FOLLOW_AUTOPROP_in_propertyBlock922);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_propertyHeader_in_propertyBlock924);
-					this.propertyHeader();
-					this.state.followingStackPointer--;
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_propertyBlock928);
-					this.Match(this.input, 3, null);
-					propertyBlock_return.ST = this.templateLib.GetInstanceOf("autoProp", new PapyrusGen.STAttrMap().Add("name", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName).Add("type", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropType).Add("var", commonTree.Text).Add("userFlags", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).suserFlags).Add("docString", ((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).sdocString));
+					Match(input, 19, FOLLOW_AUTOPROP_in_propertyBlock922);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_propertyHeader_in_propertyBlock924);
+					propertyHeader();
+					state.followingStackPointer--;
+					CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock928);
+					Match(input, 3, null);
+					propertyBlock_return.ST = templateLib.GetInstanceOf("autoProp", new STAttrMap().Add("name", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropName).Add("type", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropType).Add("var", commonTree.Text).Add("userFlags", ((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags).Add("docString", ((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString));
 					break;
 				}
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.propertyBlock_stack.Pop();
+				propertyBlock_stack.Pop();
 			}
 			return propertyBlock_return;
 		}
 
 		// Token: 0x06000D86 RID: 3462 RVA: 0x000607FC File Offset: 0x0005E9FC
-		public PapyrusGen.propertyHeader_return propertyHeader()
+		public propertyHeader_return propertyHeader()
 		{
-			PapyrusGen.propertyHeader_return propertyHeader_return = new PapyrusGen.propertyHeader_return();
-			propertyHeader_return.Start = this.input.LT(1);
+			propertyHeader_return propertyHeader_return = new propertyHeader_return();
+			propertyHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				this.Match(this.input, 8, PapyrusGen.FOLLOW_HEADER_in_propertyHeader978);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_type_in_propertyHeader980);
-				PapyrusGen.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_propertyHeader984);
-				CommonTree commonTree3 = (CommonTree)this.Match(this.input, 18, PapyrusGen.FOLLOW_USER_FLAGS_in_propertyHeader986);
+				Match(input, 8, FOLLOW_HEADER_in_propertyHeader978);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_type_in_propertyHeader980);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader984);
+				CommonTree commonTree3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader986);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 40)
 				{
 					num = 1;
@@ -1013,39 +1013,39 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree = (CommonTree)this.Match(this.input, 40, PapyrusGen.FOLLOW_DOCSTRING_in_propertyHeader988);
+					commonTree = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_propertyHeader988);
 				}
-				this.Match(this.input, 3, null);
-				((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropName = commonTree2.Text;
-				((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).spropType = ((type_return != null) ? type_return.sTypeString : null);
-				((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).suserFlags = commonTree3.Text;
+				Match(input, 3, null);
+				((propertyBlock_scope)propertyBlock_stack.Peek()).spropName = commonTree2.Text;
+				((propertyBlock_scope)propertyBlock_stack.Peek()).spropType = ((type_return != null) ? type_return.sTypeString : null);
+				((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags = commonTree3.Text;
 				if (commonTree != null)
 				{
-					((PapyrusGen.propertyBlock_scope)this.propertyBlock_stack.Peek()).sdocString = commonTree.Text;
+					((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString = commonTree.Text;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return propertyHeader_return;
 		}
 
 		// Token: 0x06000D87 RID: 3463 RVA: 0x000609A0 File Offset: 0x0005EBA0
-		public PapyrusGen.propertyFunc_return propertyFunc(string asPropName)
+		public propertyFunc_return propertyFunc(string asPropName)
 		{
-			PapyrusGen.propertyFunc_return propertyFunc_return = new PapyrusGen.propertyFunc_return();
-			propertyFunc_return.Start = this.input.LT(1);
+			propertyFunc_return propertyFunc_return = new propertyFunc_return();
+			propertyFunc_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				if (num != 17)
 				{
-					NoViableAltException ex = new NoViableAltException("", 23, 0, this.input);
+					NoViableAltException ex = new NoViableAltException("", 23, 0, input);
 					throw ex;
 				}
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -1055,7 +1055,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 3 && num2 != 17)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 23, 1, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 23, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -1064,47 +1064,47 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					this.Match(this.input, 17, PapyrusGen.FOLLOW_PROPFUNC_in_propertyFunc1009);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_function_in_propertyFunc1011);
-					PapyrusGen.function_return function_return = this.function("", asPropName);
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
+					Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc1009);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_function_in_propertyFunc1011);
+					function_return function_return = function("", asPropName);
+					state.followingStackPointer--;
+					Match(input, 3, null);
 					propertyFunc_return.ST = ((function_return != null) ? function_return.ST : null);
 					break;
 				}
 				case 2:
-					this.Match(this.input, 17, PapyrusGen.FOLLOW_PROPFUNC_in_propertyFunc1025);
+					Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc1025);
 					break;
 				}
 			}
 			catch (RecognitionException ex3)
 			{
-				this.ReportError(ex3);
-				this.Recover(this.input, ex3);
+				ReportError(ex3);
+				Recover(input, ex3);
 			}
 			return propertyFunc_return;
 		}
 
 		// Token: 0x06000D88 RID: 3464 RVA: 0x00060B08 File Offset: 0x0005ED08
-		public PapyrusGen.codeBlock_return codeBlock(IList akStatements, IList akVarDefinitions, ScriptScope akCurrentScope)
+		public codeBlock_return codeBlock(IList akStatements, IList akVarDefinitions, ScriptScope akCurrentScope)
 		{
-			this.codeBlock_stack.Push(new PapyrusGen.codeBlock_scope());
-			PapyrusGen.codeBlock_return codeBlock_return = new PapyrusGen.codeBlock_return();
-			codeBlock_return.Start = this.input.LT(1);
-			((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs = akVarDefinitions;
-			((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
-			((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild = 0;
+			codeBlock_stack.Push(new codeBlock_scope());
+			codeBlock_return codeBlock_return = new codeBlock_return();
+			codeBlock_return.Start = input.LT(1);
+			((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs = akVarDefinitions;
+			((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild = 0;
 			try
 			{
-				this.Match(this.input, 10, PapyrusGen.FOLLOW_BLOCK_in_codeBlock1049);
-				if (this.input.LA(1) == 2)
+				Match(input, 10, FOLLOW_BLOCK_in_codeBlock1049);
+				if (input.LA(1) == 2)
 				{
-					this.Match(this.input, 2, null);
+					Match(input, 2, null);
 					for (;;)
 					{
 						int num = 2;
-						int num2 = this.input.LA(1);
+						int num2 = input.LA(1);
 						if (num2 == 5 || (num2 >= 11 && num2 <= 13) || (num2 == 15 || num2 == 20 || num2 == 22 || (num2 >= 24 && num2 <= 36)) || (num2 == 38 || num2 == 41 || num2 == 62 || (num2 >= 65 && num2 <= 72)) || (num2 >= 77 && num2 <= 84) || num2 == 88 || (num2 >= 90 && num2 <= 93))
 						{
 							num = 1;
@@ -1114,38 +1114,38 @@ namespace pcomps.PCompiler
 						{
 							break;
 						}
-						base.PushFollow(PapyrusGen.FOLLOW_statement_in_codeBlock1057);
-						PapyrusGen.statement_return statement_return = this.statement();
-						this.state.followingStackPointer--;
+						PushFollow(FOLLOW_statement_in_codeBlock1057);
+						statement_return statement_return = statement();
+						state.followingStackPointer--;
 						if (((statement_return != null) ? statement_return.ST : null) != null)
 						{
 							akStatements.Add((statement_return != null) ? statement_return.ST : null);
 						}
 					}
-					this.Match(this.input, 3, null);
+					Match(input, 3, null);
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.codeBlock_stack.Pop();
+				codeBlock_stack.Pop();
 			}
 			return codeBlock_return;
 		}
 
 		// Token: 0x06000D89 RID: 3465 RVA: 0x00060CE8 File Offset: 0x0005EEE8
-		public PapyrusGen.statement_return statement()
+		public statement_return statement()
 		{
-			this.statement_stack.Push(new PapyrusGen.statement_scope());
-			PapyrusGen.statement_return statement_return = new PapyrusGen.statement_return();
-			statement_return.Start = this.input.LT(1);
+			statement_stack.Push(new statement_scope());
+			statement_return statement_return = new statement_return();
+			statement_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1243,20 +1243,20 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_1B3;
 				IL_19B:
-				NoViableAltException ex = new NoViableAltException("", 25, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 25, 0, input);
 				throw ex;
 				IL_1B3:
 				switch (num2)
 				{
 				case 1:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_localDefinition_in_statement1086);
-					PapyrusGen.localDefinition_return localDefinition_return = this.localDefinition();
-					this.state.followingStackPointer--;
-					((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs.Add((localDefinition_return != null) ? localDefinition_return.ST : null);
+					PushFollow(FOLLOW_localDefinition_in_statement1086);
+					localDefinition_return localDefinition_return = localDefinition();
+					state.followingStackPointer--;
+					((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs.Add((localDefinition_return != null) ? localDefinition_return.ST : null);
 					if (((localDefinition_return != null) ? localDefinition_return.sExprVar : null) != "")
 					{
-						statement_return.ST = this.templateLib.GetInstanceOf("singleOpCommand", new PapyrusGen.STAttrMap().Add("command", "ASSIGN").Add("target", (localDefinition_return != null) ? localDefinition_return.sVarName : null).Add("source", (localDefinition_return != null) ? localDefinition_return.sExprVar : null).Add("autoCast", (localDefinition_return != null) ? localDefinition_return.kAutoCastST : null).Add("extraExpressions", (localDefinition_return != null) ? localDefinition_return.kExprST : null).Add("lineNo", (localDefinition_return != null) ? localDefinition_return.iLineNo : 0));
+						statement_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "ASSIGN").Add("target", (localDefinition_return != null) ? localDefinition_return.sVarName : null).Add("source", (localDefinition_return != null) ? localDefinition_return.sExprVar : null).Add("autoCast", (localDefinition_return != null) ? localDefinition_return.kAutoCastST : null).Add("extraExpressions", (localDefinition_return != null) ? localDefinition_return.kExprST : null).Add("lineNo", (localDefinition_return != null) ? localDefinition_return.iLineNo : 0));
 					}
 					else
 					{
@@ -1266,52 +1266,52 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 41, PapyrusGen.FOLLOW_EQUALS_in_statement1147);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_statement1149);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_statement1151);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_l_value_in_statement1153);
-					PapyrusGen.l_value_return l_value_return = this.l_value();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_statement1155);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					((PapyrusGen.statement_scope)this.statement_stack.Peek()).smangledName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					statement_return.ST = this.templateLib.GetInstanceOf("assign", new PapyrusGen.STAttrMap().Add("target", ((PapyrusGen.statement_scope)this.statement_stack.Peek()).smangledName).Add("targetExpressions", (l_value_return != null) ? l_value_return.ST : null).Add("source", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("sourceExpressions", (expression_return != null) ? expression_return.ST : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement1147);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement1149);
+					PushFollow(FOLLOW_autoCast_in_statement1151);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_l_value_in_statement1153);
+					l_value_return l_value_return = l_value();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_statement1155);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					((statement_scope)statement_stack.Peek()).smangledName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					statement_return.ST = templateLib.GetInstanceOf("assign", new STAttrMap().Add("target", ((statement_scope)statement_stack.Peek()).smangledName).Add("targetExpressions", (l_value_return != null) ? l_value_return.ST : null).Add("source", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("sourceExpressions", (expression_return != null) ? expression_return.ST : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_statement1204);
-					PapyrusGen.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_statement1204);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
 					statement_return.ST = ((expression_return2 != null) ? expression_return2.ST : null);
 					break;
 				}
 				case 4:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_return_stat_in_statement1215);
-					PapyrusGen.return_stat_return return_stat_return = this.return_stat();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_return_stat_in_statement1215);
+					return_stat_return return_stat_return = return_stat();
+					state.followingStackPointer--;
 					statement_return.ST = ((return_stat_return != null) ? return_stat_return.ST : null);
 					break;
 				}
 				case 5:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_ifBlock_in_statement1226);
-					PapyrusGen.ifBlock_return ifBlock_return = this.ifBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_ifBlock_in_statement1226);
+					ifBlock_return ifBlock_return = ifBlock();
+					state.followingStackPointer--;
 					statement_return.ST = ((ifBlock_return != null) ? ifBlock_return.ST : null);
 					break;
 				}
 				case 6:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_whileBlock_in_statement1237);
-					PapyrusGen.whileBlock_return whileBlock_return = this.whileBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_whileBlock_in_statement1237);
+					whileBlock_return whileBlock_return = whileBlock();
+					state.followingStackPointer--;
 					statement_return.ST = ((whileBlock_return != null) ? whileBlock_return.ST : null);
 					break;
 				}
@@ -1319,33 +1319,33 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.statement_stack.Pop();
+				statement_stack.Pop();
 			}
 			return statement_return;
 		}
 
 		// Token: 0x06000D8A RID: 3466 RVA: 0x000612DC File Offset: 0x0005F4DC
-		public PapyrusGen.localDefinition_return localDefinition()
+		public localDefinition_return localDefinition()
 		{
-			PapyrusGen.localDefinition_return localDefinition_return = new PapyrusGen.localDefinition_return();
-			localDefinition_return.Start = this.input.LT(1);
-			PapyrusGen.expression_return expression_return = null;
-			PapyrusGen.autoCast_return autoCast_return = null;
+			localDefinition_return localDefinition_return = new localDefinition_return();
+			localDefinition_return.Start = input.LT(1);
+			expression_return expression_return = null;
+			autoCast_return autoCast_return = null;
 			try
 			{
-				this.Match(this.input, 5, PapyrusGen.FOLLOW_VAR_in_localDefinition1260);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_type_in_localDefinition1262);
-				PapyrusGen.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_localDefinition1266);
+				Match(input, 5, FOLLOW_VAR_in_localDefinition1260);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_type_in_localDefinition1262);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition1266);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 38 || num2 == 79 || num2 == 81 || (num2 >= 90 && num2 <= 93))
 				{
 					num = 1;
@@ -1353,15 +1353,15 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_localDefinition1269);
-					autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_localDefinition1271);
-					expression_return = this.expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_localDefinition1269);
+					autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_localDefinition1271);
+					expression_return = expression();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				localDefinition_return.sVarName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree.Text);
+				Match(input, 3, null);
+				localDefinition_return.sVarName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree.Text);
 				if (((expression_return != null) ? ((CommonTree)expression_return.Start) : null) != null)
 				{
 					localDefinition_return.sExprVar = ((autoCast_return != null) ? autoCast_return.sRetValue : null);
@@ -1376,72 +1376,72 @@ namespace pcomps.PCompiler
 					localDefinition_return.kExprST = null;
 					localDefinition_return.iLineNo = commonTree.Line;
 				}
-				localDefinition_return.ST = this.templateLib.GetInstanceOf("localDef", new PapyrusGen.STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", localDefinition_return.sVarName));
+				localDefinition_return.ST = templateLib.GetInstanceOf("localDef", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", localDefinition_return.sVarName));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return localDefinition_return;
 		}
 
 		// Token: 0x06000D8B RID: 3467 RVA: 0x00061520 File Offset: 0x0005F720
-		public PapyrusGen.l_value_return l_value()
+		public l_value_return l_value()
 		{
-			this.l_value_stack.Push(new PapyrusGen.l_value_scope());
-			PapyrusGen.l_value_return l_value_return = new PapyrusGen.l_value_return();
-			l_value_return.Start = this.input.LT(1);
+			l_value_stack.Push(new l_value_scope());
+			l_value_return l_value_return = new l_value_return();
+			l_value_return.Start = input.LT(1);
 			try
 			{
-				switch (this.dfa27.Predict(this.input))
+				switch (dfa27.Predict(input))
 				{
 				case 1:
 				{
-					this.Match(this.input, 62, PapyrusGen.FOLLOW_DOT_in_l_value1318);
-					this.Match(this.input, 2, null);
-					this.Match(this.input, 15, PapyrusGen.FOLLOW_PAREXPR_in_l_value1321);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_l_value1325);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					base.PushFollow(PapyrusGen.FOLLOW_property_set_in_l_value1330);
-					PapyrusGen.property_set_return property_set_return = this.property_set();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					l_value_return.ST = this.templateLib.GetInstanceOf("dot", new PapyrusGen.STAttrMap().Add("aTemplate", (expression_return != null) ? expression_return.ST : null).Add("bTemplate", (property_set_return != null) ? property_set_return.ST : null));
+					Match(input, 62, FOLLOW_DOT_in_l_value1318);
+					Match(input, 2, null);
+					Match(input, 15, FOLLOW_PAREXPR_in_l_value1321);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_expression_in_l_value1325);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					PushFollow(FOLLOW_property_set_in_l_value1330);
+					property_set_return property_set_return = property_set();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (expression_return != null) ? expression_return.ST : null).Add("bTemplate", (property_set_return != null) ? property_set_return.ST : null));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 23, PapyrusGen.FOLLOW_ARRAYSET_in_l_value1355);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_l_value1359);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_l_value1363);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_l_value1365);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 15, PapyrusGen.FOLLOW_PAREXPR_in_l_value1368);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_l_value1372);
-					PapyrusGen.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_l_value1377);
-					PapyrusGen.expression_return expression_return3 = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					((PapyrusGen.l_value_scope)this.l_value_stack.Peek()).ssourceName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					((PapyrusGen.l_value_scope)this.l_value_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					l_value_return.ST = this.templateLib.GetInstanceOf("arraySet", new PapyrusGen.STAttrMap().Add("sourceName", ((PapyrusGen.l_value_scope)this.l_value_stack.Peek()).ssourceName).Add("selfName", ((PapyrusGen.l_value_scope)this.l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (expression_return2 != null) ? expression_return2.ST : null).Add("indexExpressions", (expression_return3 != null) ? expression_return3.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value1355);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1359);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1363);
+					PushFollow(FOLLOW_autoCast_in_l_value1365);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					Match(input, 15, FOLLOW_PAREXPR_in_l_value1368);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_expression_in_l_value1372);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					PushFollow(FOLLOW_expression_in_l_value1377);
+					expression_return expression_return3 = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					((l_value_scope)l_value_stack.Peek()).ssourceName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					((l_value_scope)l_value_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((l_value_scope)l_value_stack.Peek()).ssourceName).Add("selfName", ((l_value_scope)l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (expression_return2 != null) ? expression_return2.ST : null).Add("indexExpressions", (expression_return3 != null) ? expression_return3.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_basic_l_value_in_l_value1431);
-					PapyrusGen.basic_l_value_return basic_l_value_return = this.basic_l_value();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_basic_l_value_in_l_value1431);
+					basic_l_value_return basic_l_value_return = basic_l_value();
+					state.followingStackPointer--;
 					l_value_return.ST = ((basic_l_value_return != null) ? basic_l_value_return.ST : null);
 					break;
 				}
@@ -1449,25 +1449,25 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.l_value_stack.Pop();
+				l_value_stack.Pop();
 			}
 			return l_value_return;
 		}
 
 		// Token: 0x06000D8C RID: 3468 RVA: 0x00061980 File Offset: 0x0005FB80
-		public PapyrusGen.basic_l_value_return basic_l_value()
+		public basic_l_value_return basic_l_value()
 		{
-			this.basic_l_value_stack.Push(new PapyrusGen.basic_l_value_scope());
-			PapyrusGen.basic_l_value_return basic_l_value_return = new PapyrusGen.basic_l_value_return();
-			basic_l_value_return.Start = this.input.LT(1);
+			basic_l_value_stack.Push(new basic_l_value_scope());
+			basic_l_value_return basic_l_value_return = new basic_l_value_return();
+			basic_l_value_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 25)
 				{
@@ -1510,87 +1510,87 @@ namespace pcomps.PCompiler
 					goto IL_CD;
 				}
 				IL_B5:
-				NoViableAltException ex = new NoViableAltException("", 28, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 28, 0, input);
 				throw ex;
 				IL_CD:
 				switch (num2)
 				{
 				case 1:
 				{
-					this.Match(this.input, 62, PapyrusGen.FOLLOW_DOT_in_basic_l_value1454);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_array_func_or_id_in_basic_l_value1458);
-					PapyrusGen.array_func_or_id_return array_func_or_id_return = this.array_func_or_id();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_basic_l_value_in_basic_l_value1462);
-					PapyrusGen.basic_l_value_return basic_l_value_return2 = this.basic_l_value();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					basic_l_value_return.ST = this.templateLib.GetInstanceOf("dot", new PapyrusGen.STAttrMap().Add("aTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null).Add("bTemplate", (basic_l_value_return2 != null) ? basic_l_value_return2.ST : null));
+					Match(input, 62, FOLLOW_DOT_in_basic_l_value1454);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_array_func_or_id_in_basic_l_value1458);
+					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_basic_l_value_in_basic_l_value1462);
+					basic_l_value_return basic_l_value_return2 = basic_l_value();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					basic_l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null).Add("bTemplate", (basic_l_value_return2 != null) ? basic_l_value_return2.ST : null));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_function_call_in_basic_l_value1486);
-					PapyrusGen.function_call_return function_call_return = this.function_call();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_function_call_in_basic_l_value1486);
+					function_call_return function_call_return = function_call();
+					state.followingStackPointer--;
 					basic_l_value_return.ST = ((function_call_return != null) ? function_call_return.ST : null);
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_property_set_in_basic_l_value1497);
-					PapyrusGen.property_set_return property_set_return = this.property_set();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_property_set_in_basic_l_value1497);
+					property_set_return property_set_return = property_set();
+					state.followingStackPointer--;
 					basic_l_value_return.ST = ((property_set_return != null) ? property_set_return.ST : null);
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 23, PapyrusGen.FOLLOW_ARRAYSET_in_basic_l_value1509);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_basic_l_value1513);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_basic_l_value1517);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_basic_l_value1519);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_func_or_id_in_basic_l_value1521);
-					PapyrusGen.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_basic_l_value1523);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					((PapyrusGen.basic_l_value_scope)this.basic_l_value_stack.Peek()).ssourceName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					((PapyrusGen.basic_l_value_scope)this.basic_l_value_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					basic_l_value_return.ST = this.templateLib.GetInstanceOf("arraySet", new PapyrusGen.STAttrMap().Add("sourceName", ((PapyrusGen.basic_l_value_scope)this.basic_l_value_stack.Peek()).ssourceName).Add("selfName", ((PapyrusGen.basic_l_value_scope)this.basic_l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value1509);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1513);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1517);
+					PushFollow(FOLLOW_autoCast_in_basic_l_value1519);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_func_or_id_in_basic_l_value1521);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_basic_l_value1523);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					((basic_l_value_scope)basic_l_value_stack.Peek()).ssourceName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					((basic_l_value_scope)basic_l_value_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					basic_l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((basic_l_value_scope)basic_l_value_stack.Peek()).ssourceName).Add("selfName", ((basic_l_value_scope)basic_l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 5:
-					this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_basic_l_value1577);
+					Match(input, 38, FOLLOW_ID_in_basic_l_value1577);
 					break;
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.basic_l_value_stack.Pop();
+				basic_l_value_stack.Pop();
 			}
 			return basic_l_value_return;
 		}
 
 		// Token: 0x06000D8D RID: 3469 RVA: 0x00061E50 File Offset: 0x00060050
-		public PapyrusGen.expression_return expression()
+		public expression_return expression()
 		{
-			PapyrusGen.expression_return expression_return = new PapyrusGen.expression_return();
-			expression_return.Start = this.input.LT(1);
+			expression_return expression_return = new expression_return();
+			expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 65)
 				{
@@ -1600,7 +1600,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 66 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 29, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 29, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1609,25 +1609,25 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 65, PapyrusGen.FOLLOW_OR_in_expression1595);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_expression1597);
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_expression1601);
-					PapyrusGen.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_and_expression_in_expression1605);
-					PapyrusGen.and_expression_return and_expression_return = this.and_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					expression_return.ST = this.templateLib.GetInstanceOf("orExpression", new PapyrusGen.STAttrMap().Add("target", expression_return.sRetValue).Add("arg1", (expression_return2 != null) ? expression_return2.sRetValue : null).Add("arg2", (and_expression_return != null) ? and_expression_return.sRetValue : null).Add("extraExpressions1", (expression_return2 != null) ? expression_return2.ST : null).Add("extraExpressions2", (and_expression_return != null) ? and_expression_return.ST : null).Add("endLabel", this.GenerateLabel()).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1595);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1597);
+					PushFollow(FOLLOW_expression_in_expression1601);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_and_expression_in_expression1605);
+					and_expression_return and_expression_return = and_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					expression_return.ST = templateLib.GetInstanceOf("orExpression", new STAttrMap().Add("target", expression_return.sRetValue).Add("arg1", (expression_return2 != null) ? expression_return2.sRetValue : null).Add("arg2", (and_expression_return != null) ? and_expression_return.sRetValue : null).Add("extraExpressions1", (expression_return2 != null) ? expression_return2.ST : null).Add("extraExpressions2", (and_expression_return != null) ? and_expression_return.ST : null).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_and_expression_in_expression1659);
-					PapyrusGen.and_expression_return and_expression_return2 = this.and_expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_and_expression_in_expression1659);
+					and_expression_return and_expression_return2 = and_expression();
+					state.followingStackPointer--;
 					expression_return.sRetValue = ((and_expression_return2 != null) ? and_expression_return2.sRetValue : null);
 					expression_return.ST = ((and_expression_return2 != null) ? and_expression_return2.ST : null);
 					break;
@@ -1636,20 +1636,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return expression_return;
 		}
 
 		// Token: 0x06000D8E RID: 3470 RVA: 0x00062120 File Offset: 0x00060320
-		public PapyrusGen.and_expression_return and_expression()
+		public and_expression_return and_expression()
 		{
-			PapyrusGen.and_expression_return and_expression_return = new PapyrusGen.and_expression_return();
-			and_expression_return.Start = this.input.LT(1);
+			and_expression_return and_expression_return = new and_expression_return();
+			and_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 66)
 				{
@@ -1659,7 +1659,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 67 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 30, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 30, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1668,25 +1668,25 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 66, PapyrusGen.FOLLOW_AND_in_and_expression1681);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_and_expression1683);
-					base.PushFollow(PapyrusGen.FOLLOW_and_expression_in_and_expression1687);
-					PapyrusGen.and_expression_return and_expression_return2 = this.and_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_and_expression1691);
-					PapyrusGen.bool_expression_return bool_expression_return = this.bool_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					and_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					and_expression_return.ST = this.templateLib.GetInstanceOf("andExpression", new PapyrusGen.STAttrMap().Add("target", and_expression_return.sRetValue).Add("arg1", (and_expression_return2 != null) ? and_expression_return2.sRetValue : null).Add("arg2", (bool_expression_return != null) ? bool_expression_return.sRetValue : null).Add("extraExpressions1", (and_expression_return2 != null) ? and_expression_return2.ST : null).Add("extraExpressions2", (bool_expression_return != null) ? bool_expression_return.ST : null).Add("endLabel", this.GenerateLabel()).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1681);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1683);
+					PushFollow(FOLLOW_and_expression_in_and_expression1687);
+					and_expression_return and_expression_return2 = and_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_and_expression1691);
+					bool_expression_return bool_expression_return = bool_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					and_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					and_expression_return.ST = templateLib.GetInstanceOf("andExpression", new STAttrMap().Add("target", and_expression_return.sRetValue).Add("arg1", (and_expression_return2 != null) ? and_expression_return2.sRetValue : null).Add("arg2", (bool_expression_return != null) ? bool_expression_return.sRetValue : null).Add("extraExpressions1", (and_expression_return2 != null) ? and_expression_return2.ST : null).Add("extraExpressions2", (bool_expression_return != null) ? bool_expression_return.ST : null).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_and_expression1745);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_and_expression1745);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					and_expression_return.sRetValue = ((bool_expression_return2 != null) ? bool_expression_return2.sRetValue : null);
 					and_expression_return.ST = ((bool_expression_return2 != null) ? bool_expression_return2.ST : null);
 					break;
@@ -1695,20 +1695,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return and_expression_return;
 		}
 
 		// Token: 0x06000D8F RID: 3471 RVA: 0x000623F0 File Offset: 0x000605F0
-		public PapyrusGen.bool_expression_return bool_expression()
+		public bool_expression_return bool_expression()
 		{
-			PapyrusGen.bool_expression_return bool_expression_return = new PapyrusGen.bool_expression_return();
-			bool_expression_return.Start = this.input.LT(1);
+			bool_expression_return bool_expression_return = new bool_expression_return();
+			bool_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1799,148 +1799,148 @@ namespace pcomps.PCompiler
 				num2 = 7;
 				goto IL_19A;
 				IL_182:
-				NoViableAltException ex = new NoViableAltException("", 31, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 31, 0, input);
 				throw ex;
 				IL_19A:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 67, PapyrusGen.FOLLOW_EQ_in_bool_expression1767);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression1769);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1773);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1777);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression1781);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression1785);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "COMPAREEQ").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1767);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1769);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1773);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression1777);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1781);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression1785);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREEQ").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 68, PapyrusGen.FOLLOW_NE_in_bool_expression1850);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression1852);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1856);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1860);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression1864);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression1868);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("notEqual", new PapyrusGen.STAttrMap().Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					CommonTree commonTree3 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1850);
+					Match(input, 2, null);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1852);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1856);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression1860);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1864);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression1868);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("notEqual", new STAttrMap().Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 69, PapyrusGen.FOLLOW_GT_in_bool_expression1928);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression1930);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1934);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression1938);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression1942);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression1946);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "COMPAREGT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					CommonTree commonTree5 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1928);
+					Match(input, 2, null);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1930);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1934);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression1938);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1942);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression1946);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 70, PapyrusGen.FOLLOW_LT_in_bool_expression2011);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree8 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression2013);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2017);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2021);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression2025);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression2029);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "COMPARELT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					CommonTree commonTree7 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression2011);
+					Match(input, 2, null);
+					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2013);
+					PushFollow(FOLLOW_autoCast_in_bool_expression2017);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression2021);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression2025);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression2029);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 71, PapyrusGen.FOLLOW_GTE_in_bool_expression2094);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree10 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression2096);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2100);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2104);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression2108);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression2112);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "COMPAREGTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					CommonTree commonTree9 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression2094);
+					Match(input, 2, null);
+					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2096);
+					PushFollow(FOLLOW_autoCast_in_bool_expression2100);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression2104);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression2108);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression2112);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
-					CommonTree commonTree11 = (CommonTree)this.Match(this.input, 72, PapyrusGen.FOLLOW_LTE_in_bool_expression2177);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree12 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_bool_expression2179);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2183);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_bool_expression2187);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_bool_expression_in_bool_expression2191);
-					PapyrusGen.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression2195);
-					PapyrusGen.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					bool_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree12.Text);
-					bool_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "COMPARELTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree11.Line));
+					CommonTree commonTree11 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression2177);
+					Match(input, 2, null);
+					CommonTree commonTree12 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2179);
+					PushFollow(FOLLOW_autoCast_in_bool_expression2183);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_bool_expression2187);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_bool_expression_in_bool_expression2191);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression2195);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree12.Text);
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree11.Line));
 					break;
 				}
 				case 7:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_bool_expression2259);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_bool_expression2259);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					bool_expression_return.sRetValue = ((add_expression_return2 != null) ? add_expression_return2.sRetValue : null);
 					bool_expression_return.ST = ((add_expression_return2 != null) ? add_expression_return2.ST : null);
 					break;
@@ -1949,20 +1949,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return bool_expression_return;
 		}
 
 		// Token: 0x06000D90 RID: 3472 RVA: 0x000631DC File Offset: 0x000613DC
-		public PapyrusGen.add_expression_return add_expression()
+		public add_expression_return add_expression()
 		{
-			PapyrusGen.add_expression_return add_expression_return = new PapyrusGen.add_expression_return();
-			add_expression_return.Start = this.input.LT(1);
+			add_expression_return add_expression_return = new add_expression_return();
+			add_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2039,126 +2039,126 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_159;
 				IL_141:
-				NoViableAltException ex = new NoViableAltException("", 32, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 32, 0, input);
 				throw ex;
 				IL_159:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 26, PapyrusGen.FOLLOW_IADD_in_add_expression2281);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_add_expression2283);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2287);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2291);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_add_expression2295);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2299);
-					PapyrusGen.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					add_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					add_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "IADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression2281);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2283);
+					PushFollow(FOLLOW_autoCast_in_add_expression2287);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_add_expression2291);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_add_expression2295);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2299);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 27, PapyrusGen.FOLLOW_FADD_in_add_expression2364);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_add_expression2366);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2370);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2374);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_add_expression2378);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2382);
-					PapyrusGen.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					add_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					add_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "FADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					CommonTree commonTree3 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression2364);
+					Match(input, 2, null);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2366);
+					PushFollow(FOLLOW_autoCast_in_add_expression2370);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_add_expression2374);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_add_expression2378);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2382);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 28, PapyrusGen.FOLLOW_ISUBTRACT_in_add_expression2447);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_add_expression2449);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2453);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2457);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_add_expression2461);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2465);
-					PapyrusGen.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					add_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					add_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "ISUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					CommonTree commonTree5 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression2447);
+					Match(input, 2, null);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2449);
+					PushFollow(FOLLOW_autoCast_in_add_expression2453);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_add_expression2457);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_add_expression2461);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2465);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "ISUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 29, PapyrusGen.FOLLOW_FSUBTRACT_in_add_expression2530);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree8 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_add_expression2532);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2536);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2540);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_add_expression2544);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2548);
-					PapyrusGen.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					add_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					add_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "FSUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					CommonTree commonTree7 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression2530);
+					Match(input, 2, null);
+					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2532);
+					PushFollow(FOLLOW_autoCast_in_add_expression2536);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_add_expression2540);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_add_expression2544);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2548);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FSUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 36, PapyrusGen.FOLLOW_STRCAT_in_add_expression2613);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree10 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_add_expression2615);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2619);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_add_expression2623);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_add_expression_in_add_expression2627);
-					PapyrusGen.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2631);
-					PapyrusGen.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					add_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					add_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "STRCAT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					CommonTree commonTree9 = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression2613);
+					Match(input, 2, null);
+					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2615);
+					PushFollow(FOLLOW_autoCast_in_add_expression2619);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_add_expression2623);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_add_expression_in_add_expression2627);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2631);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "STRCAT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_add_expression2695);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_add_expression2695);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
 					add_expression_return.sRetValue = ((mult_expression_return2 != null) ? mult_expression_return2.sRetValue : null);
 					add_expression_return.ST = ((mult_expression_return2 != null) ? mult_expression_return2.ST : null);
 					break;
@@ -2167,20 +2167,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return add_expression_return;
 		}
 
 		// Token: 0x06000D91 RID: 3473 RVA: 0x00063DA0 File Offset: 0x00061FA0
-		public PapyrusGen.mult_expression_return mult_expression()
+		public mult_expression_return mult_expression()
 		{
-			PapyrusGen.mult_expression_return mult_expression_return = new PapyrusGen.mult_expression_return();
-			mult_expression_return.Start = this.input.LT(1);
+			mult_expression_return mult_expression_return = new mult_expression_return();
+			mult_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2257,120 +2257,120 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_159;
 				IL_141:
-				NoViableAltException ex = new NoViableAltException("", 33, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 33, 0, input);
 				throw ex;
 				IL_159:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 30, PapyrusGen.FOLLOW_IMULTIPLY_in_mult_expression2718);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_mult_expression2720);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2724);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2728);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_mult_expression2732);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression2736);
-					PapyrusGen.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					mult_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					mult_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "IMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression2718);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2720);
+					PushFollow(FOLLOW_autoCast_in_mult_expression2724);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_mult_expression2728);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_mult_expression2732);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2736);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 31, PapyrusGen.FOLLOW_FMULTIPLY_in_mult_expression2801);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_mult_expression2803);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2807);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2811);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_mult_expression2815);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression2819);
-					PapyrusGen.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					mult_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					mult_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "FMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					CommonTree commonTree3 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression2801);
+					Match(input, 2, null);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2803);
+					PushFollow(FOLLOW_autoCast_in_mult_expression2807);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_mult_expression2811);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_mult_expression2815);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2819);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 32, PapyrusGen.FOLLOW_IDIVIDE_in_mult_expression2884);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_mult_expression2886);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2890);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2894);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_mult_expression2898);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression2902);
-					PapyrusGen.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					mult_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					mult_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "IDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					CommonTree commonTree5 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression2884);
+					Match(input, 2, null);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2886);
+					PushFollow(FOLLOW_autoCast_in_mult_expression2890);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_mult_expression2894);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_mult_expression2898);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2902);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 33, PapyrusGen.FOLLOW_FDIVIDE_in_mult_expression2967);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree8 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_mult_expression2969);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2973);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_mult_expression2977);
-					PapyrusGen.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_mult_expression2981);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression2985);
-					PapyrusGen.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					mult_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					mult_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "FDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					CommonTree commonTree7 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression2967);
+					Match(input, 2, null);
+					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2969);
+					PushFollow(FOLLOW_autoCast_in_mult_expression2973);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_autoCast_in_mult_expression2977);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_mult_expression_in_mult_expression2981);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2985);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 77, PapyrusGen.FOLLOW_MOD_in_mult_expression3050);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree10 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_mult_expression3052);
-					base.PushFollow(PapyrusGen.FOLLOW_mult_expression_in_mult_expression3056);
-					PapyrusGen.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression3060);
-					PapyrusGen.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					mult_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					mult_expression_return.ST = this.templateLib.GetInstanceOf("twoOpCommand", new PapyrusGen.STAttrMap().Add("command", "IMOD").Add("target", mult_expression_return.sRetValue).Add("arg1", (mult_expression_return2 != null) ? mult_expression_return2.sRetValue : null).Add("arg2", (unary_expression_return != null) ? unary_expression_return.sRetValue : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					CommonTree commonTree9 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression3050);
+					Match(input, 2, null);
+					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression3052);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression3056);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression3060);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMOD").Add("target", mult_expression_return.sRetValue).Add("arg1", (mult_expression_return2 != null) ? mult_expression_return2.sRetValue : null).Add("arg2", (unary_expression_return != null) ? unary_expression_return.sRetValue : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_unary_expression_in_mult_expression3114);
-					PapyrusGen.unary_expression_return unary_expression_return2 = this.unary_expression();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_unary_expression_in_mult_expression3114);
+					unary_expression_return unary_expression_return2 = unary_expression();
+					state.followingStackPointer--;
 					mult_expression_return.sRetValue = ((unary_expression_return2 != null) ? unary_expression_return2.sRetValue : null);
 					mult_expression_return.ST = ((unary_expression_return2 != null) ? unary_expression_return2.ST : null);
 					break;
@@ -2379,20 +2379,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return mult_expression_return;
 		}
 
 		// Token: 0x06000D92 RID: 3474 RVA: 0x000648E8 File Offset: 0x00062AE8
-		public PapyrusGen.unary_expression_return unary_expression()
+		public unary_expression_return unary_expression()
 		{
-			PapyrusGen.unary_expression_return unary_expression_return = new PapyrusGen.unary_expression_return();
-			unary_expression_return.Start = this.input.LT(1);
+			unary_expression_return unary_expression_return = new unary_expression_return();
+			unary_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -2466,55 +2466,55 @@ namespace pcomps.PCompiler
 				num2 = 4;
 				goto IL_12E;
 				IL_116:
-				NoViableAltException ex = new NoViableAltException("", 34, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 34, 0, input);
 				throw ex;
 				IL_12E:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 34, PapyrusGen.FOLLOW_INEGATE_in_unary_expression3137);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_unary_expression3139);
-					base.PushFollow(PapyrusGen.FOLLOW_cast_atom_in_unary_expression3141);
-					PapyrusGen.cast_atom_return cast_atom_return = this.cast_atom();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					unary_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					unary_expression_return.ST = this.templateLib.GetInstanceOf("singleOpCommand", new PapyrusGen.STAttrMap().Add("command", "INEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return != null) ? cast_atom_return.sRetValue : null).Add("extraExpressions", (cast_atom_return != null) ? cast_atom_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression3137);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3139);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression3141);
+					cast_atom_return cast_atom_return = cast_atom();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "INEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return != null) ? cast_atom_return.sRetValue : null).Add("extraExpressions", (cast_atom_return != null) ? cast_atom_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 35, PapyrusGen.FOLLOW_FNEGATE_in_unary_expression3186);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_unary_expression3188);
-					base.PushFollow(PapyrusGen.FOLLOW_cast_atom_in_unary_expression3190);
-					PapyrusGen.cast_atom_return cast_atom_return2 = this.cast_atom();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					unary_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					unary_expression_return.ST = this.templateLib.GetInstanceOf("singleOpCommand", new PapyrusGen.STAttrMap().Add("command", "FNEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return2 != null) ? cast_atom_return2.sRetValue : null).Add("extraExpressions", (cast_atom_return2 != null) ? cast_atom_return2.ST : null).Add("lineNo", commonTree3.Line));
+					CommonTree commonTree3 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression3186);
+					Match(input, 2, null);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3188);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression3190);
+					cast_atom_return cast_atom_return2 = cast_atom();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "FNEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return2 != null) ? cast_atom_return2.sRetValue : null).Add("extraExpressions", (cast_atom_return2 != null) ? cast_atom_return2.ST : null).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 78, PapyrusGen.FOLLOW_NOT_in_unary_expression3235);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_unary_expression3237);
-					base.PushFollow(PapyrusGen.FOLLOW_cast_atom_in_unary_expression3239);
-					PapyrusGen.cast_atom_return cast_atom_return3 = this.cast_atom();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					unary_expression_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					unary_expression_return.ST = this.templateLib.GetInstanceOf("singleOpCommand", new PapyrusGen.STAttrMap().Add("command", "NOT").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return3 != null) ? cast_atom_return3.sRetValue : null).Add("extraExpressions", (cast_atom_return3 != null) ? cast_atom_return3.ST : null).Add("lineNo", commonTree5.Line));
+					CommonTree commonTree5 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression3235);
+					Match(input, 2, null);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3237);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression3239);
+					cast_atom_return cast_atom_return3 = cast_atom();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "NOT").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return3 != null) ? cast_atom_return3.sRetValue : null).Add("extraExpressions", (cast_atom_return3 != null) ? cast_atom_return3.ST : null).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_cast_atom_in_unary_expression3283);
-					PapyrusGen.cast_atom_return cast_atom_return4 = this.cast_atom();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_cast_atom_in_unary_expression3283);
+					cast_atom_return cast_atom_return4 = cast_atom();
+					state.followingStackPointer--;
 					unary_expression_return.sRetValue = ((cast_atom_return4 != null) ? cast_atom_return4.sRetValue : null);
 					unary_expression_return.ST = ((cast_atom_return4 != null) ? cast_atom_return4.ST : null);
 					break;
@@ -2523,20 +2523,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return unary_expression_return;
 		}
 
 		// Token: 0x06000D93 RID: 3475 RVA: 0x00064E20 File Offset: 0x00063020
-		public PapyrusGen.cast_atom_return cast_atom()
+		public cast_atom_return cast_atom()
 		{
-			PapyrusGen.cast_atom_return cast_atom_return = new PapyrusGen.cast_atom_return();
-			cast_atom_return.Start = this.input.LT(1);
+			cast_atom_return cast_atom_return = new cast_atom_return();
+			cast_atom_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 79)
 				{
@@ -2546,7 +2546,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 25)) && (num != 38 && num != 62 && (num < 80 || num > 82)) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 35, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 35, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2555,22 +2555,22 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 79, PapyrusGen.FOLLOW_AS_in_cast_atom3306);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_cast_atom3308);
-					base.PushFollow(PapyrusGen.FOLLOW_dot_atom_in_cast_atom3310);
-					PapyrusGen.dot_atom_return dot_atom_return = this.dot_atom();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					cast_atom_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					cast_atom_return.ST = this.templateLib.GetInstanceOf("cast", new PapyrusGen.STAttrMap().Add("target", cast_atom_return.sRetValue).Add("source", (dot_atom_return != null) ? dot_atom_return.sRetValue : null).Add("extraExpressions", (dot_atom_return != null) ? dot_atom_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom3306);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom3308);
+					PushFollow(FOLLOW_dot_atom_in_cast_atom3310);
+					dot_atom_return dot_atom_return = dot_atom();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					cast_atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					cast_atom_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", cast_atom_return.sRetValue).Add("source", (dot_atom_return != null) ? dot_atom_return.sRetValue : null).Add("extraExpressions", (dot_atom_return != null) ? dot_atom_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_dot_atom_in_cast_atom3349);
-					PapyrusGen.dot_atom_return dot_atom_return2 = this.dot_atom();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_dot_atom_in_cast_atom3349);
+					dot_atom_return dot_atom_return2 = dot_atom();
+					state.followingStackPointer--;
 					cast_atom_return.sRetValue = ((dot_atom_return2 != null) ? dot_atom_return2.sRetValue : null);
 					cast_atom_return.ST = ((dot_atom_return2 != null) ? dot_atom_return2.ST : null);
 					break;
@@ -2579,20 +2579,20 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return cast_atom_return;
 		}
 
 		// Token: 0x06000D94 RID: 3476 RVA: 0x0006507C File Offset: 0x0006327C
-		public PapyrusGen.dot_atom_return dot_atom()
+		public dot_atom_return dot_atom()
 		{
-			PapyrusGen.dot_atom_return dot_atom_return = new PapyrusGen.dot_atom_return();
-			dot_atom_return.Start = this.input.LT(1);
+			dot_atom_return dot_atom_return = new dot_atom_return();
+			dot_atom_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -2657,40 +2657,40 @@ namespace pcomps.PCompiler
 				num2 = 2;
 				goto IL_E5;
 				IL_CD:
-				NoViableAltException ex = new NoViableAltException("", 36, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 36, 0, input);
 				throw ex;
 				IL_E5:
 				switch (num2)
 				{
 				case 1:
 				{
-					this.Match(this.input, 62, PapyrusGen.FOLLOW_DOT_in_dot_atom3372);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_dot_atom_in_dot_atom3376);
-					PapyrusGen.dot_atom_return dot_atom_return2 = this.dot_atom();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_array_func_or_id_in_dot_atom3380);
-					PapyrusGen.array_func_or_id_return array_func_or_id_return = this.array_func_or_id();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
+					Match(input, 62, FOLLOW_DOT_in_dot_atom3372);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_dot_atom_in_dot_atom3376);
+					dot_atom_return dot_atom_return2 = dot_atom();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_array_func_or_id_in_dot_atom3380);
+					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					state.followingStackPointer--;
+					Match(input, 3, null);
 					dot_atom_return.sRetValue = ((array_func_or_id_return != null) ? array_func_or_id_return.sRetValue : null);
-					dot_atom_return.ST = this.templateLib.GetInstanceOf("dot", new PapyrusGen.STAttrMap().Add("aTemplate", (dot_atom_return2 != null) ? dot_atom_return2.ST : null).Add("bTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null));
+					dot_atom_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (dot_atom_return2 != null) ? dot_atom_return2.ST : null).Add("bTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_array_atom_in_dot_atom3409);
-					PapyrusGen.array_atom_return array_atom_return = this.array_atom();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_array_atom_in_dot_atom3409);
+					array_atom_return array_atom_return = array_atom();
+					state.followingStackPointer--;
 					dot_atom_return.sRetValue = ((array_atom_return != null) ? array_atom_return.sRetValue : null);
 					dot_atom_return.ST = ((array_atom_return != null) ? array_atom_return.ST : null);
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_constant_in_dot_atom3420);
-					PapyrusGen.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_constant_in_dot_atom3420);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
 					dot_atom_return.sRetValue = ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text;
 					break;
 				}
@@ -2698,21 +2698,21 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return dot_atom_return;
 		}
 
 		// Token: 0x06000D95 RID: 3477 RVA: 0x00065330 File Offset: 0x00063530
-		public PapyrusGen.array_atom_return array_atom()
+		public array_atom_return array_atom()
 		{
-			this.array_atom_stack.Push(new PapyrusGen.array_atom_scope());
-			PapyrusGen.array_atom_return array_atom_return = new PapyrusGen.array_atom_return();
-			array_atom_return.Start = this.input.LT(1);
+			array_atom_stack.Push(new array_atom_scope());
+			array_atom_return array_atom_return = new array_atom_return();
+			array_atom_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -2722,7 +2722,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && (num < 24 || num > 25)) && num != 38 && num != 80 && num != 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 37, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 37, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2731,30 +2731,30 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 22, PapyrusGen.FOLLOW_ARRAYGET_in_array_atom3447);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_array_atom3451);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_array_atom3455);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_array_atom3457);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_atom_in_array_atom3459);
-					PapyrusGen.atom_return atom_return = this.atom();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_array_atom3461);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					array_atom_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					((PapyrusGen.array_atom_scope)this.array_atom_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					array_atom_return.ST = this.templateLib.GetInstanceOf("arrayGet", new PapyrusGen.STAttrMap().Add("retValue", array_atom_return.sRetValue).Add("selfName", ((PapyrusGen.array_atom_scope)this.array_atom_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (atom_return != null) ? atom_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom3447);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3451);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3455);
+					PushFollow(FOLLOW_autoCast_in_array_atom3457);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_atom_in_array_atom3459);
+					atom_return atom_return = atom();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_array_atom3461);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					array_atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					((array_atom_scope)array_atom_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					array_atom_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_atom_return.sRetValue).Add("selfName", ((array_atom_scope)array_atom_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (atom_return != null) ? atom_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_atom_in_array_atom3515);
-					PapyrusGen.atom_return atom_return2 = this.atom();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_atom_in_array_atom3515);
+					atom_return atom_return2 = atom();
+					state.followingStackPointer--;
 					array_atom_return.sRetValue = ((atom_return2 != null) ? atom_return2.sRetValue : null);
 					array_atom_return.ST = ((atom_return2 != null) ? atom_return2.ST : null);
 					break;
@@ -2763,24 +2763,24 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.array_atom_stack.Pop();
+				array_atom_stack.Pop();
 			}
 			return array_atom_return;
 		}
 
 		// Token: 0x06000D96 RID: 3478 RVA: 0x000656A0 File Offset: 0x000638A0
-		public PapyrusGen.atom_return atom()
+		public atom_return atom()
 		{
-			PapyrusGen.atom_return atom_return = new PapyrusGen.atom_return();
-			atom_return.Start = this.input.LT(1);
+			atom_return atom_return = new atom_return();
+			atom_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -2832,39 +2832,39 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_B8;
 				IL_A0:
-				NoViableAltException ex = new NoViableAltException("", 38, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 38, 0, input);
 				throw ex;
 				IL_B8:
 				switch (num2)
 				{
 				case 1:
 				{
-					this.Match(this.input, 15, PapyrusGen.FOLLOW_PAREXPR_in_atom3538);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_atom3540);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
+					Match(input, 15, FOLLOW_PAREXPR_in_atom3538);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_expression_in_atom3540);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
 					atom_return.sRetValue = ((expression_return != null) ? expression_return.sRetValue : null);
 					atom_return.ST = ((expression_return != null) ? expression_return.ST : null);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 80, PapyrusGen.FOLLOW_NEW_in_atom3553);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 81, PapyrusGen.FOLLOW_INTEGER_in_atom3555);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_atom3559);
-					this.Match(this.input, 3, null);
-					atom_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					atom_return.ST = this.templateLib.GetInstanceOf("newArray", new PapyrusGen.STAttrMap().Add("dest", atom_return.sRetValue).Add("size", commonTree2.Text).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom3553);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom3555);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom3559);
+					Match(input, 3, null);
+					atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					atom_return.ST = templateLib.GetInstanceOf("newArray", new STAttrMap().Add("dest", atom_return.sRetValue).Add("size", commonTree2.Text).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_func_or_id_in_atom3593);
-					PapyrusGen.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_func_or_id_in_atom3593);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
 					atom_return.sRetValue = ((func_or_id_return != null) ? func_or_id_return.sRetValue : null);
 					atom_return.ST = ((func_or_id_return != null) ? func_or_id_return.ST : null);
 					break;
@@ -2873,21 +2873,21 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return atom_return;
 		}
 
 		// Token: 0x06000D97 RID: 3479 RVA: 0x0006596C File Offset: 0x00063B6C
-		public PapyrusGen.array_func_or_id_return array_func_or_id()
+		public array_func_or_id_return array_func_or_id()
 		{
-			this.array_func_or_id_stack.Push(new PapyrusGen.array_func_or_id_scope());
-			PapyrusGen.array_func_or_id_return array_func_or_id_return = new PapyrusGen.array_func_or_id_return();
-			array_func_or_id_return.Start = this.input.LT(1);
+			array_func_or_id_stack.Push(new array_func_or_id_scope());
+			array_func_or_id_return array_func_or_id_return = new array_func_or_id_return();
+			array_func_or_id_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -2897,7 +2897,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 20 && (num < 24 || num > 25)) && num != 38 && num != 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 39, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 39, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2906,30 +2906,30 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 22, PapyrusGen.FOLLOW_ARRAYGET_in_array_func_or_id3620);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_array_func_or_id3624);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_array_func_or_id3628);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_array_func_or_id3630);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_func_or_id_in_array_func_or_id3632);
-					PapyrusGen.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_array_func_or_id3634);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					array_func_or_id_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					((PapyrusGen.array_func_or_id_scope)this.array_func_or_id_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					array_func_or_id_return.ST = this.templateLib.GetInstanceOf("arrayGet", new PapyrusGen.STAttrMap().Add("retValue", array_func_or_id_return.sRetValue).Add("selfName", ((PapyrusGen.array_func_or_id_scope)this.array_func_or_id_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id3620);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3624);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3628);
+					PushFollow(FOLLOW_autoCast_in_array_func_or_id3630);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_func_or_id_in_array_func_or_id3632);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_array_func_or_id3634);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					array_func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					((array_func_or_id_scope)array_func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					array_func_or_id_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_func_or_id_return.sRetValue).Add("selfName", ((array_func_or_id_scope)array_func_or_id_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_func_or_id_in_array_func_or_id3688);
-					PapyrusGen.func_or_id_return func_or_id_return2 = this.func_or_id();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_func_or_id_in_array_func_or_id3688);
+					func_or_id_return func_or_id_return2 = func_or_id();
+					state.followingStackPointer--;
 					array_func_or_id_return.sRetValue = ((func_or_id_return2 != null) ? func_or_id_return2.sRetValue : null);
 					array_func_or_id_return.ST = ((func_or_id_return2 != null) ? func_or_id_return2.ST : null);
 					break;
@@ -2938,25 +2938,25 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.array_func_or_id_stack.Pop();
+				array_func_or_id_stack.Pop();
 			}
 			return array_func_or_id_return;
 		}
 
 		// Token: 0x06000D98 RID: 3480 RVA: 0x00065CD0 File Offset: 0x00063ED0
-		public PapyrusGen.func_or_id_return func_or_id()
+		public func_or_id_return func_or_id()
 		{
-			this.func_or_id_stack.Push(new PapyrusGen.func_or_id_scope());
-			PapyrusGen.func_or_id_return func_or_id_return = new PapyrusGen.func_or_id_return();
-			func_or_id_return.Start = this.input.LT(1);
+			func_or_id_stack.Push(new func_or_id_scope());
+			func_or_id_return func_or_id_return = new func_or_id_return();
+			func_or_id_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -2999,109 +2999,109 @@ namespace pcomps.PCompiler
 				num2 = 1;
 				goto IL_BB;
 				IL_A3:
-				NoViableAltException ex = new NoViableAltException("", 40, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 40, 0, input);
 				throw ex;
 				IL_BB:
 				switch (num2)
 				{
 				case 1:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_function_call_in_func_or_id3714);
-					PapyrusGen.function_call_return function_call_return = this.function_call();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_function_call_in_func_or_id3714);
+					function_call_return function_call_return = function_call();
+					state.followingStackPointer--;
 					func_or_id_return.sRetValue = ((function_call_return != null) ? function_call_return.sRetValue : null);
 					func_or_id_return.ST = ((function_call_return != null) ? function_call_return.ST : null);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 20, PapyrusGen.FOLLOW_PROPGET_in_func_or_id3726);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3730);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3734);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3738);
-					this.Match(this.input, 3, null);
-					((PapyrusGen.func_or_id_scope)this.func_or_id_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					func_or_id_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					func_or_id_return.ST = this.templateLib.GetInstanceOf("propGet", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.func_or_id_scope)this.func_or_id_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", func_or_id_return.sRetValue).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id3726);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3730);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3734);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3738);
+					Match(input, 3, null);
+					((func_or_id_scope)func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					func_or_id_return.ST = templateLib.GetInstanceOf("propGet", new STAttrMap().Add("selfName", ((func_or_id_scope)func_or_id_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", func_or_id_return.sRetValue).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3777);
-					func_or_id_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3777);
+					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 82, PapyrusGen.FOLLOW_LENGTH_in_func_or_id3789);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3793);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_func_or_id3797);
-					this.Match(this.input, 3, null);
-					((PapyrusGen.func_or_id_scope)this.func_or_id_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					func_or_id_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					func_or_id_return.ST = this.templateLib.GetInstanceOf("arrayLength", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.func_or_id_scope)this.func_or_id_stack.Peek()).sselfName).Add("retValue", func_or_id_return.sRetValue).Add("lineNo", commonTree6.Line));
+					CommonTree commonTree6 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id3789);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3793);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3797);
+					Match(input, 3, null);
+					((func_or_id_scope)func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					func_or_id_return.ST = templateLib.GetInstanceOf("arrayLength", new STAttrMap().Add("selfName", ((func_or_id_scope)func_or_id_stack.Peek()).sselfName).Add("retValue", func_or_id_return.sRetValue).Add("lineNo", commonTree6.Line));
 					break;
 				}
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.func_or_id_stack.Pop();
+				func_or_id_stack.Pop();
 			}
 			return func_or_id_return;
 		}
 
 		// Token: 0x06000D99 RID: 3481 RVA: 0x00066124 File Offset: 0x00064324
-		public PapyrusGen.property_set_return property_set()
+		public property_set_return property_set()
 		{
-			this.property_set_stack.Push(new PapyrusGen.property_set_scope());
-			PapyrusGen.property_set_return property_set_return = new PapyrusGen.property_set_return();
-			property_set_return.Start = this.input.LT(1);
+			property_set_stack.Push(new property_set_scope());
+			property_set_return property_set_return = new property_set_return();
+			property_set_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 21, PapyrusGen.FOLLOW_PROPSET_in_property_set3843);
-				this.Match(this.input, 2, null);
-				CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_property_set3847);
-				CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_property_set3851);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_property_set3855);
-				this.Match(this.input, 3, null);
-				((PapyrusGen.property_set_scope)this.property_set_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-				((PapyrusGen.property_set_scope)this.property_set_stack.Peek()).sparamName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-				property_set_return.ST = this.templateLib.GetInstanceOf("propSet", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.property_set_scope)this.property_set_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("param", ((PapyrusGen.property_set_scope)this.property_set_stack.Peek()).sparamName).Add("lineNo", commonTree.Line));
+				CommonTree commonTree = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set3843);
+				Match(input, 2, null);
+				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3847);
+				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3851);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3855);
+				Match(input, 3, null);
+				((property_set_scope)property_set_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+				((property_set_scope)property_set_stack.Peek()).sparamName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+				property_set_return.ST = templateLib.GetInstanceOf("propSet", new STAttrMap().Add("selfName", ((property_set_scope)property_set_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("param", ((property_set_scope)property_set_stack.Peek()).sparamName).Add("lineNo", commonTree.Line));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.property_set_stack.Pop();
+				property_set_stack.Pop();
 			}
 			return property_set_return;
 		}
 
 		// Token: 0x06000D9A RID: 3482 RVA: 0x0006632C File Offset: 0x0006452C
-		public PapyrusGen.return_stat_return return_stat()
+		public return_stat_return return_stat()
 		{
-			PapyrusGen.return_stat_return return_stat_return = new PapyrusGen.return_stat_return();
-			return_stat_return.Start = this.input.LT(1);
+			return_stat_return return_stat_return = new return_stat_return();
+			return_stat_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				if (num != 83)
 				{
-					NoViableAltException ex = new NoViableAltException("", 41, 0, this.input);
+					NoViableAltException ex = new NoViableAltException("", 41, 0, input);
 					throw ex;
 				}
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -3111,7 +3111,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 3 && num2 != 5 && (num2 < 11 || num2 > 13) && (num2 != 15 && num2 != 20 && num2 != 22 && (num2 < 24 || num2 > 36)) && (num2 != 38 && num2 != 41 && num2 != 62 && (num2 < 65 || num2 > 72)) && (num2 < 77 || num2 > 84) && num2 != 88 && (num2 < 90 || num2 > 93))
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 41, 1, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 41, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -3120,59 +3120,59 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 83, PapyrusGen.FOLLOW_RETURN_in_return_stat3903);
-					this.Match(this.input, 2, null);
-					base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_return_stat3905);
-					PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
-					base.PushFollow(PapyrusGen.FOLLOW_expression_in_return_stat3907);
-					PapyrusGen.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					return_stat_return.ST = this.templateLib.GetInstanceOf("return", new PapyrusGen.STAttrMap().Add("retVal", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("extraExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3903);
+					Match(input, 2, null);
+					PushFollow(FOLLOW_autoCast_in_return_stat3905);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
+					PushFollow(FOLLOW_expression_in_return_stat3907);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					return_stat_return.ST = templateLib.GetInstanceOf("return", new STAttrMap().Add("retVal", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("extraExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 83, PapyrusGen.FOLLOW_RETURN_in_return_stat3940);
-					return_stat_return.ST = this.templateLib.GetInstanceOf("return", new PapyrusGen.STAttrMap().Add("retVal", "none").Add("lineNo", commonTree2.Line));
+					CommonTree commonTree2 = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3940);
+					return_stat_return.ST = templateLib.GetInstanceOf("return", new STAttrMap().Add("retVal", "none").Add("lineNo", commonTree2.Line));
 					break;
 				}
 				}
 			}
 			catch (RecognitionException ex3)
 			{
-				this.ReportError(ex3);
-				this.Recover(this.input, ex3);
+				ReportError(ex3);
+				Recover(input, ex3);
 			}
 			return return_stat_return;
 		}
 
 		// Token: 0x06000D9B RID: 3483 RVA: 0x000665D0 File Offset: 0x000647D0
-		public PapyrusGen.ifBlock_return ifBlock()
+		public ifBlock_return ifBlock()
 		{
-			this.ifBlock_stack.Push(new PapyrusGen.ifBlock_scope());
-			PapyrusGen.ifBlock_return ifBlock_return = new PapyrusGen.ifBlock_return();
-			ifBlock_return.Start = this.input.LT(1);
+			ifBlock_stack.Push(new ifBlock_scope());
+			ifBlock_return ifBlock_return = new ifBlock_return();
+			ifBlock_return.Start = input.LT(1);
 			IList list = null;
-			PapyrusGen.elseBlock_return elseBlock_return = null;
-			((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).kBlockStatements = new ArrayList();
-			((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).sEndLabel = this.GenerateLabel();
-			((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).kchildScope = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			elseBlock_return elseBlock_return = null;
+			((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements = new ArrayList();
+			((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel = GenerateLabel();
+			((ifBlock_scope)ifBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 84, PapyrusGen.FOLLOW_IF_in_ifBlock3984);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_expression_in_ifBlock3986);
-				PapyrusGen.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_ifBlock3988);
-				this.codeBlock(((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).kBlockStatements, ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs, ((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
+				CommonTree commonTree = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock3984);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_expression_in_ifBlock3986);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				PushFollow(FOLLOW_codeBlock_in_ifBlock3988);
+				codeBlock(((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((ifBlock_scope)ifBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 86)
 					{
 						num = 1;
@@ -3182,9 +3182,9 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_elseIfBlock_in_ifBlock3994);
-					PapyrusGen.elseIfBlock_return elseIfBlock_return = this.elseIfBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_elseIfBlock_in_ifBlock3994);
+					elseIfBlock_return elseIfBlock_return = elseIfBlock();
+					state.followingStackPointer--;
 					if (list == null)
 					{
 						list = new ArrayList();
@@ -3192,7 +3192,7 @@ namespace pcomps.PCompiler
 					list.Add(elseIfBlock_return.Template);
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 87)
 				{
 					num4 = 1;
@@ -3200,141 +3200,141 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_elseBlock_in_ifBlock3998);
-					elseBlock_return = this.elseBlock();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_elseBlock_in_ifBlock3998);
+					elseBlock_return = elseBlock();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, 3, null);
-				ifBlock_return.ST = this.templateLib.GetInstanceOf("ifBlock", new PapyrusGen.STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).kBlockStatements).Add("elifBlocks", list).Add("elseBlock", (elseBlock_return != null) ? elseBlock_return.ST : null).Add("elseLabel", this.GenerateLabel()).Add("endLabel", ((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
-				((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
+				Match(input, 3, null);
+				ifBlock_return.ST = templateLib.GetInstanceOf("ifBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements).Add("elifBlocks", list).Add("elseBlock", (elseBlock_return != null) ? elseBlock_return.ST : null).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.ifBlock_stack.Pop();
+				ifBlock_stack.Pop();
 			}
 			return ifBlock_return;
 		}
 
 		// Token: 0x06000D9C RID: 3484 RVA: 0x00066944 File Offset: 0x00064B44
-		public PapyrusGen.elseIfBlock_return elseIfBlock()
+		public elseIfBlock_return elseIfBlock()
 		{
-			this.elseIfBlock_stack.Push(new PapyrusGen.elseIfBlock_scope());
-			PapyrusGen.elseIfBlock_return elseIfBlock_return = new PapyrusGen.elseIfBlock_return();
-			elseIfBlock_return.Start = this.input.LT(1);
-			((PapyrusGen.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kBlockStatements = new ArrayList();
-			((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
-			((PapyrusGen.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kchildScope = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			elseIfBlock_stack.Push(new elseIfBlock_scope());
+			elseIfBlock_return elseIfBlock_return = new elseIfBlock_return();
+			elseIfBlock_return.Start = input.LT(1);
+			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements = new ArrayList();
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
+			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 86, PapyrusGen.FOLLOW_ELSEIF_in_elseIfBlock4072);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_expression_in_elseIfBlock4074);
-				PapyrusGen.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_elseIfBlock4076);
-				this.codeBlock(((PapyrusGen.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kBlockStatements, ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs, ((PapyrusGen.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.Match(this.input, 3, null);
-				elseIfBlock_return.ST = this.templateLib.GetInstanceOf("elseIfBlock", new PapyrusGen.STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((PapyrusGen.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kBlockStatements).Add("elseLabel", this.GenerateLabel()).Add("endLabel", ((PapyrusGen.ifBlock_scope)this.ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				CommonTree commonTree = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock4072);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_expression_in_elseIfBlock4074);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				PushFollow(FOLLOW_codeBlock_in_elseIfBlock4076);
+				codeBlock(((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				Match(input, 3, null);
+				elseIfBlock_return.ST = templateLib.GetInstanceOf("elseIfBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.elseIfBlock_stack.Pop();
+				elseIfBlock_stack.Pop();
 			}
 			return elseIfBlock_return;
 		}
 
 		// Token: 0x06000D9D RID: 3485 RVA: 0x00066BC0 File Offset: 0x00064DC0
-		public PapyrusGen.elseBlock_return elseBlock()
+		public elseBlock_return elseBlock()
 		{
-			this.elseBlock_stack.Push(new PapyrusGen.elseBlock_scope());
-			PapyrusGen.elseBlock_return elseBlock_return = new PapyrusGen.elseBlock_return();
-			elseBlock_return.Start = this.input.LT(1);
-			((PapyrusGen.elseBlock_scope)this.elseBlock_stack.Peek()).kBlockStatements = new ArrayList();
-			((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
-			((PapyrusGen.elseBlock_scope)this.elseBlock_stack.Peek()).kchildScope = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			elseBlock_stack.Push(new elseBlock_scope());
+			elseBlock_return elseBlock_return = new elseBlock_return();
+			elseBlock_return.Start = input.LT(1);
+			((elseBlock_scope)elseBlock_stack.Peek()).kBlockStatements = new ArrayList();
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
+			((elseBlock_scope)elseBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				this.Match(this.input, 87, PapyrusGen.FOLLOW_ELSE_in_elseBlock4140);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_elseBlock4142);
-				this.codeBlock(((PapyrusGen.elseBlock_scope)this.elseBlock_stack.Peek()).kBlockStatements, ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs, ((PapyrusGen.elseBlock_scope)this.elseBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.Match(this.input, 3, null);
-				elseBlock_return.ST = this.templateLib.GetInstanceOf("elseBlock", new PapyrusGen.STAttrMap().Add("blockStatements", ((PapyrusGen.elseBlock_scope)this.elseBlock_stack.Peek()).kBlockStatements));
+				Match(input, 87, FOLLOW_ELSE_in_elseBlock4140);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_codeBlock_in_elseBlock4142);
+				codeBlock(((elseBlock_scope)elseBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((elseBlock_scope)elseBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				Match(input, 3, null);
+				elseBlock_return.ST = templateLib.GetInstanceOf("elseBlock", new STAttrMap().Add("blockStatements", ((elseBlock_scope)elseBlock_stack.Peek()).kBlockStatements));
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.elseBlock_stack.Pop();
+				elseBlock_stack.Pop();
 			}
 			return elseBlock_return;
 		}
 
 		// Token: 0x06000D9E RID: 3486 RVA: 0x00066D8C File Offset: 0x00064F8C
-		public PapyrusGen.whileBlock_return whileBlock()
+		public whileBlock_return whileBlock()
 		{
-			this.whileBlock_stack.Push(new PapyrusGen.whileBlock_scope());
-			PapyrusGen.whileBlock_return whileBlock_return = new PapyrusGen.whileBlock_return();
-			whileBlock_return.Start = this.input.LT(1);
-			((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).kBlockStatements = new ArrayList();
-			((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).sStartLabel = this.GenerateLabel();
-			((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).sEndLabel = this.GenerateLabel();
-			((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).kchildScope = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			whileBlock_stack.Push(new whileBlock_scope());
+			whileBlock_return whileBlock_return = new whileBlock_return();
+			whileBlock_return.Start = input.LT(1);
+			((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements = new ArrayList();
+			((whileBlock_scope)whileBlock_stack.Peek()).sStartLabel = GenerateLabel();
+			((whileBlock_scope)whileBlock_stack.Peek()).sEndLabel = GenerateLabel();
+			((whileBlock_scope)whileBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.Match(this.input, 88, PapyrusGen.FOLLOW_WHILE_in_whileBlock4183);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_expression_in_whileBlock4185);
-				PapyrusGen.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				base.PushFollow(PapyrusGen.FOLLOW_codeBlock_in_whileBlock4187);
-				this.codeBlock(((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).kBlockStatements, ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kvarDefs, ((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.Match(this.input, 3, null);
-				whileBlock_return.ST = this.templateLib.GetInstanceOf("whileBlock", new PapyrusGen.STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).kBlockStatements).Add("startLabel", ((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).sStartLabel).Add("endLabel", ((PapyrusGen.whileBlock_scope)this.whileBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
-				((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
+				CommonTree commonTree = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock4183);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_expression_in_whileBlock4185);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				PushFollow(FOLLOW_codeBlock_in_whileBlock4187);
+				codeBlock(((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((whileBlock_scope)whileBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				Match(input, 3, null);
+				whileBlock_return.ST = templateLib.GetInstanceOf("whileBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements).Add("startLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sStartLabel).Add("endLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.whileBlock_stack.Pop();
+				whileBlock_stack.Pop();
 			}
 			return whileBlock_return;
 		}
 
 		// Token: 0x06000D9F RID: 3487 RVA: 0x0006704C File Offset: 0x0006524C
-		public PapyrusGen.function_call_return function_call()
+		public function_call_return function_call()
 		{
-			this.function_call_stack.Push(new PapyrusGen.function_call_scope());
-			PapyrusGen.function_call_return function_call_return = new PapyrusGen.function_call_return();
-			function_call_return.Start = this.input.LT(1);
-			PapyrusGen.parameters_return parameters_return = null;
-			PapyrusGen.parameters_return parameters_return2 = null;
-			PapyrusGen.parameters_return parameters_return3 = null;
-			PapyrusGen.parameters_return parameters_return4 = null;
-			PapyrusGen.parameters_return parameters_return5 = null;
+			function_call_stack.Push(new function_call_scope());
+			function_call_return function_call_return = new function_call_return();
+			function_call_return.Start = input.LT(1);
+			parameters_return parameters_return = null;
+			parameters_return parameters_return2 = null;
+			parameters_return parameters_return3 = null;
+			parameters_return parameters_return4 = null;
+			parameters_return parameters_return5 = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3358,7 +3358,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 49, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 49, 0, input);
 						throw ex;
 					}
 					}
@@ -3368,17 +3368,17 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 11, PapyrusGen.FOLLOW_CALL_in_function_call4252);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4256);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4260);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4264);
-					this.Match(this.input, 14, PapyrusGen.FOLLOW_CALLPARAMS_in_function_call4267);
-					if (this.input.LA(1) == 2)
+					CommonTree commonTree = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call4252);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4256);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4260);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4264);
+					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4267);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num3 = 2;
-						int num4 = this.input.LA(1);
+						int num4 = input.LA(1);
 						if (num4 == 9)
 						{
 							num3 = 1;
@@ -3386,38 +3386,38 @@ namespace pcomps.PCompiler
 						int num5 = num3;
 						if (num5 == 1)
 						{
-							base.PushFollow(PapyrusGen.FOLLOW_parameters_in_function_call4269);
-							parameters_return = this.parameters();
-							this.state.followingStackPointer--;
+							PushFollow(FOLLOW_parameters_in_function_call4269);
+							parameters_return = parameters();
+							state.followingStackPointer--;
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.Match(this.input, 3, null);
-					((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					function_call_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					Match(input, 3, null);
+					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
 					if (((parameters_return != null) ? ((CommonTree)parameters_return.Start) : null) == null)
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callLocal", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callLocal", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree.Line));
 					}
 					else
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callLocal", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return != null) ? parameters_return.sParamVars : null).Add("autoCast", (parameters_return != null) ? parameters_return.kAutoCastST : null).Add("paramExpressions", (parameters_return != null) ? parameters_return.ST : null).Add("lineNo", commonTree.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callLocal", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return != null) ? parameters_return.sParamVars : null).Add("autoCast", (parameters_return != null) ? parameters_return.kAutoCastST : null).Add("paramExpressions", (parameters_return != null) ? parameters_return.ST : null).Add("lineNo", commonTree.Line));
 					}
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 13, PapyrusGen.FOLLOW_CALLPARENT_in_function_call4355);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4359);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4363);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4367);
-					this.Match(this.input, 14, PapyrusGen.FOLLOW_CALLPARAMS_in_function_call4370);
-					if (this.input.LA(1) == 2)
+					CommonTree commonTree5 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call4355);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4359);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4363);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4367);
+					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4370);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num6 = 2;
-						int num7 = this.input.LA(1);
+						int num7 = input.LA(1);
 						if (num7 == 9)
 						{
 							num6 = 1;
@@ -3425,37 +3425,37 @@ namespace pcomps.PCompiler
 						int num8 = num6;
 						if (num8 == 1)
 						{
-							base.PushFollow(PapyrusGen.FOLLOW_parameters_in_function_call4372);
-							parameters_return2 = this.parameters();
-							this.state.followingStackPointer--;
+							PushFollow(FOLLOW_parameters_in_function_call4372);
+							parameters_return2 = parameters();
+							state.followingStackPointer--;
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.Match(this.input, 3, null);
-					function_call_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					Match(input, 3, null);
+					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
 					if (((parameters_return2 != null) ? ((CommonTree)parameters_return2.Start) : null) == null)
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callParent", new PapyrusGen.STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree5.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callParent", new STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree5.Line));
 					}
 					else
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callParent", new PapyrusGen.STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return2 != null) ? parameters_return2.sParamVars : null).Add("autoCast", (parameters_return2 != null) ? parameters_return2.kAutoCastST : null).Add("paramExpressions", (parameters_return2 != null) ? parameters_return2.ST : null).Add("lineNo", commonTree5.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callParent", new STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return2 != null) ? parameters_return2.sParamVars : null).Add("autoCast", (parameters_return2 != null) ? parameters_return2.kAutoCastST : null).Add("paramExpressions", (parameters_return2 != null) ? parameters_return2.ST : null).Add("lineNo", commonTree5.Line));
 					}
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 12, PapyrusGen.FOLLOW_CALLGLOBAL_in_function_call4448);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4452);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4456);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4460);
-					this.Match(this.input, 14, PapyrusGen.FOLLOW_CALLPARAMS_in_function_call4463);
-					if (this.input.LA(1) == 2)
+					CommonTree commonTree6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call4448);
+					Match(input, 2, null);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4452);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4456);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4460);
+					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4463);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num9 = 2;
-						int num10 = this.input.LA(1);
+						int num10 = input.LA(1);
 						if (num10 == 9)
 						{
 							num9 = 1;
@@ -3463,36 +3463,36 @@ namespace pcomps.PCompiler
 						int num11 = num9;
 						if (num11 == 1)
 						{
-							base.PushFollow(PapyrusGen.FOLLOW_parameters_in_function_call4465);
-							parameters_return3 = this.parameters();
-							this.state.followingStackPointer--;
+							PushFollow(FOLLOW_parameters_in_function_call4465);
+							parameters_return3 = parameters();
+							state.followingStackPointer--;
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.Match(this.input, 3, null);
-					function_call_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					Match(input, 3, null);
+					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
 					if (((parameters_return3 != null) ? ((CommonTree)parameters_return3.Start) : null) == null)
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callGlobal", new PapyrusGen.STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree6.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callGlobal", new STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree6.Line));
 					}
 					else
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("callGlobal", new PapyrusGen.STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return3 != null) ? parameters_return3.sParamVars : null).Add("autoCast", (parameters_return3 != null) ? parameters_return3.kAutoCastST : null).Add("paramExpressions", (parameters_return3 != null) ? parameters_return3.ST : null).Add("lineNo", commonTree6.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callGlobal", new STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return3 != null) ? parameters_return3.sParamVars : null).Add("autoCast", (parameters_return3 != null) ? parameters_return3.kAutoCastST : null).Add("paramExpressions", (parameters_return3 != null) ? parameters_return3.ST : null).Add("lineNo", commonTree6.Line));
 					}
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree8 = (CommonTree)this.Match(this.input, 24, PapyrusGen.FOLLOW_ARRAYFIND_in_function_call4551);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4555);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4559);
-					this.Match(this.input, 14, PapyrusGen.FOLLOW_CALLPARAMS_in_function_call4562);
-					if (this.input.LA(1) == 2)
+					CommonTree commonTree8 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call4551);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4555);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4559);
+					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4562);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num12 = 2;
-						int num13 = this.input.LA(1);
+						int num13 = input.LA(1);
 						if (num13 == 9)
 						{
 							num12 = 1;
@@ -3500,37 +3500,37 @@ namespace pcomps.PCompiler
 						int num14 = num12;
 						if (num14 == 1)
 						{
-							base.PushFollow(PapyrusGen.FOLLOW_parameters_in_function_call4564);
-							parameters_return4 = this.parameters();
-							this.state.followingStackPointer--;
+							PushFollow(FOLLOW_parameters_in_function_call4564);
+							parameters_return4 = parameters();
+							state.followingStackPointer--;
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.Match(this.input, 3, null);
-					((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					function_call_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					Match(input, 3, null);
+					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
 					if (((parameters_return4 != null) ? ((CommonTree)parameters_return4.Start) : null) == null)
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("arrayFind", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree8.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree8.Line));
 					}
 					else
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("arrayFind", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return4 != null) ? parameters_return4.sParamVars : null).Add("autoCast", (parameters_return4 != null) ? parameters_return4.kAutoCastST : null).Add("paramExpressions", (parameters_return4 != null) ? parameters_return4.ST : null).Add("lineNo", commonTree8.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return4 != null) ? parameters_return4.sParamVars : null).Add("autoCast", (parameters_return4 != null) ? parameters_return4.kAutoCastST : null).Add("paramExpressions", (parameters_return4 != null) ? parameters_return4.ST : null).Add("lineNo", commonTree8.Line));
 					}
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 25, PapyrusGen.FOLLOW_ARRAYRFIND_in_function_call4640);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4644);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_function_call4648);
-					this.Match(this.input, 14, PapyrusGen.FOLLOW_CALLPARAMS_in_function_call4651);
-					if (this.input.LA(1) == 2)
+					CommonTree commonTree9 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call4640);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4644);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4648);
+					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4651);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num15 = 2;
-						int num16 = this.input.LA(1);
+						int num16 = input.LA(1);
 						if (num16 == 9)
 						{
 							num15 = 1;
@@ -3538,22 +3538,22 @@ namespace pcomps.PCompiler
 						int num17 = num15;
 						if (num17 == 1)
 						{
-							base.PushFollow(PapyrusGen.FOLLOW_parameters_in_function_call4653);
-							parameters_return5 = this.parameters();
-							this.state.followingStackPointer--;
+							PushFollow(FOLLOW_parameters_in_function_call4653);
+							parameters_return5 = parameters();
+							state.followingStackPointer--;
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.Match(this.input, 3, null);
-					((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					function_call_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
+					Match(input, 3, null);
+					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
 					if (((parameters_return5 != null) ? ((CommonTree)parameters_return5.Start) : null) == null)
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("arrayRFind", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree9.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayRFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree9.Line));
 					}
 					else
 					{
-						function_call_return.ST = this.templateLib.GetInstanceOf("arrayRFind", new PapyrusGen.STAttrMap().Add("selfName", ((PapyrusGen.function_call_scope)this.function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return5 != null) ? parameters_return5.sParamVars : null).Add("autoCast", (parameters_return5 != null) ? parameters_return5.kAutoCastST : null).Add("paramExpressions", (parameters_return5 != null) ? parameters_return5.ST : null).Add("lineNo", commonTree9.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayRFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return5 != null) ? parameters_return5.sParamVars : null).Add("autoCast", (parameters_return5 != null) ? parameters_return5.kAutoCastST : null).Add("paramExpressions", (parameters_return5 != null) ? parameters_return5.ST : null).Add("lineNo", commonTree9.Line));
 					}
 					break;
 				}
@@ -3561,21 +3561,21 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.function_call_stack.Pop();
+				function_call_stack.Pop();
 			}
 			return function_call_return;
 		}
 
 		// Token: 0x06000DA0 RID: 3488 RVA: 0x00067D9C File Offset: 0x00065F9C
-		public PapyrusGen.parameters_return parameters()
+		public parameters_return parameters()
 		{
-			PapyrusGen.parameters_return parameters_return = new PapyrusGen.parameters_return();
-			parameters_return.Start = this.input.LT(1);
+			parameters_return parameters_return = new parameters_return();
+			parameters_return.Start = input.LT(1);
 			IList list = null;
 			parameters_return.sParamVars = new ArrayList();
 			parameters_return.kAutoCastST = new ArrayList();
@@ -3585,7 +3585,7 @@ namespace pcomps.PCompiler
 				for (;;)
 				{
 					int num2 = 2;
-					int num3 = this.input.LA(1);
+					int num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
@@ -3595,9 +3595,9 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(PapyrusGen.FOLLOW_parameter_in_parameters4751);
-					PapyrusGen.parameter_return parameter_return = this.parameter();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_parameter_in_parameters4751);
+					parameter_return parameter_return = parameter();
+					state.followingStackPointer--;
 					if (list == null)
 					{
 						list = new ArrayList();
@@ -3609,56 +3609,56 @@ namespace pcomps.PCompiler
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(50, this.input);
+					EarlyExitException ex = new EarlyExitException(50, input);
 					throw ex;
 				}
-				parameters_return.ST = this.templateLib.GetInstanceOf("parameterExpressions", new PapyrusGen.STAttrMap().Add("expressions", list));
+				parameters_return.ST = templateLib.GetInstanceOf("parameterExpressions", new STAttrMap().Add("expressions", list));
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return parameters_return;
 		}
 
 		// Token: 0x06000DA1 RID: 3489 RVA: 0x00067EE4 File Offset: 0x000660E4
-		public PapyrusGen.parameter_return parameter()
+		public parameter_return parameter()
 		{
-			PapyrusGen.parameter_return parameter_return = new PapyrusGen.parameter_return();
-			parameter_return.Start = this.input.LT(1);
+			parameter_return parameter_return = new parameter_return();
+			parameter_return.Start = input.LT(1);
 			try
 			{
-				this.Match(this.input, 9, PapyrusGen.FOLLOW_PARAM_in_parameter4793);
-				this.Match(this.input, 2, null);
-				base.PushFollow(PapyrusGen.FOLLOW_autoCast_in_parameter4795);
-				PapyrusGen.autoCast_return autoCast_return = this.autoCast();
-				this.state.followingStackPointer--;
-				base.PushFollow(PapyrusGen.FOLLOW_expression_in_parameter4797);
-				PapyrusGen.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				this.Match(this.input, 3, null);
+				Match(input, 9, FOLLOW_PARAM_in_parameter4793);
+				Match(input, 2, null);
+				PushFollow(FOLLOW_autoCast_in_parameter4795);
+				autoCast_return autoCast_return = autoCast();
+				state.followingStackPointer--;
+				PushFollow(FOLLOW_expression_in_parameter4797);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				Match(input, 3, null);
 				parameter_return.ST = ((expression_return != null) ? expression_return.ST : null);
 				parameter_return.sVarName = ((autoCast_return != null) ? autoCast_return.sRetValue : null);
 				parameter_return.kAutoCastST = ((autoCast_return != null) ? autoCast_return.ST : null);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return parameter_return;
 		}
 
 		// Token: 0x06000DA2 RID: 3490 RVA: 0x00067FEC File Offset: 0x000661EC
-		public PapyrusGen.autoCast_return autoCast()
+		public autoCast_return autoCast()
 		{
-			this.autoCast_stack.Push(new PapyrusGen.autoCast_scope());
-			PapyrusGen.autoCast_return autoCast_return = new PapyrusGen.autoCast_return();
-			autoCast_return.Start = this.input.LT(1);
+			autoCast_stack.Push(new autoCast_scope());
+			autoCast_return autoCast_return = new autoCast_return();
+			autoCast_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num5;
 				if (num != 38)
 				{
@@ -3666,19 +3666,19 @@ namespace pcomps.PCompiler
 					{
 					case 79:
 					{
-						int num2 = this.input.LA(2);
+						int num2 = input.LA(2);
 						if (num2 != 2)
 						{
-							NoViableAltException ex = new NoViableAltException("", 51, 1, this.input);
+							NoViableAltException ex = new NoViableAltException("", 51, 1, input);
 							throw ex;
 						}
-						int num3 = this.input.LA(3);
+						int num3 = input.LA(3);
 						if (num3 != 38)
 						{
-							NoViableAltException ex2 = new NoViableAltException("", 51, 4, this.input);
+							NoViableAltException ex2 = new NoViableAltException("", 51, 4, input);
 							throw ex2;
 						}
-						int num4 = this.input.LA(4);
+						int num4 = input.LA(4);
 						if (num4 == 38)
 						{
 							num5 = 1;
@@ -3689,7 +3689,7 @@ namespace pcomps.PCompiler
 							num5 = 2;
 							goto IL_150;
 						}
-						NoViableAltException ex3 = new NoViableAltException("", 51, 5, this.input);
+						NoViableAltException ex3 = new NoViableAltException("", 51, 5, input);
 						throw ex3;
 					}
 					case 80:
@@ -3712,7 +3712,7 @@ namespace pcomps.PCompiler
 					num5 = 4;
 					goto IL_150;
 					IL_138:
-					NoViableAltException ex4 = new NoViableAltException("", 51, 0, this.input);
+					NoViableAltException ex4 = new NoViableAltException("", 51, 0, input);
 					throw ex4;
 				}
 				num5 = 3;
@@ -3721,40 +3721,40 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 79, PapyrusGen.FOLLOW_AS_in_autoCast4825);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_autoCast4829);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_autoCast4833);
-					this.Match(this.input, 3, null);
-					((PapyrusGen.autoCast_scope)this.autoCast_stack.Peek()).ssource = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					autoCast_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					autoCast_return.ST = this.templateLib.GetInstanceOf("cast", new PapyrusGen.STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((PapyrusGen.autoCast_scope)this.autoCast_stack.Peek()).ssource).Add("lineNo", commonTree.Line));
+					CommonTree commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4825);
+					Match(input, 2, null);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4829);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4833);
+					Match(input, 3, null);
+					((autoCast_scope)autoCast_stack.Peek()).ssource = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
+					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
+					autoCast_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((autoCast_scope)autoCast_stack.Peek()).ssource).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 79, PapyrusGen.FOLLOW_AS_in_autoCast4868);
-					this.Match(this.input, 2, null);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_autoCast4870);
-					base.PushFollow(PapyrusGen.FOLLOW_constant_in_autoCast4872);
-					PapyrusGen.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
-					this.Match(this.input, 3, null);
-					autoCast_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
-					autoCast_return.ST = this.templateLib.GetInstanceOf("cast", new PapyrusGen.STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text).Add("lineNo", commonTree4.Line));
+					CommonTree commonTree4 = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4868);
+					Match(input, 2, null);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4870);
+					PushFollow(FOLLOW_constant_in_autoCast4872);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
+					Match(input, 3, null);
+					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
+					autoCast_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text).Add("lineNo", commonTree4.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_autoCast4906);
-					autoCast_return.sRetValue = ((PapyrusGen.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4906);
+					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
 					break;
 				}
 				case 4:
 				{
-					base.PushFollow(PapyrusGen.FOLLOW_constant_in_autoCast4917);
-					PapyrusGen.constant_return constant_return2 = this.constant();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_constant_in_autoCast4917);
+					constant_return constant_return2 = constant();
+					state.followingStackPointer--;
 					autoCast_return.sRetValue = ((constant_return2 != null) ? ((CommonTree)constant_return2.Start) : null).Text;
 					break;
 				}
@@ -3762,24 +3762,24 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex5)
 			{
-				this.ReportError(ex5);
-				this.Recover(this.input, ex5);
+				ReportError(ex5);
+				Recover(input, ex5);
 			}
 			finally
 			{
-				this.autoCast_stack.Pop();
+				autoCast_stack.Pop();
 			}
 			return autoCast_return;
 		}
 
 		// Token: 0x06000DA3 RID: 3491 RVA: 0x00068478 File Offset: 0x00066678
-		public PapyrusGen.constant_return constant()
+		public constant_return constant()
 		{
-			PapyrusGen.constant_return constant_return = new PapyrusGen.constant_return();
-			constant_return.Start = this.input.LT(1);
+			constant_return constant_return = new constant_return();
+			constant_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num != 81)
 				{
@@ -3798,7 +3798,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 52, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 52, 0, input);
 						throw ex;
 					}
 					}
@@ -3808,64 +3808,64 @@ namespace pcomps.PCompiler
 				switch (num2)
 				{
 				case 1:
-					base.PushFollow(PapyrusGen.FOLLOW_number_in_constant4935);
-					this.number();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_number_in_constant4935);
+					number();
+					state.followingStackPointer--;
 					break;
 				case 2:
-					this.Match(this.input, 90, PapyrusGen.FOLLOW_STRING_in_constant4941);
+					Match(input, 90, FOLLOW_STRING_in_constant4941);
 					break;
 				case 3:
-					this.Match(this.input, 91, PapyrusGen.FOLLOW_BOOL_in_constant4947);
+					Match(input, 91, FOLLOW_BOOL_in_constant4947);
 					break;
 				case 4:
-					this.Match(this.input, 92, PapyrusGen.FOLLOW_NONE_in_constant4953);
+					Match(input, 92, FOLLOW_NONE_in_constant4953);
 					break;
 				}
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return constant_return;
 		}
 
 		// Token: 0x06000DA4 RID: 3492 RVA: 0x000685A4 File Offset: 0x000667A4
-		public PapyrusGen.number_return number()
+		public number_return number()
 		{
-			PapyrusGen.number_return number_return = new PapyrusGen.number_return();
-			number_return.Start = this.input.LT(1);
+			number_return number_return = new number_return();
+			number_return.Start = input.LT(1);
 			try
 			{
-				if (this.input.LA(1) != 81 && this.input.LA(1) != 93)
+				if (input.LA(1) != 81 && input.LA(1) != 93)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
-				this.input.Consume();
-				this.state.errorRecovery = false;
+				input.Consume();
+				state.errorRecovery = false;
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return number_return;
 		}
 
 		// Token: 0x06000DA5 RID: 3493 RVA: 0x0006863C File Offset: 0x0006683C
-		public PapyrusGen.type_return type()
+		public type_return type()
 		{
-			PapyrusGen.type_return type_return = new PapyrusGen.type_return();
-			type_return.Start = this.input.LT(1);
+			type_return type_return = new type_return();
+			type_return.Start = input.LT(1);
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num3;
 				if (num == 38)
 				{
-					int num2 = this.input.LA(2);
+					int num2 = input.LA(2);
 					if (num2 == 63)
 					{
 						num3 = 2;
@@ -3874,7 +3874,7 @@ namespace pcomps.PCompiler
 					{
 						if (num2 != 38)
 						{
-							NoViableAltException ex = new NoViableAltException("", 53, 1, this.input);
+							NoViableAltException ex = new NoViableAltException("", 53, 1, input);
 							throw ex;
 						}
 						num3 = 1;
@@ -3884,10 +3884,10 @@ namespace pcomps.PCompiler
 				{
 					if (num != 55)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 53, 0, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 53, 0, input);
 						throw ex2;
 					}
-					int num4 = this.input.LA(2);
+					int num4 = input.LA(2);
 					if (num4 == 63)
 					{
 						num3 = 4;
@@ -3896,7 +3896,7 @@ namespace pcomps.PCompiler
 					{
 						if (num4 != 38)
 						{
-							NoViableAltException ex3 = new NoViableAltException("", 53, 2, this.input);
+							NoViableAltException ex3 = new NoViableAltException("", 53, 2, input);
 							throw ex3;
 						}
 						num3 = 3;
@@ -3906,29 +3906,29 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_type4985);
+					CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4985);
 					type_return.sTypeString = commonTree.Text;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_type4996);
-					this.Match(this.input, 63, PapyrusGen.FOLLOW_LBRACKET_in_type4998);
-					this.Match(this.input, 64, PapyrusGen.FOLLOW_RBRACKET_in_type5000);
+					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4996);
+					Match(input, 63, FOLLOW_LBRACKET_in_type4998);
+					Match(input, 64, FOLLOW_RBRACKET_in_type5000);
 					type_return.sTypeString = $"{commonTree2.Text}[]";
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 55, PapyrusGen.FOLLOW_BASETYPE_in_type5011);
+					CommonTree commonTree3 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5011);
 					type_return.sTypeString = commonTree3.Text;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 55, PapyrusGen.FOLLOW_BASETYPE_in_type5022);
-					this.Match(this.input, 63, PapyrusGen.FOLLOW_LBRACKET_in_type5024);
-					this.Match(this.input, 64, PapyrusGen.FOLLOW_RBRACKET_in_type5026);
+					CommonTree commonTree4 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5022);
+					Match(input, 63, FOLLOW_LBRACKET_in_type5024);
+					Match(input, 64, FOLLOW_RBRACKET_in_type5026);
 					type_return.sTypeString = $"{commonTree4.Text}[]";
 					break;
 				}
@@ -3936,8 +3936,8 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException ex4)
 			{
-				this.ReportError(ex4);
-				this.Recover(this.input, ex4);
+				ReportError(ex4);
+				Recover(input, ex4);
 			}
 			return type_return;
 		}
@@ -3945,7 +3945,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA6 RID: 3494 RVA: 0x00068878 File Offset: 0x00066A78
 		private void InitializeCyclicDFAs()
 		{
-			this.dfa27 = new PapyrusGen.DFA27(this);
+			dfa27 = new DFA27(this);
 		}
 
 		// Token: 0x170001B8 RID: 440
@@ -3954,15 +3954,15 @@ namespace pcomps.PCompiler
 		{
 			set
 			{
-				this.kFlagDict = value;
+				kFlagDict = value;
 			}
 		}
 
 		// Token: 0x06000DA8 RID: 3496 RVA: 0x00068894 File Offset: 0x00066A94
 		private string MangleVariableName(string asOriginalName)
 		{
-			string result = $"::mangled_{asOriginalName}_{this.iCurMangleSuffix}";
-			this.iCurMangleSuffix++;
+			string result = $"::mangled_{asOriginalName}_{iCurMangleSuffix}";
+			iCurMangleSuffix++;
 			return result;
 		}
 
@@ -3970,7 +3970,7 @@ namespace pcomps.PCompiler
 		private void MangleFunctionVariables(ScriptFunctionType akFunction)
 		{
 			Dictionary<string, bool> dictionary = new Dictionary<string, bool>();
-			this.MangleScopeVariables(akFunction.FunctionScope, ref dictionary);
+			MangleScopeVariables(akFunction.FunctionScope, ref dictionary);
 		}
 
 		// Token: 0x06000DAA RID: 3498 RVA: 0x000688EC File Offset: 0x00066AEC
@@ -3981,7 +3981,7 @@ namespace pcomps.PCompiler
 				string key = keyValuePair.Key.ToLowerInvariant();
 				if (akAlreadyDefinedVars.ContainsKey(key))
 				{
-					akCurrentScope.kMangledVarNames.Add(key, this.MangleVariableName(keyValuePair.Key));
+					akCurrentScope.kMangledVarNames.Add(key, MangleVariableName(keyValuePair.Key));
 				}
 				else
 				{
@@ -3990,15 +3990,15 @@ namespace pcomps.PCompiler
 			}
 			foreach (ScriptScope akCurrentScope2 in akCurrentScope.Children)
 			{
-				this.MangleScopeVariables(akCurrentScope2, ref akAlreadyDefinedVars);
+				MangleScopeVariables(akCurrentScope2, ref akAlreadyDefinedVars);
 			}
 		}
 
 		// Token: 0x06000DAB RID: 3499 RVA: 0x000689B8 File Offset: 0x00066BB8
 		private string GenerateLabel()
 		{
-			string result = string.Format("label{0}", this.iCurLabelSuffix);
-			this.iCurLabelSuffix++;
+			string result = string.Format("label{0}", iCurLabelSuffix);
+			iCurLabelSuffix++;
 			return result;
 		}
 
@@ -4015,27 +4015,27 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DAD RID: 3501 RVA: 0x00068A00 File Offset: 0x00066C00
 		private static long ToUnixTime(DateTime akDateTime)
 		{
-			return Convert.ToInt64((akDateTime - PapyrusGen.UnixEpoc).TotalSeconds);
+			return Convert.ToInt64((akDateTime - UnixEpoc).TotalSeconds);
 		}
 
 		// Token: 0x06000DAE RID: 3502 RVA: 0x00068A28 File Offset: 0x00066C28
 		private string GetFileModTimeUnix(string asFilename)
 		{
 			FileInfo fileInfo = new FileInfo(asFilename);
-			return PapyrusGen.ToUnixTime(fileInfo.LastWriteTime.ToUniversalTime()).ToString();
+			return ToUnixTime(fileInfo.LastWriteTime.ToUniversalTime()).ToString();
 		}
 
 		// Token: 0x06000DAF RID: 3503 RVA: 0x00068A58 File Offset: 0x00066C58
 		private string GetCompileTimeUnix()
 		{
-			return PapyrusGen.ToUnixTime(DateTime.UtcNow).ToString();
+			return ToUnixTime(DateTime.UtcNow).ToString();
 		}
 
 		// Token: 0x06000DB0 RID: 3504 RVA: 0x00068A78 File Offset: 0x00066C78
 		private Hashtable ConstructUserFlagRefInfo()
 		{
 			Hashtable hashtable = new Hashtable();
-			foreach (KeyValuePair<string, PapyrusFlag> keyValuePair in this.kFlagDict)
+			foreach (KeyValuePair<string, PapyrusFlag> keyValuePair in kFlagDict)
 			{
 				hashtable.Add(keyValuePair.Key, keyValuePair.Value.Index);
 			}
@@ -4537,7 +4537,7 @@ namespace pcomps.PCompiler
 		protected StackList autoCast_stack = new StackList();
 
 		// Token: 0x04000A6F RID: 2671
-		protected PapyrusGen.DFA27 dfa27;
+		protected DFA27 dfa27;
 
 		// Token: 0x04000A70 RID: 2672
 		private static readonly string[] DFA27_transitionS = new string[]
@@ -4588,7 +4588,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA27_special = DFA.UnpackEncodedString("\u0019￿}>");
 
 		// Token: 0x04000A77 RID: 2679
-		private static readonly short[][] DFA27_transition = DFA.UnpackEncodedStringArray(PapyrusGen.DFA27_transitionS);
+		private static readonly short[][] DFA27_transition = DFA.UnpackEncodedStringArray(DFA27_transitionS);
 
 		// Token: 0x04000A78 RID: 2680
 		public static readonly BitSet FOLLOW_OBJECT_in_script80 = new BitSet(new ulong[]
@@ -6717,14 +6717,14 @@ namespace pcomps.PCompiler
 		protected class STAttrMap : Hashtable
 		{
 			// Token: 0x06000DB2 RID: 3506 RVA: 0x0006B604 File Offset: 0x00069804
-			public PapyrusGen.STAttrMap Add(string attrName, object value)
+			public STAttrMap Add(string attrName, object value)
 			{
 				base.Add(attrName, value);
 				return this;
 			}
 
 			// Token: 0x06000DB3 RID: 3507 RVA: 0x0006B610 File Offset: 0x00069810
-			public PapyrusGen.STAttrMap Add(string attrName, int value)
+			public STAttrMap Add(string attrName, int value)
 			{
 				base.Add(attrName, value);
 				return this;
@@ -6793,11 +6793,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -6807,16 +6807,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DB9 RID: 3513 RVA: 0x0006B64C File Offset: 0x0006984C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -6835,11 +6835,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -6849,16 +6849,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DBE RID: 3518 RVA: 0x0006B688 File Offset: 0x00069888
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -6877,11 +6877,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -6891,16 +6891,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DC3 RID: 3523 RVA: 0x0006B6C4 File Offset: 0x000698C4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -6926,11 +6926,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -6940,16 +6940,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DC9 RID: 3529 RVA: 0x0006B708 File Offset: 0x00069908
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7008,11 +7008,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7022,16 +7022,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DCF RID: 3535 RVA: 0x0006B74C File Offset: 0x0006994C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7053,11 +7053,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7067,16 +7067,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DD4 RID: 3540 RVA: 0x0006B788 File Offset: 0x00069988
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7095,11 +7095,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7109,16 +7109,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DD9 RID: 3545 RVA: 0x0006B7C4 File Offset: 0x000699C4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7174,11 +7174,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7188,16 +7188,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DDF RID: 3551 RVA: 0x0006B808 File Offset: 0x00069A08
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7219,11 +7219,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7233,16 +7233,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DE4 RID: 3556 RVA: 0x0006B844 File Offset: 0x00069A44
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7261,11 +7261,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7275,16 +7275,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DE9 RID: 3561 RVA: 0x0006B880 File Offset: 0x00069A80
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7306,11 +7306,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7320,16 +7320,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DEE RID: 3566 RVA: 0x0006B8BC File Offset: 0x00069ABC
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7348,11 +7348,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7362,16 +7362,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DF3 RID: 3571 RVA: 0x0006B8F8 File Offset: 0x00069AF8
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7390,11 +7390,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7404,16 +7404,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DF8 RID: 3576 RVA: 0x0006B934 File Offset: 0x00069B34
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7448,11 +7448,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7462,16 +7462,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000DFE RID: 3582 RVA: 0x0006B978 File Offset: 0x00069B78
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7490,11 +7490,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7504,16 +7504,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E03 RID: 3587 RVA: 0x0006B9B4 File Offset: 0x00069BB4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7532,11 +7532,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7546,16 +7546,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E08 RID: 3592 RVA: 0x0006B9F0 File Offset: 0x00069BF0
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7587,11 +7587,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7601,16 +7601,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E0E RID: 3598 RVA: 0x0006BA34 File Offset: 0x00069C34
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7636,11 +7636,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7650,16 +7650,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E14 RID: 3604 RVA: 0x0006BA78 File Offset: 0x00069C78
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7678,11 +7678,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7692,16 +7692,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E19 RID: 3609 RVA: 0x0006BAB4 File Offset: 0x00069CB4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7745,11 +7745,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7759,16 +7759,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E1F RID: 3615 RVA: 0x0006BAF8 File Offset: 0x00069CF8
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7797,11 +7797,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7811,16 +7811,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E25 RID: 3621 RVA: 0x0006BB3C File Offset: 0x00069D3C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7839,11 +7839,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7853,16 +7853,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E2A RID: 3626 RVA: 0x0006BB78 File Offset: 0x00069D78
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7884,11 +7884,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7898,16 +7898,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E2F RID: 3631 RVA: 0x0006BBB4 File Offset: 0x00069DB4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7929,11 +7929,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7943,16 +7943,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E34 RID: 3636 RVA: 0x0006BBF0 File Offset: 0x00069DF0
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -7974,11 +7974,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -7988,16 +7988,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E39 RID: 3641 RVA: 0x0006BC2C File Offset: 0x00069E2C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8019,11 +8019,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8033,16 +8033,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E3E RID: 3646 RVA: 0x0006BC68 File Offset: 0x00069E68
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8064,11 +8064,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8078,16 +8078,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E43 RID: 3651 RVA: 0x0006BCA4 File Offset: 0x00069EA4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8109,11 +8109,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8123,16 +8123,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E48 RID: 3656 RVA: 0x0006BCE0 File Offset: 0x00069EE0
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8154,11 +8154,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8168,16 +8168,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E4D RID: 3661 RVA: 0x0006BD1C File Offset: 0x00069F1C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8206,11 +8206,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8220,16 +8220,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E53 RID: 3667 RVA: 0x0006BD60 File Offset: 0x00069F60
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8251,11 +8251,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8265,16 +8265,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E58 RID: 3672 RVA: 0x0006BD9C File Offset: 0x00069F9C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8303,11 +8303,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8317,16 +8317,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E5E RID: 3678 RVA: 0x0006BDE0 File Offset: 0x00069FE0
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8355,11 +8355,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8369,16 +8369,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E64 RID: 3684 RVA: 0x0006BE24 File Offset: 0x0006A024
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8410,11 +8410,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8424,16 +8424,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E6A RID: 3690 RVA: 0x0006BE68 File Offset: 0x0006A068
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8452,11 +8452,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8466,16 +8466,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E6F RID: 3695 RVA: 0x0006BEA4 File Offset: 0x0006A0A4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8507,11 +8507,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8521,16 +8521,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E75 RID: 3701 RVA: 0x0006BEE8 File Offset: 0x0006A0E8
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8559,11 +8559,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8573,16 +8573,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E7B RID: 3707 RVA: 0x0006BF2C File Offset: 0x0006A12C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8611,11 +8611,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8625,16 +8625,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E81 RID: 3713 RVA: 0x0006BF70 File Offset: 0x0006A170
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8669,11 +8669,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8683,16 +8683,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E87 RID: 3719 RVA: 0x0006BFB4 File Offset: 0x0006A1B4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8718,11 +8718,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8732,16 +8732,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E8D RID: 3725 RVA: 0x0006BFF8 File Offset: 0x0006A1F8
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8763,11 +8763,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8777,16 +8777,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E92 RID: 3730 RVA: 0x0006C034 File Offset: 0x0006A234
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8811,11 +8811,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8825,16 +8825,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E97 RID: 3735 RVA: 0x0006C070 File Offset: 0x0006A270
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8866,11 +8866,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8880,16 +8880,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000E9D RID: 3741 RVA: 0x0006C0B4 File Offset: 0x0006A2B4
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8911,11 +8911,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8925,16 +8925,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000EA2 RID: 3746 RVA: 0x0006C0F0 File Offset: 0x0006A2F0
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8953,11 +8953,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -8967,16 +8967,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000EA7 RID: 3751 RVA: 0x0006C12C File Offset: 0x0006A32C
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -8995,11 +8995,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 				set
 				{
-					this.st = value;
+					st = value;
 				}
 			}
 
@@ -9009,16 +9009,16 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.st;
+					return st;
 				}
 			}
 
 			// Token: 0x06000EAC RID: 3756 RVA: 0x0006C168 File Offset: 0x0006A368
 			public override string ToString()
 			{
-				if (this.st != null)
+				if (st != null)
 				{
-					return this.st.ToString();
+					return st.ToString();
 				}
 				return null;
 			}
@@ -9037,14 +9037,14 @@ namespace pcomps.PCompiler
 			public DFA27(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 27;
-				this.eot = PapyrusGen.DFA27_eot;
-				this.eof = PapyrusGen.DFA27_eof;
-				this.min = PapyrusGen.DFA27_min;
-				this.max = PapyrusGen.DFA27_max;
-				this.accept = PapyrusGen.DFA27_accept;
-				this.special = PapyrusGen.DFA27_special;
-				this.transition = PapyrusGen.DFA27_transition;
+				decisionNumber = 27;
+				eot = DFA27_eot;
+				eof = DFA27_eof;
+				min = DFA27_min;
+				max = DFA27_max;
+				accept = DFA27_accept;
+				special = DFA27_special;
+				transition = DFA27_transition;
 			}
 
 			// Token: 0x17000216 RID: 534

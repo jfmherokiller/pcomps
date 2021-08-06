@@ -22,7 +22,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		public TreeWizard(ITreeAdaptor adaptor, string[] tokenNames)
 		{
 			this.adaptor = adaptor;
-			this.tokenNameToTypeMap = this.ComputeTokenTypes(tokenNames);
+			tokenNameToTypeMap = ComputeTokenTypes(tokenNames);
 		}
 
 		// Token: 0x0600083F RID: 2111 RVA: 0x000173EC File Offset: 0x000155EC
@@ -49,11 +49,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000841 RID: 2113 RVA: 0x00017440 File Offset: 0x00015640
 		public int GetTokenType(string tokenName)
 		{
-			if (this.tokenNameToTypeMap == null)
+			if (tokenNameToTypeMap == null)
 			{
 				return 0;
 			}
-			object obj = this.tokenNameToTypeMap[tokenName];
+			object obj = tokenNameToTypeMap[tokenName];
 			if (obj != null)
 			{
 				return (int)obj;
@@ -65,7 +65,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		public IDictionary Index(object t)
 		{
 			IDictionary dictionary = new Hashtable();
-			this._Index(t, dictionary);
+			_Index(t, dictionary);
 			return dictionary;
 		}
 
@@ -76,7 +76,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return;
 			}
-			int nodeType = this.adaptor.GetNodeType(t);
+			int nodeType = adaptor.GetNodeType(t);
 			IList list = m[nodeType] as IList;
 			if (list == null)
 			{
@@ -84,11 +84,11 @@ namespace pcomps.Antlr.Runtime.Tree
 				m[nodeType] = list;
 			}
 			list.Add(t);
-			int childCount = this.adaptor.GetChildCount(t);
+			int childCount = adaptor.GetChildCount(t);
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.adaptor.GetChild(t, i);
-				this._Index(child, m);
+				object child = adaptor.GetChild(t, i);
+				_Index(child, m);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		public IList Find(object t, int ttype)
 		{
 			IList list = new ArrayList();
-			this.Visit(t, ttype, new TreeWizard.RecordAllElementsVisitor(list));
+			Visit(t, ttype, new RecordAllElementsVisitor(list));
 			return list;
 		}
 
@@ -105,14 +105,14 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			IList list = new ArrayList();
 			TreePatternLexer tokenizer = new TreePatternLexer(pattern);
-			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreeWizard.TreePatternTreeAdaptor());
-			TreeWizard.TreePattern treePattern = (TreeWizard.TreePattern)treePatternParser.Pattern();
-			if (treePattern == null || treePattern.IsNil || treePattern.GetType() == typeof(TreeWizard.WildcardTreePattern))
+			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreePatternTreeAdaptor());
+			TreePattern treePattern = (TreePattern)treePatternParser.Pattern();
+			if (treePattern == null || treePattern.IsNil || treePattern.GetType() == typeof(WildcardTreePattern))
 			{
 				return null;
 			}
 			int type = treePattern.Type;
-			this.Visit(t, type, new TreeWizard.PatternMatchingContextVisitor(this, treePattern, list));
+			Visit(t, type, new PatternMatchingContextVisitor(this, treePattern, list));
 			return list;
 		}
 
@@ -129,73 +129,73 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x06000848 RID: 2120 RVA: 0x000175C4 File Offset: 0x000157C4
-		public void Visit(object t, int ttype, TreeWizard.ContextVisitor visitor)
+		public void Visit(object t, int ttype, ContextVisitor visitor)
 		{
-			this._Visit(t, null, 0, ttype, visitor);
+			_Visit(t, null, 0, ttype, visitor);
 		}
 
 		// Token: 0x06000849 RID: 2121 RVA: 0x000175D4 File Offset: 0x000157D4
-		protected void _Visit(object t, object parent, int childIndex, int ttype, TreeWizard.ContextVisitor visitor)
+		protected void _Visit(object t, object parent, int childIndex, int ttype, ContextVisitor visitor)
 		{
 			if (t == null)
 			{
 				return;
 			}
-			if (this.adaptor.GetNodeType(t) == ttype)
+			if (adaptor.GetNodeType(t) == ttype)
 			{
 				visitor.Visit(t, parent, childIndex, null);
 			}
-			int childCount = this.adaptor.GetChildCount(t);
+			int childCount = adaptor.GetChildCount(t);
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.adaptor.GetChild(t, i);
-				this._Visit(child, t, i, ttype, visitor);
+				object child = adaptor.GetChild(t, i);
+				_Visit(child, t, i, ttype, visitor);
 			}
 		}
 
 		// Token: 0x0600084A RID: 2122 RVA: 0x00017640 File Offset: 0x00015840
-		public void Visit(object t, string pattern, TreeWizard.ContextVisitor visitor)
+		public void Visit(object t, string pattern, ContextVisitor visitor)
 		{
 			TreePatternLexer tokenizer = new TreePatternLexer(pattern);
-			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreeWizard.TreePatternTreeAdaptor());
-			TreeWizard.TreePattern treePattern = (TreeWizard.TreePattern)treePatternParser.Pattern();
-			if (treePattern == null || treePattern.IsNil || treePattern.GetType() == typeof(TreeWizard.WildcardTreePattern))
+			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreePatternTreeAdaptor());
+			TreePattern treePattern = (TreePattern)treePatternParser.Pattern();
+			if (treePattern == null || treePattern.IsNil || treePattern.GetType() == typeof(WildcardTreePattern))
 			{
 				return;
 			}
 			int type = treePattern.Type;
-			this.Visit(t, type, new TreeWizard.InvokeVisitorOnPatternMatchContextVisitor(this, treePattern, visitor));
+			Visit(t, type, new InvokeVisitorOnPatternMatchContextVisitor(this, treePattern, visitor));
 		}
 
 		// Token: 0x0600084B RID: 2123 RVA: 0x000176AC File Offset: 0x000158AC
 		public bool Parse(object t, string pattern, IDictionary labels)
 		{
 			TreePatternLexer tokenizer = new TreePatternLexer(pattern);
-			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreeWizard.TreePatternTreeAdaptor());
-			TreeWizard.TreePattern t2 = (TreeWizard.TreePattern)treePatternParser.Pattern();
-			return this._Parse(t, t2, labels);
+			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, new TreePatternTreeAdaptor());
+			TreePattern t2 = (TreePattern)treePatternParser.Pattern();
+			return _Parse(t, t2, labels);
 		}
 
 		// Token: 0x0600084C RID: 2124 RVA: 0x000176E4 File Offset: 0x000158E4
 		public bool Parse(object t, string pattern)
 		{
-			return this.Parse(t, pattern, null);
+			return Parse(t, pattern, null);
 		}
 
 		// Token: 0x0600084D RID: 2125 RVA: 0x000176F0 File Offset: 0x000158F0
-		protected bool _Parse(object t1, TreeWizard.TreePattern t2, IDictionary labels)
+		protected bool _Parse(object t1, TreePattern t2, IDictionary labels)
 		{
 			if (t1 == null || t2 == null)
 			{
 				return false;
 			}
-			if (t2.GetType() != typeof(TreeWizard.WildcardTreePattern))
+			if (t2.GetType() != typeof(WildcardTreePattern))
 			{
-				if (this.adaptor.GetNodeType(t1) != t2.Type)
+				if (adaptor.GetNodeType(t1) != t2.Type)
 				{
 					return false;
 				}
-				if (t2.hasTextArg && !this.adaptor.GetNodeText(t1).Equals(t2.Text))
+				if (t2.hasTextArg && !adaptor.GetNodeText(t1).Equals(t2.Text))
 				{
 					return false;
 				}
@@ -204,7 +204,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				labels[t2.label] = t1;
 			}
-			int childCount = this.adaptor.GetChildCount(t1);
+			int childCount = adaptor.GetChildCount(t1);
 			int childCount2 = t2.ChildCount;
 			if (childCount != childCount2)
 			{
@@ -212,9 +212,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.adaptor.GetChild(t1, i);
-				TreeWizard.TreePattern t3 = (TreeWizard.TreePattern)t2.GetChild(i);
-				if (!this._Parse(child, t3, labels))
+				object child = adaptor.GetChild(t1, i);
+				TreePattern t3 = (TreePattern)t2.GetChild(i);
+				if (!_Parse(child, t3, labels))
 				{
 					return false;
 				}
@@ -226,20 +226,20 @@ namespace pcomps.Antlr.Runtime.Tree
 		public object Create(string pattern)
 		{
 			TreePatternLexer tokenizer = new TreePatternLexer(pattern);
-			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, this.adaptor);
+			TreePatternParser treePatternParser = new TreePatternParser(tokenizer, this, adaptor);
 			return treePatternParser.Pattern();
 		}
 
 		// Token: 0x0600084F RID: 2127 RVA: 0x0001780C File Offset: 0x00015A0C
 		public static bool Equals(object t1, object t2, ITreeAdaptor adaptor)
 		{
-			return TreeWizard._Equals(t1, t2, adaptor);
+			return _Equals(t1, t2, adaptor);
 		}
 
 		// Token: 0x06000850 RID: 2128 RVA: 0x00017818 File Offset: 0x00015A18
 		public bool Equals(object t1, object t2)
 		{
-			return TreeWizard._Equals(t1, t2, this.adaptor);
+			return _Equals(t1, t2, adaptor);
 		}
 
 		// Token: 0x06000851 RID: 2129 RVA: 0x00017828 File Offset: 0x00015A28
@@ -267,7 +267,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				object child = adaptor.GetChild(t1, i);
 				object child2 = adaptor.GetChild(t2, i);
-				if (!TreeWizard._Equals(child, child2, adaptor))
+				if (!_Equals(child, child2, adaptor))
 				{
 					return false;
 				}
@@ -289,12 +289,12 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C6 RID: 198
-		public abstract class Visitor : TreeWizard.ContextVisitor
+		public abstract class Visitor : ContextVisitor
 		{
 			// Token: 0x06000854 RID: 2132 RVA: 0x000178CC File Offset: 0x00015ACC
 			public void Visit(object t, object parent, int childIndex, IDictionary labels)
 			{
-				this.Visit(t);
+				Visit(t);
 			}
 
 			// Token: 0x06000855 RID: 2133
@@ -302,7 +302,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C7 RID: 199
-		private sealed class RecordAllElementsVisitor : TreeWizard.Visitor
+		private sealed class RecordAllElementsVisitor : Visitor
 		{
 			// Token: 0x06000856 RID: 2134 RVA: 0x000178D8 File Offset: 0x00015AD8
 			public RecordAllElementsVisitor(IList list)
@@ -313,7 +313,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x06000857 RID: 2135 RVA: 0x000178E8 File Offset: 0x00015AE8
 			public override void Visit(object t)
 			{
-				this.list.Add(t);
+				list.Add(t);
 			}
 
 			// Token: 0x0400021E RID: 542
@@ -321,10 +321,10 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C8 RID: 200
-		private sealed class PatternMatchingContextVisitor : TreeWizard.ContextVisitor
+		private sealed class PatternMatchingContextVisitor : ContextVisitor
 		{
 			// Token: 0x06000858 RID: 2136 RVA: 0x000178F8 File Offset: 0x00015AF8
-			public PatternMatchingContextVisitor(TreeWizard owner, TreeWizard.TreePattern pattern, IList list)
+			public PatternMatchingContextVisitor(TreeWizard owner, TreePattern pattern, IList list)
 			{
 				this.owner = owner;
 				this.pattern = pattern;
@@ -334,9 +334,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x06000859 RID: 2137 RVA: 0x00017918 File Offset: 0x00015B18
 			public void Visit(object t, object parent, int childIndex, IDictionary labels)
 			{
-				if (this.owner._Parse(t, this.pattern, null))
+				if (owner._Parse(t, pattern, null))
 				{
-					this.list.Add(t);
+					list.Add(t);
 				}
 			}
 
@@ -344,17 +344,17 @@ namespace pcomps.Antlr.Runtime.Tree
 			private TreeWizard owner;
 
 			// Token: 0x04000220 RID: 544
-			private TreeWizard.TreePattern pattern;
+			private TreePattern pattern;
 
 			// Token: 0x04000221 RID: 545
 			private IList list;
 		}
 
 		// Token: 0x020000C9 RID: 201
-		private sealed class InvokeVisitorOnPatternMatchContextVisitor : TreeWizard.ContextVisitor
+		private sealed class InvokeVisitorOnPatternMatchContextVisitor : ContextVisitor
 		{
 			// Token: 0x0600085A RID: 2138 RVA: 0x00017940 File Offset: 0x00015B40
-			public InvokeVisitorOnPatternMatchContextVisitor(TreeWizard owner, TreeWizard.TreePattern pattern, TreeWizard.ContextVisitor visitor)
+			public InvokeVisitorOnPatternMatchContextVisitor(TreeWizard owner, TreePattern pattern, ContextVisitor visitor)
 			{
 				this.owner = owner;
 				this.pattern = pattern;
@@ -364,10 +364,10 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x0600085B RID: 2139 RVA: 0x00017974 File Offset: 0x00015B74
 			public void Visit(object t, object parent, int childIndex, IDictionary unusedlabels)
 			{
-				this.labels.Clear();
-				if (this.owner._Parse(t, this.pattern, this.labels))
+				labels.Clear();
+				if (owner._Parse(t, pattern, labels))
 				{
-					this.visitor.Visit(t, parent, childIndex, this.labels);
+					visitor.Visit(t, parent, childIndex, labels);
 				}
 			}
 
@@ -375,10 +375,10 @@ namespace pcomps.Antlr.Runtime.Tree
 			private TreeWizard owner;
 
 			// Token: 0x04000223 RID: 547
-			private TreeWizard.TreePattern pattern;
+			private TreePattern pattern;
 
 			// Token: 0x04000224 RID: 548
-			private TreeWizard.ContextVisitor visitor;
+			private ContextVisitor visitor;
 
 			// Token: 0x04000225 RID: 549
 			private Hashtable labels = new Hashtable();
@@ -395,9 +395,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x0600085D RID: 2141 RVA: 0x000179CC File Offset: 0x00015BCC
 			public override string ToString()
 			{
-				if (this.label != null)
+				if (label != null)
 				{
-					return $"%{this.label}:{base.ToString()}";
+					return $"%{label}:{base.ToString()}";
 				}
 				return base.ToString();
 			}
@@ -410,7 +410,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000CB RID: 203
-		public class WildcardTreePattern : TreeWizard.TreePattern
+		public class WildcardTreePattern : TreePattern
 		{
 			// Token: 0x0600085E RID: 2142 RVA: 0x000179FC File Offset: 0x00015BFC
 			public WildcardTreePattern(IToken payload) : base(payload)
@@ -424,7 +424,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x06000860 RID: 2144 RVA: 0x00017A10 File Offset: 0x00015C10
 			public override object Create(IToken payload)
 			{
-				return new TreeWizard.TreePattern(payload);
+				return new TreePattern(payload);
 			}
 		}
 	}

@@ -10,14 +10,14 @@ namespace pcomps.Antlr
 		[Obsolete("Deprecated since version 2.7.2. Use ASTFactory.dup() instead.", false)]
 		protected CommonAST(CommonAST another)
 		{
-			this.ttype = another.ttype;
-			this.text = ((another.text == null) ? null : string.Copy(another.text));
+			ttype = another.ttype;
+			text = ((another.text == null) ? null : string.Copy(another.text));
 		}
 
 		// Token: 0x0600014C RID: 332 RVA: 0x00005844 File Offset: 0x00003A44
 		public override string getText()
 		{
-			return this.text;
+			return text;
 		}
 
 		// Token: 0x17000014 RID: 20
@@ -27,26 +27,26 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				return this.ttype;
+				return ttype;
 			}
 			set
 			{
-				this.ttype = value;
+				ttype = value;
 			}
 		}
 
 		// Token: 0x0600014F RID: 335 RVA: 0x00005880 File Offset: 0x00003A80
 		public override void initialize(int t, string txt)
 		{
-			this.Type = t;
-			this.setText(txt);
+			Type = t;
+			setText(txt);
 		}
 
 		// Token: 0x06000150 RID: 336 RVA: 0x0000589C File Offset: 0x00003A9C
 		public override void initialize(AST t)
 		{
-			this.setText(t.getText());
-			this.Type = t.Type;
+			setText(t.getText());
+			Type = t.Type;
 		}
 
 		// Token: 0x06000151 RID: 337 RVA: 0x000058C4 File Offset: 0x00003AC4
@@ -57,26 +57,26 @@ namespace pcomps.Antlr
 		// Token: 0x06000152 RID: 338 RVA: 0x000058E0 File Offset: 0x00003AE0
 		public CommonAST(IToken tok)
 		{
-			this.initialize(tok);
+			initialize(tok);
 		}
 
 		// Token: 0x06000153 RID: 339 RVA: 0x00005904 File Offset: 0x00003B04
 		public override void initialize(IToken tok)
 		{
-			this.setText(tok.getText());
-			this.Type = tok.Type;
+			setText(tok.getText());
+			Type = tok.Type;
 		}
 
 		// Token: 0x06000154 RID: 340 RVA: 0x0000592C File Offset: 0x00003B2C
 		public override void setText(string text_)
 		{
-			this.text = text_;
+			text = text_;
 		}
 
 		// Token: 0x06000155 RID: 341 RVA: 0x00005940 File Offset: 0x00003B40
 		public override void setType(int ttype_)
 		{
-			this.Type = ttype_;
+			Type = ttype_;
 		}
 
 		// Token: 0x06000156 RID: 342 RVA: 0x00005954 File Offset: 0x00003B54
@@ -87,7 +87,7 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x04000056 RID: 86
-		public static readonly CommonAST.CommonASTCreator Creator = new CommonAST.CommonASTCreator();
+		public static readonly CommonASTCreator Creator = new CommonASTCreator();
 
 		// Token: 0x04000057 RID: 87
 		internal int ttype = 0;

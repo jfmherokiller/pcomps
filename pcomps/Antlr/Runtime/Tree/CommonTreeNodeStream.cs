@@ -21,65 +21,65 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000631 RID: 1585 RVA: 0x00011FC0 File Offset: 0x000101C0
 		public CommonTreeNodeStream(ITreeAdaptor adaptor, object tree, int initialBufferSize)
 		{
-			this.root = tree;
+			root = tree;
 			this.adaptor = adaptor;
-			this.nodes = new ArrayList(initialBufferSize);
-			this.down = adaptor.Create(2, "DOWN");
-			this.up = adaptor.Create(3, "UP");
-			this.eof = adaptor.Create(Token.EOF, "EOF");
+			nodes = new ArrayList(initialBufferSize);
+			down = adaptor.Create(2, "DOWN");
+			up = adaptor.Create(3, "UP");
+			eof = adaptor.Create(Token.EOF, "EOF");
 		}
 
 		// Token: 0x06000632 RID: 1586 RVA: 0x00012030 File Offset: 0x00010230
 		public IEnumerator GetEnumerator()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			return new CommonTreeNodeStream.CommonTreeNodeStreamEnumerator(this);
+			return new CommonTreeNodeStreamEnumerator(this);
 		}
 
 		// Token: 0x06000633 RID: 1587 RVA: 0x0001204C File Offset: 0x0001024C
 		protected void FillBuffer()
 		{
-			this.FillBuffer(this.root);
-			this.p = 0;
+			FillBuffer(root);
+			p = 0;
 		}
 
 		// Token: 0x06000634 RID: 1588 RVA: 0x00012064 File Offset: 0x00010264
 		public void FillBuffer(object t)
 		{
-			bool flag = this.adaptor.IsNil(t);
+			bool flag = adaptor.IsNil(t);
 			if (!flag)
 			{
-				this.nodes.Add(t);
+				nodes.Add(t);
 			}
-			int childCount = this.adaptor.GetChildCount(t);
+			int childCount = adaptor.GetChildCount(t);
 			if (!flag && childCount > 0)
 			{
-				this.AddNavigationNode(2);
+				AddNavigationNode(2);
 			}
 			for (int i = 0; i < childCount; i++)
 			{
-				object child = this.adaptor.GetChild(t, i);
-				this.FillBuffer(child);
+				object child = adaptor.GetChild(t, i);
+				FillBuffer(child);
 			}
 			if (!flag && childCount > 0)
 			{
-				this.AddNavigationNode(3);
+				AddNavigationNode(3);
 			}
 		}
 
 		// Token: 0x06000635 RID: 1589 RVA: 0x000120F0 File Offset: 0x000102F0
 		protected int GetNodeIndex(object node)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			for (int i = 0; i < this.nodes.Count; i++)
+			for (int i = 0; i < nodes.Count; i++)
 			{
-				object obj = this.nodes[i];
+				object obj = nodes[i];
 				if (obj == node)
 				{
 					return i;
@@ -94,42 +94,42 @@ namespace pcomps.Antlr.Runtime.Tree
 			object value;
 			if (ttype == 2)
 			{
-				if (this.HasUniqueNavigationNodes)
+				if (HasUniqueNavigationNodes)
 				{
-					value = this.adaptor.Create(2, "DOWN");
+					value = adaptor.Create(2, "DOWN");
 				}
 				else
 				{
-					value = this.down;
+					value = down;
 				}
 			}
-			else if (this.HasUniqueNavigationNodes)
+			else if (HasUniqueNavigationNodes)
 			{
-				value = this.adaptor.Create(3, "UP");
+				value = adaptor.Create(3, "UP");
 			}
 			else
 			{
-				value = this.up;
+				value = up;
 			}
-			this.nodes.Add(value);
+			nodes.Add(value);
 		}
 
 		// Token: 0x06000637 RID: 1591 RVA: 0x000121C0 File Offset: 0x000103C0
 		public object Get(int i)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			return this.nodes[i];
+			return nodes[i];
 		}
 
 		// Token: 0x06000638 RID: 1592 RVA: 0x000121E0 File Offset: 0x000103E0
 		public object LT(int k)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			if (k == 0)
 			{
@@ -137,13 +137,13 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (k < 0)
 			{
-				return this.LB(-k);
+				return LB(-k);
 			}
-			if (this.p + k - 1 >= this.nodes.Count)
+			if (p + k - 1 >= nodes.Count)
 			{
-				return this.eof;
+				return eof;
 			}
-			return this.nodes[this.p + k - 1];
+			return nodes[p + k - 1];
 		}
 
 		// Token: 0x17000093 RID: 147
@@ -152,7 +152,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.LT(1);
+				return LT(1);
 			}
 		}
 
@@ -163,11 +163,11 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			if (this.p - k < 0)
+			if (p - k < 0)
 			{
 				return null;
 			}
-			return this.nodes[this.p - k];
+			return nodes[p - k];
 		}
 
 		// Token: 0x17000094 RID: 148
@@ -176,7 +176,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.root;
+				return root;
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.TokenStream.SourceName;
+				return TokenStream.SourceName;
 			}
 		}
 
@@ -197,11 +197,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.tokens;
+				return tokens;
 			}
 			set
 			{
-				this.tokens = value;
+				tokens = value;
 			}
 		}
 
@@ -212,11 +212,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.adaptor;
+				return adaptor;
 			}
 			set
 			{
-				this.adaptor = value;
+				adaptor = value;
 			}
 		}
 
@@ -227,41 +227,41 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.uniqueNavigationNodes;
+				return uniqueNavigationNodes;
 			}
 			set
 			{
-				this.uniqueNavigationNodes = value;
+				uniqueNavigationNodes = value;
 			}
 		}
 
 		// Token: 0x06000643 RID: 1603 RVA: 0x000122E0 File Offset: 0x000104E0
 		public void Push(int index)
 		{
-			if (this.calls == null)
+			if (calls == null)
 			{
-				this.calls = new StackList();
+				calls = new StackList();
 			}
-			this.calls.Push(this.p);
-			this.Seek(index);
+			calls.Push(p);
+			Seek(index);
 		}
 
 		// Token: 0x06000644 RID: 1604 RVA: 0x00012318 File Offset: 0x00010518
 		public int Pop()
 		{
-			int num = (int)this.calls.Pop();
-			this.Seek(num);
+			int num = (int)calls.Pop();
+			Seek(num);
 			return num;
 		}
 
 		// Token: 0x06000645 RID: 1605 RVA: 0x00012340 File Offset: 0x00010540
 		public void Reset()
 		{
-			this.p = -1;
-			this.lastMarker = 0;
-			if (this.calls != null)
+			p = -1;
+			lastMarker = 0;
+			if (calls != null)
 			{
-				this.calls.Clear();
+				calls.Clear();
 			}
 		}
 
@@ -270,35 +270,35 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			if (parent != null)
 			{
-				this.adaptor.ReplaceChildren(parent, startChildIndex, stopChildIndex, t);
+				adaptor.ReplaceChildren(parent, startChildIndex, stopChildIndex, t);
 			}
 		}
 
 		// Token: 0x06000647 RID: 1607 RVA: 0x0001238C File Offset: 0x0001058C
 		public virtual void Consume()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			this.p++;
+			p++;
 		}
 
 		// Token: 0x06000648 RID: 1608 RVA: 0x000123BC File Offset: 0x000105BC
 		public virtual int LA(int i)
 		{
-			return this.adaptor.GetNodeType(this.LT(i));
+			return adaptor.GetNodeType(LT(i));
 		}
 
 		// Token: 0x06000649 RID: 1609 RVA: 0x000123D0 File Offset: 0x000105D0
 		public virtual int Mark()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			this.lastMarker = this.Index();
-			return this.lastMarker;
+			lastMarker = Index();
+			return lastMarker;
 		}
 
 		// Token: 0x0600064A RID: 1610 RVA: 0x00012404 File Offset: 0x00010604
@@ -309,36 +309,36 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x0600064B RID: 1611 RVA: 0x00012408 File Offset: 0x00010608
 		public virtual void Rewind(int marker)
 		{
-			this.Seek(marker);
+			Seek(marker);
 		}
 
 		// Token: 0x0600064C RID: 1612 RVA: 0x00012414 File Offset: 0x00010614
 		public void Rewind()
 		{
-			this.Seek(this.lastMarker);
+			Seek(lastMarker);
 		}
 
 		// Token: 0x0600064D RID: 1613 RVA: 0x00012424 File Offset: 0x00010624
 		public virtual void Seek(int index)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
-			this.p = index;
+			p = index;
 		}
 
 		// Token: 0x0600064E RID: 1614 RVA: 0x00012440 File Offset: 0x00010640
 		public virtual int Index()
 		{
-			return this.p;
+			return p;
 		}
 
 		// Token: 0x0600064F RID: 1615 RVA: 0x00012448 File Offset: 0x00010648
 		[Obsolete("Please use property Count instead.")]
 		public virtual int Size()
 		{
-			return this.Count;
+			return Count;
 		}
 
 		// Token: 0x17000099 RID: 153
@@ -347,27 +347,27 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				if (this.p == -1)
+				if (p == -1)
 				{
-					this.FillBuffer();
+					FillBuffer();
 				}
-				return this.nodes.Count;
+				return nodes.Count;
 			}
 		}
 
 		// Token: 0x06000651 RID: 1617 RVA: 0x00012470 File Offset: 0x00010670
 		public override string ToString()
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < this.nodes.Count; i++)
+			for (int i = 0; i < nodes.Count; i++)
 			{
-				object t = this.nodes[i];
+				object t = nodes[i];
 				stringBuilder.Append(" ");
-				stringBuilder.Append(this.adaptor.GetNodeType(t));
+				stringBuilder.Append(adaptor.GetNodeType(t));
 			}
 			return stringBuilder.ToString();
 		}
@@ -375,17 +375,17 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000652 RID: 1618 RVA: 0x000124E4 File Offset: 0x000106E4
 		public string ToTokenString(int start, int stop)
 		{
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = start;
-			while (num < this.nodes.Count && num <= stop)
+			while (num < nodes.Count && num <= stop)
 			{
-				object treeNode = this.nodes[num];
+				object treeNode = nodes[num];
 				stringBuilder.Append(" ");
-				stringBuilder.Append(this.adaptor.GetToken(treeNode));
+				stringBuilder.Append(adaptor.GetToken(treeNode));
 				num++;
 			}
 			return stringBuilder.ToString();
@@ -399,9 +399,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			if (this.p == -1)
+			if (p == -1)
 			{
-				this.FillBuffer();
+				FillBuffer();
 			}
 			if (start is CommonTree)
 			{
@@ -419,24 +419,24 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				Console.Out.WriteLine(stop);
 			}
-			if (this.tokens != null)
+			if (tokens != null)
 			{
-				int tokenStartIndex = this.adaptor.GetTokenStartIndex(start);
-				int stop2 = this.adaptor.GetTokenStopIndex(stop);
-				if (this.adaptor.GetNodeType(stop) == 3)
+				int tokenStartIndex = adaptor.GetTokenStartIndex(start);
+				int stop2 = adaptor.GetTokenStopIndex(stop);
+				if (adaptor.GetNodeType(stop) == 3)
 				{
-					stop2 = this.adaptor.GetTokenStopIndex(start);
+					stop2 = adaptor.GetTokenStopIndex(start);
 				}
-				else if (this.adaptor.GetNodeType(stop) == Token.EOF)
+				else if (adaptor.GetNodeType(stop) == Token.EOF)
 				{
-					stop2 = this.Count - 2;
+					stop2 = Count - 2;
 				}
-				return this.tokens.ToString(tokenStartIndex, stop2);
+				return tokens.ToString(tokenStartIndex, stop2);
 			}
 			int i;
-			for (i = 0; i < this.nodes.Count; i++)
+			for (i = 0; i < nodes.Count; i++)
 			{
-				object obj = this.nodes[i];
+				object obj = nodes[i];
 				if (obj == start)
 				{
 					break;
@@ -444,20 +444,20 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			StringBuilder stringBuilder = new StringBuilder();
 			string text;
-			for (object obj = this.nodes[i]; obj != stop; obj = this.nodes[i])
+			for (object obj = nodes[i]; obj != stop; obj = nodes[i])
 			{
-				text = this.adaptor.GetNodeText(obj);
+				text = adaptor.GetNodeText(obj);
 				if (text == null)
 				{
-					text = $" {this.adaptor.GetNodeType(obj)}";
+					text = $" {adaptor.GetNodeType(obj)}";
 				}
 				stringBuilder.Append(text);
 				i++;
 			}
-			text = this.adaptor.GetNodeText(stop);
+			text = adaptor.GetNodeText(stop);
 			if (text == null)
 			{
-				text = $" {this.adaptor.GetNodeType(stop)}";
+				text = $" {adaptor.GetNodeType(stop)}";
 			}
 			stringBuilder.Append(text);
 			return stringBuilder.ToString();
@@ -513,15 +513,15 @@ namespace pcomps.Antlr.Runtime.Tree
 			// Token: 0x06000655 RID: 1621 RVA: 0x00012770 File Offset: 0x00010970
 			internal CommonTreeNodeStreamEnumerator(CommonTreeNodeStream nodeStream)
 			{
-				this._nodeStream = nodeStream;
-				this.Reset();
+				_nodeStream = nodeStream;
+				Reset();
 			}
 
 			// Token: 0x06000656 RID: 1622 RVA: 0x00012788 File Offset: 0x00010988
 			public void Reset()
 			{
-				this._index = 0;
-				this._currentItem = null;
+				_index = 0;
+				_currentItem = null;
 			}
 
 			// Token: 0x1700009A RID: 154
@@ -530,29 +530,29 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				get
 				{
-					if (this._currentItem == null)
+					if (_currentItem == null)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					return this._currentItem;
+					return _currentItem;
 				}
 			}
 
 			// Token: 0x06000658 RID: 1624 RVA: 0x000127B8 File Offset: 0x000109B8
 			public bool MoveNext()
 			{
-				if (this._index >= this._nodeStream.nodes.Count)
+				if (_index >= _nodeStream.nodes.Count)
 				{
-					int index = this._index;
-					this._index++;
-					if (index < this._nodeStream.nodes.Count)
+					int index = _index;
+					_index++;
+					if (index < _nodeStream.nodes.Count)
 					{
-						this._currentItem = this._nodeStream.nodes[index];
+						_currentItem = _nodeStream.nodes[index];
 					}
-					this._currentItem = this._nodeStream.eof;
+					_currentItem = _nodeStream.eof;
 					return true;
 				}
-				this._currentItem = null;
+				_currentItem = null;
 				return false;
 			}
 

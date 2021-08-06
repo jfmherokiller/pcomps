@@ -12,9 +12,9 @@
 		// Token: 0x060011B5 RID: 4533 RVA: 0x00082234 File Offset: 0x00080434
 		public override int Write(StringTemplate self, IStringTemplateWriter output)
 		{
-			if (this.str != null)
+			if (str != null)
 			{
-				return output.Write(this.str);
+				return output.Write(str);
 			}
 			return 0;
 		}
@@ -22,9 +22,9 @@
 		// Token: 0x060011B6 RID: 4534 RVA: 0x0008225C File Offset: 0x0008045C
 		public override string ToString()
 		{
-			if (this.str != null)
+			if (str != null)
 			{
-				return this.str;
+				return str;
 			}
 			return "";
 		}

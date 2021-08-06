@@ -24,9 +24,9 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"MismatchedTreeNodeException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				"!=",
-				this.expecting,
+				expecting,
 				")"
 			});
 		}

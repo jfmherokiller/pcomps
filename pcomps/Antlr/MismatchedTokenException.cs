@@ -17,84 +17,84 @@ namespace pcomps.Antlr
 		// Token: 0x06000228 RID: 552 RVA: 0x00007490 File Offset: 0x00005690
 		public MismatchedTokenException(string[] tokenNames_, AST node_, int lower, int upper_, bool matchNot) : base("Mismatched Token", "<AST>", -1, -1)
 		{
-			this.tokenNames = tokenNames_;
-			this.node = node_;
+			tokenNames = tokenNames_;
+			node = node_;
 			if (node_ == null)
 			{
-				this.tokenText = "<empty tree>";
+				tokenText = "<empty tree>";
 			}
 			else
 			{
-				this.tokenText = node_.ToString();
+				tokenText = node_.ToString();
 			}
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotRangeType : MismatchedTokenException.TokenTypeEnum.RangeType);
-			this.expecting = lower;
-			this.upper = upper_;
+			mismatchType = (matchNot ? TokenTypeEnum.NotRangeType : TokenTypeEnum.RangeType);
+			expecting = lower;
+			upper = upper_;
 		}
 
 		// Token: 0x06000229 RID: 553 RVA: 0x00007500 File Offset: 0x00005700
 		public MismatchedTokenException(string[] tokenNames_, AST node_, int expecting_, bool matchNot) : base("Mismatched Token", "<AST>", -1, -1)
 		{
-			this.tokenNames = tokenNames_;
-			this.node = node_;
+			tokenNames = tokenNames_;
+			node = node_;
 			if (node_ == null)
 			{
-				this.tokenText = "<empty tree>";
+				tokenText = "<empty tree>";
 			}
 			else
 			{
-				this.tokenText = node_.ToString();
+				tokenText = node_.ToString();
 			}
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotTokenType : MismatchedTokenException.TokenTypeEnum.TokenType);
-			this.expecting = expecting_;
+			mismatchType = (matchNot ? TokenTypeEnum.NotTokenType : TokenTypeEnum.TokenType);
+			expecting = expecting_;
 		}
 
 		// Token: 0x0600022A RID: 554 RVA: 0x00007568 File Offset: 0x00005768
 		public MismatchedTokenException(string[] tokenNames_, AST node_, BitSet set_, bool matchNot) : base("Mismatched Token", "<AST>", -1, -1)
 		{
-			this.tokenNames = tokenNames_;
-			this.node = node_;
+			tokenNames = tokenNames_;
+			node = node_;
 			if (node_ == null)
 			{
-				this.tokenText = "<empty tree>";
+				tokenText = "<empty tree>";
 			}
 			else
 			{
-				this.tokenText = node_.ToString();
+				tokenText = node_.ToString();
 			}
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotSetType : MismatchedTokenException.TokenTypeEnum.SetType);
-			this.bset = set_;
+			mismatchType = (matchNot ? TokenTypeEnum.NotSetType : TokenTypeEnum.SetType);
+			bset = set_;
 		}
 
 		// Token: 0x0600022B RID: 555 RVA: 0x000075D0 File Offset: 0x000057D0
 		public MismatchedTokenException(string[] tokenNames_, IToken token_, int lower, int upper_, bool matchNot, string fileName_) : base("Mismatched Token", fileName_, token_.getLine(), token_.getColumn())
 		{
-			this.tokenNames = tokenNames_;
-			this.token = token_;
-			this.tokenText = token_.getText();
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotRangeType : MismatchedTokenException.TokenTypeEnum.RangeType);
-			this.expecting = lower;
-			this.upper = upper_;
+			tokenNames = tokenNames_;
+			token = token_;
+			tokenText = token_.getText();
+			mismatchType = (matchNot ? TokenTypeEnum.NotRangeType : TokenTypeEnum.RangeType);
+			expecting = lower;
+			upper = upper_;
 		}
 
 		// Token: 0x0600022C RID: 556 RVA: 0x00007634 File Offset: 0x00005834
 		public MismatchedTokenException(string[] tokenNames_, IToken token_, int expecting_, bool matchNot, string fileName_) : base("Mismatched Token", fileName_, token_.getLine(), token_.getColumn())
 		{
-			this.tokenNames = tokenNames_;
-			this.token = token_;
-			this.tokenText = token_.getText();
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotTokenType : MismatchedTokenException.TokenTypeEnum.TokenType);
-			this.expecting = expecting_;
+			tokenNames = tokenNames_;
+			token = token_;
+			tokenText = token_.getText();
+			mismatchType = (matchNot ? TokenTypeEnum.NotTokenType : TokenTypeEnum.TokenType);
+			expecting = expecting_;
 		}
 
 		// Token: 0x0600022D RID: 557 RVA: 0x00007690 File Offset: 0x00005890
 		public MismatchedTokenException(string[] tokenNames_, IToken token_, BitSet set_, bool matchNot, string fileName_) : base("Mismatched Token", fileName_, token_.getLine(), token_.getColumn())
 		{
-			this.tokenNames = tokenNames_;
-			this.token = token_;
-			this.tokenText = token_.getText();
-			this.mismatchType = (matchNot ? MismatchedTokenException.TokenTypeEnum.NotSetType : MismatchedTokenException.TokenTypeEnum.SetType);
-			this.bset = set_;
+			tokenNames = tokenNames_;
+			token = token_;
+			tokenText = token_.getText();
+			mismatchType = (matchNot ? TokenTypeEnum.NotSetType : TokenTypeEnum.SetType);
+			bset = set_;
 		}
 
 		// Token: 0x1700001D RID: 29
@@ -104,57 +104,57 @@ namespace pcomps.Antlr
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				switch (this.mismatchType)
+				switch (mismatchType)
 				{
-				case MismatchedTokenException.TokenTypeEnum.TokenType:
+				case TokenTypeEnum.TokenType:
 					stringBuilder.Append(string.Concat(new string[]
 					{
 						"expecting ",
-						this.tokenName(this.expecting),
+						tokenName(expecting),
 						", found '",
-						this.tokenText,
+						tokenText,
 						"'"
 					}));
 					break;
-				case MismatchedTokenException.TokenTypeEnum.NotTokenType:
-					stringBuilder.Append($"expecting anything but {this.tokenName(this.expecting)}; got it anyway");
+				case TokenTypeEnum.NotTokenType:
+					stringBuilder.Append($"expecting anything but {tokenName(expecting)}; got it anyway");
 					break;
-				case MismatchedTokenException.TokenTypeEnum.RangeType:
+				case TokenTypeEnum.RangeType:
 					stringBuilder.Append(string.Concat(new string[]
 					{
 						"expecting token in range: ",
-						this.tokenName(this.expecting),
+						tokenName(expecting),
 						"..",
-						this.tokenName(this.upper),
+						tokenName(upper),
 						", found '",
-						this.tokenText,
+						tokenText,
 						"'"
 					}));
 					break;
-				case MismatchedTokenException.TokenTypeEnum.NotRangeType:
+				case TokenTypeEnum.NotRangeType:
 					stringBuilder.Append(string.Concat(new string[]
 					{
 						"expecting token NOT in range: ",
-						this.tokenName(this.expecting),
+						tokenName(expecting),
 						"..",
-						this.tokenName(this.upper),
+						tokenName(upper),
 						", found '",
-						this.tokenText,
+						tokenText,
 						"'"
 					}));
 					break;
-				case MismatchedTokenException.TokenTypeEnum.SetType:
-				case MismatchedTokenException.TokenTypeEnum.NotSetType:
+				case TokenTypeEnum.SetType:
+				case TokenTypeEnum.NotSetType:
 				{
 					stringBuilder.Append(
-                        $"expecting {((this.mismatchType == MismatchedTokenException.TokenTypeEnum.NotSetType) ? "NOT " : "")}one of (");
-					int[] array = this.bset.toArray();
+                        $"expecting {((mismatchType == TokenTypeEnum.NotSetType) ? "NOT " : "")}one of (");
+					int[] array = bset.toArray();
 					for (int i = 0; i < array.Length; i++)
 					{
 						stringBuilder.Append(" ");
-						stringBuilder.Append(this.tokenName(array[i]));
+						stringBuilder.Append(tokenName(array[i]));
 					}
-					stringBuilder.Append($"), found '{this.tokenText}'");
+					stringBuilder.Append($"), found '{tokenText}'");
 					break;
 				}
 				default:
@@ -172,11 +172,11 @@ namespace pcomps.Antlr
 			{
 				return "<Set of tokens>";
 			}
-			if (tokenType < 0 || tokenType >= this.tokenNames.Length)
+			if (tokenType < 0 || tokenType >= tokenNames.Length)
 			{
 				return $"<{tokenType}>";
 			}
-			return this.tokenNames[tokenType];
+			return tokenNames[tokenType];
 		}
 
 		// Token: 0x0400009B RID: 155
@@ -192,7 +192,7 @@ namespace pcomps.Antlr
 		internal string tokenText = null;
 
 		// Token: 0x0400009F RID: 159
-		public MismatchedTokenException.TokenTypeEnum mismatchType;
+		public TokenTypeEnum mismatchType;
 
 		// Token: 0x040000A0 RID: 160
 		public int expecting;

@@ -10,66 +10,66 @@ namespace pcomps.Antlr
 		// Token: 0x060002BF RID: 703 RVA: 0x00009178 File Offset: 0x00007378
 		public TreeParser()
 		{
-			this.inputState = new TreeParserSharedInputState();
+			inputState = new TreeParserSharedInputState();
 		}
 
 		// Token: 0x060002C0 RID: 704 RVA: 0x000091A8 File Offset: 0x000073A8
 		public virtual AST getAST()
 		{
-			return this.returnAST;
+			return returnAST;
 		}
 
 		// Token: 0x060002C1 RID: 705 RVA: 0x000091BC File Offset: 0x000073BC
 		public virtual ASTFactory getASTFactory()
 		{
-			return this.astFactory;
+			return astFactory;
 		}
 
 		// Token: 0x060002C2 RID: 706 RVA: 0x000091D0 File Offset: 0x000073D0
 		public virtual void resetState()
 		{
-			this.traceDepth = 0;
-			this.returnAST = null;
-			this.retTree_ = null;
-			this.inputState.reset();
+			traceDepth = 0;
+			returnAST = null;
+			retTree_ = null;
+			inputState.reset();
 		}
 
 		// Token: 0x060002C3 RID: 707 RVA: 0x00009200 File Offset: 0x00007400
 		public virtual string getTokenName(int num)
 		{
-			return this.tokenNames[num];
+			return tokenNames[num];
 		}
 
 		// Token: 0x060002C4 RID: 708 RVA: 0x00009218 File Offset: 0x00007418
 		public virtual string[] getTokenNames()
 		{
-			return this.tokenNames;
+			return tokenNames;
 		}
 
 		// Token: 0x060002C5 RID: 709 RVA: 0x0000922C File Offset: 0x0000742C
 		protected internal virtual void match(AST t, int ttype)
 		{
-			if (t == null || t == TreeParser.ASTNULL || t.Type != ttype)
+			if (t == null || t == ASTNULL || t.Type != ttype)
 			{
-				throw new MismatchedTokenException(this.getTokenNames(), t, ttype, false);
+				throw new MismatchedTokenException(getTokenNames(), t, ttype, false);
 			}
 		}
 
 		// Token: 0x060002C6 RID: 710 RVA: 0x0000925C File Offset: 0x0000745C
 		public virtual void match(AST t, BitSet b)
 		{
-			if (t == null || t == TreeParser.ASTNULL || !b.member(t.Type))
+			if (t == null || t == ASTNULL || !b.member(t.Type))
 			{
-				throw new MismatchedTokenException(this.getTokenNames(), t, b, false);
+				throw new MismatchedTokenException(getTokenNames(), t, b, false);
 			}
 		}
 
 		// Token: 0x060002C7 RID: 711 RVA: 0x00009294 File Offset: 0x00007494
 		protected internal virtual void matchNot(AST t, int ttype)
 		{
-			if (t == null || t == TreeParser.ASTNULL || t.Type == ttype)
+			if (t == null || t == ASTNULL || t.Type == ttype)
 			{
-				throw new MismatchedTokenException(this.getTokenNames(), t, ttype, true);
+				throw new MismatchedTokenException(getTokenNames(), t, ttype, true);
 			}
 		}
 
@@ -102,25 +102,25 @@ namespace pcomps.Antlr
 		// Token: 0x060002CC RID: 716 RVA: 0x00009350 File Offset: 0x00007550
 		public virtual void setASTFactory(ASTFactory f)
 		{
-			this.astFactory = f;
+			astFactory = f;
 		}
 
 		// Token: 0x060002CD RID: 717 RVA: 0x00009364 File Offset: 0x00007564
 		public virtual void setASTNodeType(string nodeType)
 		{
-			this.setASTNodeClass(nodeType);
+			setASTNodeClass(nodeType);
 		}
 
 		// Token: 0x060002CE RID: 718 RVA: 0x00009378 File Offset: 0x00007578
 		public virtual void setASTNodeClass(string nodeType)
 		{
-			this.astFactory.setASTNodeType(nodeType);
+			astFactory.setASTNodeType(nodeType);
 		}
 
 		// Token: 0x060002CF RID: 719 RVA: 0x00009394 File Offset: 0x00007594
 		public virtual void traceIndent()
 		{
-			for (int i = 0; i < this.traceDepth; i++)
+			for (int i = 0; i < traceDepth; i++)
 			{
 				Console.Out.Write(" ");
 			}
@@ -129,8 +129,8 @@ namespace pcomps.Antlr
 		// Token: 0x060002D0 RID: 720 RVA: 0x000093C4 File Offset: 0x000075C4
 		public virtual void traceIn(string rname, AST t)
 		{
-			this.traceDepth++;
-			this.traceIndent();
+			traceDepth++;
+			traceIndent();
 			Console.Out.WriteLine(string.Concat(new string[]
 			{
 				"> ",
@@ -138,14 +138,14 @@ namespace pcomps.Antlr
 				"(",
 				(t != null) ? t.ToString() : "null",
 				")",
-				(this.inputState.guessing > 0) ? " [guessing]" : ""
+				(inputState.guessing > 0) ? " [guessing]" : ""
 			}));
 		}
 
 		// Token: 0x060002D1 RID: 721 RVA: 0x00009448 File Offset: 0x00007648
 		public virtual void traceOut(string rname, AST t)
 		{
-			this.traceIndent();
+			traceIndent();
 			Console.Out.WriteLine(string.Concat(new string[]
 			{
 				"< ",
@@ -153,9 +153,9 @@ namespace pcomps.Antlr
 				"(",
 				(t != null) ? t.ToString() : "null",
 				")",
-				(this.inputState.guessing > 0) ? " [guessing]" : ""
+				(inputState.guessing > 0) ? " [guessing]" : ""
 			}));
-			this.traceDepth--;
+			traceDepth--;
 		}
 
 		// Token: 0x040000D6 RID: 214

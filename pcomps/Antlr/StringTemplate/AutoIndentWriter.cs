@@ -11,7 +11,7 @@ namespace pcomps.Antlr.StringTemplate
 		public AutoIndentWriter(TextWriter output)
 		{
 			this.output = output;
-			this.indents.Push(null);
+			indents.Push(null);
 		}
 
 		// Token: 0x17000229 RID: 553
@@ -20,48 +20,48 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			set
 			{
-				this.lineWidth = value;
+				lineWidth = value;
 			}
 		}
 
 		// Token: 0x06000F00 RID: 3840 RVA: 0x0006DB80 File Offset: 0x0006BD80
 		public virtual void PushIndentation(string indent)
 		{
-			this.indents.Push(indent);
+			indents.Push(indent);
 		}
 
 		// Token: 0x06000F01 RID: 3841 RVA: 0x0006DB90 File Offset: 0x0006BD90
 		public virtual string PopIndentation()
 		{
-			return (string)this.indents.Pop();
+			return (string)indents.Pop();
 		}
 
 		// Token: 0x06000F02 RID: 3842 RVA: 0x0006DBA4 File Offset: 0x0006BDA4
 		public virtual void PushAnchorPoint()
 		{
-			if (this.anchors_sp + 1 >= this.anchors.Length)
+			if (anchors_sp + 1 >= anchors.Length)
 			{
-				int[] destinationArray = new int[this.anchors.Length * 2];
-				Array.Copy(this.anchors, 0, destinationArray, 0, this.anchors.Length - 1);
-				this.anchors = destinationArray;
+				int[] destinationArray = new int[anchors.Length * 2];
+				Array.Copy(anchors, 0, destinationArray, 0, anchors.Length - 1);
+				anchors = destinationArray;
 			}
-			this.anchors_sp++;
-			this.anchors[this.anchors_sp] = this.charPosition;
+			anchors_sp++;
+			anchors[anchors_sp] = charPosition;
 		}
 
 		// Token: 0x06000F03 RID: 3843 RVA: 0x0006DC14 File Offset: 0x0006BE14
 		public virtual void PopAnchorPoint()
 		{
-			this.anchors_sp--;
+			anchors_sp--;
 		}
 
 		// Token: 0x06000F04 RID: 3844 RVA: 0x0006DC24 File Offset: 0x0006BE24
 		public virtual int GetIndentationWidth()
 		{
 			int num = 0;
-			for (int i = 0; i < this.indents.Count; i++)
+			for (int i = 0; i < indents.Count; i++)
 			{
-				string text = (string)this.indents[i];
+				string text = (string)indents[i];
 				if (text != null)
 				{
 					num += text.Length;
@@ -78,17 +78,17 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				if (c == '\n')
 				{
-					this.atStartOfLine = true;
-					this.charPosition = -1;
+					atStartOfLine = true;
+					charPosition = -1;
 				}
-				else if (this.atStartOfLine)
+				else if (atStartOfLine)
 				{
-					num += this.Indent();
-					this.atStartOfLine = false;
+					num += Indent();
+					atStartOfLine = false;
 				}
 				num++;
-				this.output.Write(c);
-				this.charPosition++;
+				output.Write(c);
+				charPosition++;
 			}
 			return num;
 		}
@@ -96,49 +96,49 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F06 RID: 3846 RVA: 0x0006DCDC File Offset: 0x0006BEDC
 		public virtual int WriteSeparator(string str)
 		{
-			return this.Write(str);
+			return Write(str);
 		}
 
 		// Token: 0x06000F07 RID: 3847 RVA: 0x0006DCE8 File Offset: 0x0006BEE8
 		public int Write(string str, string wrap)
 		{
-			int num = this.WriteWrapSeparator(wrap);
-			return num + this.Write(str);
+			int num = WriteWrapSeparator(wrap);
+			return num + Write(str);
 		}
 
 		// Token: 0x06000F08 RID: 3848 RVA: 0x0006DD08 File Offset: 0x0006BF08
 		public int WriteWrapSeparator(string wrap)
 		{
 			int num = 0;
-			if (this.lineWidth != -1 && wrap != null && !this.atStartOfLine && this.charPosition >= this.lineWidth)
+			if (lineWidth != -1 && wrap != null && !atStartOfLine && charPosition >= lineWidth)
 			{
 				foreach (char c in wrap)
 				{
 					if (c == '\n')
 					{
 						num++;
-						this.output.Write(c);
-						this.charPosition = 0;
-						int indentationWidth = this.GetIndentationWidth();
+						output.Write(c);
+						charPosition = 0;
+						int indentationWidth = GetIndentationWidth();
 						int num2 = 0;
-						if (this.anchors_sp >= 0)
+						if (anchors_sp >= 0)
 						{
-							num2 = this.anchors[this.anchors_sp];
+							num2 = anchors[anchors_sp];
 						}
 						if (num2 > indentationWidth)
 						{
-							num += this.Indent(num2);
+							num += Indent(num2);
 						}
 						else
 						{
-							num += this.Indent();
+							num += Indent();
 						}
 					}
 					else
 					{
 						num++;
-						this.output.Write(c);
-						this.charPosition++;
+						output.Write(c);
+						charPosition++;
 					}
 				}
 			}
@@ -149,16 +149,16 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual int Indent()
 		{
 			int num = 0;
-			for (int i = 0; i < this.indents.Count; i++)
+			for (int i = 0; i < indents.Count; i++)
 			{
-				string text = (string)this.indents[i];
+				string text = (string)indents[i];
 				if (text != null)
 				{
 					num += text.Length;
-					this.output.Write(text);
+					output.Write(text);
 				}
 			}
-			this.charPosition += num;
+			charPosition += num;
 			return num;
 		}
 
@@ -167,9 +167,9 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			for (int i = 1; i <= spaces; i++)
 			{
-				this.output.Write(' ');
+				output.Write(' ');
 			}
-			this.charPosition += spaces;
+			charPosition += spaces;
 			return spaces;
 		}
 

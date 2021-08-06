@@ -27,10 +27,10 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-                if (!object.ReferenceEquals(Messages.resourceMan, null)) return Messages.resourceMan;
+                if (!ReferenceEquals(resourceMan, null)) return resourceMan;
                 ResourceManager resourceManager = new ResourceManager("Antlr.Runtime.Messages", typeof(Messages).Assembly);
-                Messages.resourceMan = resourceManager;
-                return Messages.resourceMan;
+                resourceMan = resourceManager;
+                return resourceMan;
 			}
 		}
 
@@ -42,11 +42,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return Messages.resourceCulture;
+				return resourceCulture;
 			}
 			set
 			{
-				Messages.resourceCulture = value;
+				resourceCulture = value;
 			}
 		}
 

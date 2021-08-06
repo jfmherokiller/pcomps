@@ -10,13 +10,13 @@ namespace pcomps.Antlr
 		// Token: 0x06000230 RID: 560 RVA: 0x0000794C File Offset: 0x00005B4C
 		public NoViableAltException(AST t) : base("NoViableAlt", "<AST>", -1, -1)
 		{
-			this.node = t;
+			node = t;
 		}
 
 		// Token: 0x06000231 RID: 561 RVA: 0x00007974 File Offset: 0x00005B74
 		public NoViableAltException(IToken t, string fileName_) : base("NoViableAlt", fileName_, t.getLine(), t.getColumn())
 		{
-			this.token = t;
+			token = t;
 		}
 
 		// Token: 0x1700001E RID: 30
@@ -25,15 +25,15 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				if (this.token != null)
+				if (token != null)
 				{
-					return $"unexpected token: {this.token}";
+					return $"unexpected token: {token}";
 				}
-				if (this.node == null || this.node == TreeParser.ASTNULL)
+				if (node == null || node == TreeParser.ASTNULL)
 				{
 					return "unexpected end of subtree";
 				}
-				return $"unexpected AST node: {this.node.ToString()}";
+				return $"unexpected AST node: {node.ToString()}";
 			}
 		}
 

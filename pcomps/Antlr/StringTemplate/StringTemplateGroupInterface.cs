@@ -17,11 +17,11 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			get
 			{
-				return this.name;
+				return name;
 			}
 			set
 			{
-				this.name = value;
+				name = value;
 			}
 		}
 
@@ -32,16 +32,16 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			get
 			{
-				return this.errorListener;
+				return errorListener;
 			}
 			set
 			{
-				this.errorListener = value;
+				errorListener = value;
 			}
 		}
 
 		// Token: 0x06001016 RID: 4118 RVA: 0x000715B4 File Offset: 0x0006F7B4
-		public StringTemplateGroupInterface(TextReader r) : this(r, StringTemplateGroupInterface.DEFAULT_ERROR_LISTENER, null)
+		public StringTemplateGroupInterface(TextReader r) : this(r, DEFAULT_ERROR_LISTENER, null)
 		{
 		}
 
@@ -53,9 +53,9 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06001018 RID: 4120 RVA: 0x000715D0 File Offset: 0x0006F7D0
 		public StringTemplateGroupInterface(TextReader r, IStringTemplateErrorListener errorListener, StringTemplateGroupInterface superInterface)
 		{
-			this.ErrorListener = errorListener;
-			this.SuperInterface = superInterface;
-			this.ParseInterface(r);
+			ErrorListener = errorListener;
+			SuperInterface = superInterface;
+			ParseInterface(r);
 		}
 
 		// Token: 0x1700024C RID: 588
@@ -65,11 +65,11 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			get
 			{
-				return this.superInterface;
+				return superInterface;
 			}
 			set
 			{
-				this.superInterface = value;
+				superInterface = value;
 			}
 		}
 
@@ -84,8 +84,8 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			catch (Exception ex)
 			{
-				string text = (this.Name == null) ? "<unknown>" : this.Name;
-				this.Error(string.Concat(new object[]
+				string text = (Name == null) ? "<unknown>" : Name;
+				Error(string.Concat(new object[]
 				{
 					"problem parsing group ",
 					text,
@@ -98,18 +98,18 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x0600101C RID: 4124 RVA: 0x00071698 File Offset: 0x0006F898
 		public void DefineTemplate(string name, HashList formalArgs, bool optional)
 		{
-			StringTemplateGroupInterface.TemplateDefinition templateDefinition = new StringTemplateGroupInterface.TemplateDefinition(name, formalArgs, optional);
-			this.templates.Add(templateDefinition.name, templateDefinition);
+			TemplateDefinition templateDefinition = new TemplateDefinition(name, formalArgs, optional);
+			templates.Add(templateDefinition.name, templateDefinition);
 		}
 
 		// Token: 0x0600101D RID: 4125 RVA: 0x000716C0 File Offset: 0x0006F8C0
 		public IList GetMissingTemplates(StringTemplateGroup group)
 		{
 			ArrayList arrayList = null;
-			foreach (object obj in this.templates.Keys)
+			foreach (object obj in templates.Keys)
 			{
 				string key = (string)obj;
-				StringTemplateGroupInterface.TemplateDefinition templateDefinition = (StringTemplateGroupInterface.TemplateDefinition)this.templates[key];
+				TemplateDefinition templateDefinition = (TemplateDefinition)templates[key];
 				if (!templateDefinition.optional && !group.IsDefined(templateDefinition.name))
 				{
 					if (arrayList == null)
@@ -126,10 +126,10 @@ namespace pcomps.Antlr.StringTemplate
 		public IList GetMismatchedTemplates(StringTemplateGroup group)
 		{
 			ArrayList arrayList = null;
-			foreach (object obj in this.templates.Keys)
+			foreach (object obj in templates.Keys)
 			{
 				string key = (string)obj;
-				StringTemplateGroupInterface.TemplateDefinition templateDefinition = (StringTemplateGroupInterface.TemplateDefinition)this.templates[key];
+				TemplateDefinition templateDefinition = (TemplateDefinition)templates[key];
 				if (group.IsDefined(templateDefinition.name))
 				{
 					StringTemplate templateDefinition2 = group.GetTemplateDefinition(templateDefinition.name);
@@ -157,7 +157,7 @@ namespace pcomps.Antlr.StringTemplate
 						{
 							arrayList = new ArrayList();
 						}
-						arrayList.Add(this.GetTemplateSignature(templateDefinition));
+						arrayList.Add(GetTemplateSignature(templateDefinition));
 					}
 				}
 			}
@@ -167,13 +167,13 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x0600101F RID: 4127 RVA: 0x000718AC File Offset: 0x0006FAAC
 		public void Error(string msg)
 		{
-			this.ErrorListener.Error(msg, null);
+			ErrorListener.Error(msg, null);
 		}
 
 		// Token: 0x06001020 RID: 4128 RVA: 0x000718BC File Offset: 0x0006FABC
 		public void Error(string msg, Exception e)
 		{
-			this.ErrorListener.Error(msg, e);
+			ErrorListener.Error(msg, e);
 		}
 
 		// Token: 0x06001021 RID: 4129 RVA: 0x000718CC File Offset: 0x0006FACC
@@ -181,20 +181,20 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append("interface ");
-			stringBuilder.Append(this.Name);
+			stringBuilder.Append(Name);
 			stringBuilder.Append(";\n");
-			foreach (object obj in this.templates.Keys)
+			foreach (object obj in templates.Keys)
 			{
 				string key = (string)obj;
-				StringTemplateGroupInterface.TemplateDefinition tdef = (StringTemplateGroupInterface.TemplateDefinition)this.templates[key];
-				stringBuilder.Append(this.GetTemplateSignature(tdef));
+				TemplateDefinition tdef = (TemplateDefinition)templates[key];
+				stringBuilder.Append(GetTemplateSignature(tdef));
 				stringBuilder.Append(";\n");
 			}
 			return stringBuilder.ToString();
 		}
 
 		// Token: 0x06001022 RID: 4130 RVA: 0x00071984 File Offset: 0x0006FB84
-		protected string GetTemplateSignature(StringTemplateGroupInterface.TemplateDefinition tdef)
+		protected string GetTemplateSignature(TemplateDefinition tdef)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			if (tdef.optional)
@@ -238,7 +238,7 @@ namespace pcomps.Antlr.StringTemplate
 		protected StringTemplateGroupInterface superInterface;
 
 		// Token: 0x04000D04 RID: 3332
-		protected IStringTemplateErrorListener errorListener = StringTemplateGroupInterface.DEFAULT_ERROR_LISTENER;
+		protected IStringTemplateErrorListener errorListener = DEFAULT_ERROR_LISTENER;
 
 		// Token: 0x02000228 RID: 552
 		protected sealed class TemplateDefinition

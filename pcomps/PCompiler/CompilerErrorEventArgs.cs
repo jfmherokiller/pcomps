@@ -11,7 +11,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sError;
+				return sError;
 			}
 		}
 
@@ -21,7 +21,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.bHasFileInformation;
+				return bHasFileInformation;
 			}
 		}
 
@@ -31,8 +31,8 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				string result = this.sFilename;
-				if (!this.FilenameValid)
+				string result = sFilename;
+				if (!FilenameValid)
 				{
 					result = "<unknown>";
 				}
@@ -46,7 +46,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.bHasFileInformation && this.bHasLineInformation;
+				return bHasFileInformation && bHasLineInformation;
 			}
 		}
 
@@ -56,8 +56,8 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				int result = this.iLineNumber;
-				if (!this.LineInformationValid)
+				int result = iLineNumber;
+				if (!LineInformationValid)
 				{
 					result = 0;
 				}
@@ -71,8 +71,8 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				int result = this.iColumnNumber;
-				if (!this.LineInformationValid)
+				int result = iColumnNumber;
+				if (!LineInformationValid)
 				{
 					result = 0;
 				}
@@ -83,26 +83,26 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EEE RID: 3822 RVA: 0x0006DA70 File Offset: 0x0006BC70
 		public CompilerErrorEventArgs(string asErrorText)
 		{
-			this.sError = asErrorText;
+			sError = asErrorText;
 		}
 
 		// Token: 0x06000EEF RID: 3823 RVA: 0x0006DA98 File Offset: 0x0006BC98
 		public CompilerErrorEventArgs(string asErrorText, string asFilename)
 		{
-			this.sError = asErrorText;
-			this.bHasFileInformation = true;
-			this.sFilename = asFilename;
+			sError = asErrorText;
+			bHasFileInformation = true;
+			sFilename = asFilename;
 		}
 
 		// Token: 0x06000EF0 RID: 3824 RVA: 0x0006DACC File Offset: 0x0006BCCC
 		public CompilerErrorEventArgs(string asErrorText, string asFilename, int aiLineNumber, int aiColumnNumber)
 		{
-			this.sError = asErrorText;
-			this.bHasFileInformation = true;
-			this.sFilename = asFilename;
-			this.bHasLineInformation = true;
-			this.iLineNumber = aiLineNumber;
-			this.iColumnNumber = aiColumnNumber;
+			sError = asErrorText;
+			bHasFileInformation = true;
+			sFilename = asFilename;
+			bHasLineInformation = true;
+			iLineNumber = aiLineNumber;
+			iColumnNumber = aiColumnNumber;
 		}
 
 		// Token: 0x04000CAB RID: 3243

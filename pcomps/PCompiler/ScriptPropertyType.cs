@@ -6,10 +6,10 @@
 		// Token: 0x06000AE0 RID: 2784 RVA: 0x000329B0 File Offset: 0x00030BB0
 		public ScriptPropertyType(ScriptVariableType akPropType)
 		{
-			this.kType = akPropType;
+			kType = akPropType;
 			if (akPropType.ShadowVariableName != "")
 			{
-				this.bIsAuto = true;
+				bIsAuto = true;
 			}
 		}
 
@@ -19,7 +19,7 @@
 		{
 			get
 			{
-				return this.bIsAuto;
+				return bIsAuto;
 			}
 		}
 

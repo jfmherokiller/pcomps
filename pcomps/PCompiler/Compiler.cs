@@ -27,52 +27,52 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D31 RID: 3377 RVA: 0x0005CC1C File Offset: 0x0005AE1C
 		public bool Compile(string asObjectName, bool abOptimize)
 		{
-			return this.Compile(asObjectName, "", abOptimize);
+			return Compile(asObjectName, "", abOptimize);
 		}
 
 		// Token: 0x06000D32 RID: 3378 RVA: 0x0005CC2C File Offset: 0x0005AE2C
 		public bool Compile(string asObjectName, string asFlagsFile, bool abOptimize)
 		{
-			if (this.bOutputValid && this.bImportValid)
+			if (bOutputValid && bImportValid)
 			{
-				this.sFileStack.Clear();
-				this.iNumErrors = 0;
+				sFileStack.Clear();
+				iNumErrors = 0;
 				if (asFlagsFile != "")
 				{
-					this.ParseFlags(asFlagsFile);
+					ParseFlags(asFlagsFile);
 				}
 				Dictionary<string, ScriptObjectType> dictionary = new Dictionary<string, ScriptObjectType>();
-				ScriptObjectType akObj = this.LoadObject(asObjectName, dictionary);
-				if (this.bDebug)
+				ScriptObjectType akObj = LoadObject(asObjectName, dictionary);
+				if (bDebug)
 				{
 					var stringBuilder = new StringBuilder("Known types after parsing:\n");
 					foreach (var arg in dictionary.Keys)
 					{
 						stringBuilder.Append($"\t-{arg}\n");
 					}
-					this.OnCompilerNotify(stringBuilder.ToString());
+					OnCompilerNotify(stringBuilder.ToString());
 				}
-				if (abOptimize && this.iNumErrors == 0)
+				if (abOptimize && iNumErrors == 0)
 				{
-					this.Optimize(akObj);
+					Optimize(akObj);
 				}
 				string value = "";
-				if (this.iNumErrors == 0)
+				if (iNumErrors == 0)
 				{
-					value = this.GenerateCode(akObj);
+					value = GenerateCode(akObj);
 				}
 				var text = $"{asObjectName}.pas";
-				if (this.sOutputFolder != "")
+				if (sOutputFolder != "")
 				{
-					text = Path.Combine(this.sOutputFolder, text);
+					text = Path.Combine(sOutputFolder, text);
 				}
-				if (this.iNumErrors == 0 && this.eAsmOption != Compiler.AssemblyOption.NoAssembly)
+				if (iNumErrors == 0 && eAsmOption != AssemblyOption.NoAssembly)
 				{
 					try
 					{
-						if (this.sOutputFolder != "" && !Directory.Exists(this.sOutputFolder))
+						if (sOutputFolder != "" && !Directory.Exists(sOutputFolder))
 						{
-							Directory.CreateDirectory(this.sOutputFolder);
+							Directory.CreateDirectory(sOutputFolder);
 						}
 						StreamWriter streamWriter = new StreamWriter(text);
 						streamWriter.Write(value);
@@ -80,27 +80,27 @@ namespace pcomps.PCompiler
 					}
 					catch (Exception ex)
 					{
-						this.OnCompilerError(ex.Message);
+						OnCompilerError(ex.Message);
 					}
-					if (this.iNumErrors == 0 && (this.eAsmOption == Compiler.AssemblyOption.AssembleAndDelete || this.eAsmOption == Compiler.AssemblyOption.AssembleAndKeep) && this.Assemble(asObjectName) && !this.bDebug && this.eAsmOption == Compiler.AssemblyOption.AssembleAndDelete && File.Exists(text))
+					if (iNumErrors == 0 && (eAsmOption == AssemblyOption.AssembleAndDelete || eAsmOption == AssemblyOption.AssembleAndKeep) && Assemble(asObjectName) && !bDebug && eAsmOption == AssemblyOption.AssembleAndDelete && File.Exists(text))
 					{
 						File.Delete(text);
 					}
 				}
 			}
-			return this.iNumErrors == 0 && this.bOutputValid && this.bImportValid;
+			return iNumErrors == 0 && bOutputValid && bImportValid;
 		}
 
 		// Token: 0x06000D33 RID: 3379 RVA: 0x0005CE1C File Offset: 0x0005B01C
 		internal ScriptObjectType LoadObject(string asObjectName, Dictionary<string, ScriptObjectType> akKnownTypes)
 		{
-			return this.LoadObject(asObjectName, akKnownTypes, new Stack<string>(), true, null);
+			return LoadObject(asObjectName, akKnownTypes, new Stack<string>(), true, null);
 		}
 
 		// Token: 0x06000D34 RID: 3380 RVA: 0x0005CE30 File Offset: 0x0005B030
 		internal ScriptObjectType LoadObject(string asObjectName, Dictionary<string, ScriptObjectType> akKnownTypes, bool abErrorOnNoObject)
 		{
-			return this.LoadObject(asObjectName, akKnownTypes, new Stack<string>(), abErrorOnNoObject, null);
+			return LoadObject(asObjectName, akKnownTypes, new Stack<string>(), abErrorOnNoObject, null);
 		}
 
 		// Token: 0x06000D35 RID: 3381 RVA: 0x0005CE44 File Offset: 0x0005B044
@@ -110,36 +110,36 @@ namespace pcomps.PCompiler
 			if (!akKnownTypes.TryGetValue(asObjectName.ToLowerInvariant(), out scriptObjectType))
 			{
 				string text;
-				if (this.GetFilename(asObjectName, out text))
+				if (GetFilename(asObjectName, out text))
 				{
-					this.StartImportFile(text);
-					int num = this.iNumErrors;
-					this.iNumErrors = 0;
+					StartImportFile(text);
+					int num = iNumErrors;
+					iNumErrors = 0;
 					try
 					{
 						if (asObjectName.Length > 38)
 						{
 							string asMessage =
                                 $"\"{asObjectName}\" is too long, please shorten it to {38} characters or less";
-							this.OnCompilerError(asMessage);
+							OnCompilerError(asMessage);
 						}
 						CaseInsensitiveFileStream akInput = new CaseInsensitiveFileStream(text);
-						CommonTokenStream akTokenStream = this.GenerateTokenStream(akInput);
-						this.Parse(akTokenStream, out scriptObjectType);
+						CommonTokenStream akTokenStream = GenerateTokenStream(akInput);
+						Parse(akTokenStream, out scriptObjectType);
 						if (scriptObjectType.Name != asObjectName.ToLowerInvariant())
 						{
-							this.OnCompilerError($"filename does not match script name: {scriptObjectType.Name}");
+							OnCompilerError($"filename does not match script name: {scriptObjectType.Name}");
 						}
 						else
 						{
-							bool flag = this.iNumErrors == 0;
-							if (this.bDebug && this.sFileStack.Count == 1)
+							bool flag = iNumErrors == 0;
+							if (bDebug && sFileStack.Count == 1)
 							{
 								string asFilename = $"{asObjectName}.preTypeCheck.dot";
-								string arg = this.OutputAST(asFilename, scriptObjectType.kAST);
+								string arg = OutputAST(asFilename, scriptObjectType.kAST);
 								StringBuilder stringBuilder = new StringBuilder();
 								stringBuilder.AppendFormat("Pre-typecheck AST is located in \"{0}\"", arg);
-								this.OnCompilerNotify(stringBuilder.ToString());
+								OnCompilerNotify(stringBuilder.ToString());
 							}
 							bool flag2 = false;
 							if (flag)
@@ -148,30 +148,30 @@ namespace pcomps.PCompiler
 								{
 									akImmediateChild.kParent = scriptObjectType;
 								}
-								this.TypeCheck(scriptObjectType, akKnownTypes, akChildren);
-								flag2 = (this.iNumErrors == 0);
+								TypeCheck(scriptObjectType, akKnownTypes, akChildren);
+								flag2 = (iNumErrors == 0);
 							}
-							if (this.bDebug && flag2 && this.sFileStack.Count == 1)
+							if (bDebug && flag2 && sFileStack.Count == 1)
 							{
 								string asFilename2 = $"{asObjectName}.postTypeCheck.dot";
-								string arg2 = this.OutputAST(asFilename2, scriptObjectType.kAST);
+								string arg2 = OutputAST(asFilename2, scriptObjectType.kAST);
 								StringBuilder stringBuilder2 = new StringBuilder();
 								stringBuilder2.AppendFormat("Post-typecheck AST is located in \"{0}\"", arg2);
-								this.OnCompilerNotify(stringBuilder2.ToString());
+								OnCompilerNotify(stringBuilder2.ToString());
 							}
 						}
 					}
 					catch (Exception ex)
 					{
-						this.OnCompilerError($"error while attempting to read script {asObjectName}: {ex.Message}");
+						OnCompilerError($"error while attempting to read script {asObjectName}: {ex.Message}");
 						scriptObjectType = null;
 					}
-					this.iNumErrors += num;
-					this.FinishImportFile();
+					iNumErrors += num;
+					FinishImportFile();
 				}
 				else if (abErrorOnNoObject)
 				{
-					this.OnCompilerError($"unable to locate script {asObjectName}");
+					OnCompilerError($"unable to locate script {asObjectName}");
 					scriptObjectType = null;
 				}
 			}
@@ -186,7 +186,7 @@ namespace pcomps.PCompiler
 		private CommonTokenStream GenerateTokenStream(ICharStream akInput)
 		{
 			PapyrusLexer papyrusLexer = new PapyrusLexer(akInput);
-			papyrusLexer.ErrorHandler += this.OnInternalError;
+			papyrusLexer.ErrorHandler += OnInternalError;
 			return new CommonTokenStream(papyrusLexer);
 		}
 
@@ -194,8 +194,8 @@ namespace pcomps.PCompiler
 		private void Parse(ITokenStream akTokenStream, out ScriptObjectType akParsedObj)
 		{
 			PapyrusParser papyrusParser = new PapyrusParser(akTokenStream);
-			papyrusParser.ErrorHandler += this.OnInternalError;
-			papyrusParser.KnownUserFlags = this.kFlagDict;
+			papyrusParser.ErrorHandler += OnInternalError;
+			papyrusParser.KnownUserFlags = kFlagDict;
 			papyrusParser.script();
 			akParsedObj = papyrusParser.ParsedObject;
 		}
@@ -203,7 +203,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D38 RID: 3384 RVA: 0x0005D0C0 File Offset: 0x0005B2C0
 		private void TypeCheck(ScriptObjectType akObj, Dictionary<string, ScriptObjectType> akKnownTypes)
 		{
-			this.TypeCheck(akObj, akKnownTypes, new Stack<string>());
+			TypeCheck(akObj, akKnownTypes, new Stack<string>());
 		}
 
 		// Token: 0x06000D39 RID: 3385 RVA: 0x0005D0D0 File Offset: 0x0005B2D0
@@ -213,7 +213,7 @@ namespace pcomps.PCompiler
 			{
 				TokenStream = akObj.kTokenStream
 			});
-			papyrusTypeWalker.ErrorHandler += this.OnInternalError;
+			papyrusTypeWalker.ErrorHandler += OnInternalError;
 			papyrusTypeWalker.script(akObj, this, akKnownTypes, akChildren);
 		}
 
@@ -221,39 +221,39 @@ namespace pcomps.PCompiler
 		private void ParseFlags(string asFlagsFile)
 		{
 			string text;
-			if (this.FindFile(asFlagsFile, out text))
+			if (FindFile(asFlagsFile, out text))
 			{
-				this.StartImportFile(text);
+				StartImportFile(text);
 				CaseInsensitiveFileStream input = new CaseInsensitiveFileStream(text);
 				FlagsLexer flagsLexer = new FlagsLexer(input);
-				flagsLexer.ErrorHandler += this.OnInternalError;
+				flagsLexer.ErrorHandler += OnInternalError;
 				CommonTokenStream input2 = new CommonTokenStream(flagsLexer);
 				FlagsParser flagsParser = new FlagsParser(input2);
-				flagsParser.ErrorHandler += this.OnInternalError;
+				flagsParser.ErrorHandler += OnInternalError;
 				flagsParser.flags();
-				this.FinishImportFile();
-				this.kFlagDict = flagsParser.DefinedFlags;
-				if (this.bDebug)
+				FinishImportFile();
+				kFlagDict = flagsParser.DefinedFlags;
+				if (bDebug)
 				{
-					if (this.kFlagDict.Count > 0)
+					if (kFlagDict.Count > 0)
 					{
-						using (Dictionary<string, PapyrusFlag>.Enumerator enumerator = this.kFlagDict.GetEnumerator())
+						using (Dictionary<string, PapyrusFlag>.Enumerator enumerator = kFlagDict.GetEnumerator())
 						{
 							while (enumerator.MoveNext())
 							{
 								KeyValuePair<string, PapyrusFlag> keyValuePair = enumerator.Current;
-								this.OnCompilerNotify($"Flag {keyValuePair.Key}: {keyValuePair.Value.Index}");
+								OnCompilerNotify($"Flag {keyValuePair.Key}: {keyValuePair.Value.Index}");
 							}
 							return;
 						}
 					}
-					this.OnCompilerNotify("No user flags defined");
+					OnCompilerNotify("No user flags defined");
 					return;
 				}
 			}
 			else
 			{
-				this.OnCompilerError($"Unable to find flags file: {asFlagsFile}");
+				OnCompilerError($"Unable to find flags file: {asFlagsFile}");
 			}
 		}
 
@@ -263,9 +263,9 @@ namespace pcomps.PCompiler
 			asFoundFilename = asFilename;
 			bool flag = File.Exists(asFilename);
 			int num = 0;
-			while (num < this.kImportFolders.Count && !flag)
+			while (num < kImportFolders.Count && !flag)
 			{
-				asFoundFilename = Path.Combine(this.kImportFolders[num], asFilename);
+				asFoundFilename = Path.Combine(kImportFolders[num], asFilename);
 				flag = File.Exists(asFoundFilename);
 				num++;
 			}
@@ -275,30 +275,30 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D3C RID: 3388 RVA: 0x0005D28C File Offset: 0x0005B48C
 		private bool GetFilename(string asObjectName, out string asFilename)
 		{
-			return this.kObjectToPath.TryGetValue(asObjectName.ToLower(), out asFilename);
+			return kObjectToPath.TryGetValue(asObjectName.ToLower(), out asFilename);
 		}
 
 		// Token: 0x06000D3D RID: 3389 RVA: 0x0005D2A0 File Offset: 0x0005B4A0
 		private void Optimize(ScriptObjectType akObj)
 		{
 			string asFilename;
-			this.GetFilename(akObj.Name, out asFilename);
-			this.StartOptimizeFile(asFilename);
-			while (this.RunOptimizePass(akObj, PapyrusOptimizeWalker.OptimizePass.NORMAL) && this.iNumErrors == 0)
+			GetFilename(akObj.Name, out asFilename);
+			StartOptimizeFile(asFilename);
+			while (RunOptimizePass(akObj, PapyrusOptimizeWalker.OptimizePass.NORMAL) && iNumErrors == 0)
 			{
 			}
-			if (this.iNumErrors == 0)
+			if (iNumErrors == 0)
 			{
-				this.RunOptimizePass(akObj, PapyrusOptimizeWalker.OptimizePass.VARCLEANUP);
+				RunOptimizePass(akObj, PapyrusOptimizeWalker.OptimizePass.VARCLEANUP);
 			}
-			this.FinishOptimizeFile();
-			if (this.bDebug && this.iNumErrors == 0)
+			FinishOptimizeFile();
+			if (bDebug && iNumErrors == 0)
 			{
 				string asFilename2 = $"{akObj.Name}.postOptimize.dot";
-				string arg = this.OutputAST(asFilename2, akObj.kAST);
+				string arg = OutputAST(asFilename2, akObj.kAST);
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendFormat("Post-optimize AST is located in \"{0}\"", arg);
-				this.OnCompilerNotify(stringBuilder.ToString());
+				OnCompilerNotify(stringBuilder.ToString());
 			}
 		}
 
@@ -312,13 +312,13 @@ namespace pcomps.PCompiler
 			bool result = false;
 			try
 			{
-				papyrusOptimizeWalker.ErrorHandler += this.OnInternalError;
+				papyrusOptimizeWalker.ErrorHandler += OnInternalError;
 				papyrusOptimizeWalker.script(akObj, aePass);
 				result = papyrusOptimizeWalker.bMadeChanges;
 			}
 			catch (Exception ex)
 			{
-				this.OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
+				OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
 			}
 			return result;
 		}
@@ -329,7 +329,7 @@ namespace pcomps.PCompiler
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
 			Stream manifestResourceStream = executingAssembly.GetManifestResourceStream("pcomps.PCompiler.PapyrusAssembly.stg");
 			string asSourceFilename;
-			this.GetFilename(akObj.Name, out asSourceFilename);
+			GetFilename(akObj.Name, out asSourceFilename);
 			PapyrusGen papyrusGen = new PapyrusGen(new CommonTreeNodeStream(akObj.kAST)
 			{
 				TokenStream = akObj.kTokenStream
@@ -337,18 +337,18 @@ namespace pcomps.PCompiler
 			string result = "";
 			try
 			{
-				papyrusGen.ErrorHandler += this.OnInternalError;
+				papyrusGen.ErrorHandler += OnInternalError;
 				papyrusGen.TemplateLib = new StringTemplateGroup(new StreamReader(manifestResourceStream));
-				papyrusGen.KnownUserFlags = this.kFlagDict;
+				papyrusGen.KnownUserFlags = kFlagDict;
 				StringTemplate stringTemplate = (StringTemplate)papyrusGen.script(asSourceFilename, akObj).Template;
-				if (this.iNumErrors == 0 && stringTemplate != null)
+				if (iNumErrors == 0 && stringTemplate != null)
 				{
 					result = stringTemplate.ToString();
 				}
 			}
 			catch (Exception ex)
 			{
-				this.OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
+				OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
 			}
 			return result;
 		}
@@ -356,7 +356,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D40 RID: 3392 RVA: 0x0005D4A8 File Offset: 0x0005B6A8
 		private string OutputAST(string asFilename, CommonTree akTree)
 		{
-			this.OnCompilerNotify($"Generating {asFilename}...");
+			OnCompilerNotify($"Generating {asFilename}...");
 			StringTemplate treeST = new StringTemplate("digraph {\n ordering=out;\n ranksep=.4\n rankdir=LR\n bgcolor=\"lightgrey\";\n node [shape=box, fixedsize=false, fontsize=12, fontname=\"Helvetica-bold\", fontcolor=\"blue\"\n       width=.25, height=.25, color=\"black\", style=\"bold\"]\n $nodes$\n $edges$\n}\n");
 			StringTemplate edgeST = new StringTemplate("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
 			DOTTreeGenerator dottreeGenerator = new DOTTreeGenerator();
@@ -378,15 +378,15 @@ namespace pcomps.PCompiler
 				string text3 = process.StandardOutput.ReadToEnd();
 				if (text3 != "")
 				{
-					this.OnCompilerNotify(text3);
+					OnCompilerNotify(text3);
 				}
 				process.WaitForExit();
-				this.OnCompilerNotify("Conversion to png succeeded.");
+				OnCompilerNotify("Conversion to png succeeded.");
 			}
 			catch (Exception)
 			{
 				text2 = asFilename;
-				this.OnCompilerNotify("Conversion to png failed.");
+				OnCompilerNotify("Conversion to png failed.");
 			}
 			return text2;
 		}
@@ -404,7 +404,7 @@ namespace pcomps.PCompiler
 				text = Path.Combine(Environment.CurrentDirectory, path);
 				if (!File.Exists(text))
 				{
-					this.OnCompilerError("Assembly failed - could not find the assembler");
+					OnCompilerError("Assembly failed - could not find the assembler");
 					flag = false;
 				}
 			}
@@ -415,35 +415,35 @@ namespace pcomps.PCompiler
 					Process process = new Process();
 					process.StartInfo.FileName = text;
 					process.StartInfo.Arguments = asObjectName;
-					if (this.bDebug)
+					if (bDebug)
 					{
 						ProcessStartInfo startInfo = process.StartInfo;
 						startInfo.Arguments += " /V";
 					}
-					if (this.bQuiet)
+					if (bQuiet)
 					{
 						ProcessStartInfo startInfo2 = process.StartInfo;
 						startInfo2.Arguments += " /Q";
 					}
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
-					process.StartInfo.WorkingDirectory = this.sOutputFolder;
+					process.StartInfo.WorkingDirectory = sOutputFolder;
 					process.Start();
 					string text2 = process.StandardOutput.ReadToEnd();
 					if (text2 != "")
 					{
-						this.OnCompilerNotify(text2);
+						OnCompilerNotify(text2);
 					}
 					process.WaitForExit();
 					if (process.ExitCode != 0)
 					{
 						flag = false;
-						this.iNumErrors++;
+						iNumErrors++;
 					}
 				}
 				catch (Exception)
 				{
-					this.OnCompilerError("Assembly failed");
+					OnCompilerError("Assembly failed");
 					flag = false;
 				}
 			}
@@ -453,84 +453,84 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D42 RID: 3394 RVA: 0x0005D758 File Offset: 0x0005B958
 		private void OnInternalError(object kSender, InternalErrorEventArgs kArgs)
 		{
-			this.iNumErrors++;
-			if (this.CompilerErrorHandler != null)
+			iNumErrors++;
+			if (CompilerErrorHandler != null)
 			{
-				if (this.sFileStack.Count == 0)
+				if (sFileStack.Count == 0)
 				{
-					this.CompilerErrorHandler(kSender, new CompilerErrorEventArgs(kArgs.ErrorText));
+					CompilerErrorHandler(kSender, new CompilerErrorEventArgs(kArgs.ErrorText));
 					return;
 				}
-				this.CompilerErrorHandler(kSender, new CompilerErrorEventArgs(kArgs.ErrorText, this.sFileStack.Peek(), kArgs.LineNumber, kArgs.ColumnNumber));
+				CompilerErrorHandler(kSender, new CompilerErrorEventArgs(kArgs.ErrorText, sFileStack.Peek(), kArgs.LineNumber, kArgs.ColumnNumber));
 			}
 		}
 
 		// Token: 0x06000D43 RID: 3395 RVA: 0x0005D7D0 File Offset: 0x0005B9D0
 		private void OnCompilerError(string asMessage)
 		{
-			this.iNumErrors++;
-			if (this.CompilerErrorHandler != null)
+			iNumErrors++;
+			if (CompilerErrorHandler != null)
 			{
-				if (this.sFileStack.Count > 0)
+				if (sFileStack.Count > 0)
 				{
-					this.CompilerErrorHandler(this, new CompilerErrorEventArgs(asMessage, this.sFileStack.Peek()));
+					CompilerErrorHandler(this, new CompilerErrorEventArgs(asMessage, sFileStack.Peek()));
 					return;
 				}
-				this.CompilerErrorHandler(this, new CompilerErrorEventArgs(asMessage));
+				CompilerErrorHandler(this, new CompilerErrorEventArgs(asMessage));
 			}
 		}
 
 		// Token: 0x06000D44 RID: 3396 RVA: 0x0005D834 File Offset: 0x0005BA34
 		private void OnCompilerNotify(string asMessage)
 		{
-			if (this.CompilerNotifyHandler != null)
+			if (CompilerNotifyHandler != null)
 			{
-				this.CompilerNotifyHandler(this, new CompilerNotifyEventArgs(asMessage));
+				CompilerNotifyHandler(this, new CompilerNotifyEventArgs(asMessage));
 			}
 		}
 
 		// Token: 0x06000D45 RID: 3397 RVA: 0x0005D850 File Offset: 0x0005BA50
 		private void StartImportFile(string asFilename)
 		{
-			this.sFileStack.Push(asFilename);
-			if (this.bDebug)
+			sFileStack.Push(asFilename);
+			if (bDebug)
 			{
-				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify($"{arg}Starting import of {asFilename}...");
+				string arg = new string(' ', sFileStack.Count);
+				OnCompilerNotify($"{arg}Starting import of {asFilename}...");
 			}
 		}
 
 		// Token: 0x06000D46 RID: 3398 RVA: 0x0005D898 File Offset: 0x0005BA98
 		private void FinishImportFile()
 		{
-			if (this.bDebug)
+			if (bDebug)
 			{
-				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify($"{arg}Finished import");
+				string arg = new string(' ', sFileStack.Count);
+				OnCompilerNotify($"{arg}Finished import");
 			}
-			this.sFileStack.Pop();
+			sFileStack.Pop();
 		}
 
 		// Token: 0x06000D47 RID: 3399 RVA: 0x0005D8E0 File Offset: 0x0005BAE0
 		private void StartOptimizeFile(string asFilename)
 		{
-			this.sFileStack.Push(asFilename);
-			if (this.bDebug)
+			sFileStack.Push(asFilename);
+			if (bDebug)
 			{
-				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify($"{arg}Starting optimize of {asFilename}...");
+				string arg = new string(' ', sFileStack.Count);
+				OnCompilerNotify($"{arg}Starting optimize of {asFilename}...");
 			}
 		}
 
 		// Token: 0x06000D48 RID: 3400 RVA: 0x0005D928 File Offset: 0x0005BB28
 		private void FinishOptimizeFile()
 		{
-			if (this.bDebug)
+			if (bDebug)
 			{
-				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify($"{arg}Finished optimize");
+				string arg = new string(' ', sFileStack.Count);
+				OnCompilerNotify($"{arg}Finished optimize");
 			}
-			this.sFileStack.Pop();
+			sFileStack.Pop();
 		}
 
 		// Token: 0x170001A7 RID: 423
@@ -540,7 +540,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sOutputFolder;
+				return sOutputFolder;
 			}
 			set
 			{
@@ -548,18 +548,18 @@ namespace pcomps.PCompiler
 				{
 					if (value != "")
 					{
-						this.sOutputFolder = Path.GetFullPath(value);
+						sOutputFolder = Path.GetFullPath(value);
 					}
 					else
 					{
-						this.sOutputFolder = "";
+						sOutputFolder = "";
 					}
-					this.bOutputValid = true;
+					bOutputValid = true;
 				}
 				catch (Exception ex)
 				{
-					this.OnCompilerNotify($"Cannot set output folder to \"{value}\" - {ex.Message}");
-					this.bOutputValid = false;
+					OnCompilerNotify($"Cannot set output folder to \"{value}\" - {ex.Message}");
+					bOutputValid = false;
 				}
 			}
 		}
@@ -571,9 +571,9 @@ namespace pcomps.PCompiler
 			foreach (string text in files)
 			{
 				string key = Path.GetFileNameWithoutExtension(text).ToLower();
-				if (!this.kObjectToPath.ContainsKey(key))
+				if (!kObjectToPath.ContainsKey(key))
 				{
-					this.kObjectToPath.Add(key, text);
+					kObjectToPath.Add(key, text);
 				}
 			}
 		}
@@ -585,35 +585,35 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kImportFolders;
+				return kImportFolders;
 			}
 			set
 			{
 				List<string> list = new List<string>(value);
-				this.bImportValid = true;
-				this.kObjectToPath = new Dictionary<string, string>();
-				this.ScanImportPath(Environment.CurrentDirectory);
+				bImportValid = true;
+				kObjectToPath = new Dictionary<string, string>();
+				ScanImportPath(Environment.CurrentDirectory);
 				int num = 0;
-				while (num < list.Count && this.bImportValid)
+				while (num < list.Count && bImportValid)
 				{
 					try
 					{
 						if (list[num] != "")
 						{
 							list[num] = Path.GetFullPath(list[num]);
-							this.ScanImportPath(list[num]);
+							ScanImportPath(list[num]);
 						}
 					}
 					catch (Exception ex)
 					{
-						this.OnCompilerNotify($"Cannot use import folder \"{list[num]}\" - {ex.Message}");
-						this.bImportValid = false;
+						OnCompilerNotify($"Cannot use import folder \"{list[num]}\" - {ex.Message}");
+						bImportValid = false;
 					}
 					num++;
 				}
-				if (this.bImportValid)
+				if (bImportValid)
 				{
-					this.kImportFolders = list;
+					kImportFolders = list;
 				}
 			}
 		}
@@ -625,7 +625,7 @@ namespace pcomps.PCompiler
 		public bool bDebug;
 
 		// Token: 0x040009C7 RID: 2503
-		public Compiler.AssemblyOption eAsmOption;
+		public AssemblyOption eAsmOption;
 
 		// Token: 0x040009C8 RID: 2504
 		public bool bQuiet;

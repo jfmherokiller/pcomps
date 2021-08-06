@@ -9,7 +9,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001A5 RID: 421 RVA: 0x0000602C File Offset: 0x0000422C
 		private void tabs()
 		{
-			for (int i = 0; i < this.level; i++)
+			for (int i = 0; i < level; i++)
 			{
 				Console.Out.Write("   ");
 			}
@@ -31,7 +31,7 @@ namespace pcomps.Antlr
 			{
 				if (!flag || ast == node)
 				{
-					this.tabs();
+					tabs();
 				}
 				if (ast.getText() == null)
 				{
@@ -52,9 +52,9 @@ namespace pcomps.Antlr
 				}
 				if (ast.getFirstChild() != null)
 				{
-					this.level++;
-					this.visit(ast.getFirstChild());
-					this.level--;
+					level++;
+					visit(ast.getFirstChild());
+					level--;
 				}
 			}
 			if (flag)

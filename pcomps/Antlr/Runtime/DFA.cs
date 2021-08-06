@@ -14,10 +14,10 @@
 				char c;
 				for (;;)
 				{
-					int num2 = (int)this.special[num];
+					int num2 = (int)special[num];
 					if (num2 >= 0)
 					{
-						num = this.specialStateTransitionHandler(this, num2, input);
+						num = specialStateTransitionHandler(this, num2, input);
 						if (num == -1)
 						{
 							break;
@@ -26,21 +26,21 @@
 					}
 					else
 					{
-						if (this.accept[num] >= 1)
+						if (accept[num] >= 1)
 						{
 							goto Block_4;
 						}
 						c = (char)input.LA(1);
-						if (c >= this.min[num] && c <= this.max[num])
+						if (c >= min[num] && c <= max[num])
 						{
-							int num3 = (int)this.transition[num][(int)(c - this.min[num])];
+							int num3 = (int)transition[num][(int)(c - min[num])];
 							if (num3 < 0)
 							{
-								if (this.eot[num] < 0)
+								if (eot[num] < 0)
 								{
 									goto IL_CB;
 								}
-								num = (int)this.eot[num];
+								num = (int)eot[num];
 								input.Consume();
 							}
 							else
@@ -51,30 +51,30 @@
 						}
 						else
 						{
-							if (this.eot[num] < 0)
+							if (eot[num] < 0)
 							{
 								goto IL_10B;
 							}
-							num = (int)this.eot[num];
+							num = (int)eot[num];
 							input.Consume();
 						}
 					}
 				}
-				this.NoViableAlt(num, input);
+				NoViableAlt(num, input);
 				return 0;
 				Block_4:
-				return (int)this.accept[num];
+				return (int)accept[num];
 				IL_CB:
-				this.NoViableAlt(num, input);
+				NoViableAlt(num, input);
 				return 0;
 				IL_10B:
-				if (c == (char)Token.EOF && this.eof[num] >= 0)
+				if (c == (char)Token.EOF && eof[num] >= 0)
 				{
-					result = (int)this.accept[(int)this.eof[num]];
+					result = (int)accept[(int)eof[num]];
 				}
 				else
 				{
-					this.NoViableAlt(num, input);
+					NoViableAlt(num, input);
 					result = 0;
 				}
 			}
@@ -88,13 +88,13 @@
 		// Token: 0x0600051B RID: 1307 RVA: 0x0000F884 File Offset: 0x0000DA84
 		protected void NoViableAlt(int s, IIntStream input)
 		{
-			if (this.recognizer.state.backtracking > 0)
+			if (recognizer.state.backtracking > 0)
 			{
-				this.recognizer.state.failed = true;
+				recognizer.state.failed = true;
 				return;
 			}
-			NoViableAltException ex = new NoViableAltException(this.Description, this.decisionNumber, s, input);
-			this.Error(ex);
+			NoViableAltException ex = new NoViableAltException(Description, decisionNumber, s, input);
+			Error(ex);
 			throw ex;
 		}
 
@@ -147,7 +147,7 @@
 			short[][] array = new short[encodedStrings.Length][];
 			for (int i = 0; i < encodedStrings.Length; i++)
 			{
-				array[i] = DFA.UnpackEncodedString(encodedStrings[i]);
+				array[i] = UnpackEncodedString(encodedStrings[i]);
 			}
 			return array;
 		}
@@ -208,7 +208,7 @@
 		protected int decisionNumber;
 
 		// Token: 0x04000166 RID: 358
-		public DFA.SpecialStateTransitionHandler specialStateTransitionHandler;
+		public SpecialStateTransitionHandler specialStateTransitionHandler;
 
 		// Token: 0x04000167 RID: 359
 		protected BaseRecognizer recognizer;

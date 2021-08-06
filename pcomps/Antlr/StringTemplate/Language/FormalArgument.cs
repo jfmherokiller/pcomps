@@ -56,17 +56,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return false;
 			}
 			FormalArgument formalArgument = (FormalArgument)o;
-			return this.name.Equals(formalArgument.name) && (this.defaultValueST == null || formalArgument.defaultValueST != null) && (this.defaultValueST != null || formalArgument.defaultValueST == null);
+			return name.Equals(formalArgument.name) && (defaultValueST == null || formalArgument.defaultValueST != null) && (defaultValueST != null || formalArgument.defaultValueST == null);
 		}
 
 		// Token: 0x06001158 RID: 4440 RVA: 0x0007E910 File Offset: 0x0007CB10
 		public override string ToString()
 		{
-			if (this.defaultValueST != null)
+			if (defaultValueST != null)
 			{
-				return $"{this.name}={this.defaultValueST}";
+				return $"{name}={defaultValueST}";
 			}
-			return this.name;
+			return name;
 		}
 
 		// Token: 0x04000E6B RID: 3691

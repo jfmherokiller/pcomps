@@ -26,23 +26,23 @@ namespace pcomps.Antlr.Runtime
 		public CommonToken(int type, string text)
 		{
 			this.type = type;
-			this.channel = 0;
+			channel = 0;
 			this.text = text;
 		}
 
 		// Token: 0x06000505 RID: 1285 RVA: 0x0000F428 File Offset: 0x0000D628
 		public CommonToken(IToken oldToken)
 		{
-			this.text = oldToken.Text;
-			this.type = oldToken.Type;
-			this.line = oldToken.Line;
-			this.index = oldToken.TokenIndex;
-			this.charPositionInLine = oldToken.CharPositionInLine;
-			this.channel = oldToken.Channel;
+			text = oldToken.Text;
+			type = oldToken.Type;
+			line = oldToken.Line;
+			index = oldToken.TokenIndex;
+			charPositionInLine = oldToken.CharPositionInLine;
+			channel = oldToken.Channel;
 			if (oldToken is CommonToken)
 			{
-				this.start = ((CommonToken)oldToken).start;
-				this.stop = ((CommonToken)oldToken).stop;
+				start = ((CommonToken)oldToken).start;
+				stop = ((CommonToken)oldToken).stop;
 			}
 		}
 
@@ -53,11 +53,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.type;
+				return type;
 			}
 			set
 			{
-				this.type = value;
+				type = value;
 			}
 		}
 
@@ -68,11 +68,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.line;
+				return line;
 			}
 			set
 			{
-				this.line = value;
+				line = value;
 			}
 		}
 
@@ -83,11 +83,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.charPositionInLine;
+				return charPositionInLine;
 			}
 			set
 			{
-				this.charPositionInLine = value;
+				charPositionInLine = value;
 			}
 		}
 
@@ -98,11 +98,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.channel;
+				return channel;
 			}
 			set
 			{
-				this.channel = value;
+				channel = value;
 			}
 		}
 
@@ -113,11 +113,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.start;
+				return start;
 			}
 			set
 			{
-				this.start = value;
+				start = value;
 			}
 		}
 
@@ -128,11 +128,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.stop;
+				return stop;
 			}
 			set
 			{
-				this.stop = value;
+				stop = value;
 			}
 		}
 
@@ -143,11 +143,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.index;
+				return index;
 			}
 			set
 			{
-				this.index = value;
+				index = value;
 			}
 		}
 
@@ -158,11 +158,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 			set
 			{
-				this.input = value;
+				input = value;
 			}
 		}
 
@@ -173,20 +173,20 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				if (this.text != null)
+				if (text != null)
 				{
-					return this.text;
+					return text;
 				}
-				if (this.input == null)
+				if (input == null)
 				{
 					return null;
 				}
-				this.text = this.input.Substring(this.start, this.stop);
-				return this.text;
+				text = input.Substring(start, stop);
+				return text;
 			}
 			set
 			{
-				this.text = value;
+				text = value;
 			}
 		}
 
@@ -194,11 +194,11 @@ namespace pcomps.Antlr.Runtime
 		public override string ToString()
 		{
 			string text = string.Empty;
-			if (this.channel > 0)
+			if (channel > 0)
 			{
-				text = $",channel={this.channel}";
+				text = $",channel={channel}";
 			}
-			string text2 = this.Text;
+			string text2 = Text;
 			if (text2 != null)
 			{
 				text2 = text2.Replace("\n", "\\\\n");
@@ -212,21 +212,21 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"[@",
-				this.TokenIndex,
+				TokenIndex,
 				",",
-				this.start,
+				start,
 				":",
-				this.stop,
+				stop,
 				"='",
 				text2,
 				"',<",
-				this.type,
+				type,
 				">",
 				text,
 				",",
-				this.line,
+				line,
 				":",
-				this.CharPositionInLine,
+				CharPositionInLine,
 				"]"
 			});
 		}

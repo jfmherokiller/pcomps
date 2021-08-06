@@ -21,7 +21,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000241 RID: 577 RVA: 0x00007C3C File Offset: 0x00005E3C
 		public string getRuleName()
 		{
-			return this.ruleName;
+			return ruleName;
 		}
 
 		// Token: 0x06000242 RID: 578 RVA: 0x00007C50 File Offset: 0x00005E50
@@ -31,10 +31,10 @@ namespace pcomps.Antlr
 			if (step <= 0)
 			{
 				buf.Append(' ');
-				buf.Append(this.ToString());
+				buf.Append(ToString());
 				return num;
 			}
-			AST ast = this.getFirstChild();
+			AST ast = getFirstChild();
 			num = 1;
 			while (ast != null)
 			{
@@ -57,16 +57,16 @@ namespace pcomps.Antlr
 		// Token: 0x06000243 RID: 579 RVA: 0x00007CCC File Offset: 0x00005ECC
 		public override string ToString()
 		{
-			if (this.altNumber == -1)
+			if (altNumber == -1)
 			{
-				return $"<{this.ruleName}>";
+				return $"<{ruleName}>";
 			}
 			return string.Concat(new object[]
 			{
 				'<',
-				this.ruleName,
+				ruleName,
 				"[",
-				this.altNumber,
+				altNumber,
 				"]>"
 			});
 		}

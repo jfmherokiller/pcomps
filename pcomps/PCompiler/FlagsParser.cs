@@ -11,29 +11,29 @@ namespace pcomps.PCompiler
 		private void AddFlag(IToken akNameToken, int aiIndex, bool abAllowedOnObj, bool abAllowedOnProp, bool abAllowedOnVar, bool abAllowedOnFunc)
 		{
 			string text = akNameToken.Text.ToLowerInvariant();
-			if (this.kFlagDict.ContainsKey(text))
+			if (kFlagDict.ContainsKey(text))
 			{
-				this.OnError($"Flag {akNameToken.Text} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
+				OnError($"Flag {akNameToken.Text} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
-			if (this.kFlagIndexDict.ContainsKey(aiIndex))
+			if (kFlagIndexDict.ContainsKey(aiIndex))
 			{
-				this.OnError($"Flag index {aiIndex} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
+				OnError($"Flag index {aiIndex} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
 			if (!PapyrusFlag.IsValidFlagIndex(aiIndex))
 			{
-				this.OnError($"Flag index {aiIndex} is out of range.", akNameToken.Line, akNameToken.CharPositionInLine);
+				OnError($"Flag index {aiIndex} is out of range.", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
-			this.kFlagDict.Add(text, new PapyrusFlag(aiIndex, abAllowedOnObj, abAllowedOnProp, abAllowedOnVar, abAllowedOnFunc));
-			this.kFlagIndexDict.Add(aiIndex, text);
+			kFlagDict.Add(text, new PapyrusFlag(aiIndex, abAllowedOnObj, abAllowedOnProp, abAllowedOnVar, abAllowedOnFunc));
+			kFlagIndexDict.Add(aiIndex, text);
 		}
 
 		// Token: 0x06000EB1 RID: 3761 RVA: 0x0006C2CC File Offset: 0x0006A4CC
 		private void DuplicateFlagItem(IToken akToken)
 		{
-			this.OnError($"Duplicate flag item: {akToken.Text}", akToken.Line, akToken.CharPositionInLine);
+			OnError($"Duplicate flag item: {akToken.Text}", akToken.Line, akToken.CharPositionInLine);
 		}
 
 		// Token: 0x17000217 RID: 535
@@ -42,7 +42,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kFlagDict;
+				return kFlagDict;
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EB4 RID: 3764 RVA: 0x0006C308 File Offset: 0x0006A508
 		public FlagsParser(ITokenStream input, RecognizerSharedState state) : base(input, state)
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x17000218 RID: 536
@@ -63,7 +63,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return FlagsParser.tokenNames;
+				return tokenNames;
 			}
 		}
 
@@ -85,17 +85,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EB9 RID: 3769 RVA: 0x0006C384 File Offset: 0x0006A584
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
 		{
-			if (this.ErrorHandler != null)
+			if (ErrorHandler != null)
 			{
-				this.ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
 			}
 		}
 
 		// Token: 0x06000EBA RID: 3770 RVA: 0x0006C3A4 File Offset: 0x0006A5A4
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.OnError(errorMessage, e.Line, e.CharPositionInLine);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000EBB RID: 3771 RVA: 0x0006C3D0 File Offset: 0x0006A5D0
@@ -106,7 +106,7 @@ namespace pcomps.PCompiler
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 4)
 					{
 						num = 1;
@@ -116,48 +116,48 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					base.PushFollow(FlagsParser.FOLLOW_flagDefinition_in_flags81);
-					this.flagDefinition();
-					this.state.followingStackPointer--;
+					PushFollow(FOLLOW_flagDefinition_in_flags81);
+					flagDefinition();
+					state.followingStackPointer--;
 				}
-				this.Match(this.input, -1, FlagsParser.FOLLOW_EOF_in_flags84);
+				Match(input, -1, FOLLOW_EOF_in_flags84);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 		}
 
 		// Token: 0x06000EBC RID: 3772 RVA: 0x0006C45C File Offset: 0x0006A65C
 		public void flagDefinition()
 		{
-			this.flagDefinition_stack.Push(new FlagsParser.flagDefinition_scope());
-			((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnObj = false;
-			((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnProp = false;
-			((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnVar = false;
-			((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnFunc = false;
+			flagDefinition_stack.Push(new flagDefinition_scope());
+			((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnObj = false;
+			((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnProp = false;
+			((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnVar = false;
+			((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc = false;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				if (num != 4)
 				{
-					NoViableAltException ex = new NoViableAltException("", 2, 0, this.input);
+					NoViableAltException ex = new NoViableAltException("", 2, 0, input);
 					throw ex;
 				}
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				if (num2 != 5)
 				{
-					NoViableAltException ex2 = new NoViableAltException("", 2, 1, this.input);
+					NoViableAltException ex2 = new NoViableAltException("", 2, 1, input);
 					throw ex2;
 				}
-				int num3 = this.input.LA(3);
+				int num3 = input.LA(3);
 				if (num3 != 6)
 				{
-					NoViableAltException ex3 = new NoViableAltException("", 2, 2, this.input);
+					NoViableAltException ex3 = new NoViableAltException("", 2, 2, input);
 					throw ex3;
 				}
-				int num4 = this.input.LA(4);
+				int num4 = input.LA(4);
 				int num5;
 				if (num4 == -1 || num4 == 4)
 				{
@@ -167,7 +167,7 @@ namespace pcomps.PCompiler
 				{
 					if (num4 != 7)
 					{
-						NoViableAltException ex4 = new NoViableAltException("", 2, 3, this.input);
+						NoViableAltException ex4 = new NoViableAltException("", 2, 3, input);
 						throw ex4;
 					}
 					num5 = 2;
@@ -176,33 +176,33 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					this.Match(this.input, 4, FlagsParser.FOLLOW_FLAG_in_flagDefinition105);
-					IToken akNameToken = (IToken)this.Match(this.input, 5, FlagsParser.FOLLOW_ID_in_flagDefinition109);
-					IToken token = (IToken)this.Match(this.input, 6, FlagsParser.FOLLOW_NUMBER_in_flagDefinition113);
-					this.AddFlag(akNameToken, int.Parse(token.Text), true, true, true, true);
+					Match(input, 4, FOLLOW_FLAG_in_flagDefinition105);
+					IToken akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition109);
+					IToken token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition113);
+					AddFlag(akNameToken, int.Parse(token.Text), true, true, true, true);
 					break;
 				}
 				case 2:
 				{
-					this.Match(this.input, 4, FlagsParser.FOLLOW_FLAG_in_flagDefinition124);
-					IToken akNameToken = (IToken)this.Match(this.input, 5, FlagsParser.FOLLOW_ID_in_flagDefinition128);
-					IToken token = (IToken)this.Match(this.input, 6, FlagsParser.FOLLOW_NUMBER_in_flagDefinition132);
-					base.PushFollow(FlagsParser.FOLLOW_allowedBlock_in_flagDefinition134);
-					this.allowedBlock();
-					this.state.followingStackPointer--;
-					this.AddFlag(akNameToken, int.Parse(token.Text), ((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnObj, ((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnProp, ((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnVar, ((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnFunc);
+					Match(input, 4, FOLLOW_FLAG_in_flagDefinition124);
+					IToken akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition128);
+					IToken token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition132);
+					PushFollow(FOLLOW_allowedBlock_in_flagDefinition134);
+					allowedBlock();
+					state.followingStackPointer--;
+					AddFlag(akNameToken, int.Parse(token.Text), ((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnObj, ((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnProp, ((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnVar, ((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc);
 					break;
 				}
 				}
 			}
 			catch (RecognitionException ex5)
 			{
-				this.ReportError(ex5);
-				this.Recover(this.input, ex5);
+				ReportError(ex5);
+				Recover(input, ex5);
 			}
 			finally
 			{
-				this.flagDefinition_stack.Pop();
+				flagDefinition_stack.Pop();
 			}
 		}
 
@@ -211,11 +211,11 @@ namespace pcomps.PCompiler
 		{
 			try
 			{
-				this.Match(this.input, 7, FlagsParser.FOLLOW_OPEN_BRACE_in_allowedBlock153);
+				Match(input, 7, FOLLOW_OPEN_BRACE_in_allowedBlock153);
 				for (;;)
 				{
 					int num = 5;
-					switch (this.input.LA(1))
+					switch (input.LA(1))
 					{
 					case 8:
 						num = 1;
@@ -234,53 +234,53 @@ namespace pcomps.PCompiler
 					{
 					case 1:
 					{
-						IToken akToken = (IToken)this.Match(this.input, 8, FlagsParser.FOLLOW_SCRIPT_in_allowedBlock161);
-						if (((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnObj)
+						IToken akToken = (IToken)Match(input, 8, FOLLOW_SCRIPT_in_allowedBlock161);
+						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnObj)
 						{
-							this.DuplicateFlagItem(akToken);
+							DuplicateFlagItem(akToken);
 						}
-						((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnObj = true;
+						((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnObj = true;
 						continue;
 					}
 					case 2:
 					{
-						IToken akToken2 = (IToken)this.Match(this.input, 9, FlagsParser.FOLLOW_PROPERTY_in_allowedBlock176);
-						if (((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnProp)
+						IToken akToken2 = (IToken)Match(input, 9, FOLLOW_PROPERTY_in_allowedBlock176);
+						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnProp)
 						{
-							this.DuplicateFlagItem(akToken2);
+							DuplicateFlagItem(akToken2);
 						}
-						((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnProp = true;
+						((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnProp = true;
 						continue;
 					}
 					case 3:
 					{
-						IToken akToken3 = (IToken)this.Match(this.input, 10, FlagsParser.FOLLOW_VARIABLE_in_allowedBlock191);
-						if (((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnVar)
+						IToken akToken3 = (IToken)Match(input, 10, FOLLOW_VARIABLE_in_allowedBlock191);
+						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnVar)
 						{
-							this.DuplicateFlagItem(akToken3);
+							DuplicateFlagItem(akToken3);
 						}
-						((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnVar = true;
+						((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnVar = true;
 						continue;
 					}
 					case 4:
 					{
-						IToken akToken4 = (IToken)this.Match(this.input, 11, FlagsParser.FOLLOW_FUNCTION_in_allowedBlock206);
-						if (((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnFunc)
+						IToken akToken4 = (IToken)Match(input, 11, FOLLOW_FUNCTION_in_allowedBlock206);
+						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc)
 						{
-							this.DuplicateFlagItem(akToken4);
+							DuplicateFlagItem(akToken4);
 						}
-						((FlagsParser.flagDefinition_scope)this.flagDefinition_stack.Peek()).bAllowedOnFunc = true;
+						((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc = true;
 						continue;
 					}
 					}
 					break;
 				}
-				this.Match(this.input, 12, FlagsParser.FOLLOW_CLOSE_BRACE_in_allowedBlock221);
+				Match(input, 12, FOLLOW_CLOSE_BRACE_in_allowedBlock221);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 		}
 

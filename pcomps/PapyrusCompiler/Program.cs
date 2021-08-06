@@ -32,31 +32,31 @@ namespace pcomps.PapyrusCompiler
 		private static void CompilerThread()
 		{
 			Compiler compiler = new Compiler();
-			compiler.CompilerErrorHandler += Program.CompilerErrorHandler;
-			compiler.CompilerNotifyHandler += Program.CompilerNotifyHandler;
-			compiler.bDebug = Program.kArgs.Debug;
-			compiler.OutputFolder = Program.kArgs.OutputFolder;
-			compiler.ImportFolders = new List<string>(Program.kArgs.ImportFolders.Split(new char[]
+			compiler.CompilerErrorHandler += CompilerErrorHandler;
+			compiler.CompilerNotifyHandler += CompilerNotifyHandler;
+			compiler.bDebug = kArgs.Debug;
+			compiler.OutputFolder = kArgs.OutputFolder;
+			compiler.ImportFolders = new List<string>(kArgs.ImportFolders.Split(new char[]
 			{
 				';'
 			}));
-			if (Program.kArgs.NoAsm)
+			if (kArgs.NoAsm)
 			{
 				compiler.eAsmOption = Compiler.AssemblyOption.NoAssembly;
 			}
-			else if (Program.kArgs.AsmOnly)
+			else if (kArgs.AsmOnly)
 			{
 				compiler.eAsmOption = Compiler.AssemblyOption.GenerateOnly;
 			}
-			else if (Program.kArgs.KeepAsm)
+			else if (kArgs.KeepAsm)
 			{
 				compiler.eAsmOption = Compiler.AssemblyOption.AssembleAndKeep;
 			}
-			compiler.bQuiet = Program.kArgs.Quiet;
+			compiler.bQuiet = kArgs.Quiet;
 			int num;
-			while ((num = Interlocked.Increment(ref Program.iLastFileNumber)) < Program.FilenamesA.Length)
+			while ((num = Interlocked.Increment(ref iLastFileNumber)) < FilenamesA.Length)
 			{
-				string text = Program.FilenamesA[num];
+				string text = FilenamesA[num];
                 string FileDirectory = Path.GetDirectoryName(text);
                 compiler.ImportFolders.Add(FileDirectory);
                 compiler.ImportFolders = compiler.ImportFolders;
@@ -64,24 +64,24 @@ namespace pcomps.PapyrusCompiler
 				{
 					text = Path.GetFileNameWithoutExtension(text);
 				}
-				if (!Program.kArgs.Quiet)
+				if (!kArgs.Quiet)
 				{
 					Console.Write($"Compiling \"{text}\"...\n");
 				}
-				if (compiler.Compile(text, Program.kArgs.FlagsFile, Program.kArgs.Optimize))
+				if (compiler.Compile(text, kArgs.FlagsFile, kArgs.Optimize))
 				{
-					Interlocked.Increment(ref Program.iCompilesSucceeded);
-					if (!Program.kArgs.Quiet)
+					Interlocked.Increment(ref iCompilesSucceeded);
+					if (!kArgs.Quiet)
 					{
 						Console.Write("Compilation succeeded.\n");
 					}
 				}
 				else
 				{
-					Console.Write($"No output generated for {Program.FilenamesA[num]}, compilation failed.\n");
-					Program.FailureMutex.WaitOne();
-					Program.FailedCompiles.Add(Program.FilenamesA[num]);
-					Program.FailureMutex.ReleaseMutex();
+					Console.Write($"No output generated for {FilenamesA[num]}, compilation failed.\n");
+					FailureMutex.WaitOne();
+					FailedCompiles.Add(FilenamesA[num]);
+					FailureMutex.ReleaseMutex();
 				}
 			}
 		}
@@ -89,22 +89,22 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000017 RID: 23 RVA: 0x00002838 File Offset: 0x00000A38
 		private static void Main(string[] args)
 		{
-			Program.kArgs = new CommandLineArgs(args);
-			if (Program.kArgs.Valid)
+			kArgs = new CommandLineArgs(args);
+			if (kArgs.Valid)
 			{
 				bool flag = false;
-				if (Program.kArgs.All)
+				if (kArgs.All)
 				{
-					DirectoryInfo directoryInfo = new DirectoryInfo(Program.kArgs.ObjectName);
+					DirectoryInfo directoryInfo = new DirectoryInfo(kArgs.ObjectName);
 					if (directoryInfo.Exists)
 					{
 						FileInfo[] files = directoryInfo.GetFiles("*.psc");
 						if (files.Length > 0)
 						{
-							Program.FilenamesA = new string[files.Length];
+							FilenamesA = new string[files.Length];
 							for (int i = 0; i < files.Length; i++)
 							{
-								Program.FilenamesA[i] = files[i].ToString();
+								FilenamesA[i] = files[i].ToString();
 							}
 						}
 						else
@@ -121,36 +121,36 @@ namespace pcomps.PapyrusCompiler
 				}
 				else
 				{
-					Program.FilenamesA = new string[1];
-					Program.FilenamesA[0] = Program.kArgs.ObjectName;
+					FilenamesA = new string[1];
+					FilenamesA[0] = kArgs.ObjectName;
 				}
-				if (Program.FilenamesA != null && Program.FilenamesA.Length > 0)
+				if (FilenamesA != null && FilenamesA.Length > 0)
 				{
-					int num = Math.Min(Program.FilenamesA.Length, Environment.ProcessorCount + 1);
-					if (!Program.kArgs.Quiet)
+					int num = Math.Min(FilenamesA.Length, Environment.ProcessorCount + 1);
+					if (!kArgs.Quiet)
 					{
-						Console.Write("Starting {0} compile threads for {1} files...\n", num, Program.FilenamesA.Length);
+						Console.Write("Starting {0} compile threads for {1} files...\n", num, FilenamesA.Length);
 					}
 					Thread[] array = new Thread[num];
 					for (int j = 0; j < num; j++)
 					{
-						array[j] = new Thread(new ThreadStart(Program.CompilerThread));
+						array[j] = new Thread(new ThreadStart(CompilerThread));
 						array[j].Start();
 					}
 					foreach (Thread thread in array)
 					{
 						thread.Join();
 					}
-					if (!Program.kArgs.Quiet)
+					if (!kArgs.Quiet)
 					{
-						Console.Write("\nBatch compile of {0} files finished. {1} succeeded, {2} failed.\n", Program.FilenamesA.Length, Program.iCompilesSucceeded, Program.FilenamesA.Length - Program.iCompilesSucceeded);
-						for (int l = 0; l < Program.FailedCompiles.Count; l++)
+						Console.Write("\nBatch compile of {0} files finished. {1} succeeded, {2} failed.\n", FilenamesA.Length, iCompilesSucceeded, FilenamesA.Length - iCompilesSucceeded);
+						for (int l = 0; l < FailedCompiles.Count; l++)
 						{
-							Console.WriteLine("Failed on {0}", Program.FailedCompiles[l]);
+							Console.WriteLine("Failed on {0}", FailedCompiles[l]);
 						}
 					}
 				}
-				if (flag || Program.FailedCompiles.Count > 0)
+				if (flag || FailedCompiles.Count > 0)
 				{
 					Environment.ExitCode = -1;
 				}

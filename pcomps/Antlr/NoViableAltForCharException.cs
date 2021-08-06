@@ -10,13 +10,13 @@ namespace pcomps.Antlr
 		// Token: 0x06000233 RID: 563 RVA: 0x000079FC File Offset: 0x00005BFC
 		public NoViableAltForCharException(char c, CharScanner scanner) : base("NoViableAlt", scanner.getFilename(), scanner.getLine(), scanner.getColumn())
 		{
-			this.foundChar = c;
+			foundChar = c;
 		}
 
 		// Token: 0x06000234 RID: 564 RVA: 0x00007A30 File Offset: 0x00005C30
 		public NoViableAltForCharException(char c, string fileName, int line, int column) : base("NoViableAlt", fileName, line, column)
 		{
-			this.foundChar = c;
+			foundChar = c;
 		}
 
 		// Token: 0x1700001F RID: 31
@@ -26,17 +26,17 @@ namespace pcomps.Antlr
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder("unexpected char: ");
-				if (this.foundChar >= ' ' && this.foundChar <= '~')
+				if (foundChar >= ' ' && foundChar <= '~')
 				{
 					stringBuilder.Append('\'');
-					stringBuilder.Append(this.foundChar);
+					stringBuilder.Append(foundChar);
 					stringBuilder.Append('\'');
 				}
 				else
 				{
 					stringBuilder.Append("0x");
 					StringBuilder stringBuilder2 = stringBuilder;
-					int num = (int)this.foundChar;
+					int num = (int)foundChar;
 					stringBuilder2.Append(num.ToString("X"));
 				}
 				return stringBuilder.ToString();

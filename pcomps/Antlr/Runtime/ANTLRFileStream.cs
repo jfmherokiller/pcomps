@@ -20,7 +20,7 @@ namespace pcomps.Antlr.Runtime
 		public ANTLRFileStream(string fileName, Encoding encoding)
 		{
 			this.fileName = fileName;
-			this.Load(fileName, encoding);
+			Load(fileName, encoding);
 		}
 
 		// Token: 0x17000035 RID: 53
@@ -29,7 +29,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.fileName;
+				return fileName;
 			}
 		}
 
@@ -44,8 +44,8 @@ namespace pcomps.Antlr.Runtime
 			try
 			{
 				FileInfo file = new FileInfo(fileName);
-				int num = (int)this.GetFileLength(file);
-				this.data = new char[num];
+				int num = (int)GetFileLength(file);
+				data = new char[num];
 				if (encoding != null)
 				{
 					streamReader = new StreamReader(fileName, encoding);
@@ -54,7 +54,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					streamReader = new StreamReader(fileName, Encoding.Default);
 				}
-				this.n = streamReader.Read(this.data, 0, this.data.Length);
+				n = streamReader.Read(data, 0, data.Length);
 			}
 			finally
 			{

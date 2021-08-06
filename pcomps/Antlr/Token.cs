@@ -6,20 +6,20 @@
 		// Token: 0x06000171 RID: 369 RVA: 0x00005B1C File Offset: 0x00003D1C
 		public Token()
 		{
-			this.type_ = 0;
+			type_ = 0;
 		}
 
 		// Token: 0x06000172 RID: 370 RVA: 0x00005B38 File Offset: 0x00003D38
 		public Token(int t)
 		{
-			this.type_ = t;
+			type_ = t;
 		}
 
 		// Token: 0x06000173 RID: 371 RVA: 0x00005B54 File Offset: 0x00003D54
 		public Token(int t, string txt)
 		{
-			this.type_ = t;
-			this.setText(txt);
+			type_ = t;
+			setText(txt);
 		}
 
 		// Token: 0x06000174 RID: 372 RVA: 0x00005B78 File Offset: 0x00003D78
@@ -58,18 +58,18 @@
 		{
 			get
 			{
-				return this.type_;
+				return type_;
 			}
 			set
 			{
-				this.type_ = value;
+				type_ = value;
 			}
 		}
 
 		// Token: 0x0600017B RID: 379 RVA: 0x00005BF4 File Offset: 0x00003DF4
 		public virtual void setType(int newType)
 		{
-			this.Type = newType;
+			Type = newType;
 		}
 
 		// Token: 0x0600017C RID: 380 RVA: 0x00005C08 File Offset: 0x00003E08
@@ -93,9 +93,9 @@
 			return string.Concat(new object[]
 			{
 				"[\"",
-				this.getText(),
+				getText(),
 				"\",<",
-				this.type_,
+				type_,
 				">]"
 			});
 		}

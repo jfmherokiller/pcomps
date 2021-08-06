@@ -20,13 +20,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600106E RID: 4206 RVA: 0x00072494 File Offset: 0x00070694
 		public override void reportError(RecognitionException e)
 		{
-			this.self.Error("eval tree parse error", e);
+			self.Error("eval tree parse error", e);
 		}
 
 		// Token: 0x0600106F RID: 4207 RVA: 0x000724A8 File Offset: 0x000706A8
 		public ActionEvaluator()
 		{
-			this.tokenNames = ActionEvaluator.tokenNames_;
+			tokenNames = tokenNames_;
 		}
 
 		// Token: 0x06001070 RID: 4208 RVA: 0x000724BC File Offset: 0x000706BC
@@ -36,19 +36,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				object o = this.expr(_t);
-				_t = this.retTree_;
-				result = this.chunk.WriteAttribute(this.self, o, this.@out);
+				object o = expr(_t);
+				_t = retTree_;
+				result = chunk.WriteAttribute(self, o, @out);
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -61,7 +61,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				if (type <= 18)
@@ -70,8 +70,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 4:
 					case 5:
-						result = this.templateApplication(_t);
-						_t = this.retTree_;
+						result = templateApplication(_t);
+						_t = retTree_;
 						goto IL_1E8;
 					case 6:
 					case 8:
@@ -79,25 +79,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 12:
 						goto IL_1E1;
 					case 7:
-						result = this.templateInclude(_t);
-						_t = this.retTree_;
+						result = templateInclude(_t);
+						_t = retTree_;
 						goto IL_1E8;
 					case 9:
 					{
 						AST ast = _t;
-						if (_t != TreeParser.ASTNULL)
+						if (_t != ASTNULL)
 						{
 							StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 						}
-						this.match(_t, 9);
+						match(_t, 9);
 						_t = _t.getFirstChild();
-						object o = this.expr(_t);
-						_t = this.retTree_;
+						object o = expr(_t);
+						_t = retTree_;
 						_t = ast;
 						_t = _t.getNextSibling();
 						StringWriter stringWriter = new StringWriter();
-						IStringTemplateWriter output = this.self.Group.CreateInstanceOfTemplateWriter(stringWriter);
-						int num = this.chunk.WriteAttribute(this.self, o, output);
+						IStringTemplateWriter output = self.Group.CreateInstanceOfTemplateWriter(stringWriter);
+						int num = chunk.WriteAttribute(self, o, output);
 						if (num > 0)
 						{
 							result = stringWriter.ToString();
@@ -106,12 +106,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_1E8;
 					}
 					case 11:
-						result = this.function(_t);
-						_t = this.retTree_;
+						result = function(_t);
+						_t = retTree_;
 						goto IL_1E8;
 					case 13:
-						result = this.list(_t);
-						_t = this.retTree_;
+						result = list(_t);
+						_t = retTree_;
 						goto IL_1E8;
 					default:
 						if (type != 18)
@@ -128,17 +128,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 22:
 					{
 						AST ast2 = _t;
-						if (_t != TreeParser.ASTNULL)
+						if (_t != ASTNULL)
 						{
 							StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
 						}
-						this.match(_t, 22);
+						match(_t, 22);
 						_t = _t.getFirstChild();
-						object a = this.expr(_t);
-						_t = this.retTree_;
-						object b = this.expr(_t);
-						_t = this.retTree_;
-						result = this.chunk.Add(a, b);
+						object a = expr(_t);
+						_t = retTree_;
+						object b = expr(_t);
+						_t = retTree_;
+						result = chunk.Add(a, b);
 						_t = ast2;
 						_t = _t.getNextSibling();
 						goto IL_1E8;
@@ -160,8 +160,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 						break;
 					}
 				}
-				result = this.attribute(_t);
-				_t = this.retTree_;
+				result = attribute(_t);
+				_t = retTree_;
 				goto IL_1E8;
 				IL_1E1:
 				throw new NoViableAltException(_t);
@@ -169,13 +169,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -190,41 +190,41 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				switch (_t.Type)
 				{
 				case 4:
 				{
 					AST ast = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 4);
+					match(_t, 4);
 					_t = _t.getFirstChild();
-					object obj = this.expr(_t);
-					_t = this.retTree_;
+					object obj = expr(_t);
+					_t = retTree_;
 					int num = 0;
 					for (;;)
 					{
 						if (_t == null)
 						{
-							_t = TreeParser.ASTNULL;
+							_t = ASTNULL;
 						}
 						if (_t.Type != 10)
 						{
 							break;
 						}
-						this.template(_t, arrayList);
-						_t = this.retTree_;
+						template(_t, arrayList);
+						_t = retTree_;
 						num++;
 					}
 					if (num < 1)
 					{
 						throw new NoViableAltException(_t);
 					}
-					result = this.chunk.ApplyListOfAlternatingTemplates(this.self, obj, arrayList);
+					result = chunk.ApplyListOfAlternatingTemplates(self, obj, arrayList);
 					_t = ast;
 					_t = _t.getNextSibling();
 					break;
@@ -232,25 +232,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 5:
 				{
 					AST ast2 = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 5);
+					match(_t, 5);
 					_t = _t.getFirstChild();
 					int num2 = 0;
 					for (;;)
 					{
 						if (_t == null)
 						{
-							_t = TreeParser.ASTNULL;
+							_t = ASTNULL;
 						}
-						if (!ActionEvaluator.tokenSet_0_.member(_t.Type))
+						if (!tokenSet_0_.member(_t.Type))
 						{
 							break;
 						}
-						object obj = this.expr(_t);
-						_t = this.retTree_;
+						object obj = expr(_t);
+						_t = retTree_;
 						arrayList2.Add(obj);
 						num2++;
 					}
@@ -258,18 +258,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(_t);
 					}
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST4 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 20);
+					match(_t, 20);
 					_t = _t.getNextSibling();
-					StringTemplateAST stringTemplateAST5 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-					this.match(_t, 31);
+					StringTemplateAST stringTemplateAST5 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					match(_t, 31);
 					_t = _t.getNextSibling();
 					StringTemplate stringTemplate = stringTemplateAST5.StringTemplate;
 					arrayList.Add(stringTemplate);
-					result = this.chunk.ApplyTemplateToListOfAttributes(this.self, arrayList2, stringTemplateAST5.StringTemplate);
+					result = chunk.ApplyTemplateToListOfAttributes(self, arrayList2, stringTemplateAST5.StringTemplate);
 					_t = ast2;
 					_t = _t.getNextSibling();
 					break;
@@ -280,13 +280,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -300,7 +300,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				if (type != 18)
@@ -311,15 +311,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 						case 31:
 						{
-							StringTemplateAST stringTemplateAST2 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-							this.match(_t, 31);
+							StringTemplateAST stringTemplateAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							match(_t, 31);
 							_t = _t.getNextSibling();
 							result = stringTemplateAST2.getText();
 							if (stringTemplateAST2.getText() != null)
 							{
-								result = new StringTemplate(this.self.Group, stringTemplateAST2.getText())
+								result = new StringTemplate(self.Group, stringTemplateAST2.getText())
 								{
-									EnclosingInstance = this.self,
+									EnclosingInstance = self,
 									Name = "<anonymous template argument>"
 								};
 							}
@@ -327,16 +327,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						case 32:
 						{
-							StringTemplateAST stringTemplateAST3 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-							this.match(_t, 32);
+							StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							match(_t, 32);
 							_t = _t.getNextSibling();
 							result = stringTemplateAST3.getText();
 							break;
 						}
 						case 33:
 						{
-							StringTemplateAST stringTemplateAST4 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-							this.match(_t, 33);
+							StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							match(_t, 33);
 							_t = _t.getNextSibling();
 							result = int.Parse(stringTemplateAST4.getText());
 							break;
@@ -348,17 +348,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 					else
 					{
 						AST ast = _t;
-						if (_t != TreeParser.ASTNULL)
+						if (_t != ASTNULL)
 						{
 							StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
 						}
-						this.match(_t, 24);
+						match(_t, 24);
 						_t = _t.getFirstChild();
-						object o = this.expr(_t);
-						_t = this.retTree_;
+						object o = expr(_t);
+						_t = retTree_;
 						if (_t == null)
 						{
-							_t = TreeParser.ASTNULL;
+							_t = ASTNULL;
 						}
 						int type2 = _t.Type;
 						if (type2 != 9)
@@ -367,22 +367,22 @@ namespace pcomps.Antlr.StringTemplate.Language
 							{
 								throw new NoViableAltException(_t);
 							}
-							StringTemplateAST stringTemplateAST6 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-							this.match(_t, 18);
+							StringTemplateAST stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							match(_t, 18);
 							_t = _t.getNextSibling();
 							propertyName = stringTemplateAST6.getText();
 						}
 						else
 						{
 							AST ast2 = _t;
-							if (_t != TreeParser.ASTNULL)
+							if (_t != ASTNULL)
 							{
 								StringTemplateAST stringTemplateAST7 = (StringTemplateAST)_t;
 							}
-							this.match(_t, 9);
+							match(_t, 9);
 							_t = _t.getFirstChild();
-							object obj = this.expr(_t);
-							_t = this.retTree_;
+							object obj = expr(_t);
+							_t = retTree_;
 							_t = ast2;
 							_t = _t.getNextSibling();
 							if (obj != null)
@@ -392,26 +392,26 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						_t = ast;
 						_t = _t.getNextSibling();
-						result = this.chunk.GetObjectProperty(this.self, o, propertyName);
+						result = chunk.GetObjectProperty(self, o, propertyName);
 					}
 				}
 				else
 				{
-					StringTemplateAST stringTemplateAST8 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-					this.match(_t, 18);
+					StringTemplateAST stringTemplateAST8 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					match(_t, 18);
 					_t = _t.getNextSibling();
-					result = this.self.GetAttribute(stringTemplateAST8.getText());
+					result = self.GetAttribute(stringTemplateAST8.getText());
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -424,15 +424,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 7);
+				match(_t, 7);
 				_t = _t.getFirstChild();
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				StringTemplateAST argumentsAST;
@@ -442,10 +442,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(_t);
 					}
-					StringTemplateAST stringTemplateAST3 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-					this.match(_t, 18);
+					StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					match(_t, 18);
 					_t = _t.getNextSibling();
-					StringTemplateAST stringTemplateAST4 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
+					StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -457,15 +457,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 				else
 				{
 					AST ast2 = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 9);
+					match(_t, 9);
 					_t = _t.getFirstChild();
-					object obj = this.expr(_t);
-					_t = this.retTree_;
-					StringTemplateAST stringTemplateAST6 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
+					object obj = expr(_t);
+					_t = retTree_;
+					StringTemplateAST stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -483,18 +483,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 				_t = _t.getNextSibling();
 				if (text != null)
 				{
-					result = this.chunk.GetTemplateInclude(this.self, text, argumentsAST);
+					result = chunk.GetTemplateInclude(self, text, argumentsAST);
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -506,94 +506,94 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 11);
+				match(_t, 11);
 				_t = _t.getFirstChild();
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				switch (_t.Type)
 				{
 				case 25:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 25);
+					match(_t, 25);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.First(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.First(attribute);
 					break;
 				}
 				case 26:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST4 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 26);
+					match(_t, 26);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.Rest(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.Rest(attribute);
 					break;
 				}
 				case 27:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 27);
+					match(_t, 27);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.Last(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.Last(attribute);
 					break;
 				}
 				case 28:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST6 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 28);
+					match(_t, 28);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.Length(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.Length(attribute);
 					break;
 				}
 				case 29:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST7 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 29);
+					match(_t, 29);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.Strip(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.Strip(attribute);
 					break;
 				}
 				case 30:
 				{
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST8 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 30);
+					match(_t, 30);
 					_t = _t.getNextSibling();
-					object attribute = this.singleFunctionArg(_t);
-					_t = this.retTree_;
-					result = this.chunk.Trunc(attribute);
+					object attribute = singleFunctionArg(_t);
+					_t = retTree_;
+					result = chunk.Trunc(attribute);
 					break;
 				}
 				default:
@@ -604,13 +604,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -624,25 +624,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 13);
+				match(_t, 13);
 				_t = _t.getFirstChild();
 				int num = 0;
 				for (;;)
 				{
 					if (_t == null)
 					{
-						_t = TreeParser.ASTNULL;
+						_t = ASTNULL;
 					}
-					if (!ActionEvaluator.tokenSet_0_.member(_t.Type))
+					if (!tokenSet_0_.member(_t.Type))
 					{
 						break;
 					}
-					object obj = this.expr(_t);
-					_t = this.retTree_;
+					object obj = expr(_t);
+					_t = retTree_;
 					if (obj != null)
 					{
 						obj = ASTExpr.ConvertAnythingToIterator(obj);
@@ -659,13 +659,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -676,15 +676,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 10);
+				match(_t, 10);
 				_t = _t.getFirstChild();
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				if (type != 9)
@@ -695,27 +695,27 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							throw new NoViableAltException(_t);
 						}
-						StringTemplateAST stringTemplateAST3 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-						this.match(_t, 31);
+						StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+						match(_t, 31);
 						_t = _t.getNextSibling();
 						StringTemplate stringTemplate = stringTemplateAST3.StringTemplate;
-						stringTemplate.Group = this.self.Group;
+						stringTemplate.Group = self.Group;
 						templatesToApply.Add(stringTemplate);
 					}
 					else
 					{
-						StringTemplateAST stringTemplateAST4 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-						this.match(_t, 18);
+						StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+						match(_t, 18);
 						_t = _t.getNextSibling();
-						StringTemplateAST argumentsAST = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
+						StringTemplateAST argumentsAST = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 						if (_t == null)
 						{
 							throw new MismatchedTokenException();
 						}
 						_t = _t.getNextSibling();
 						string text = stringTemplateAST4.getText();
-						StringTemplateGroup group = this.self.Group;
-						StringTemplate embeddedInstanceOf = group.GetEmbeddedInstanceOf(this.self, text);
+						StringTemplateGroup group = self.Group;
+						StringTemplate embeddedInstanceOf = group.GetEmbeddedInstanceOf(self, text);
 						if (embeddedInstanceOf != null)
 						{
 							embeddedInstanceOf.ArgumentsAST = argumentsAST;
@@ -726,15 +726,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 				else
 				{
 					AST ast2 = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 9);
+					match(_t, 9);
 					_t = _t.getFirstChild();
-					object obj = this.expr(_t);
-					_t = this.retTree_;
-					StringTemplateAST argumentsAST2 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
+					object obj = expr(_t);
+					_t = retTree_;
+					StringTemplateAST argumentsAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -743,8 +743,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (obj != null)
 					{
 						string name = obj.ToString();
-						StringTemplateGroup group2 = this.self.Group;
-						StringTemplate embeddedInstanceOf2 = group2.GetEmbeddedInstanceOf(this.self, name);
+						StringTemplateGroup group2 = self.Group;
+						StringTemplate embeddedInstanceOf2 = group2.GetEmbeddedInstanceOf(self, name);
 						if (embeddedInstanceOf2 != null)
 						{
 							embeddedInstanceOf2.ArgumentsAST = argumentsAST2;
@@ -759,13 +759,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 		}
 
 		// Token: 0x06001078 RID: 4216 RVA: 0x00073320 File Offset: 0x00071520
@@ -776,26 +776,26 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 12);
+				match(_t, 12);
 				_t = _t.getFirstChild();
-				result = this.expr(_t);
-				_t = this.retTree_;
+				result = expr(_t);
+				_t = retTree_;
 				_t = ast;
 				_t = _t.getNextSibling();
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -808,7 +808,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				object a;
@@ -840,17 +840,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 21:
 					{
 						AST ast = _t;
-						if (_t != TreeParser.ASTNULL)
+						if (_t != ASTNULL)
 						{
 							StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 						}
-						this.match(_t, 21);
+						match(_t, 21);
 						_t = _t.getFirstChild();
-						a = this.expr(_t);
-						_t = this.retTree_;
+						a = expr(_t);
+						_t = retTree_;
 						_t = ast;
 						_t = _t.getNextSibling();
-						result = !this.chunk.TestAttributeTrue(a);
+						result = !chunk.TestAttributeTrue(a);
 						goto IL_101;
 					}
 					default:
@@ -867,9 +867,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					break;
 				}
-				a = this.expr(_t);
-				_t = this.retTree_;
-				result = this.chunk.TestAttributeTrue(a);
+				a = expr(_t);
+				_t = retTree_;
+				result = chunk.TestAttributeTrue(a);
 				goto IL_101;
 				IL_FA:
 				throw new NoViableAltException(_t);
@@ -877,13 +877,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return result;
 		}
 
@@ -901,7 +901,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				if (type != 6)
@@ -910,30 +910,30 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(_t);
 					}
-					this.singleTemplateArg(_t, embedded, dictionary);
-					_t = this.retTree_;
+					singleTemplateArg(_t, embedded, dictionary);
+					_t = retTree_;
 				}
 				else
 				{
 					AST ast = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 6);
+					match(_t, 6);
 					_t = _t.getFirstChild();
 					for (;;)
 					{
 						if (_t == null)
 						{
-							_t = TreeParser.ASTNULL;
+							_t = ASTNULL;
 						}
 						if (_t.Type != 19 && _t.Type != 36)
 						{
 							break;
 						}
-						this.argumentAssignment(_t, embedded, dictionary);
-						_t = this.retTree_;
+						argumentAssignment(_t, embedded, dictionary);
+						_t = retTree_;
 					}
 					_t = ast;
 					_t = _t.getNextSibling();
@@ -941,13 +941,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 			return dictionary;
 		}
 
@@ -959,7 +959,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (_t == null)
 				{
-					_t = TreeParser.ASTNULL;
+					_t = ASTNULL;
 				}
 				int type = _t.Type;
 				if (type != 19)
@@ -968,45 +968,45 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(_t);
 					}
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 36);
+					match(_t, 36);
 					_t = _t.getNextSibling();
 					embedded.PassThroughAttributes = true;
 				}
 				else
 				{
 					AST ast = _t;
-					if (_t != TreeParser.ASTNULL)
+					if (_t != ASTNULL)
 					{
 						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
 					}
-					this.match(_t, 19);
+					match(_t, 19);
 					_t = _t.getFirstChild();
-					StringTemplateAST stringTemplateAST4 = (_t == TreeParser.ASTNULL) ? null : ((StringTemplateAST)_t);
-					this.match(_t, 18);
+					StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					match(_t, 18);
 					_t = _t.getNextSibling();
-					object obj = this.expr(_t);
-					_t = this.retTree_;
+					object obj = expr(_t);
+					_t = retTree_;
 					_t = ast;
 					_t = _t.getNextSibling();
 					if (obj != null)
 					{
-						this.self.RawSetArgumentAttribute(embedded, argumentContext, stringTemplateAST4.getText(), obj);
+						self.RawSetArgumentAttribute(embedded, argumentContext, stringTemplateAST4.getText(), obj);
 					}
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 		}
 
 		// Token: 0x0600107C RID: 4220 RVA: 0x000736E0 File Offset: 0x000718E0
@@ -1016,14 +1016,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				AST ast = _t;
-				if (_t != TreeParser.ASTNULL)
+				if (_t != ASTNULL)
 				{
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
-				this.match(_t, 12);
+				match(_t, 12);
 				_t = _t.getFirstChild();
-				object obj = this.expr(_t);
-				_t = this.retTree_;
+				object obj = expr(_t);
+				_t = retTree_;
 				_t = ast;
 				_t = _t.getNextSibling();
 				if (obj != null)
@@ -1051,30 +1051,30 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					if (flag)
 					{
-						this.self.Error(
-                            $"template {embedded.Name} must have exactly one formal arg in template context {this.self.GetEnclosingInstanceStackString()}");
+						self.Error(
+                            $"template {embedded.Name} must have exactly one formal arg in template context {self.GetEnclosingInstanceStackString()}");
 					}
 					else
 					{
-						this.self.RawSetArgumentAttribute(embedded, argumentContext, name, obj);
+						self.RawSetArgumentAttribute(embedded, argumentContext, name, obj);
 					}
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
+				reportError(ex);
 				if (_t != null)
 				{
 					_t = _t.getNextSibling();
 				}
 			}
-			this.retTree_ = _t;
+			retTree_ = _t;
 		}
 
 		// Token: 0x0600107D RID: 4221 RVA: 0x000737F8 File Offset: 0x000719F8
 		public new StringTemplateAST getAST()
 		{
-			return (StringTemplateAST)this.returnAST;
+			return (StringTemplateAST)returnAST;
 		}
 
 		// Token: 0x0600107E RID: 4222 RVA: 0x00073808 File Offset: 0x00071A08
@@ -1262,7 +1262,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		};
 
 		// Token: 0x04000D44 RID: 3396
-		public static readonly BitSet tokenSet_0_ = new BitSet(ActionEvaluator.mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
 
 		// Token: 0x02000232 RID: 562
 		public class NameValuePair

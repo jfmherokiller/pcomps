@@ -9,12 +9,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EDC RID: 3804 RVA: 0x0006D674 File Offset: 0x0006B874
 		public ScriptFunctionType(string asFuncName, string asObjName, string asStateName, string asPropName)
 		{
-			this.sName = asFuncName.ToLowerInvariant();
-			this.sStateName = asStateName.ToLowerInvariant();
-			this.sPropName = asPropName.ToLowerInvariant();
+			sName = asFuncName.ToLowerInvariant();
+			sStateName = asStateName.ToLowerInvariant();
+			sPropName = asPropName.ToLowerInvariant();
 			if (asPropName == "")
 			{
-				this.kFunctionScope = new ScriptScope(null, string.Concat(new string[]
+				kFunctionScope = new ScriptScope(null, string.Concat(new string[]
 				{
 					asObjName,
 					".",
@@ -24,7 +24,7 @@ namespace pcomps.PCompiler
 				}));
 				return;
 			}
-			this.kFunctionScope = new ScriptScope(null, string.Concat(new string[]
+			kFunctionScope = new ScriptScope(null, string.Concat(new string[]
 			{
 				asObjName,
 				".",
@@ -42,7 +42,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sName;
+				return sName;
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sStateName;
+				return sStateName;
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sPropName;
+				return sPropName;
 			}
 		}
 
@@ -70,16 +70,16 @@ namespace pcomps.PCompiler
 		public bool ParamTypesMatch(ScriptFunctionType akOtherFunc)
 		{
 			bool flag = true;
-			if (this.kParams.Count == akOtherFunc.kParams.Count)
+			if (kParams.Count == akOtherFunc.kParams.Count)
 			{
 				int num = 0;
 				while (flag)
 				{
-					if (num >= this.kParams.Count)
+					if (num >= kParams.Count)
 					{
 						break;
 					}
-					if (this.kParams[num].VarType != akOtherFunc.kParams[num].VarType)
+					if (kParams[num].VarType != akOtherFunc.kParams[num].VarType)
 					{
 						flag = false;
 					}
@@ -97,16 +97,16 @@ namespace pcomps.PCompiler
 		public bool ParamDefaultsMatch(ScriptFunctionType akOtherFunc)
 		{
 			bool flag = true;
-			if (this.kParams.Count == akOtherFunc.kParams.Count)
+			if (kParams.Count == akOtherFunc.kParams.Count)
 			{
 				int num = 0;
 				while (flag)
 				{
-					if (num >= this.kParams.Count)
+					if (num >= kParams.Count)
 					{
 						break;
 					}
-					ScriptVariableType scriptVariableType = this.kParams[num];
+					ScriptVariableType scriptVariableType = kParams[num];
 					ScriptVariableType scriptVariableType2 = akOtherFunc.kParams[num];
 					if (scriptVariableType.HasInitialValue == scriptVariableType2.HasInitialValue)
 					{
@@ -156,7 +156,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kParamNames;
+				return kParamNames;
 			}
 		}
 
@@ -166,19 +166,19 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kParams;
+				return kParams;
 			}
 		}
 
 		// Token: 0x06000EE4 RID: 3812 RVA: 0x0006D924 File Offset: 0x0006BB24
 		public bool TryGetParam(string asName, out ScriptVariableType akType)
 		{
-			this.sStringMatch = asName;
-			int num = this.kParamNames.FindIndex(new Predicate<string>(this.StringMatchesCaseInsensitive));
+			sStringMatch = asName;
+			int num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
 			bool flag = num != -1;
 			if (flag)
 			{
-				akType = this.kParams[num];
+				akType = kParams[num];
 			}
 			else
 			{
@@ -190,13 +190,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EE5 RID: 3813 RVA: 0x0006D970 File Offset: 0x0006BB70
 		public bool TryAddParam(string asName, ScriptVariableType akType)
 		{
-			this.sStringMatch = asName;
-			int num = this.kParamNames.FindIndex(new Predicate<string>(this.StringMatchesCaseInsensitive));
+			sStringMatch = asName;
+			int num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
 			bool flag = num != -1;
 			if (!flag)
 			{
-				this.kParamNames.Add(asName.ToLowerInvariant());
-				this.kParams.Add(akType);
+				kParamNames.Add(asName.ToLowerInvariant());
+				kParams.Add(akType);
 			}
 			return !flag;
 		}
@@ -204,7 +204,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EE6 RID: 3814 RVA: 0x0006D9C8 File Offset: 0x0006BBC8
 		private bool StringMatchesCaseInsensitive(string asOther)
 		{
-			return this.sStringMatch.ToLowerInvariant() == asOther.ToLowerInvariant();
+			return sStringMatch.ToLowerInvariant() == asOther.ToLowerInvariant();
 		}
 
 		// Token: 0x17000221 RID: 545
@@ -213,7 +213,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kFunctionScope;
+				return kFunctionScope;
 			}
 		}
 

@@ -17,21 +17,21 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			if (capacity < 0)
 			{
-				this._dictionary = new Hashtable();
-				this._insertionOrderList = new ArrayList();
+				_dictionary = new Hashtable();
+				_insertionOrderList = new ArrayList();
 			}
 			else
 			{
-				this._dictionary = new Hashtable(capacity);
-				this._insertionOrderList = new ArrayList(capacity);
+				_dictionary = new Hashtable(capacity);
+				_insertionOrderList = new ArrayList(capacity);
 			}
-			this._version = 0;
+			_version = 0;
 		}
 
 		// Token: 0x06000594 RID: 1428 RVA: 0x00010954 File Offset: 0x0000EB54
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return new HashList.HashListEnumerator(this, HashList.HashListEnumerator.EnumerationMode.Entry);
+			return new HashListEnumerator(this, HashListEnumerator.EnumerationMode.Entry);
 		}
 
 		// Token: 0x1700006C RID: 108
@@ -40,14 +40,14 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary.IsReadOnly;
+				return _dictionary.IsReadOnly;
 			}
 		}
 
 		// Token: 0x06000596 RID: 1430 RVA: 0x00010970 File Offset: 0x0000EB70
 		public IDictionaryEnumerator GetEnumerator()
 		{
-			return new HashList.HashListEnumerator(this, HashList.HashListEnumerator.EnumerationMode.Entry);
+			return new HashListEnumerator(this, HashListEnumerator.EnumerationMode.Entry);
 		}
 
 		// Token: 0x1700006D RID: 109
@@ -55,40 +55,40 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary[key];
+				return _dictionary[key];
 			}
 			set
 			{
-				bool flag = !this._dictionary.Contains(key);
-				this._dictionary[key] = value;
+				bool flag = !_dictionary.Contains(key);
+				_dictionary[key] = value;
 				if (flag)
 				{
-					this._insertionOrderList.Add(key);
+					_insertionOrderList.Add(key);
 				}
-				this._version++;
+				_version++;
 			}
 		}
 
 		// Token: 0x06000599 RID: 1433 RVA: 0x000109D8 File Offset: 0x0000EBD8
 		public void Remove(object key)
 		{
-			this._dictionary.Remove(key);
-			this._insertionOrderList.Remove(key);
-			this._version++;
+			_dictionary.Remove(key);
+			_insertionOrderList.Remove(key);
+			_version++;
 		}
 
 		// Token: 0x0600059A RID: 1434 RVA: 0x00010A0C File Offset: 0x0000EC0C
 		public bool Contains(object key)
 		{
-			return this._dictionary.Contains(key);
+			return _dictionary.Contains(key);
 		}
 
 		// Token: 0x0600059B RID: 1435 RVA: 0x00010A1C File Offset: 0x0000EC1C
 		public void Clear()
 		{
-			this._dictionary.Clear();
-			this._insertionOrderList.Clear();
-			this._version++;
+			_dictionary.Clear();
+			_insertionOrderList.Clear();
+			_version++;
 		}
 
 		// Token: 0x1700006E RID: 110
@@ -97,16 +97,16 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return new HashList.ValueCollection(this);
+				return new ValueCollection(this);
 			}
 		}
 
 		// Token: 0x0600059D RID: 1437 RVA: 0x00010A58 File Offset: 0x0000EC58
 		public void Add(object key, object value)
 		{
-			this._dictionary.Add(key, value);
-			this._insertionOrderList.Add(key);
-			this._version++;
+			_dictionary.Add(key, value);
+			_insertionOrderList.Add(key);
+			_version++;
 		}
 
 		// Token: 0x1700006F RID: 111
@@ -115,7 +115,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return new HashList.KeyCollection(this);
+				return new KeyCollection(this);
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary.IsFixedSize;
+				return _dictionary.IsFixedSize;
 			}
 		}
 
@@ -135,7 +135,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary.IsSynchronized;
+				return _dictionary.IsSynchronized;
 			}
 		}
 
@@ -145,17 +145,17 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary.Count;
+				return _dictionary.Count;
 			}
 		}
 
 		// Token: 0x060005A2 RID: 1442 RVA: 0x00010AC8 File Offset: 0x0000ECC8
 		public void CopyTo(Array array, int index)
 		{
-			int count = this._insertionOrderList.Count;
+			int count = _insertionOrderList.Count;
 			for (int i = 0; i < count; i++)
 			{
-				DictionaryEntry dictionaryEntry = new DictionaryEntry(this._insertionOrderList[i], this._dictionary[this._insertionOrderList[i]]);
+				DictionaryEntry dictionaryEntry = new DictionaryEntry(_insertionOrderList[i], _dictionary[_insertionOrderList[i]]);
 				array.SetValue(dictionaryEntry, index++);
 			}
 		}
@@ -166,27 +166,27 @@ namespace pcomps.Antlr.Runtime.Collections
 		{
 			get
 			{
-				return this._dictionary.SyncRoot;
+				return _dictionary.SyncRoot;
 			}
 		}
 
 		// Token: 0x060005A4 RID: 1444 RVA: 0x00010B40 File Offset: 0x0000ED40
 		private void CopyKeysTo(Array array, int index)
 		{
-			int count = this._insertionOrderList.Count;
+			int count = _insertionOrderList.Count;
 			for (int i = 0; i < count; i++)
 			{
-				array.SetValue(this._insertionOrderList[i], index++);
+				array.SetValue(_insertionOrderList[i], index++);
 			}
 		}
 
 		// Token: 0x060005A5 RID: 1445 RVA: 0x00010B84 File Offset: 0x0000ED84
 		private void CopyValuesTo(Array array, int index)
 		{
-			int count = this._insertionOrderList.Count;
+			int count = _insertionOrderList.Count;
 			for (int i = 0; i < count; i++)
 			{
-				array.SetValue(this._dictionary[this._insertionOrderList[i]], index++);
+				array.SetValue(_dictionary[_insertionOrderList[i]], index++);
 			}
 		}
 
@@ -205,21 +205,21 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005A6 RID: 1446 RVA: 0x00010BD4 File Offset: 0x0000EDD4
 			internal HashListEnumerator()
 			{
-				this._index = 0;
-				this._key = null;
-				this._value = null;
+				_index = 0;
+				_key = null;
+				_value = null;
 			}
 
 			// Token: 0x060005A7 RID: 1447 RVA: 0x00010BF4 File Offset: 0x0000EDF4
-			internal HashListEnumerator(HashList hashList, HashList.HashListEnumerator.EnumerationMode mode)
+			internal HashListEnumerator(HashList hashList, EnumerationMode mode)
 			{
-				this._hashList = hashList;
-				this._mode = mode;
-				this._version = hashList._version;
-				this._orderList = hashList._insertionOrderList;
-				this._index = 0;
-				this._key = null;
-				this._value = null;
+				_hashList = hashList;
+				_mode = mode;
+				_version = hashList._version;
+				_orderList = hashList._insertionOrderList;
+				_index = 0;
+				_key = null;
+				_value = null;
 			}
 
 			// Token: 0x17000074 RID: 116
@@ -228,11 +228,11 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					if (this._key == null)
+					if (_key == null)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					return this._key;
+					return _key;
 				}
 			}
 
@@ -242,11 +242,11 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					if (this._key == null)
+					if (_key == null)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					return this._value;
+					return _value;
 				}
 			}
 
@@ -256,11 +256,11 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					if (this._key == null)
+					if (_key == null)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					DictionaryEntry result = new DictionaryEntry(this._key, this._value);
+					DictionaryEntry result = new DictionaryEntry(_key, _value);
 					return result;
 				}
 			}
@@ -268,13 +268,13 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005AB RID: 1451 RVA: 0x00010CBC File Offset: 0x0000EEBC
 			public void Reset()
 			{
-				if (this._version != this._hashList._version)
+				if (_version != _hashList._version)
 				{
 					throw new InvalidOperationException("Collection was modified; enumeration operation may not execute.");
 				}
-				this._index = 0;
-				this._key = null;
-				this._value = null;
+				_index = 0;
+				_key = null;
+				_value = null;
 			}
 
 			// Token: 0x17000077 RID: 119
@@ -283,19 +283,19 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					if (this._key == null)
+					if (_key == null)
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					if (this._mode == HashList.HashListEnumerator.EnumerationMode.Key)
+					if (_mode == EnumerationMode.Key)
 					{
-						return this._key;
+						return _key;
 					}
-					if (this._mode == HashList.HashListEnumerator.EnumerationMode.Value)
+					if (_mode == EnumerationMode.Value)
 					{
-						return this._value;
+						return _value;
 					}
-					DictionaryEntry dictionaryEntry = new DictionaryEntry(this._key, this._value);
+					DictionaryEntry dictionaryEntry = new DictionaryEntry(_key, _value);
 					return dictionaryEntry;
 				}
 			}
@@ -303,18 +303,18 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005AD RID: 1453 RVA: 0x00010D64 File Offset: 0x0000EF64
 			public bool MoveNext()
 			{
-				if (this._version != this._hashList._version)
+				if (_version != _hashList._version)
 				{
 					throw new InvalidOperationException("Collection was modified; enumeration operation may not execute.");
 				}
-				if (this._index < this._orderList.Count)
+				if (_index < _orderList.Count)
 				{
-					this._key = this._orderList[this._index];
-					this._value = this._hashList[this._key];
-					this._index++;
+					_key = _orderList[_index];
+					_value = _hashList[_key];
+					_index++;
 					return true;
 				}
-				this._key = null;
+				_key = null;
 				return false;
 			}
 
@@ -325,7 +325,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			private ArrayList _orderList;
 
 			// Token: 0x04000193 RID: 403
-			private HashList.HashListEnumerator.EnumerationMode _mode;
+			private EnumerationMode _mode;
 
 			// Token: 0x04000194 RID: 404
 			private int _index;
@@ -362,7 +362,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005AF RID: 1455 RVA: 0x00010DF8 File Offset: 0x0000EFF8
 			internal KeyCollection(HashList hashList)
 			{
-				this._hashList = hashList;
+				_hashList = hashList;
 			}
 
 			// Token: 0x060005B0 RID: 1456 RVA: 0x00010E08 File Offset: 0x0000F008
@@ -370,7 +370,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
-				ArrayList insertionOrderList = this._hashList._insertionOrderList;
+				ArrayList insertionOrderList = _hashList._insertionOrderList;
 				for (int i = 0; i < insertionOrderList.Count; i++)
 				{
 					if (i > 0)
@@ -386,18 +386,18 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005B1 RID: 1457 RVA: 0x00010E80 File Offset: 0x0000F080
 			public override bool Equals(object o)
 			{
-				if (o is HashList.KeyCollection)
+				if (o is KeyCollection)
 				{
-					HashList.KeyCollection keyCollection = (HashList.KeyCollection)o;
-					if (this.Count == 0 && keyCollection.Count == 0)
+					KeyCollection keyCollection = (KeyCollection)o;
+					if (Count == 0 && keyCollection.Count == 0)
 					{
 						return true;
 					}
-					if (this.Count == keyCollection.Count)
+					if (Count == keyCollection.Count)
 					{
-						for (int i = 0; i < this.Count; i++)
+						for (int i = 0; i < Count; i++)
 						{
-							if (this._hashList._insertionOrderList[i] == keyCollection._hashList._insertionOrderList[i] || this._hashList._insertionOrderList[i].Equals(keyCollection._hashList._insertionOrderList[i]))
+							if (_hashList._insertionOrderList[i] == keyCollection._hashList._insertionOrderList[i] || _hashList._insertionOrderList[i].Equals(keyCollection._hashList._insertionOrderList[i]))
 							{
 								return true;
 							}
@@ -410,7 +410,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005B2 RID: 1458 RVA: 0x00010F38 File Offset: 0x0000F138
 			public override int GetHashCode()
 			{
-				return this._hashList._insertionOrderList.GetHashCode();
+				return _hashList._insertionOrderList.GetHashCode();
 			}
 
 			// Token: 0x17000078 RID: 120
@@ -419,7 +419,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.IsSynchronized;
+					return _hashList.IsSynchronized;
 				}
 			}
 
@@ -429,14 +429,14 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.Count;
+					return _hashList.Count;
 				}
 			}
 
 			// Token: 0x060005B5 RID: 1461 RVA: 0x00010F6C File Offset: 0x0000F16C
 			public void CopyTo(Array array, int index)
 			{
-				this._hashList.CopyKeysTo(array, index);
+				_hashList.CopyKeysTo(array, index);
 			}
 
 			// Token: 0x1700007A RID: 122
@@ -445,14 +445,14 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.SyncRoot;
+					return _hashList.SyncRoot;
 				}
 			}
 
 			// Token: 0x060005B7 RID: 1463 RVA: 0x00010F8C File Offset: 0x0000F18C
 			public IEnumerator GetEnumerator()
 			{
-				return new HashList.HashListEnumerator(this._hashList, HashList.HashListEnumerator.EnumerationMode.Key);
+				return new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Key);
 			}
 
 			// Token: 0x0400019C RID: 412
@@ -470,7 +470,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005B9 RID: 1465 RVA: 0x00010FA4 File Offset: 0x0000F1A4
 			internal ValueCollection(HashList hashList)
 			{
-				this._hashList = hashList;
+				_hashList = hashList;
 			}
 
 			// Token: 0x060005BA RID: 1466 RVA: 0x00010FB4 File Offset: 0x0000F1B4
@@ -478,7 +478,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
-				IEnumerator enumerator = new HashList.HashListEnumerator(this._hashList, HashList.HashListEnumerator.EnumerationMode.Value);
+				IEnumerator enumerator = new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Value);
 				if (enumerator.MoveNext())
 				{
 					stringBuilder.Append((enumerator.Current != null) ? enumerator.Current : "null");
@@ -498,7 +498,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.IsSynchronized;
+					return _hashList.IsSynchronized;
 				}
 			}
 
@@ -508,14 +508,14 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.Count;
+					return _hashList.Count;
 				}
 			}
 
 			// Token: 0x060005BD RID: 1469 RVA: 0x00011080 File Offset: 0x0000F280
 			public void CopyTo(Array array, int index)
 			{
-				this._hashList.CopyValuesTo(array, index);
+				_hashList.CopyValuesTo(array, index);
 			}
 
 			// Token: 0x1700007D RID: 125
@@ -524,14 +524,14 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				get
 				{
-					return this._hashList.SyncRoot;
+					return _hashList.SyncRoot;
 				}
 			}
 
 			// Token: 0x060005BF RID: 1471 RVA: 0x000110A0 File Offset: 0x0000F2A0
 			public IEnumerator GetEnumerator()
 			{
-				return new HashList.HashListEnumerator(this._hashList, HashList.HashListEnumerator.EnumerationMode.Value);
+				return new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Value);
 			}
 
 			// Token: 0x0400019D RID: 413

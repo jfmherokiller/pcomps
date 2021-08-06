@@ -31,13 +31,13 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000868 RID: 2152 RVA: 0x00017D10 File Offset: 0x00015F10
 		public object NextNode()
 		{
-			return base._Next();
+			return _Next();
 		}
 
 		// Token: 0x06000869 RID: 2153 RVA: 0x00017D18 File Offset: 0x00015F18
 		protected override object ToTree(object el)
 		{
-			return this.adaptor.DupNode(el);
+			return adaptor.DupNode(el);
 		}
 	}
 }

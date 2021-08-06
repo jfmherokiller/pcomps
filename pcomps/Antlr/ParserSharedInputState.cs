@@ -6,9 +6,9 @@
 		// Token: 0x06000236 RID: 566 RVA: 0x00007AD0 File Offset: 0x00005CD0
 		public virtual void reset()
 		{
-			this.guessing = 0;
-			this.filename = null;
-			this.input.reset();
+			guessing = 0;
+			filename = null;
+			input.reset();
 		}
 
 		// Token: 0x040000AD RID: 173

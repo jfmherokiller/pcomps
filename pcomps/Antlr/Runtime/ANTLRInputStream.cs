@@ -17,7 +17,7 @@ namespace pcomps.Antlr.Runtime
 		}
 
 		// Token: 0x060008BC RID: 2236 RVA: 0x00018ECC File Offset: 0x000170CC
-		public ANTLRInputStream(Stream istream, Encoding encoding) : this(istream, ANTLRReaderStream.INITIAL_BUFFER_SIZE, encoding)
+		public ANTLRInputStream(Stream istream, Encoding encoding) : this(istream, INITIAL_BUFFER_SIZE, encoding)
 		{
 		}
 
@@ -27,7 +27,7 @@ namespace pcomps.Antlr.Runtime
 		}
 
 		// Token: 0x060008BE RID: 2238 RVA: 0x00018EE8 File Offset: 0x000170E8
-		public ANTLRInputStream(Stream istream, int size, Encoding encoding) : this(istream, size, ANTLRReaderStream.READ_BUFFER_SIZE, encoding)
+		public ANTLRInputStream(Stream istream, int size, Encoding encoding) : this(istream, size, READ_BUFFER_SIZE, encoding)
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace pcomps.Antlr.Runtime
 			{
 				reader = new StreamReader(istream);
 			}
-			this.Load(reader, size, readBufferSize);
+			Load(reader, size, readBufferSize);
 		}
 	}
 }

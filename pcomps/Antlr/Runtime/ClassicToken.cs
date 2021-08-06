@@ -15,11 +15,11 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004F0 RID: 1264 RVA: 0x0000F190 File Offset: 0x0000D390
 		public ClassicToken(IToken oldToken)
 		{
-			this.text = oldToken.Text;
-			this.type = oldToken.Type;
-			this.line = oldToken.Line;
-			this.charPositionInLine = oldToken.CharPositionInLine;
-			this.channel = oldToken.Channel;
+			text = oldToken.Text;
+			type = oldToken.Type;
+			line = oldToken.Line;
+			charPositionInLine = oldToken.CharPositionInLine;
+			channel = oldToken.Channel;
 		}
 
 		// Token: 0x060004F1 RID: 1265 RVA: 0x0000F1E0 File Offset: 0x0000D3E0
@@ -44,11 +44,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.type;
+				return type;
 			}
 			set
 			{
-				this.type = value;
+				type = value;
 			}
 		}
 
@@ -59,11 +59,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.line;
+				return line;
 			}
 			set
 			{
-				this.line = value;
+				line = value;
 			}
 		}
 
@@ -74,11 +74,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.charPositionInLine;
+				return charPositionInLine;
 			}
 			set
 			{
-				this.charPositionInLine = value;
+				charPositionInLine = value;
 			}
 		}
 
@@ -89,11 +89,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.channel;
+				return channel;
 			}
 			set
 			{
-				this.channel = value;
+				channel = value;
 			}
 		}
 
@@ -104,11 +104,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.index;
+				return index;
 			}
 			set
 			{
-				this.index = value;
+				index = value;
 			}
 		}
 
@@ -119,11 +119,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.text;
+				return text;
 			}
 			set
 			{
-				this.text = value;
+				text = value;
 			}
 		}
 
@@ -145,11 +145,11 @@ namespace pcomps.Antlr.Runtime
 		public override string ToString()
 		{
 			string text = string.Empty;
-			if (this.channel > 0)
+			if (channel > 0)
 			{
-				text = $",channel={this.channel}";
+				text = $",channel={channel}";
 			}
-			string text2 = this.Text;
+			string text2 = Text;
 			if (text2 != null)
 			{
 				text2 = text2.Replace("\n", "\\\\n");
@@ -163,17 +163,17 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"[@",
-				this.TokenIndex,
+				TokenIndex,
 				",'",
 				text2,
 				"',<",
-				this.type,
+				type,
 				">",
 				text,
 				",",
-				this.line,
+				line,
 				":",
-				this.CharPositionInLine,
+				CharPositionInLine,
 				"]"
 			});
 		}

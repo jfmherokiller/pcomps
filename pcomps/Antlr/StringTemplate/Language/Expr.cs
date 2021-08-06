@@ -15,7 +15,7 @@
 		{
 			get
 			{
-				return this.enclosingTemplate;
+				return enclosingTemplate;
 			}
 		}
 
@@ -26,11 +26,11 @@
 		{
 			get
 			{
-				return this.indentation;
+				return indentation;
 			}
 			set
 			{
-				this.indentation = value;
+				indentation = value;
 			}
 		}
 

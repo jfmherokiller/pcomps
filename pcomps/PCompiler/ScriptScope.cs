@@ -8,14 +8,14 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AD2 RID: 2770 RVA: 0x000326B4 File Offset: 0x000308B4
 		public ScriptScope(ScriptScope akParentScope, string asLocalName)
 		{
-			this.kParent = akParentScope;
-			if (this.kParent != null)
+			kParent = akParentScope;
+			if (kParent != null)
 			{
-				this.sName = $"{this.kParent.Name}.{asLocalName}";
-				this.kParent.kChildren.Add(this);
+				sName = $"{kParent.Name}.{asLocalName}";
+				kParent.kChildren.Add(this);
 				return;
 			}
-			this.sName = asLocalName;
+			sName = asLocalName;
 		}
 
 		// Token: 0x17000134 RID: 308
@@ -24,7 +24,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sName;
+				return sName;
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kParent;
+				return kParent;
 			}
 		}
 
@@ -59,17 +59,17 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.kChildren;
+				return kChildren;
 			}
 		}
 
 		// Token: 0x06000AD7 RID: 2775 RVA: 0x00032768 File Offset: 0x00030968
 		public bool TryDefineVariable(string asName, ScriptVariableType akType)
 		{
-			bool flag = !this.kVars.ContainsKey(asName.ToLowerInvariant());
+			bool flag = !kVars.ContainsKey(asName.ToLowerInvariant());
 			if (flag)
 			{
-				this.kVars.Add(asName.ToLowerInvariant(), new ScriptScope.ScopeVariable(akType));
+				kVars.Add(asName.ToLowerInvariant(), new ScopeVariable(akType));
 			}
 			return flag;
 		}
@@ -77,15 +77,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AD8 RID: 2776 RVA: 0x000327A8 File Offset: 0x000309A8
 		public bool TryGetVariable(string asName, out ScriptVariableType akType)
 		{
-			ScriptScope.ScopeVariable scopeVariable;
-			bool flag = this.kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			ScopeVariable scopeVariable;
+			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				akType = scopeVariable.kType;
 			}
-			else if (this.kParent != null)
+			else if (kParent != null)
 			{
-				flag = this.kParent.TryGetVariable(asName, out akType);
+				flag = kParent.TryGetVariable(asName, out akType);
 			}
 			else
 			{
@@ -98,21 +98,21 @@ namespace pcomps.PCompiler
 		public bool VariableWouldShadow(string asName)
 		{
 			ScriptVariableType scriptVariableType;
-			return this.Parent != null && this.Parent.TryGetVariable(asName, out scriptVariableType);
+			return Parent != null && Parent.TryGetVariable(asName, out scriptVariableType);
 		}
 
 		// Token: 0x06000ADA RID: 2778 RVA: 0x0003281C File Offset: 0x00030A1C
 		public bool TryFlagVarAsUsed(string asName)
 		{
-			ScriptScope.ScopeVariable scopeVariable;
-			bool flag = this.kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			ScopeVariable scopeVariable;
+			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				scopeVariable.bUsed = true;
 			}
-			else if (this.kParent != null)
+			else if (kParent != null)
 			{
-				flag = this.kParent.TryFlagVarAsUsed(asName);
+				flag = kParent.TryFlagVarAsUsed(asName);
 			}
 			return flag;
 		}
@@ -120,15 +120,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ADB RID: 2779 RVA: 0x00032860 File Offset: 0x00030A60
 		public bool TryGetVarUsed(string asName, out bool abUsed)
 		{
-			ScriptScope.ScopeVariable scopeVariable;
-			bool flag = this.kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			ScopeVariable scopeVariable;
+			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				abUsed = scopeVariable.bUsed;
 			}
-			else if (this.kParent != null)
+			else if (kParent != null)
 			{
-				flag = this.kParent.TryGetVarUsed(asName, out abUsed);
+				flag = kParent.TryGetVarUsed(asName, out abUsed);
 			}
 			else
 			{
@@ -140,11 +140,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ADC RID: 2780 RVA: 0x000328AC File Offset: 0x00030AAC
 		public void ClearUsedVars()
 		{
-			foreach (KeyValuePair<string, ScriptScope.ScopeVariable> keyValuePair in this.kVars)
+			foreach (KeyValuePair<string, ScopeVariable> keyValuePair in kVars)
 			{
 				keyValuePair.Value.bUsed = false;
 			}
-			foreach (ScriptScope scriptScope in this.kChildren)
+			foreach (ScriptScope scriptScope in kChildren)
 			{
 				scriptScope.ClearUsedVars();
 			}
@@ -152,11 +152,11 @@ namespace pcomps.PCompiler
 
 		// Token: 0x17000138 RID: 312
 		// (get) Token: 0x06000ADD RID: 2781 RVA: 0x00032948 File Offset: 0x00030B48
-		public Dictionary<string, ScriptScope.ScopeVariable> Variables
+		public Dictionary<string, ScopeVariable> Variables
 		{
 			get
 			{
-				return this.kVars;
+				return kVars;
 			}
 		}
 
@@ -164,13 +164,13 @@ namespace pcomps.PCompiler
 		public string GetMangledVariableName(string asVarName)
 		{
 			string result = asVarName;
-			if (this.kMangledVarNames.ContainsKey(asVarName.ToLowerInvariant()))
+			if (kMangledVarNames.ContainsKey(asVarName.ToLowerInvariant()))
 			{
-				this.kMangledVarNames.TryGetValue(asVarName.ToLowerInvariant(), out result);
+				kMangledVarNames.TryGetValue(asVarName.ToLowerInvariant(), out result);
 			}
-			else if (this.Parent != null)
+			else if (Parent != null)
 			{
-				result = this.Parent.GetMangledVariableName(asVarName);
+				result = Parent.GetMangledVariableName(asVarName);
 			}
 			return result;
 		}
@@ -185,7 +185,7 @@ namespace pcomps.PCompiler
 		private List<ScriptScope> kChildren = new List<ScriptScope>();
 
 		// Token: 0x04000503 RID: 1283
-		private Dictionary<string, ScriptScope.ScopeVariable> kVars = new Dictionary<string, ScriptScope.ScopeVariable>();
+		private Dictionary<string, ScopeVariable> kVars = new Dictionary<string, ScopeVariable>();
 
 		// Token: 0x04000504 RID: 1284
 		public Dictionary<string, string> kMangledVarNames = new Dictionary<string, string>();
@@ -196,7 +196,7 @@ namespace pcomps.PCompiler
 			// Token: 0x06000ADF RID: 2783 RVA: 0x000329A0 File Offset: 0x00030BA0
 			public ScopeVariable(ScriptVariableType akType)
 			{
-				this.kType = akType;
+				kType = akType;
 			}
 
 			// Token: 0x04000505 RID: 1285

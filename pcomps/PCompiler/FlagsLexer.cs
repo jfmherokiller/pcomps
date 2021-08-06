@@ -13,23 +13,23 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EC3 RID: 3779 RVA: 0x0006CBE8 File Offset: 0x0006ADE8
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
 		{
-			if (this.ErrorHandler != null)
+			if (ErrorHandler != null)
 			{
-				this.ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
 			}
 		}
 
 		// Token: 0x06000EC4 RID: 3780 RVA: 0x0006CC08 File Offset: 0x0006AE08
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.OnError(errorMessage, e.Line, e.CharPositionInLine);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000EC5 RID: 3781 RVA: 0x0006CC34 File Offset: 0x0006AE34
 		public FlagsLexer()
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x06000EC6 RID: 3782 RVA: 0x0006CC44 File Offset: 0x0006AE44
@@ -40,7 +40,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EC7 RID: 3783 RVA: 0x0006CC50 File Offset: 0x0006AE50
 		public FlagsLexer(ICharStream input, RecognizerSharedState state) : base(input, state)
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x1700021A RID: 538
@@ -58,9 +58,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 4;
 			int channel = 0;
-			this.Match("flag");
-			this.state.type = type;
-			this.state.channel = channel;
+			Match("flag");
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECA RID: 3786 RVA: 0x0006CC9C File Offset: 0x0006AE9C
@@ -68,9 +68,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 8;
 			int channel = 0;
-			this.Match("script");
-			this.state.type = type;
-			this.state.channel = channel;
+			Match("script");
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECB RID: 3787 RVA: 0x0006CCD0 File Offset: 0x0006AED0
@@ -78,9 +78,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 9;
 			int channel = 0;
-			this.Match("property");
-			this.state.type = type;
-			this.state.channel = channel;
+			Match("property");
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECC RID: 3788 RVA: 0x0006CD08 File Offset: 0x0006AF08
@@ -88,9 +88,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 10;
 			int channel = 0;
-			this.Match("variable");
-			this.state.type = type;
-			this.state.channel = channel;
+			Match("variable");
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECD RID: 3789 RVA: 0x0006CD40 File Offset: 0x0006AF40
@@ -98,9 +98,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 11;
 			int channel = 0;
-			this.Match("function");
-			this.state.type = type;
-			this.state.channel = channel;
+			Match("function");
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECE RID: 3790 RVA: 0x0006CD78 File Offset: 0x0006AF78
@@ -108,9 +108,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 7;
 			int channel = 0;
-			this.Match(123);
-			this.state.type = type;
-			this.state.channel = channel;
+			Match(123);
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ECF RID: 3791 RVA: 0x0006CDAC File Offset: 0x0006AFAC
@@ -118,9 +118,9 @@ namespace pcomps.PCompiler
 		{
 			int type = 12;
 			int channel = 0;
-			this.Match(125);
-			this.state.type = type;
-			this.state.channel = channel;
+			Match(125);
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ED0 RID: 3792 RVA: 0x0006CDE0 File Offset: 0x0006AFE0
@@ -128,13 +128,13 @@ namespace pcomps.PCompiler
 		{
 			int type = 5;
 			int channel = 0;
-			if ((this.input.LA(1) >= 65 && this.input.LA(1) <= 90) || this.input.LA(1) == 95 || (this.input.LA(1) >= 97 && this.input.LA(1) <= 122))
+			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || input.LA(1) == 95 || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
-				this.input.Consume();
+				input.Consume();
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if ((num2 >= 48 && num2 <= 57) || (num2 >= 65 && num2 <= 90) || num2 == 95 || (num2 >= 97 && num2 <= 122))
 					{
 						num = 1;
@@ -144,22 +144,22 @@ namespace pcomps.PCompiler
 					{
 						goto IL_157;
 					}
-					if ((this.input.LA(1) < 48 || this.input.LA(1) > 57) && (this.input.LA(1) < 65 || this.input.LA(1) > 90) && this.input.LA(1) != 95 && (this.input.LA(1) < 97 || this.input.LA(1) > 122))
+					if ((input.LA(1) < 48 || input.LA(1) > 57) && (input.LA(1) < 65 || input.LA(1) > 90) && input.LA(1) != 95 && (input.LA(1) < 97 || input.LA(1) > 122))
 					{
 						break;
 					}
-					this.input.Consume();
+					input.Consume();
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, this.input);
-				this.Recover(ex);
+				MismatchedSetException ex = new MismatchedSetException(null, input);
+				Recover(ex);
 				throw ex;
 				IL_157:
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 				return;
 			}
-			MismatchedSetException ex2 = new MismatchedSetException(null, this.input);
-			this.Recover(ex2);
+			MismatchedSetException ex2 = new MismatchedSetException(null, input);
+			Recover(ex2);
 			throw ex2;
 		}
 
@@ -172,7 +172,7 @@ namespace pcomps.PCompiler
 			for (;;)
 			{
 				int num2 = 2;
-				int num3 = this.input.LA(1);
+				int num3 = input.LA(1);
 				if (num3 >= 48 && num3 <= 57)
 				{
 					num2 = 1;
@@ -182,16 +182,16 @@ namespace pcomps.PCompiler
 				{
 					break;
 				}
-				this.mDIGIT();
+				mDIGIT();
 				num++;
 			}
 			if (num < 1)
 			{
-				EarlyExitException ex = new EarlyExitException(2, this.input);
+				EarlyExitException ex = new EarlyExitException(2, input);
 				throw ex;
 			}
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ED2 RID: 3794 RVA: 0x0006CFD0 File Offset: 0x0006B1D0
@@ -202,7 +202,7 @@ namespace pcomps.PCompiler
 			for (;;)
 			{
 				int num2 = 2;
-				int num3 = this.input.LA(1);
+				int num3 = input.LA(1);
 				if ((num3 >= 9 && num3 <= 10) || num3 == 13 || num3 == 32)
 				{
 					num2 = 1;
@@ -212,17 +212,17 @@ namespace pcomps.PCompiler
 				{
 					break;
 				}
-				this.mWS_CHAR();
+				mWS_CHAR();
 				num++;
 			}
 			if (num < 1)
 			{
-				EarlyExitException ex = new EarlyExitException(3, this.input);
+				EarlyExitException ex = new EarlyExitException(3, input);
 				throw ex;
 			}
 			int channel = 99;
-			this.state.type = type;
-			this.state.channel = channel;
+			state.type = type;
+			state.channel = channel;
 		}
 
 		// Token: 0x06000ED3 RID: 3795 RVA: 0x0006D054 File Offset: 0x0006B254
@@ -230,10 +230,10 @@ namespace pcomps.PCompiler
 		{
 			int type = 17;
 			int channel = 0;
-			int num = this.input.LA(1);
+			int num = input.LA(1);
 			if (num == 47)
 			{
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				int num3;
 				if (num2 == 42)
 				{
@@ -243,7 +243,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 47)
 					{
-						NoViableAltException ex = new NoViableAltException("", 6, 1, this.input);
+						NoViableAltException ex = new NoViableAltException("", 6, 1, input);
 						throw ex;
 					}
 					num3 = 2;
@@ -251,14 +251,14 @@ namespace pcomps.PCompiler
 				switch (num3)
 				{
 				case 1:
-					this.Match("/*");
+					Match("/*");
 					for (;;)
 					{
 						int num4 = 2;
-						int num5 = this.input.LA(1);
+						int num5 = input.LA(1);
 						if (num5 == 42)
 						{
-							int num6 = this.input.LA(2);
+							int num6 = input.LA(2);
 							if (num6 == 47)
 							{
 								num4 = 2;
@@ -277,18 +277,18 @@ namespace pcomps.PCompiler
 						{
 							break;
 						}
-						this.MatchAny();
+						MatchAny();
 					}
-					this.Match("*/");
+					Match("*/");
 					channel = 99;
 					break;
 				case 2:
 				{
-					this.Match("//");
+					Match("//");
 					for (;;)
 					{
 						int num8 = 2;
-						int num9 = this.input.LA(1);
+						int num9 = input.LA(1);
 						if ((num9 >= 0 && num9 <= 9) || (num9 >= 11 && num9 <= 65535))
 						{
 							num8 = 1;
@@ -298,97 +298,97 @@ namespace pcomps.PCompiler
 						{
 							goto IL_1CA;
 						}
-						if ((this.input.LA(1) < 0 || this.input.LA(1) > 9) && (this.input.LA(1) < 11 || this.input.LA(1) > 65535))
+						if ((input.LA(1) < 0 || input.LA(1) > 9) && (input.LA(1) < 11 || input.LA(1) > 65535))
 						{
 							break;
 						}
-						this.input.Consume();
+						input.Consume();
 					}
-					MismatchedSetException ex2 = new MismatchedSetException(null, this.input);
-					this.Recover(ex2);
+					MismatchedSetException ex2 = new MismatchedSetException(null, input);
+					Recover(ex2);
 					throw ex2;
 					IL_1CA:
 					channel = 99;
 					break;
 				}
 				}
-				this.state.type = type;
-				this.state.channel = channel;
+				state.type = type;
+				state.channel = channel;
 				return;
 			}
-			NoViableAltException ex3 = new NoViableAltException("", 6, 0, this.input);
+			NoViableAltException ex3 = new NoViableAltException("", 6, 0, input);
 			throw ex3;
 		}
 
 		// Token: 0x06000ED4 RID: 3796 RVA: 0x0006D248 File Offset: 0x0006B448
 		public void mALPHA()
 		{
-			if ((this.input.LA(1) >= 65 && this.input.LA(1) <= 90) || (this.input.LA(1) >= 97 && this.input.LA(1) <= 122))
+			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
-				this.input.Consume();
+				input.Consume();
 				return;
 			}
-			MismatchedSetException ex = new MismatchedSetException(null, this.input);
-			this.Recover(ex);
+			MismatchedSetException ex = new MismatchedSetException(null, input);
+			Recover(ex);
 			throw ex;
 		}
 
 		// Token: 0x06000ED5 RID: 3797 RVA: 0x0006D2B8 File Offset: 0x0006B4B8
 		public void mDIGIT()
 		{
-			this.MatchRange(48, 57);
+			MatchRange(48, 57);
 		}
 
 		// Token: 0x06000ED6 RID: 3798 RVA: 0x0006D2C4 File Offset: 0x0006B4C4
 		public void mWS_CHAR()
 		{
-			if ((this.input.LA(1) >= 9 && this.input.LA(1) <= 10) || this.input.LA(1) == 13 || this.input.LA(1) == 32)
+			if ((input.LA(1) >= 9 && input.LA(1) <= 10) || input.LA(1) == 13 || input.LA(1) == 32)
 			{
-				this.input.Consume();
+				input.Consume();
 				return;
 			}
-			MismatchedSetException ex = new MismatchedSetException(null, this.input);
-			this.Recover(ex);
+			MismatchedSetException ex = new MismatchedSetException(null, input);
+			Recover(ex);
 			throw ex;
 		}
 
 		// Token: 0x06000ED7 RID: 3799 RVA: 0x0006D334 File Offset: 0x0006B534
 		public override void mTokens()
 		{
-			switch (this.dfa7.Predict(this.input))
+			switch (dfa7.Predict(input))
 			{
 			case 1:
-				this.mFLAG();
+				mFLAG();
 				return;
 			case 2:
-				this.mSCRIPT();
+				mSCRIPT();
 				return;
 			case 3:
-				this.mPROPERTY();
+				mPROPERTY();
 				return;
 			case 4:
-				this.mVARIABLE();
+				mVARIABLE();
 				return;
 			case 5:
-				this.mFUNCTION();
+				mFUNCTION();
 				return;
 			case 6:
-				this.mOPEN_BRACE();
+				mOPEN_BRACE();
 				return;
 			case 7:
-				this.mCLOSE_BRACE();
+				mCLOSE_BRACE();
 				return;
 			case 8:
-				this.mID();
+				mID();
 				return;
 			case 9:
-				this.mNUMBER();
+				mNUMBER();
 				return;
 			case 10:
-				this.mWS();
+				mWS();
 				return;
 			case 11:
-				this.mCOMMENT();
+				mCOMMENT();
 				return;
 			default:
 				return;
@@ -398,7 +398,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ED8 RID: 3800 RVA: 0x0006D3DC File Offset: 0x0006B5DC
 		private void InitializeCyclicDFAs()
 		{
-			this.dfa7 = new FlagsLexer.DFA7(this);
+			dfa7 = new DFA7(this);
 		}
 
 		// Token: 0x04000C82 RID: 3202
@@ -465,7 +465,7 @@ namespace pcomps.PCompiler
 		private const string DFA7_specialS = "-￿}>";
 
 		// Token: 0x04000C98 RID: 3224
-		protected FlagsLexer.DFA7 dfa7;
+		protected DFA7 dfa7;
 
 		// Token: 0x04000C99 RID: 3225
 		private static readonly string[] DFA7_transitionS = new string[]
@@ -536,7 +536,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA7_special = DFA.UnpackEncodedString("-￿}>");
 
 		// Token: 0x04000CA0 RID: 3232
-		private static readonly short[][] DFA7_transition = DFA.UnpackEncodedStringArray(FlagsLexer.DFA7_transitionS);
+		private static readonly short[][] DFA7_transition = DFA.UnpackEncodedStringArray(DFA7_transitionS);
 
 		// Token: 0x0200020B RID: 523
 		protected class DFA7 : DFA
@@ -545,14 +545,14 @@ namespace pcomps.PCompiler
 			public DFA7(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 7;
-				this.eot = FlagsLexer.DFA7_eot;
-				this.eof = FlagsLexer.DFA7_eof;
-				this.min = FlagsLexer.DFA7_min;
-				this.max = FlagsLexer.DFA7_max;
-				this.accept = FlagsLexer.DFA7_accept;
-				this.special = FlagsLexer.DFA7_special;
-				this.transition = FlagsLexer.DFA7_transition;
+				decisionNumber = 7;
+				eot = DFA7_eot;
+				eof = DFA7_eof;
+				min = DFA7_min;
+				max = DFA7_max;
+				accept = DFA7_accept;
+				special = DFA7_special;
+				transition = DFA7_transition;
 			}
 
 			// Token: 0x1700021B RID: 539

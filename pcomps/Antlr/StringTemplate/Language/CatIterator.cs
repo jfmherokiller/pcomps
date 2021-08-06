@@ -19,47 +19,47 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				if (!this.hasCurrent)
+				if (!hasCurrent)
 				{
 					throw new InvalidOperationException("Enumeration not started or already finished.");
 				}
-				return this.currentObject;
+				return currentObject;
 			}
 		}
 
 		// Token: 0x0600111F RID: 4383 RVA: 0x0007BE8C File Offset: 0x0007A08C
 		public bool MoveNext()
 		{
-			if (this.currentIteratorIndex < this.iterators.Count)
+			if (currentIteratorIndex < iterators.Count)
 			{
-				IEnumerator enumerator = (IEnumerator)this.iterators[this.currentIteratorIndex];
+				IEnumerator enumerator = (IEnumerator)iterators[currentIteratorIndex];
 				if (enumerator.MoveNext())
 				{
-					this.currentObject = enumerator.Current;
-					return this.hasCurrent = true;
+					currentObject = enumerator.Current;
+					return hasCurrent = true;
 				}
-				this.currentIteratorIndex++;
-				while (this.currentIteratorIndex < this.iterators.Count)
+				currentIteratorIndex++;
+				while (currentIteratorIndex < iterators.Count)
 				{
-					enumerator = (IEnumerator)this.iterators[this.currentIteratorIndex];
+					enumerator = (IEnumerator)iterators[currentIteratorIndex];
 					if (enumerator.MoveNext())
 					{
-						this.currentObject = enumerator.Current;
-						return this.hasCurrent = true;
+						currentObject = enumerator.Current;
+						return hasCurrent = true;
 					}
-					this.currentIteratorIndex++;
+					currentIteratorIndex++;
 				}
 			}
-			return this.hasCurrent = false;
+			return hasCurrent = false;
 		}
 
 		// Token: 0x06001120 RID: 4384 RVA: 0x0007BF58 File Offset: 0x0007A158
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			while (this.MoveNext())
+			while (MoveNext())
 			{
-				object value = this.Current;
+				object value = Current;
 				stringBuilder.Append(value);
 			}
 			return stringBuilder.ToString();
@@ -68,10 +68,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001121 RID: 4385 RVA: 0x0007BF88 File Offset: 0x0007A188
 		public void Reset()
 		{
-			this.currentIteratorIndex = 0;
-			this.currentObject = null;
-			this.hasCurrent = false;
-			foreach (object obj in this.iterators)
+			currentIteratorIndex = 0;
+			currentObject = null;
+			hasCurrent = false;
+			foreach (object obj in iterators)
 			{
 				IEnumerator enumerator2 = (IEnumerator)obj;
 				enumerator2.Reset();

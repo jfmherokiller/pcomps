@@ -9,7 +9,7 @@ namespace pcomps.Antlr
 		// Token: 0x060000B6 RID: 182 RVA: 0x00004334 File Offset: 0x00002534
 		public CharBuffer(TextReader input_)
 		{
-			this.input = input_;
+			input = input_;
 		}
 
 		// Token: 0x060000B7 RID: 183 RVA: 0x0000435C File Offset: 0x0000255C
@@ -17,24 +17,24 @@ namespace pcomps.Antlr
 		{
 			try
 			{
-				this.syncConsume();
+				syncConsume();
 				int num;
-				for (int i = amount + this.markerOffset - this.queue.Count; i > 0; i -= num)
+				for (int i = amount + markerOffset - queue.Count; i > 0; i -= num)
 				{
-					num = this.input.Read(this.buf, 0, 16);
+					num = input.Read(buf, 0, 16);
 					for (int j = 0; j < num; j++)
 					{
-						this.queue.Add(this.buf[j]);
+						queue.Add(buf[j]);
 					}
 					if (num < 16)
 					{
 						while (i-- > 0)
 						{
-							if (this.queue.Count >= 16)
+							if (queue.Count >= 16)
 							{
 								break;
 							}
-							this.queue.Add(CharScanner.EOF_CHAR);
+							queue.Add(CharScanner.EOF_CHAR);
 						}
 						break;
 					}

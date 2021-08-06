@@ -16,13 +16,13 @@
 		// Token: 0x060002BC RID: 700 RVA: 0x000090C0 File Offset: 0x000072C0
 		public void setIndex(int i)
 		{
-			this.index = i;
+			index = i;
 		}
 
 		// Token: 0x060002BD RID: 701 RVA: 0x000090D4 File Offset: 0x000072D4
 		public int getIndex()
 		{
-			return this.index;
+			return index;
 		}
 
 		// Token: 0x060002BE RID: 702 RVA: 0x000090E8 File Offset: 0x000072E8
@@ -31,15 +31,15 @@
 			return string.Concat(new object[]
 			{
 				"[",
-				this.index,
+				index,
 				":\"",
-				this.getText(),
+				getText(),
 				"\",<",
-				base.Type,
+				Type,
 				">,line=",
-				this.line,
+				line,
 				",col=",
-				this.col,
+				col,
 				"]\n"
 			});
 		}

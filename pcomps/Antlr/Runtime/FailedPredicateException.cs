@@ -24,9 +24,9 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new string[]
 			{
 				"FailedPredicateException(",
-				this.ruleName,
+				ruleName,
 				",{",
-				this.predicateText,
+				predicateText,
 				"}?)"
 			});
 		}

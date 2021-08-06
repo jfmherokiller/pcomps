@@ -28,7 +28,7 @@
 		public static readonly int EOF = -1;
 
 		// Token: 0x04000186 RID: 390
-		public static readonly IToken EOF_TOKEN = new CommonToken(Token.EOF);
+		public static readonly IToken EOF_TOKEN = new CommonToken(EOF);
 
 		// Token: 0x04000187 RID: 391
 		public static readonly IToken INVALID_TOKEN = new CommonToken(0);

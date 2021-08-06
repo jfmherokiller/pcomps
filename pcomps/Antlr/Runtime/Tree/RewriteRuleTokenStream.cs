@@ -31,13 +31,13 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000893 RID: 2195 RVA: 0x00018468 File Offset: 0x00016668
 		public object NextNode()
 		{
-			return this.adaptor.Create((IToken)base._Next());
+			return adaptor.Create((IToken)_Next());
 		}
 
 		// Token: 0x06000894 RID: 2196 RVA: 0x00018480 File Offset: 0x00016680
 		public IToken NextToken()
 		{
-			return (IToken)base._Next();
+			return (IToken)_Next();
 		}
 
 		// Token: 0x06000895 RID: 2197 RVA: 0x00018490 File Offset: 0x00016690

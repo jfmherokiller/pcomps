@@ -26,11 +26,11 @@ namespace pcomps.Antlr.Runtime.Collections
 					}
 					else if (obj is IDictionary)
 					{
-						stringBuilder.Append(CollectionUtils.DictionaryToString((IDictionary)obj));
+						stringBuilder.Append(DictionaryToString((IDictionary)obj));
 					}
 					else if (obj is IList)
 					{
-						stringBuilder.Append(CollectionUtils.ListToString((IList)obj));
+						stringBuilder.Append(ListToString((IList)obj));
 					}
 					else
 					{
@@ -63,11 +63,11 @@ namespace pcomps.Antlr.Runtime.Collections
 					}
 					if (dictionaryEntry.Value is IDictionary)
 					{
-						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), CollectionUtils.DictionaryToString((IDictionary)dictionaryEntry.Value));
+						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), DictionaryToString((IDictionary)dictionaryEntry.Value));
 					}
 					else if (dictionaryEntry.Value is IList)
 					{
-						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), CollectionUtils.ListToString((IList)dictionaryEntry.Value));
+						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), ListToString((IList)dictionaryEntry.Value));
 					}
 					else
 					{

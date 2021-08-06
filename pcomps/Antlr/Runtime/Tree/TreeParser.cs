@@ -8,13 +8,13 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006A8 RID: 1704 RVA: 0x000129EC File Offset: 0x00010BEC
 		public TreeParser(ITreeNodeStream input)
 		{
-			this.TreeNodeStream = input;
+			TreeNodeStream = input;
 		}
 
 		// Token: 0x060006A9 RID: 1705 RVA: 0x000129FC File Offset: 0x00010BFC
 		public TreeParser(ITreeNodeStream input, RecognizerSharedState state) : base(state)
 		{
-			this.TreeNodeStream = input;
+			TreeNodeStream = input;
 		}
 
 		// Token: 0x170000AD RID: 173
@@ -24,11 +24,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 			set
 			{
-				this.input = value;
+				input = value;
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.input.SourceName;
+				return input.SourceName;
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006AF RID: 1711 RVA: 0x00012A9C File Offset: 0x00010C9C
 		protected override object GetMissingSymbol(IIntStream input, RecognitionException e, int expectedTokenType, BitSet follow)
 		{
-			string text = $"<missing {this.TokenNames[expectedTokenType]}>";
+			string text = $"<missing {TokenNames[expectedTokenType]}>";
 			return new CommonTree(new CommonToken(expectedTokenType, text));
 		}
 
@@ -59,30 +59,30 @@ namespace pcomps.Antlr.Runtime.Tree
 		public override void Reset()
 		{
 			base.Reset();
-			if (this.input != null)
+			if (input != null)
 			{
-				this.input.Seek(0);
+				input.Seek(0);
 			}
 		}
 
 		// Token: 0x060006B1 RID: 1713 RVA: 0x00012AF0 File Offset: 0x00010CF0
 		public override void MatchAny(IIntStream ignore)
 		{
-			this.state.errorRecovery = false;
-			this.state.failed = false;
-			object t = this.input.LT(1);
-			if (this.input.TreeAdaptor.GetChildCount(t) == 0)
+			state.errorRecovery = false;
+			state.failed = false;
+			object t = input.LT(1);
+			if (input.TreeAdaptor.GetChildCount(t) == 0)
 			{
-				this.input.Consume();
+				input.Consume();
 				return;
 			}
 			int num = 0;
-			int nodeType = this.input.TreeAdaptor.GetNodeType(t);
+			int nodeType = input.TreeAdaptor.GetNodeType(t);
 			while (nodeType != Token.EOF && (nodeType != 3 || num != 0))
 			{
-				this.input.Consume();
-				t = this.input.LT(1);
-				nodeType = this.input.TreeAdaptor.GetNodeType(t);
+				input.Consume();
+				t = input.LT(1);
+				nodeType = input.TreeAdaptor.GetNodeType(t);
 				if (nodeType == 2)
 				{
 					num++;
@@ -92,7 +92,7 @@ namespace pcomps.Antlr.Runtime.Tree
 					num--;
 				}
 			}
-			this.input.Consume();
+			input.Consume();
 		}
 
 		// Token: 0x170000AF RID: 175
@@ -101,7 +101,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			return string.Concat(new object[]
 			{
-				this.GrammarFileName,
+				GrammarFileName,
 				": node from ",
 				(!e.approximateLineInfo) ? string.Empty : "after ",
 				"line ",
@@ -144,13 +144,13 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006B6 RID: 1718 RVA: 0x00012CC8 File Offset: 0x00010EC8
 		public virtual void TraceIn(string ruleName, int ruleIndex)
 		{
-			base.TraceIn(ruleName, ruleIndex, this.input.LT(1));
+			base.TraceIn(ruleName, ruleIndex, input.LT(1));
 		}
 
 		// Token: 0x060006B7 RID: 1719 RVA: 0x00012CE0 File Offset: 0x00010EE0
 		public virtual void TraceOut(string ruleName, int ruleIndex)
 		{
-			base.TraceOut(ruleName, ruleIndex, this.input.LT(1));
+			base.TraceOut(ruleName, ruleIndex, input.LT(1));
 		}
 
 		// Token: 0x040001B9 RID: 441
@@ -169,13 +169,13 @@ namespace pcomps.Antlr.Runtime.Tree
 		private static readonly string spaces = "\\s+";
 
 		// Token: 0x040001BE RID: 446
-		private static readonly Regex dotdotPattern = new Regex(TreeParser.dotdot, RegexOptions.Compiled);
+		private static readonly Regex dotdotPattern = new Regex(dotdot, RegexOptions.Compiled);
 
 		// Token: 0x040001BF RID: 447
-		private static readonly Regex doubleEtcPattern = new Regex(TreeParser.doubleEtc, RegexOptions.Compiled);
+		private static readonly Regex doubleEtcPattern = new Regex(doubleEtc, RegexOptions.Compiled);
 
 		// Token: 0x040001C0 RID: 448
-		private static readonly Regex spacesPattern = new Regex(TreeParser.spaces, RegexOptions.Compiled);
+		private static readonly Regex spacesPattern = new Regex(spaces, RegexOptions.Compiled);
 
 		// Token: 0x040001C1 RID: 449
 		protected internal ITreeNodeStream input;

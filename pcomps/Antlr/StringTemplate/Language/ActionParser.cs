@@ -16,35 +16,35 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A6 RID: 4262 RVA: 0x00075A6C File Offset: 0x00073C6C
 		public override void reportError(RecognitionException e)
 		{
-			StringTemplateGroup group = this.self.Group;
+			StringTemplateGroup group = self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
-				this.self.Error(
-                    $"action parse error; template context is {this.self.GetEnclosingInstanceStackString()}", e);
+				self.Error(
+                    $"action parse error; template context is {self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
-			this.self.Error(string.Concat(new object[]
+			self.Error(string.Concat(new object[]
 			{
 				"action parse error in group ",
-				this.self.Group.Name,
+				self.Group.Name,
 				" line ",
-				this.self.GroupFileLine,
+				self.GroupFileLine,
 				"; template context is ",
-				this.self.GetEnclosingInstanceStackString()
+				self.GetEnclosingInstanceStackString()
 			}), e);
 		}
 
 		// Token: 0x060010A7 RID: 4263 RVA: 0x00075B14 File Offset: 0x00073D14
 		protected void initialize()
 		{
-			this.tokenNames = ActionParser.tokenNames_;
-			this.initializeFactory();
+			tokenNames = tokenNames_;
+			initializeFactory();
 		}
 
 		// Token: 0x060010A8 RID: 4264 RVA: 0x00075B28 File Offset: 0x00073D28
 		protected ActionParser(TokenBuffer tokenBuf, int k) : base(tokenBuf, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060010A9 RID: 4265 RVA: 0x00075B38 File Offset: 0x00073D38
@@ -55,7 +55,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010AA RID: 4266 RVA: 0x00075B44 File Offset: 0x00073D44
 		protected ActionParser(TokenStream lexer, int k) : base(lexer, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060010AB RID: 4267 RVA: 0x00075B54 File Offset: 0x00073D54
@@ -66,7 +66,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010AC RID: 4268 RVA: 0x00075B60 File Offset: 0x00073D60
 		public ActionParser(ParserSharedInputState state) : base(state, 2)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060010AD RID: 4269 RVA: 0x00075B70 File Offset: 0x00073D70
@@ -78,24 +78,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				result = this.action();
-				if (this.inputState.guessing == 0)
+				result = action();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-				this.astFactory.addASTChild(ref astpair, child);
-				this.match(1);
+				StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+				astFactory.addASTChild(ref astpair, child);
+				match(1);
 				returnAST = (StringTemplateAST)astpair.root;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_0_);
+				reportError(ex);
+				recover(ex, tokenSet_0_);
 			}
 			this.returnAST = returnAST;
 			return result;
@@ -110,20 +110,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 8:
 				{
-					StringTemplateAST root = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.makeASTRoot(ref astpair, root);
-					this.match(8);
-					this.match(15);
-					this.ifCondition();
-					if (this.inputState.guessing == 0)
+					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.makeASTRoot(ref astpair, root);
+					match(8);
+					match(15);
+					ifCondition();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
-					this.match(16);
+					match(16);
 					returnAST = (StringTemplateAST)astpair.root;
 					goto IL_1AD;
 				}
@@ -141,40 +141,40 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 33:
 				case 34:
 				{
-					this.templatesExpr();
-					if (this.inputState.guessing == 0)
+					templatesExpr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
-					int num = this.LA(1);
+					int num = LA(1);
 					if (num != 1)
 					{
 						if (num != 14)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						this.match(14);
-						result = this.optionList();
-						if (this.inputState.guessing == 0)
+						match(14);
+						result = optionList();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, this.returnAST);
 						}
 					}
 					returnAST = (StringTemplateAST)astpair.root;
 					goto IL_1AD;
 				}
 				}
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_1AD:;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_0_);
+				reportError(ex);
+				recover(ex, tokenSet_0_);
 			}
 			this.returnAST = returnAST;
 			return result;
@@ -183,17 +183,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010AF RID: 4271 RVA: 0x00075E44 File Offset: 0x00074044
 		public void templatesExpr()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				this.expr();
-				if (this.inputState.guessing == 0)
+				expr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, returnAST);
 				}
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num != 1)
 				{
 					switch (num)
@@ -205,34 +205,34 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 17:
 					{
 						int num2 = 0;
-						while (this.LA(1) == 17)
+						while (LA(1) == 17)
 						{
-							this.match(17);
-							this.expr();
-							if (this.inputState.guessing == 0)
+							match(17);
+							expr();
+							if (inputState.guessing == 0)
 							{
-								this.astFactory.addASTChild(ref astpair, this.returnAST);
+								astFactory.addASTChild(ref astpair, returnAST);
 							}
 							num2++;
 						}
 						if (num2 < 1)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child);
-						this.match(20);
-						this.anonymousTemplate();
-						if (this.inputState.guessing == 0)
+						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child);
+						match(20);
+						anonymousTemplate();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
-						if (this.inputState.guessing == 0)
+						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 							{
-								(StringTemplateAST)this.astFactory.create(5, "MULTI_APPLY"),
+								(StringTemplateAST)astFactory.create(5, "MULTI_APPLY"),
 								stringTemplateAST
 							});
 							astpair.root = stringTemplateAST;
@@ -250,31 +250,31 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_284;
 					}
 					}
-					throw new NoViableAltException(this.LT(1), this.getFilename());
+					throw new NoViableAltException(LT(1), getFilename());
 				}
 				IL_1BB:
-				while (this.LA(1) == 20)
+				while (LA(1) == 20)
 				{
-					IToken tok = this.LT(1);
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)this.astFactory.create(tok);
-					this.astFactory.makeASTRoot(ref astpair, stringTemplateAST2);
-					this.match(20);
-					if (this.inputState.guessing == 0)
+					IToken tok = LT(1);
+					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+					astFactory.makeASTRoot(ref astpair, stringTemplateAST2);
+					match(20);
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST2.setType(4);
 					}
-					this.template();
-					if (this.inputState.guessing == 0)
+					template();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
-					while (this.LA(1) == 17)
+					while (LA(1) == 17)
 					{
-						this.match(17);
-						this.template();
-						if (this.inputState.guessing == 0)
+						match(17);
+						template();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
 					}
 				}
@@ -283,14 +283,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_1_);
+				reportError(ex);
+				recover(ex, tokenSet_1_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010B0 RID: 4272 RVA: 0x00076134 File Offset: 0x00074334
@@ -301,22 +301,22 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				this.option(dictionary);
-				while (this.LA(1) == 17)
+				option(dictionary);
+				while (LA(1) == 17)
 				{
-					StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.match(17);
-					this.option(dictionary);
+					StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(LT(1));
+					match(17);
+					option(dictionary);
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_0_);
+				reportError(ex);
+				recover(ex, tokenSet_0_);
 			}
 			this.returnAST = returnAST;
 			return dictionary;
@@ -330,7 +330,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 15:
 				case 18:
@@ -345,38 +345,38 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 32:
 				case 33:
 				case 34:
-					this.expr();
-					if (this.inputState.guessing == 0)
+					expr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 					returnAST = (StringTemplateAST)astpair.root;
 					goto IL_126;
 				case 21:
 				{
-					StringTemplateAST root = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.makeASTRoot(ref astpair, root);
-					this.match(21);
-					this.expr();
-					if (this.inputState.guessing == 0)
+					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.makeASTRoot(ref astpair, root);
+					match(21);
+					expr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 					returnAST = (StringTemplateAST)astpair.root;
 					goto IL_126;
 				}
 				}
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_126:;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_2_);
+				reportError(ex);
+				recover(ex, tokenSet_2_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -391,11 +391,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			object value = null;
 			try
 			{
-				IToken tok = this.LT(1);
-				StringTemplateAST stringTemplateAST2 = (StringTemplateAST)this.astFactory.create(tok);
-				this.astFactory.addASTChild(ref astpair, stringTemplateAST2);
-				this.match(18);
-				int num = this.LA(1);
+				IToken tok = LT(1);
+				StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+				astFactory.addASTChild(ref astpair, stringTemplateAST2);
+				match(18);
+				int num = LA(1);
 				if (num != 1)
 				{
 					switch (num)
@@ -404,16 +404,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_F0;
 					case 19:
 					{
-						StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child);
-						this.match(19);
-						this.expr();
-						if (this.inputState.guessing == 0)
+						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child);
+						match(19);
+						expr();
+						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)this.returnAST;
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, this.returnAST);
 						}
-						if (this.inputState.guessing == 0)
+						if (inputState.guessing == 0)
 						{
 							value = stringTemplateAST;
 							goto IL_119;
@@ -421,15 +421,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_119;
 					}
 					}
-					throw new NoViableAltException(this.LT(1), this.getFilename());
+					throw new NoViableAltException(LT(1), getFilename());
 				}
 				IL_F0:
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					value = ASTExpr.EMPTY_OPTION;
 				}
 				IL_119:
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					opts[stringTemplateAST2.getText()] = value;
 				}
@@ -437,12 +437,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_3_);
+				reportError(ex);
+				recover(ex, tokenSet_3_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -455,32 +455,32 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				this.primaryExpr();
-				if (this.inputState.guessing == 0)
+				primaryExpr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				while (this.LA(1) == 22)
+				while (LA(1) == 22)
 				{
-					StringTemplateAST root = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.makeASTRoot(ref astpair, root);
-					this.match(22);
-					this.primaryExpr();
-					if (this.inputState.guessing == 0)
+					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.makeASTRoot(ref astpair, root);
+					match(22);
+					primaryExpr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 				}
 				returnAST = (StringTemplateAST)astpair.root;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_4_);
+				reportError(ex);
+				recover(ex, tokenSet_4_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -493,15 +493,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken token = this.LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(token);
-				this.astFactory.addASTChild(ref astpair, stringTemplateAST);
-				this.match(31);
-				if (this.inputState.guessing == 0)
+				IToken token = LT(1);
+				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(token);
+				astFactory.addASTChild(ref astpair, stringTemplateAST);
+				match(31);
+				if (inputState.guessing == 0)
 				{
 					StringTemplate stringTemplate = new StringTemplate();
-					stringTemplate.Group = this.self.Group;
-					stringTemplate.EnclosingInstance = this.self;
+					stringTemplate.Group = self.Group;
+					stringTemplate.EnclosingInstance = self;
 					stringTemplate.Template = token.getText();
 					stringTemplate.DefineFormalArguments(((StringTemplateToken)token).args);
 					stringTemplateAST.StringTemplate = stringTemplate;
@@ -510,12 +510,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_5_);
+				reportError(ex);
+				recover(ex, tokenSet_5_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -523,12 +523,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010B5 RID: 4277 RVA: 0x000766E0 File Offset: 0x000748E0
 		public void template()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num <= 18)
 				{
 					if (num != 15 && num != 18)
@@ -542,30 +542,30 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						goto IL_86;
 					}
-					this.anonymousTemplate();
-					if (this.inputState.guessing == 0)
+					anonymousTemplate();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 						goto IL_99;
 					}
 					goto IL_99;
 				}
-				this.namedTemplate();
-				if (this.inputState.guessing == 0)
+				namedTemplate();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, returnAST);
 					goto IL_99;
 				}
 				goto IL_99;
 				IL_86:
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_99:
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 					{
-						(StringTemplateAST)this.astFactory.create(10),
+						(StringTemplateAST)astFactory.create(10),
 						stringTemplateAST
 					});
 					astpair.root = stringTemplateAST;
@@ -583,49 +583,49 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_5_);
+				reportError(ex);
+				recover(ex, tokenSet_5_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010B6 RID: 4278 RVA: 0x00076860 File Offset: 0x00074A60
 		public void primaryExpr()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 23:
 				{
-					this.match(23);
-					this.match(24);
-					IToken tok = this.LT(1);
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)this.astFactory.create(tok);
-					this.astFactory.addASTChild(ref astpair, stringTemplateAST2);
-					this.match(18);
-					if (this.inputState.guessing == 0)
+					match(23);
+					match(24);
+					IToken tok = LT(1);
+					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+					astFactory.addASTChild(ref astpair, stringTemplateAST2);
+					match(18);
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST2.setText($"super.{stringTemplateAST2.getText()}");
 					}
-					this.argList();
-					if (this.inputState.guessing == 0)
+					argList();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
-					if (this.inputState.guessing == 0)
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST = (StringTemplateAST)astpair.root;
-						stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+						stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 						{
-							(StringTemplateAST)this.astFactory.create(7, "include"),
+							(StringTemplateAST)astFactory.create(7, "include"),
 							stringTemplateAST
 						});
 						astpair.root = stringTemplateAST;
@@ -648,38 +648,38 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 28:
 				case 29:
 				case 30:
-					this.function();
-					if (this.inputState.guessing == 0)
+					function();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
 					stringTemplateAST = (StringTemplateAST)astpair.root;
 					goto IL_5BB;
 				case 34:
-					this.list();
-					if (this.inputState.guessing == 0)
+					list();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
 					stringTemplateAST = (StringTemplateAST)astpair.root;
 					goto IL_5BB;
 				}
-				if (this.LA(1) == 18 && this.LA(2) == 15)
+				if (LA(1) == 18 && LA(2) == 15)
 				{
-					StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child);
-					this.match(18);
-					this.argList();
-					if (this.inputState.guessing == 0)
+					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child);
+					match(18);
+					argList();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
-					if (this.inputState.guessing == 0)
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST = (StringTemplateAST)astpair.root;
-						stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+						stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 						{
-							(StringTemplateAST)this.astFactory.create(7, "include"),
+							(StringTemplateAST)astFactory.create(7, "include"),
 							stringTemplateAST
 						});
 						astpair.root = stringTemplateAST;
@@ -695,35 +695,35 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					stringTemplateAST = (StringTemplateAST)astpair.root;
 				}
-				else if (ActionParser.tokenSet_6_.member(this.LA(1)) && ActionParser.tokenSet_7_.member(this.LA(2)))
+				else if (tokenSet_6_.member(LA(1)) && tokenSet_7_.member(LA(2)))
 				{
-					this.atom();
-					if (this.inputState.guessing == 0)
+					atom();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, returnAST);
 					}
-					while (this.LA(1) == 24)
+					while (LA(1) == 24)
 					{
-						StringTemplateAST root = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.makeASTRoot(ref astpair, root);
-						this.match(24);
-						int num = this.LA(1);
+						StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.makeASTRoot(ref astpair, root);
+						match(24);
+						int num = LA(1);
 						if (num != 15)
 						{
 							if (num != 18)
 							{
-								throw new NoViableAltException(this.LT(1), this.getFilename());
+								throw new NoViableAltException(LT(1), getFilename());
 							}
-							StringTemplateAST child2 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-							this.astFactory.addASTChild(ref astpair, child2);
-							this.match(18);
+							StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+							astFactory.addASTChild(ref astpair, child2);
+							match(18);
 						}
 						else
 						{
-							this.valueExpr();
-							if (this.inputState.guessing == 0)
+							valueExpr();
+							if (inputState.guessing == 0)
 							{
-								this.astFactory.addASTChild(ref astpair, this.returnAST);
+								astFactory.addASTChild(ref astpair, returnAST);
 							}
 						}
 					}
@@ -732,35 +732,35 @@ namespace pcomps.Antlr.StringTemplate.Language
 				else
 				{
 					bool flag = false;
-					if (this.LA(1) == 15 && ActionParser.tokenSet_8_.member(this.LA(2)))
+					if (LA(1) == 15 && tokenSet_8_.member(LA(2)))
 					{
-						int pos = this.mark();
+						int pos = mark();
 						flag = true;
-						this.inputState.guessing++;
+						inputState.guessing++;
 						try
 						{
-							this.indirectTemplate();
+							indirectTemplate();
 						}
 						catch (RecognitionException)
 						{
 							flag = false;
 						}
-						this.rewind(pos);
-						this.inputState.guessing--;
+						rewind(pos);
+						inputState.guessing--;
 					}
 					if (flag)
 					{
-						this.indirectTemplate();
-						if (this.inputState.guessing == 0)
+						indirectTemplate();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
-						if (this.inputState.guessing == 0)
+						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 							{
-								(StringTemplateAST)this.astFactory.create(7, "include"),
+								(StringTemplateAST)astFactory.create(7, "include"),
 								stringTemplateAST
 							});
 							astpair.root = stringTemplateAST;
@@ -778,14 +778,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						if (this.LA(1) != 15 || !ActionParser.tokenSet_8_.member(this.LA(2)))
+						if (LA(1) != 15 || !tokenSet_8_.member(LA(2)))
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						this.valueExpr();
-						if (this.inputState.guessing == 0)
+						valueExpr();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
 						stringTemplateAST = (StringTemplateAST)astpair.root;
 					}
@@ -794,32 +794,32 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010B7 RID: 4279 RVA: 0x00076E90 File Offset: 0x00075090
 		public void argList()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				if (this.LA(1) == 15 && this.LA(2) == 16)
+				if (LA(1) == 15 && LA(2) == 16)
 				{
-					this.match(15);
-					this.match(16);
-					if (this.inputState.guessing == 0)
+					match(15);
+					match(16);
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST = (StringTemplateAST)astpair.root;
-						stringTemplateAST = (StringTemplateAST)this.astFactory.create(6, "ARGS");
+						stringTemplateAST = (StringTemplateAST)astFactory.create(6, "ARGS");
 						astpair.root = stringTemplateAST;
 						if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 						{
@@ -835,59 +835,59 @@ namespace pcomps.Antlr.StringTemplate.Language
 				else
 				{
 					bool flag = false;
-					if (this.LA(1) == 15 && ActionParser.tokenSet_8_.member(this.LA(2)))
+					if (LA(1) == 15 && tokenSet_8_.member(LA(2)))
 					{
-						int pos = this.mark();
+						int pos = mark();
 						flag = true;
-						this.inputState.guessing++;
+						inputState.guessing++;
 						try
 						{
-							this.singleArg();
+							singleArg();
 						}
 						catch (RecognitionException)
 						{
 							flag = false;
 						}
-						this.rewind(pos);
-						this.inputState.guessing--;
+						rewind(pos);
+						inputState.guessing--;
 					}
 					if (flag)
 					{
-						this.singleArg();
-						if (this.inputState.guessing == 0)
+						singleArg();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
 						stringTemplateAST = (StringTemplateAST)astpair.root;
 					}
 					else
 					{
-						if (this.LA(1) != 15 || (this.LA(2) != 18 && this.LA(2) != 36))
+						if (LA(1) != 15 || (LA(2) != 18 && LA(2) != 36))
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						this.match(15);
-						this.argumentAssignment();
-						if (this.inputState.guessing == 0)
+						match(15);
+						argumentAssignment();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, returnAST);
 						}
-						while (this.LA(1) == 17)
+						while (LA(1) == 17)
 						{
-							this.match(17);
-							this.argumentAssignment();
-							if (this.inputState.guessing == 0)
+							match(17);
+							argumentAssignment();
+							if (inputState.guessing == 0)
 							{
-								this.astFactory.addASTChild(ref astpair, this.returnAST);
+								astFactory.addASTChild(ref astpair, returnAST);
 							}
 						}
-						this.match(16);
-						if (this.inputState.guessing == 0)
+						match(16);
+						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 							{
-								(StringTemplateAST)this.astFactory.create(6, "ARGS"),
+								(StringTemplateAST)astFactory.create(6, "ARGS"),
 								stringTemplateAST
 							});
 							astpair.root = stringTemplateAST;
@@ -907,14 +907,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010B8 RID: 4280 RVA: 0x00077188 File Offset: 0x00075388
@@ -925,55 +925,55 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num != 18)
 				{
 					switch (num)
 					{
 					case 31:
 					{
-						StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child);
-						this.match(31);
+						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child);
+						match(31);
 						returnAST = (StringTemplateAST)astpair.root;
 						break;
 					}
 					case 32:
 					{
-						StringTemplateAST child2 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child2);
-						this.match(32);
+						StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child2);
+						match(32);
 						returnAST = (StringTemplateAST)astpair.root;
 						break;
 					}
 					case 33:
 					{
-						StringTemplateAST child3 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child3);
-						this.match(33);
+						StringTemplateAST child3 = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child3);
+						match(33);
 						returnAST = (StringTemplateAST)astpair.root;
 						break;
 					}
 					default:
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
 				}
 				else
 				{
-					StringTemplateAST child4 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child4);
-					this.match(18);
+					StringTemplateAST child4 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child4);
+					match(18);
 					returnAST = (StringTemplateAST)astpair.root;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_7_);
+				reportError(ex);
+				recover(ex, tokenSet_7_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -986,17 +986,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken tok = this.LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(tok);
-				this.astFactory.makeASTRoot(ref astpair, stringTemplateAST);
-				this.match(15);
-				this.templatesExpr();
-				if (this.inputState.guessing == 0)
+				IToken tok = LT(1);
+				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+				astFactory.makeASTRoot(ref astpair, stringTemplateAST);
+				match(15);
+				templatesExpr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				this.match(16);
-				if (this.inputState.guessing == 0)
+				match(16);
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST.setType(9);
 					stringTemplateAST.setText("value");
@@ -1005,12 +1005,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_7_);
+				reportError(ex);
+				recover(ex, tokenSet_7_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -1018,69 +1018,69 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010BA RID: 4282 RVA: 0x00077430 File Offset: 0x00075630
 		public void function()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 25:
 				{
-					StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child);
-					this.match(25);
+					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child);
+					match(25);
 					break;
 				}
 				case 26:
 				{
-					StringTemplateAST child2 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child2);
-					this.match(26);
+					StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child2);
+					match(26);
 					break;
 				}
 				case 27:
 				{
-					StringTemplateAST child3 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child3);
-					this.match(27);
+					StringTemplateAST child3 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child3);
+					match(27);
 					break;
 				}
 				case 28:
 				{
-					StringTemplateAST child4 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child4);
-					this.match(28);
+					StringTemplateAST child4 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child4);
+					match(28);
 					break;
 				}
 				case 29:
 				{
-					StringTemplateAST child5 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child5);
-					this.match(29);
+					StringTemplateAST child5 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child5);
+					match(29);
 					break;
 				}
 				case 30:
 				{
-					StringTemplateAST child6 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child6);
-					this.match(30);
+					StringTemplateAST child6 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child6);
+					match(30);
 					break;
 				}
 				default:
-					throw new NoViableAltException(this.LT(1), this.getFilename());
+					throw new NoViableAltException(LT(1), getFilename());
 				}
-				this.singleArg();
-				if (this.inputState.guessing == 0)
+				singleArg();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, returnAST);
 				}
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 					{
-						(StringTemplateAST)this.astFactory.create(11),
+						(StringTemplateAST)astFactory.create(11),
 						stringTemplateAST
 					});
 					astpair.root = stringTemplateAST;
@@ -1098,14 +1098,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010BB RID: 4283 RVA: 0x000776D8 File Offset: 0x000758D8
@@ -1116,40 +1116,40 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken tok = this.LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(tok);
-				this.astFactory.makeASTRoot(ref astpair, stringTemplateAST);
-				this.match(34);
-				if (this.inputState.guessing == 0)
+				IToken tok = LT(1);
+				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+				astFactory.makeASTRoot(ref astpair, stringTemplateAST);
+				match(34);
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST.setType(13);
 					stringTemplateAST.setText("value");
 				}
-				this.expr();
-				if (this.inputState.guessing == 0)
+				expr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				while (this.LA(1) == 17)
+				while (LA(1) == 17)
 				{
-					this.match(17);
-					this.expr();
-					if (this.inputState.guessing == 0)
+					match(17);
+					expr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 				}
-				this.match(35);
+				match(35);
 				returnAST = (StringTemplateAST)astpair.root;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -1157,33 +1157,33 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010BC RID: 4284 RVA: 0x00077804 File Offset: 0x00075A04
 		public void indirectTemplate()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			StringTemplateAST stringTemplateAST2 = null;
 			StringTemplateAST stringTemplateAST3 = null;
 			try
 			{
-				StringTemplateAST stringTemplateAST4 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-				this.match(15);
-				this.templatesExpr();
-				if (this.inputState.guessing == 0)
+				StringTemplateAST stringTemplateAST4 = (StringTemplateAST)astFactory.create(LT(1));
+				match(15);
+				templatesExpr();
+				if (inputState.guessing == 0)
 				{
-					stringTemplateAST2 = (StringTemplateAST)this.returnAST;
+					stringTemplateAST2 = (StringTemplateAST)returnAST;
 				}
-				StringTemplateAST stringTemplateAST5 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-				this.match(16);
-				this.argList();
-				if (this.inputState.guessing == 0)
+				StringTemplateAST stringTemplateAST5 = (StringTemplateAST)astFactory.create(LT(1));
+				match(16);
+				argList();
+				if (inputState.guessing == 0)
 				{
-					stringTemplateAST3 = (StringTemplateAST)this.returnAST;
+					stringTemplateAST3 = (StringTemplateAST)returnAST;
 				}
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 					{
-						(StringTemplateAST)this.astFactory.create(9, "value"),
+						(StringTemplateAST)astFactory.create(9, "value"),
 						stringTemplateAST2,
 						stringTemplateAST3
 					});
@@ -1201,14 +1201,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010BD RID: 4285 RVA: 0x00077980 File Offset: 0x00075B80
@@ -1219,37 +1219,37 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				this.expr();
-				if (this.inputState.guessing == 0)
+				expr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				while (this.LA(1) == 20)
+				while (LA(1) == 20)
 				{
-					IToken tok = this.LT(1);
-					StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(tok);
-					this.astFactory.makeASTRoot(ref astpair, stringTemplateAST);
-					this.match(20);
-					if (this.inputState.guessing == 0)
+					IToken tok = LT(1);
+					StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+					astFactory.makeASTRoot(ref astpair, stringTemplateAST);
+					match(20);
+					if (inputState.guessing == 0)
 					{
 						stringTemplateAST.setType(4);
 					}
-					this.template();
-					if (this.inputState.guessing == 0)
+					template();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 				}
 				returnAST = (StringTemplateAST)astpair.root;
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_10_);
+				reportError(ex);
+				recover(ex, tokenSet_10_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -1257,24 +1257,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010BE RID: 4286 RVA: 0x00077A90 File Offset: 0x00075C90
 		public void singleArg()
 		{
-			this.returnAST = null;
+			returnAST = null;
 			ASTPair astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				this.match(15);
-				this.nonAlternatingTemplateExpr();
-				if (this.inputState.guessing == 0)
+				match(15);
+				nonAlternatingTemplateExpr();
+				if (inputState.guessing == 0)
 				{
-					this.astFactory.addASTChild(ref astpair, this.returnAST);
+					astFactory.addASTChild(ref astpair, returnAST);
 				}
-				this.match(16);
-				if (this.inputState.guessing == 0)
+				match(16);
+				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)this.astFactory.make(new AST[]
+					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
 					{
-						(StringTemplateAST)this.astFactory.create(12, "SINGLEVALUEARG"),
+						(StringTemplateAST)astFactory.create(12, "SINGLEVALUEARG"),
 						stringTemplateAST
 					});
 					astpair.root = stringTemplateAST;
@@ -1292,14 +1292,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_9_);
+				reportError(ex);
+				recover(ex, tokenSet_9_);
 			}
-			this.returnAST = stringTemplateAST;
+			returnAST = stringTemplateAST;
 		}
 
 		// Token: 0x060010BF RID: 4287 RVA: 0x00077BB4 File Offset: 0x00075DB4
@@ -1310,63 +1310,63 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num != 15)
 				{
 					if (num != 18)
 					{
 						if (num != 23)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						this.match(23);
-						this.match(24);
-						IToken tok = this.LT(1);
-						StringTemplateAST stringTemplateAST = (StringTemplateAST)this.astFactory.create(tok);
-						this.astFactory.addASTChild(ref astpair, stringTemplateAST);
-						this.match(18);
-						if (this.inputState.guessing == 0)
+						match(23);
+						match(24);
+						IToken tok = LT(1);
+						StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+						astFactory.addASTChild(ref astpair, stringTemplateAST);
+						match(18);
+						if (inputState.guessing == 0)
 						{
 							stringTemplateAST.setText($"super.{stringTemplateAST.getText()}");
 						}
-						this.argList();
-						if (this.inputState.guessing == 0)
+						argList();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, this.returnAST);
 						}
 						returnAST = (StringTemplateAST)astpair.root;
 					}
 					else
 					{
-						StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-						this.astFactory.addASTChild(ref astpair, child);
-						this.match(18);
-						this.argList();
-						if (this.inputState.guessing == 0)
+						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						astFactory.addASTChild(ref astpair, child);
+						match(18);
+						argList();
+						if (inputState.guessing == 0)
 						{
-							this.astFactory.addASTChild(ref astpair, this.returnAST);
+							astFactory.addASTChild(ref astpair, this.returnAST);
 						}
 						returnAST = (StringTemplateAST)astpair.root;
 					}
 				}
 				else
 				{
-					this.indirectTemplate();
-					if (this.inputState.guessing == 0)
+					indirectTemplate();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 					returnAST = (StringTemplateAST)astpair.root;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_5_);
+				reportError(ex);
+				recover(ex, tokenSet_5_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -1379,42 +1379,42 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num != 18)
 				{
 					if (num != 36)
 					{
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
-					StringTemplateAST child = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child);
-					this.match(36);
+					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child);
+					match(36);
 					returnAST = (StringTemplateAST)astpair.root;
 				}
 				else
 				{
-					StringTemplateAST child2 = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.addASTChild(ref astpair, child2);
-					this.match(18);
-					StringTemplateAST root = (StringTemplateAST)this.astFactory.create(this.LT(1));
-					this.astFactory.makeASTRoot(ref astpair, root);
-					this.match(19);
-					this.nonAlternatingTemplateExpr();
-					if (this.inputState.guessing == 0)
+					StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.addASTChild(ref astpair, child2);
+					match(18);
+					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					astFactory.makeASTRoot(ref astpair, root);
+					match(19);
+					nonAlternatingTemplateExpr();
+					if (inputState.guessing == 0)
 					{
-						this.astFactory.addASTChild(ref astpair, this.returnAST);
+						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
 					returnAST = (StringTemplateAST)astpair.root;
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				if (this.inputState.guessing != 0)
+				if (inputState.guessing != 0)
 				{
 					throw ex;
 				}
-				this.reportError(ex);
-				this.recover(ex, ActionParser.tokenSet_10_);
+				reportError(ex);
+				recover(ex, tokenSet_10_);
 			}
 			this.returnAST = returnAST;
 		}
@@ -1422,17 +1422,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C1 RID: 4289 RVA: 0x00077F0C File Offset: 0x0007610C
 		public new StringTemplateAST getAST()
 		{
-			return (StringTemplateAST)this.returnAST;
+			return (StringTemplateAST)returnAST;
 		}
 
 		// Token: 0x060010C2 RID: 4290 RVA: 0x00077F1C File Offset: 0x0007611C
 		private void initializeFactory()
 		{
-			if (this.astFactory == null)
+			if (astFactory == null)
 			{
-				this.astFactory = new ASTFactory("Antlr.StringTemplate.Language.StringTemplateAST");
+				astFactory = new ASTFactory("Antlr.StringTemplate.Language.StringTemplateAST");
 			}
-			ActionParser.initializeASTFactory(this.astFactory);
+			initializeASTFactory(astFactory);
 		}
 
 		// Token: 0x060010C3 RID: 4291 RVA: 0x00077F44 File Offset: 0x00076144
@@ -1700,36 +1700,36 @@ namespace pcomps.Antlr.StringTemplate.Language
 		};
 
 		// Token: 0x04000DC8 RID: 3528
-		public static readonly BitSet tokenSet_0_ = new BitSet(ActionParser.mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
 
 		// Token: 0x04000DC9 RID: 3529
-		public static readonly BitSet tokenSet_1_ = new BitSet(ActionParser.mk_tokenSet_1_());
+		public static readonly BitSet tokenSet_1_ = new BitSet(mk_tokenSet_1_());
 
 		// Token: 0x04000DCA RID: 3530
-		public static readonly BitSet tokenSet_2_ = new BitSet(ActionParser.mk_tokenSet_2_());
+		public static readonly BitSet tokenSet_2_ = new BitSet(mk_tokenSet_2_());
 
 		// Token: 0x04000DCB RID: 3531
-		public static readonly BitSet tokenSet_3_ = new BitSet(ActionParser.mk_tokenSet_3_());
+		public static readonly BitSet tokenSet_3_ = new BitSet(mk_tokenSet_3_());
 
 		// Token: 0x04000DCC RID: 3532
-		public static readonly BitSet tokenSet_4_ = new BitSet(ActionParser.mk_tokenSet_4_());
+		public static readonly BitSet tokenSet_4_ = new BitSet(mk_tokenSet_4_());
 
 		// Token: 0x04000DCD RID: 3533
-		public static readonly BitSet tokenSet_5_ = new BitSet(ActionParser.mk_tokenSet_5_());
+		public static readonly BitSet tokenSet_5_ = new BitSet(mk_tokenSet_5_());
 
 		// Token: 0x04000DCE RID: 3534
-		public static readonly BitSet tokenSet_6_ = new BitSet(ActionParser.mk_tokenSet_6_());
+		public static readonly BitSet tokenSet_6_ = new BitSet(mk_tokenSet_6_());
 
 		// Token: 0x04000DCF RID: 3535
-		public static readonly BitSet tokenSet_7_ = new BitSet(ActionParser.mk_tokenSet_7_());
+		public static readonly BitSet tokenSet_7_ = new BitSet(mk_tokenSet_7_());
 
 		// Token: 0x04000DD0 RID: 3536
-		public static readonly BitSet tokenSet_8_ = new BitSet(ActionParser.mk_tokenSet_8_());
+		public static readonly BitSet tokenSet_8_ = new BitSet(mk_tokenSet_8_());
 
 		// Token: 0x04000DD1 RID: 3537
-		public static readonly BitSet tokenSet_9_ = new BitSet(ActionParser.mk_tokenSet_9_());
+		public static readonly BitSet tokenSet_9_ = new BitSet(mk_tokenSet_9_());
 
 		// Token: 0x04000DD2 RID: 3538
-		public static readonly BitSet tokenSet_10_ = new BitSet(ActionParser.mk_tokenSet_10_());
+		public static readonly BitSet tokenSet_10_ = new BitSet(mk_tokenSet_10_());
 	}
 }

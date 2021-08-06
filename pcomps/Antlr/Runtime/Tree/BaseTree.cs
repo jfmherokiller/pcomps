@@ -24,11 +24,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				if (this.children == null)
+				if (children == null)
 				{
 					return 0;
 				}
-				return this.children.Count;
+				return children.Count;
 			}
 		}
 
@@ -65,11 +65,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005CA RID: 1482 RVA: 0x00011138 File Offset: 0x0000F338
 		public virtual ITree GetChild(int i)
 		{
-			if (this.children == null || i >= this.children.Count)
+			if (children == null || i >= children.Count)
 			{
 				return null;
 			}
-			return (ITree)this.children[i];
+			return (ITree)children[i];
 		}
 
 		// Token: 0x17000082 RID: 130
@@ -78,7 +78,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.children;
+				return children;
 			}
 		}
 
@@ -92,39 +92,39 @@ namespace pcomps.Antlr.Runtime.Tree
 			BaseTree baseTree = (BaseTree)t;
 			if (baseTree.IsNil)
 			{
-				if (this.children != null && this.children == baseTree.children)
+				if (children != null && children == baseTree.children)
 				{
 					throw new InvalidOperationException("attempt to add child list to itself");
 				}
 				if (baseTree.children != null)
 				{
-					if (this.children != null)
+					if (children != null)
 					{
 						int count = baseTree.children.Count;
 						for (int i = 0; i < count; i++)
 						{
 							ITree tree = (ITree)baseTree.Children[i];
-							this.children.Add(tree);
+							children.Add(tree);
 							tree.Parent = this;
-							tree.ChildIndex = this.children.Count - 1;
+							tree.ChildIndex = children.Count - 1;
 						}
 					}
 					else
 					{
-						this.children = baseTree.children;
-						this.FreshenParentAndChildIndexes();
+						children = baseTree.children;
+						FreshenParentAndChildIndexes();
 					}
 				}
 			}
 			else
 			{
-				if (this.children == null)
+				if (children == null)
 				{
-					this.children = this.CreateChildrenList();
+					children = CreateChildrenList();
 				}
-				this.children.Add(t);
+				children.Add(t);
 				baseTree.Parent = this;
-				baseTree.ChildIndex = this.children.Count - 1;
+				baseTree.ChildIndex = children.Count - 1;
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			for (int i = 0; i < kids.Count; i++)
 			{
 				ITree t = (ITree)kids[i];
-				this.AddChild(t);
+				AddChild(t);
 			}
 		}
 
@@ -149,11 +149,11 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				throw new ArgumentException("Can't set single child to a list");
 			}
-			if (this.children == null)
+			if (children == null)
 			{
-				this.children = this.CreateChildrenList();
+				children = CreateChildrenList();
 			}
-			this.children[i] = t;
+			children[i] = t;
 			t.Parent = this;
 			t.ChildIndex = i;
 		}
@@ -161,20 +161,20 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005CF RID: 1487 RVA: 0x0001131C File Offset: 0x0000F51C
 		public virtual object DeleteChild(int i)
 		{
-			if (this.children == null)
+			if (children == null)
 			{
 				return null;
 			}
-			ITree result = (ITree)this.children[i];
-			this.children.RemoveAt(i);
-			this.FreshenParentAndChildIndexes(i);
+			ITree result = (ITree)children[i];
+			children.RemoveAt(i);
+			FreshenParentAndChildIndexes(i);
 			return result;
 		}
 
 		// Token: 0x060005D0 RID: 1488 RVA: 0x0001135C File Offset: 0x0000F55C
 		public virtual void ReplaceChildren(int startChildIndex, int stopChildIndex, object t)
 		{
-			if (this.children == null)
+			if (children == null)
 			{
 				throw new ArgumentException("indexes invalid; no children in list");
 			}
@@ -199,7 +199,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				for (int i = startChildIndex; i <= stopChildIndex; i++)
 				{
 					BaseTree baseTree2 = (BaseTree)list[num3];
-					this.children[i] = baseTree2;
+					children[i] = baseTree2;
 					baseTree2.Parent = this;
 					baseTree2.ChildIndex = i;
 					num3++;
@@ -209,28 +209,28 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				for (int j = 0; j < count2; j++)
 				{
-					this.children[startChildIndex + j] = list[j];
+					children[startChildIndex + j] = list[j];
 				}
 				int num4 = startChildIndex + count2;
 				for (int k = num4; k <= stopChildIndex; k++)
 				{
-					this.children.RemoveAt(num4);
+					children.RemoveAt(num4);
 				}
-				this.FreshenParentAndChildIndexes(startChildIndex);
+				FreshenParentAndChildIndexes(startChildIndex);
 			}
 			else
 			{
 				int l;
 				for (l = 0; l < num; l++)
 				{
-					this.children[startChildIndex + l] = list[l];
+					children[startChildIndex + l] = list[l];
 				}
 				while (l < count)
 				{
-					this.children.Insert(startChildIndex + l, list[l]);
+					children.Insert(startChildIndex + l, list[l]);
 					l++;
 				}
-				this.FreshenParentAndChildIndexes(startChildIndex);
+				FreshenParentAndChildIndexes(startChildIndex);
 			}
 		}
 
@@ -243,16 +243,16 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005D2 RID: 1490 RVA: 0x000114F4 File Offset: 0x0000F6F4
 		public virtual void FreshenParentAndChildIndexes()
 		{
-			this.FreshenParentAndChildIndexes(0);
+			FreshenParentAndChildIndexes(0);
 		}
 
 		// Token: 0x060005D3 RID: 1491 RVA: 0x00011500 File Offset: 0x0000F700
 		public virtual void FreshenParentAndChildIndexes(int offset)
 		{
-			int childCount = this.ChildCount;
+			int childCount = ChildCount;
 			for (int i = offset; i < childCount; i++)
 			{
-				ITree child = this.GetChild(i);
+				ITree child = GetChild(i);
 				child.ChildIndex = i;
 				child.Parent = this;
 			}
@@ -261,36 +261,36 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005D4 RID: 1492 RVA: 0x0001153C File Offset: 0x0000F73C
 		public virtual void SanityCheckParentAndChildIndexes()
 		{
-			this.SanityCheckParentAndChildIndexes(null, -1);
+			SanityCheckParentAndChildIndexes(null, -1);
 		}
 
 		// Token: 0x060005D5 RID: 1493 RVA: 0x00011548 File Offset: 0x0000F748
 		public virtual void SanityCheckParentAndChildIndexes(ITree parent, int i)
 		{
-			if (parent != this.Parent)
+			if (parent != Parent)
 			{
 				throw new ArgumentException(string.Concat(new object[]
 				{
 					"parents don't match; expected ",
 					parent,
 					" found ",
-					this.Parent
+					Parent
 				}));
 			}
-			if (i != this.ChildIndex)
+			if (i != ChildIndex)
 			{
 				throw new NotSupportedException(string.Concat(new object[]
 				{
 					"child indexes don't match; expected ",
 					i,
 					" found ",
-					this.ChildIndex
+					ChildIndex
 				}));
 			}
-			int childCount = this.ChildCount;
+			int childCount = ChildCount;
 			for (int j = 0; j < childCount; j++)
 			{
-				CommonTree commonTree = (CommonTree)this.GetChild(j);
+				CommonTree commonTree = (CommonTree)GetChild(j);
 				commonTree.SanityCheckParentAndChildIndexes(this, j);
 			}
 		}
@@ -326,7 +326,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005DA RID: 1498 RVA: 0x00011614 File Offset: 0x0000F814
 		public bool HasAncestor(int ttype)
 		{
-			return this.GetAncestor(ttype) != null;
+			return GetAncestor(ttype) != null;
 		}
 
 		// Token: 0x060005DB RID: 1499 RVA: 0x00011624 File Offset: 0x0000F824
@@ -345,7 +345,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005DC RID: 1500 RVA: 0x0001165C File Offset: 0x0000F85C
 		public IList GetAncestors()
 		{
-			if (this.Parent == null)
+			if (Parent == null)
 			{
 				return null;
 			}
@@ -360,21 +360,21 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005DD RID: 1501 RVA: 0x000116A0 File Offset: 0x0000F8A0
 		public virtual string ToStringTree()
 		{
-			if (this.children == null || this.children.Count == 0)
+			if (children == null || children.Count == 0)
 			{
-				return this.ToString();
+				return ToString();
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			if (!this.IsNil)
+			if (!IsNil)
 			{
 				stringBuilder.Append("(");
-				stringBuilder.Append(this.ToString());
+				stringBuilder.Append(ToString());
 				stringBuilder.Append(' ');
 			}
 			int num = 0;
-			while (this.children != null && num < this.children.Count)
+			while (children != null && num < children.Count)
 			{
-				ITree tree = (ITree)this.children[num];
+				ITree tree = (ITree)children[num];
 				if (num > 0)
 				{
 					stringBuilder.Append(' ');
@@ -382,7 +382,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				stringBuilder.Append(tree.ToStringTree());
 				num++;
 			}
-			if (!this.IsNil)
+			if (!IsNil)
 			{
 				stringBuilder.Append(")");
 			}

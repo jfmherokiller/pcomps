@@ -14,7 +14,7 @@ namespace pcomps.PCompiler
 			ITree tree = akOriginal.DupNode();
 			for (int i = 0; i < akOriginal.ChildCount; i++)
 			{
-				tree.AddChild(this.DuplicateTree(akOriginal.GetChild(i)));
+				tree.AddChild(DuplicateTree(akOriginal.GetChild(i)));
 			}
 			return tree;
 		}
@@ -23,15 +23,15 @@ namespace pcomps.PCompiler
 		private ITree FixUpAutoCast(ITree akOriginalAutoCast, ITree akOptimizedTree)
 		{
 			ITree tree;
-			if (this.ePassType == PapyrusOptimizeWalker.OptimizePass.NORMAL && akOptimizedTree != null)
+			if (ePassType == OptimizePass.NORMAL && akOptimizedTree != null)
 			{
 				if (akOriginalAutoCast.Type == 79)
 				{
 					if (akOriginalAutoCast.GetChild(1).Text.ToLowerInvariant() != akOptimizedTree.Text.ToLowerInvariant())
 					{
-						tree = this.DuplicateTree(akOriginalAutoCast);
+						tree = DuplicateTree(akOriginalAutoCast);
 						tree.SetChild(1, akOptimizedTree);
-						this.bMadeChanges = true;
+						bMadeChanges = true;
 					}
 					else
 					{
@@ -59,7 +59,7 @@ namespace pcomps.PCompiler
 				akOutTree = akOptCast;
 				return;
 			}
-			akOutCast = this.FixUpAutoCast(akOrigCast, akOptTree);
+			akOutCast = FixUpAutoCast(akOrigCast, akOptTree);
 			if (akOptTree != null)
 			{
 				akOutTree = akOptTree;
@@ -145,7 +145,7 @@ namespace pcomps.PCompiler
 					flag3 = true;
 					if (num2 == 0)
 					{
-						this.OnError("Cannot divide by 0", akOperation.Line, akOperation.CharPositionInLine);
+						OnError("Cannot divide by 0", akOperation.Line, akOperation.CharPositionInLine);
 					}
 					else
 					{
@@ -158,7 +158,7 @@ namespace pcomps.PCompiler
 						flag3 = true;
 						if (num2 == 0)
 						{
-							this.OnError("Cannot mod by 0", akOperation.Line, akOperation.CharPositionInLine);
+							OnError("Cannot mod by 0", akOperation.Line, akOperation.CharPositionInLine);
 						}
 						else
 						{
@@ -176,7 +176,7 @@ namespace pcomps.PCompiler
 					Type = 81,
 					Text = num3.ToString()
 				});
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -218,7 +218,7 @@ namespace pcomps.PCompiler
 					flag3 = true;
 					if (Math.Abs(num2) < 1E-45f)
 					{
-						this.OnError("Cannot divide by 0", akOperation.Line, akOperation.CharPositionInLine);
+						OnError("Cannot divide by 0", akOperation.Line, akOperation.CharPositionInLine);
 					}
 					else
 					{
@@ -239,7 +239,7 @@ namespace pcomps.PCompiler
 					token2.Text += ".0";
 				}
 				result = new CommonTree(token);
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -267,7 +267,7 @@ namespace pcomps.PCompiler
 					Type = 90,
 					Text = $"\"{arg}{arg2}\""
                 });
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -277,8 +277,8 @@ namespace pcomps.PCompiler
 		{
 			bool flag = false;
 			bool flag2 = false;
-			bool flag3 = this.TryConvertToBool(akValue1, out flag);
-			bool flag4 = this.TryConvertToBool(akValue2, out flag2);
+			bool flag3 = TryConvertToBool(akValue1, out flag);
+			bool flag4 = TryConvertToBool(akValue2, out flag2);
 			bool flag5 = false;
 			bool flag6 = false;
 			if (flag3 && !flag4)
@@ -316,7 +316,7 @@ namespace pcomps.PCompiler
 					Type = 91,
 					Text = (flag6 ? "True" : "False")
 				});
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -348,7 +348,7 @@ namespace pcomps.PCompiler
 			if (token != null)
 			{
 				result = new CommonTree(token);
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -357,7 +357,7 @@ namespace pcomps.PCompiler
 		private ITree CompilerAutoNot(CommonTree akValue)
 		{
 			bool flag = false;
-			bool flag2 = this.TryConvertToBool(akValue, out flag);
+			bool flag2 = TryConvertToBool(akValue, out flag);
 			ITree result = null;
 			if (flag2)
 			{
@@ -366,7 +366,7 @@ namespace pcomps.PCompiler
 					Type = 91,
 					Text = ((!flag) ? "True" : "False")
 				});
-				this.bMadeChanges = true;
+				bMadeChanges = true;
 			}
 			return result;
 		}
@@ -394,7 +394,7 @@ namespace pcomps.PCompiler
 						}
 						catch (Exception)
 						{
-							this.OnError("String cannot be cast to an integer", akValue.Token.Line, akValue.Token.CharPositionInLine);
+							OnError("String cannot be cast to an integer", akValue.Token.Line, akValue.Token.CharPositionInLine);
 							goto IL_E5;
 						}
 						break;
@@ -437,7 +437,7 @@ namespace pcomps.PCompiler
 							}
 							catch (Exception)
 							{
-								this.OnError("String cannot be cast to a float", akValue.Token.Line, akValue.Token.CharPositionInLine);
+								OnError("String cannot be cast to a float", akValue.Token.Line, akValue.Token.CharPositionInLine);
 								goto IL_1F5;
 							}
 							break;
@@ -479,7 +479,7 @@ namespace pcomps.PCompiler
 				else if (scriptVariableType.VarType == "bool")
 				{
 					bool flag3 = false;
-					bool flag4 = akValue.Token.Type != 91 && this.TryConvertToBool(akValue, out flag3);
+					bool flag4 = akValue.Token.Type != 91 && TryConvertToBool(akValue, out flag3);
 					if (flag4)
 					{
 						token = new CommonToken(akValue.Token);
@@ -490,7 +490,7 @@ namespace pcomps.PCompiler
 				if (token != null)
 				{
 					result = new CommonTree(token);
-					this.bMadeChanges = true;
+					bMadeChanges = true;
 				}
 			}
 			return result;
@@ -504,7 +504,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AEE RID: 2798 RVA: 0x0003343C File Offset: 0x0003163C
 		public PapyrusOptimizeWalker(ITreeNodeStream input, RecognizerSharedState state) : base(input, state)
 		{
-			this.InitializeCyclicDFAs();
+			InitializeCyclicDFAs();
 		}
 
 		// Token: 0x1700013A RID: 314
@@ -514,11 +514,11 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.adaptor;
+				return adaptor;
 			}
 			set
 			{
-				this.adaptor = value;
+				adaptor = value;
 			}
 		}
 
@@ -528,7 +528,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return PapyrusOptimizeWalker.tokenNames;
+				return tokenNames;
 			}
 		}
 
@@ -550,45 +550,45 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AF5 RID: 2805 RVA: 0x00033538 File Offset: 0x00031738
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
 		{
-			if (this.ErrorHandler != null)
+			if (ErrorHandler != null)
 			{
-				this.ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
 			}
 		}
 
 		// Token: 0x06000AF6 RID: 2806 RVA: 0x00033558 File Offset: 0x00031758
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.OnError(errorMessage, e.Line, e.CharPositionInLine);
+			string errorMessage = GetErrorMessage(e, tokenNames);
+			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000AF7 RID: 2807 RVA: 0x00033584 File Offset: 0x00031784
-		public PapyrusOptimizeWalker.script_return script(ScriptObjectType akObj, PapyrusOptimizeWalker.OptimizePass aePassType)
+		public script_return script(ScriptObjectType akObj, OptimizePass aePassType)
 		{
-			PapyrusOptimizeWalker.script_return script_return = new PapyrusOptimizeWalker.script_return();
-			script_return.Start = this.input.LT(1);
-			this.kObjType = akObj;
-			this.ePassType = aePassType;
+			script_return script_return = new script_return();
+			script_return.Start = input.LT(1);
+			kObjType = akObj;
+			ePassType = aePassType;
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 4, PapyrusOptimizeWalker.FOLLOW_OBJECT_in_script86);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_header_in_script88);
-				PapyrusOptimizeWalker.header_return header_return = this.header();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, header_return.Tree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 4, FOLLOW_OBJECT_in_script86);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_header_in_script88);
+				header_return header_return = header();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, header_return.Tree);
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if ((num2 >= 5 && num2 <= 7) || num2 == 19 || num2 == 51 || num2 == 54)
 					{
 						num = 1;
@@ -598,46 +598,46 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_definitionOrBlock_in_script90);
-					PapyrusOptimizeWalker.definitionOrBlock_return definitionOrBlock_return = this.definitionOrBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, definitionOrBlock_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_definitionOrBlock_in_script90);
+					definitionOrBlock_return definitionOrBlock_return = definitionOrBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, definitionOrBlock_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				script_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
-				this.kObjType.kAST = (CommonTree)script_return.Tree;
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				script_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
+				kObjType.kAST = (CommonTree)script_return.Tree;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return script_return;
 		}
 
 		// Token: 0x06000AF8 RID: 2808 RVA: 0x000337BC File Offset: 0x000319BC
-		public PapyrusOptimizeWalker.header_return header()
+		public header_return header()
 		{
-			PapyrusOptimizeWalker.header_return header_return = new PapyrusOptimizeWalker.header_return();
-			header_return.Start = this.input.LT(1);
+			header_return header_return = new header_return();
+			header_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_header104);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 18, PapyrusOptimizeWalker.FOLLOW_USER_FLAGS_in_header106);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_header104);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header106);
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 38)
 				{
 					num = 1;
@@ -645,13 +645,13 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_header108);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					this.adaptor.AddChild(commonTree3, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header108);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode3);
+					adaptor.AddChild(commonTree3, child2);
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 40)
 				{
 					num4 = 1;
@@ -659,32 +659,32 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 40, PapyrusOptimizeWalker.FOLLOW_DOCSTRING_in_header111);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode4);
-					this.adaptor.AddChild(commonTree3, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_header111);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode4);
+					adaptor.AddChild(commonTree3, child3);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				header_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				header_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return header_return;
 		}
 
 		// Token: 0x06000AF9 RID: 2809 RVA: 0x00033A3C File Offset: 0x00031C3C
-		public PapyrusOptimizeWalker.definitionOrBlock_return definitionOrBlock()
+		public definitionOrBlock_return definitionOrBlock()
 		{
-			PapyrusOptimizeWalker.definitionOrBlock_return definitionOrBlock_return = new PapyrusOptimizeWalker.definitionOrBlock_return();
-			definitionOrBlock_return.Start = this.input.LT(1);
+			definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return();
+			definitionOrBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 19)
 				{
@@ -722,102 +722,102 @@ namespace pcomps.PCompiler
 				num2 = 5;
 				goto IL_99;
 				IL_82:
-				NoViableAltException ex = new NoViableAltException("", 4, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 4, 0, input);
 				throw ex;
 				IL_99:
 				switch (num2)
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_fieldDefinition_in_definitionOrBlock126);
-					PapyrusOptimizeWalker.fieldDefinition_return fieldDefinition_return = this.fieldDefinition();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, fieldDefinition_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_fieldDefinition_in_definitionOrBlock126);
+					fieldDefinition_return fieldDefinition_return = fieldDefinition();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, fieldDefinition_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_function_in_definitionOrBlock132);
-					PapyrusOptimizeWalker.function_return function_return = this.function("", "");
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, function_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_function_in_definitionOrBlock132);
+					function_return function_return = function("", "");
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, function_return.Tree);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_eventFunc_in_definitionOrBlock140);
-					PapyrusOptimizeWalker.eventFunc_return eventFunc_return = this.eventFunc("");
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, eventFunc_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree4 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_eventFunc_in_definitionOrBlock140);
+					eventFunc_return eventFunc_return = eventFunc("");
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, eventFunc_return.Tree);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_stateBlock_in_definitionOrBlock147);
-					PapyrusOptimizeWalker.stateBlock_return stateBlock_return = this.stateBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, stateBlock_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree5 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_stateBlock_in_definitionOrBlock147);
+					stateBlock_return stateBlock_return = stateBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, stateBlock_return.Tree);
 					break;
 				}
 				case 5:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_propertyBlock_in_definitionOrBlock153);
-					PapyrusOptimizeWalker.propertyBlock_return propertyBlock_return = this.propertyBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, propertyBlock_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree6 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_propertyBlock_in_definitionOrBlock153);
+					propertyBlock_return propertyBlock_return = propertyBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, propertyBlock_return.Tree);
 					break;
 				}
 				}
-				definitionOrBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				definitionOrBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return definitionOrBlock_return;
 		}
 
 		// Token: 0x06000AFA RID: 2810 RVA: 0x00033D40 File Offset: 0x00031F40
-		public PapyrusOptimizeWalker.fieldDefinition_return fieldDefinition()
+		public fieldDefinition_return fieldDefinition()
 		{
-			PapyrusOptimizeWalker.fieldDefinition_return fieldDefinition_return = new PapyrusOptimizeWalker.fieldDefinition_return();
-			fieldDefinition_return.Start = this.input.LT(1);
+			fieldDefinition_return fieldDefinition_return = new fieldDefinition_return();
+			fieldDefinition_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 5, PapyrusOptimizeWalker.FOLLOW_VAR_in_fieldDefinition167);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_fieldDefinition169);
-				PapyrusOptimizeWalker.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, type_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_fieldDefinition171);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode3 = (CommonTree)this.Match(this.input, 18, PapyrusOptimizeWalker.FOLLOW_USER_FLAGS_in_fieldDefinition173);
-				CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode3);
-				this.adaptor.AddChild(commonTree3, child2);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 5, FOLLOW_VAR_in_fieldDefinition167);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_type_in_fieldDefinition169);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, type_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition171);
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition173);
+				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode3);
+				adaptor.AddChild(commonTree3, child2);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
 				{
 					num = 1;
@@ -825,49 +825,49 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_constant_in_fieldDefinition175);
-					PapyrusOptimizeWalker.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, constant_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_constant_in_fieldDefinition175);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, constant_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				fieldDefinition_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				fieldDefinition_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return fieldDefinition_return;
 		}
 
 		// Token: 0x06000AFB RID: 2811 RVA: 0x00033FF0 File Offset: 0x000321F0
-		public PapyrusOptimizeWalker.function_return function(string asState, string asPropertyName)
+		public function_return function(string asState, string asPropertyName)
 		{
-			this.function_stack.Push(new PapyrusOptimizeWalker.function_scope());
-			PapyrusOptimizeWalker.function_return function_return = new PapyrusOptimizeWalker.function_return();
-			function_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).sstate = asState;
-			((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).spropertyName = asPropertyName;
+			function_stack.Push(new function_scope());
+			function_return function_return = new function_return();
+			function_return.Start = input.LT(1);
+			((function_scope)function_stack.Peek()).sstate = asState;
+			((function_scope)function_stack.Peek()).spropertyName = asPropertyName;
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 6, PapyrusOptimizeWalker.FOLLOW_FUNCTION_in_function207);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_functionHeader_in_function209);
-				PapyrusOptimizeWalker.functionHeader_return functionHeader_return = this.functionHeader();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, functionHeader_return.Tree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 6, FOLLOW_FUNCTION_in_function207);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_functionHeader_in_function209);
+				functionHeader_return functionHeader_return = functionHeader();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, functionHeader_return.Tree);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
@@ -875,45 +875,45 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_function211);
-					PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).kfuncType.FunctionScope);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_codeBlock_in_function211);
+					codeBlock_return codeBlock_return = codeBlock(((function_scope)function_stack.Peek()).kfuncType.FunctionScope);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
 				function_return.sName = ((functionHeader_return != null) ? functionHeader_return.sFuncName : null);
-				function_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				function_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.function_stack.Pop();
+				function_stack.Pop();
 			}
 			return function_return;
 		}
 
 		// Token: 0x06000AFC RID: 2812 RVA: 0x0003427C File Offset: 0x0003247C
-		public PapyrusOptimizeWalker.functionHeader_return functionHeader()
+		public functionHeader_return functionHeader()
 		{
-			PapyrusOptimizeWalker.functionHeader_return functionHeader_return = new PapyrusOptimizeWalker.functionHeader_return();
-			functionHeader_return.Start = this.input.LT(1);
+			functionHeader_return functionHeader_return = new functionHeader_return();
+			functionHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 8, PapyrusOptimizeWalker.FOLLOW_HEADER_in_functionHeader236);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				int num = this.input.LA(1);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_functionHeader236);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				int num = input.LA(1);
 				int num2;
 				if (num == 38 || num == 55)
 				{
@@ -923,7 +923,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 92)
 					{
-						NoViableAltException ex = new NoViableAltException("", 7, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 7, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -932,32 +932,32 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_functionHeader239);
-					PapyrusOptimizeWalker.type_return type_return = this.type();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, type_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_type_in_functionHeader239);
+					type_return type_return = type();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, type_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 92, PapyrusOptimizeWalker.FOLLOW_NONE_in_functionHeader243);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree3, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_functionHeader243);
+					CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree3, child);
 					break;
 				}
 				}
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_functionHeader248);
-				CommonTree child2 = (CommonTree)this.adaptor.DupNode(commonTree4);
-				this.adaptor.AddChild(commonTree3, child2);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode3 = (CommonTree)this.Match(this.input, 18, PapyrusOptimizeWalker.FOLLOW_USER_FLAGS_in_functionHeader250);
-				CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode3);
-				this.adaptor.AddChild(commonTree3, child3);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader248);
+				CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree4);
+				adaptor.AddChild(commonTree3, child2);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader250);
+				CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+				adaptor.AddChild(commonTree3, child3);
 				int num3 = 2;
-				int num4 = this.input.LA(1);
+				int num4 = input.LA(1);
 				if (num4 == 9)
 				{
 					num3 = 1;
@@ -965,16 +965,16 @@ namespace pcomps.PCompiler
 				int num5 = num3;
 				if (num5 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_callParameters_in_functionHeader252);
-					PapyrusOptimizeWalker.callParameters_return callParameters_return = this.callParameters();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, callParameters_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_callParameters_in_functionHeader252);
+					callParameters_return callParameters_return = callParameters();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, callParameters_return.Tree);
 				}
 				for (;;)
 				{
 					int num6 = 2;
-					int num7 = this.input.LA(1);
+					int num7 = input.LA(1);
 					if (num7 >= 46 && num7 <= 47)
 					{
 						num6 = 1;
@@ -984,14 +984,14 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_functionModifier_in_functionHeader255);
-					PapyrusOptimizeWalker.functionModifier_return functionModifier_return = this.functionModifier();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, functionModifier_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_functionModifier_in_functionHeader255);
+					functionModifier_return functionModifier_return = functionModifier();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, functionModifier_return.Tree);
 				}
 				int num9 = 2;
-				int num10 = this.input.LA(1);
+				int num10 = input.LA(1);
 				if (num10 == 40)
 				{
 					num9 = 1;
@@ -999,100 +999,100 @@ namespace pcomps.PCompiler
 				int num11 = num9;
 				if (num11 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 40, PapyrusOptimizeWalker.FOLLOW_DOCSTRING_in_functionHeader258);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(treeNode4);
-					this.adaptor.AddChild(commonTree3, child4);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_functionHeader258);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					adaptor.AddChild(commonTree3, child4);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
 				functionHeader_return.sFuncName = commonTree4.Text;
-				if (((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).spropertyName == "")
+				if (((function_scope)function_stack.Peek()).spropertyName == "")
 				{
-					this.kObjType.TryGetFunction(((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).sstate, functionHeader_return.sFuncName, out ((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).kfuncType);
+					kObjType.TryGetFunction(((function_scope)function_stack.Peek()).sstate, functionHeader_return.sFuncName, out ((function_scope)function_stack.Peek()).kfuncType);
 				}
 				else
 				{
 					ScriptPropertyType scriptPropertyType;
-					this.kObjType.TryGetProperty(((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).spropertyName, out scriptPropertyType);
+					kObjType.TryGetProperty(((function_scope)function_stack.Peek()).spropertyName, out scriptPropertyType);
 					string a = functionHeader_return.sFuncName.ToLowerInvariant();
 					if (a == "get")
 					{
-						((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
+						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
 					}
 					else
 					{
-						((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).kfuncType = scriptPropertyType.kSetFunction;
+						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kSetFunction;
 					}
 				}
-				if (this.ePassType != PapyrusOptimizeWalker.OptimizePass.VARCLEANUP)
+				if (ePassType != OptimizePass.VARCLEANUP)
 				{
-					((PapyrusOptimizeWalker.function_scope)this.function_stack.Peek()).kfuncType.FunctionScope.ClearUsedVars();
+					((function_scope)function_stack.Peek()).kfuncType.FunctionScope.ClearUsedVars();
 				}
-				functionHeader_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				functionHeader_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return functionHeader_return;
 		}
 
 		// Token: 0x06000AFD RID: 2813 RVA: 0x000347D4 File Offset: 0x000329D4
-		public PapyrusOptimizeWalker.functionModifier_return functionModifier()
+		public functionModifier_return functionModifier()
 		{
-			PapyrusOptimizeWalker.functionModifier_return functionModifier_return = new PapyrusOptimizeWalker.functionModifier_return();
-			functionModifier_return.Start = this.input.LT(1);
+			functionModifier_return functionModifier_return = new functionModifier_return();
+			functionModifier_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.input.LT(1);
-				if (this.input.LA(1) < 46 || this.input.LA(1) > 47)
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)input.LT(1);
+				if (input.LA(1) < 46 || input.LA(1) > 47)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
-				this.input.Consume();
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode);
-				this.adaptor.AddChild(commonTree, child);
-				this.state.errorRecovery = false;
-				functionModifier_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				input.Consume();
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+				adaptor.AddChild(commonTree, child);
+				state.errorRecovery = false;
+				functionModifier_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return functionModifier_return;
 		}
 
 		// Token: 0x06000AFE RID: 2814 RVA: 0x000348E4 File Offset: 0x00032AE4
-		public PapyrusOptimizeWalker.eventFunc_return eventFunc(string asState)
+		public eventFunc_return eventFunc(string asState)
 		{
-			this.eventFunc_stack.Push(new PapyrusOptimizeWalker.eventFunc_scope());
-			PapyrusOptimizeWalker.eventFunc_return eventFunc_return = new PapyrusOptimizeWalker.eventFunc_return();
-			eventFunc_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).sstate = asState;
-			((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName = "";
+			eventFunc_stack.Push(new eventFunc_scope());
+			eventFunc_return eventFunc_return = new eventFunc_return();
+			eventFunc_return.Start = input.LT(1);
+			((eventFunc_scope)eventFunc_stack.Peek()).sstate = asState;
+			((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = "";
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 7, PapyrusOptimizeWalker.FOLLOW_EVENT_in_eventFunc307);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_eventHeader_in_eventFunc309);
-				PapyrusOptimizeWalker.eventHeader_return eventHeader_return = this.eventHeader();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, eventHeader_return.Tree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 7, FOLLOW_EVENT_in_eventFunc307);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_eventHeader_in_eventFunc309);
+				eventHeader_return eventHeader_return = eventHeader();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, eventHeader_return.Tree);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
@@ -1100,57 +1100,57 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_eventFunc311);
-					PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType.FunctionScope);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_codeBlock_in_eventFunc311);
+					codeBlock_return codeBlock_return = codeBlock(((eventFunc_scope)eventFunc_stack.Peek()).kfuncType.FunctionScope);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				eventFunc_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				eventFunc_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.eventFunc_stack.Pop();
+				eventFunc_stack.Pop();
 			}
 			return eventFunc_return;
 		}
 
 		// Token: 0x06000AFF RID: 2815 RVA: 0x00034B60 File Offset: 0x00032D60
-		public PapyrusOptimizeWalker.eventHeader_return eventHeader()
+		public eventHeader_return eventHeader()
 		{
-			PapyrusOptimizeWalker.eventHeader_return eventHeader_return = new PapyrusOptimizeWalker.eventHeader_return();
-			eventHeader_return.Start = this.input.LT(1);
+			eventHeader_return eventHeader_return = new eventHeader_return();
+			eventHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 8, PapyrusOptimizeWalker.FOLLOW_HEADER_in_eventHeader327);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 92, PapyrusOptimizeWalker.FOLLOW_NONE_in_eventHeader329);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_eventHeader331);
-				CommonTree child2 = (CommonTree)this.adaptor.DupNode(commonTree4);
-				this.adaptor.AddChild(commonTree3, child2);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode3 = (CommonTree)this.Match(this.input, 18, PapyrusOptimizeWalker.FOLLOW_USER_FLAGS_in_eventHeader333);
-				CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode3);
-				this.adaptor.AddChild(commonTree3, child3);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_eventHeader327);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader329);
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader331);
+				CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree4);
+				adaptor.AddChild(commonTree3, child2);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader333);
+				CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+				adaptor.AddChild(commonTree3, child3);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 9)
 				{
 					num = 1;
@@ -1158,14 +1158,14 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_callParameters_in_eventHeader335);
-					PapyrusOptimizeWalker.callParameters_return callParameters_return = this.callParameters();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, callParameters_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_callParameters_in_eventHeader335);
+					callParameters_return callParameters_return = callParameters();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, callParameters_return.Tree);
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 47)
 				{
 					num4 = 1;
@@ -1173,13 +1173,13 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 47, PapyrusOptimizeWalker.FOLLOW_NATIVE_in_eventHeader338);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(treeNode4);
-					this.adaptor.AddChild(commonTree3, child4);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode4 = (CommonTree)Match(input, 47, FOLLOW_NATIVE_in_eventHeader338);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					adaptor.AddChild(commonTree3, child4);
 				}
 				int num7 = 2;
-				int num8 = this.input.LA(1);
+				int num8 = input.LA(1);
 				if (num8 == 40)
 				{
 					num7 = 1;
@@ -1187,42 +1187,42 @@ namespace pcomps.PCompiler
 				int num9 = num7;
 				if (num9 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode5 = (CommonTree)this.Match(this.input, 40, PapyrusOptimizeWalker.FOLLOW_DOCSTRING_in_eventHeader341);
-					CommonTree child5 = (CommonTree)this.adaptor.DupNode(treeNode5);
-					this.adaptor.AddChild(commonTree3, child5);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode5 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_eventHeader341);
+					CommonTree child5 = (CommonTree)adaptor.DupNode(treeNode5);
+					adaptor.AddChild(commonTree3, child5);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName = commonTree4.Text;
-				this.kObjType.TryGetFunction(((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).sstate, ((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).sfuncName, out ((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType);
-				if (this.ePassType != PapyrusOptimizeWalker.OptimizePass.VARCLEANUP)
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = commonTree4.Text;
+				kObjType.TryGetFunction(((eventFunc_scope)eventFunc_stack.Peek()).sstate, ((eventFunc_scope)eventFunc_stack.Peek()).sfuncName, out ((eventFunc_scope)eventFunc_stack.Peek()).kfuncType);
+				if (ePassType != OptimizePass.VARCLEANUP)
 				{
-					((PapyrusOptimizeWalker.eventFunc_scope)this.eventFunc_stack.Peek()).kfuncType.FunctionScope.ClearUsedVars();
+					((eventFunc_scope)eventFunc_stack.Peek()).kfuncType.FunctionScope.ClearUsedVars();
 				}
-				eventHeader_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				eventHeader_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return eventHeader_return;
 		}
 
 		// Token: 0x06000B00 RID: 2816 RVA: 0x00034F88 File Offset: 0x00033188
-		public PapyrusOptimizeWalker.callParameters_return callParameters()
+		public callParameters_return callParameters()
 		{
-			PapyrusOptimizeWalker.callParameters_return callParameters_return = new PapyrusOptimizeWalker.callParameters_return();
-			callParameters_return.Start = this.input.LT(1);
+			callParameters_return callParameters_return = new callParameters_return();
+			callParameters_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
 				int num = 0;
 				for (;;)
 				{
 					int num2 = 2;
-					int num3 = this.input.LA(1);
+					int num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
@@ -1232,54 +1232,54 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_callParameter_in_callParameters363);
-					PapyrusOptimizeWalker.callParameter_return callParameter_return = this.callParameter();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, callParameter_return.Tree);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_callParameter_in_callParameters363);
+					callParameter_return callParameter_return = callParameter();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, callParameter_return.Tree);
 					num++;
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(15, this.input);
+					EarlyExitException ex = new EarlyExitException(15, input);
 					throw ex;
 				}
-				callParameters_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				callParameters_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return callParameters_return;
 		}
 
 		// Token: 0x06000B01 RID: 2817 RVA: 0x00035098 File Offset: 0x00033298
-		public PapyrusOptimizeWalker.callParameter_return callParameter()
+		public callParameter_return callParameter()
 		{
-			PapyrusOptimizeWalker.callParameter_return callParameter_return = new PapyrusOptimizeWalker.callParameter_return();
-			callParameter_return.Start = this.input.LT(1);
+			callParameter_return callParameter_return = new callParameter_return();
+			callParameter_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 9, PapyrusOptimizeWalker.FOLLOW_PARAM_in_callParameter378);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_callParameter380);
-				PapyrusOptimizeWalker.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, type_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_callParameter382);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_callParameter378);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_type_in_callParameter380);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, type_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter382);
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
 				{
 					num = 1;
@@ -1287,45 +1287,45 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_constant_in_callParameter384);
-					PapyrusOptimizeWalker.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, constant_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_constant_in_callParameter384);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, constant_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				callParameter_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				callParameter_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return callParameter_return;
 		}
 
 		// Token: 0x06000B02 RID: 2818 RVA: 0x000352F4 File Offset: 0x000334F4
-		public PapyrusOptimizeWalker.stateBlock_return stateBlock()
+		public stateBlock_return stateBlock()
 		{
-			PapyrusOptimizeWalker.stateBlock_return stateBlock_return = new PapyrusOptimizeWalker.stateBlock_return();
-			stateBlock_return.Start = this.input.LT(1);
+			stateBlock_return stateBlock_return = new stateBlock_return();
+			stateBlock_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 51, PapyrusOptimizeWalker.FOLLOW_STATE_in_stateBlock402);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_stateBlock404);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-				this.adaptor.AddChild(commonTree3, child);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 51, FOLLOW_STATE_in_stateBlock402);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock404);
+				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				adaptor.AddChild(commonTree3, child);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 50)
 				{
 					num = 1;
@@ -1333,15 +1333,15 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 50, PapyrusOptimizeWalker.FOLLOW_AUTO_in_stateBlock406);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree3, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 50, FOLLOW_AUTO_in_stateBlock406);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree3, child2);
 				}
 				for (;;)
 				{
 					int num4 = 2;
-					int num5 = this.input.LA(1);
+					int num5 = input.LA(1);
 					if (num5 >= 6 && num5 <= 7)
 					{
 						num4 = 1;
@@ -1351,33 +1351,33 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_stateFuncOrEvent_in_stateBlock410);
-					PapyrusOptimizeWalker.stateFuncOrEvent_return stateFuncOrEvent_return = this.stateFuncOrEvent(commonTree4.Text);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, stateFuncOrEvent_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_stateFuncOrEvent_in_stateBlock410);
+					stateFuncOrEvent_return stateFuncOrEvent_return = stateFuncOrEvent(commonTree4.Text);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, stateFuncOrEvent_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				stateBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				stateBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return stateBlock_return;
 		}
 
 		// Token: 0x06000B03 RID: 2819 RVA: 0x0003557C File Offset: 0x0003377C
-		public PapyrusOptimizeWalker.stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
+		public stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
 		{
-			PapyrusOptimizeWalker.stateFuncOrEvent_return stateFuncOrEvent_return = new PapyrusOptimizeWalker.stateFuncOrEvent_return();
-			stateFuncOrEvent_return.Start = this.input.LT(1);
+			stateFuncOrEvent_return stateFuncOrEvent_return = new stateFuncOrEvent_return();
+			stateFuncOrEvent_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 6)
 				{
@@ -1387,7 +1387,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 7)
 					{
-						NoViableAltException ex = new NoViableAltException("", 19, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 19, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1396,44 +1396,44 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_function_in_stateFuncOrEvent427);
-					PapyrusOptimizeWalker.function_return function_return = this.function(asStateName, "");
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, function_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_function_in_stateFuncOrEvent427);
+					function_return function_return = function(asStateName, "");
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, function_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_eventFunc_in_stateFuncOrEvent435);
-					PapyrusOptimizeWalker.eventFunc_return eventFunc_return = this.eventFunc(asStateName);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, eventFunc_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_eventFunc_in_stateFuncOrEvent435);
+					eventFunc_return eventFunc_return = eventFunc(asStateName);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, eventFunc_return.Tree);
 					break;
 				}
 				}
-				stateFuncOrEvent_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				stateFuncOrEvent_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return stateFuncOrEvent_return;
 		}
 
 		// Token: 0x06000B04 RID: 2820 RVA: 0x0003570C File Offset: 0x0003390C
-		public PapyrusOptimizeWalker.propertyBlock_return propertyBlock()
+		public propertyBlock_return propertyBlock()
 		{
-			PapyrusOptimizeWalker.propertyBlock_return propertyBlock_return = new PapyrusOptimizeWalker.propertyBlock_return();
-			propertyBlock_return.Start = this.input.LT(1);
+			propertyBlock_return propertyBlock_return = new propertyBlock_return();
+			propertyBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 54)
 				{
@@ -1443,7 +1443,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 19)
 					{
-						NoViableAltException ex = new NoViableAltException("", 20, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 20, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1452,97 +1452,97 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 54, PapyrusOptimizeWalker.FOLLOW_PROPERTY_in_propertyBlock452);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_propertyHeader_in_propertyBlock454);
-					PapyrusOptimizeWalker.propertyHeader_return propertyHeader_return = this.propertyHeader();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, propertyHeader_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_propertyFunc_in_propertyBlock456);
-					PapyrusOptimizeWalker.propertyFunc_return propertyFunc_return = this.propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, propertyFunc_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_propertyFunc_in_propertyBlock459);
-					PapyrusOptimizeWalker.propertyFunc_return propertyFunc_return2 = this.propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, propertyFunc_return2.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 54, FOLLOW_PROPERTY_in_propertyBlock452);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_propertyHeader_in_propertyBlock454);
+					propertyHeader_return propertyHeader_return = propertyHeader();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, propertyHeader_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_propertyFunc_in_propertyBlock456);
+					propertyFunc_return propertyFunc_return = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, propertyFunc_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_propertyFunc_in_propertyBlock459);
+					propertyFunc_return propertyFunc_return2 = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, propertyFunc_return2.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 19, PapyrusOptimizeWalker.FOLLOW_AUTOPROP_in_propertyBlock468);
-					CommonTree newRoot2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					commonTree4 = (CommonTree)this.adaptor.BecomeRoot(newRoot2, commonTree4);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_propertyHeader_in_propertyBlock470);
-					PapyrusOptimizeWalker.propertyHeader_return propertyHeader_return2 = this.propertyHeader();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree4, propertyHeader_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_propertyBlock472);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode3);
-					this.adaptor.AddChild(commonTree4, child);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree4);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 19, FOLLOW_AUTOPROP_in_propertyBlock468);
+					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
+					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree4);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_propertyHeader_in_propertyBlock470);
+					propertyHeader_return propertyHeader_return2 = propertyHeader();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree4, propertyHeader_return2.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock472);
+					CommonTree child = (CommonTree)adaptor.DupNode(treeNode3);
+					adaptor.AddChild(commonTree4, child);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree4);
 					break;
 				}
 				}
-				propertyBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				propertyBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return propertyBlock_return;
 		}
 
 		// Token: 0x06000B05 RID: 2821 RVA: 0x00035B14 File Offset: 0x00033D14
-		public PapyrusOptimizeWalker.propertyHeader_return propertyHeader()
+		public propertyHeader_return propertyHeader()
 		{
-			PapyrusOptimizeWalker.propertyHeader_return propertyHeader_return = new PapyrusOptimizeWalker.propertyHeader_return();
-			propertyHeader_return.Start = this.input.LT(1);
+			propertyHeader_return propertyHeader_return = new propertyHeader_return();
+			propertyHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 8, PapyrusOptimizeWalker.FOLLOW_HEADER_in_propertyHeader490);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_propertyHeader492);
-				PapyrusOptimizeWalker.type_return type_return = this.type();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, type_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_propertyHeader496);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-				this.adaptor.AddChild(commonTree3, child);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 18, PapyrusOptimizeWalker.FOLLOW_USER_FLAGS_in_propertyHeader498);
-				CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child2);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_propertyHeader490);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_type_in_propertyHeader492);
+				type_return type_return = type();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, type_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader496);
+				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				adaptor.AddChild(commonTree3, child);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader498);
+				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child2);
 				int num = 2;
-				int num2 = this.input.LA(1);
+				int num2 = input.LA(1);
 				if (num2 == 40)
 				{
 					num = 1;
@@ -1550,39 +1550,39 @@ namespace pcomps.PCompiler
 				int num3 = num;
 				if (num3 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 40, PapyrusOptimizeWalker.FOLLOW_DOCSTRING_in_propertyHeader500);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					this.adaptor.AddChild(commonTree3, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_propertyHeader500);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					adaptor.AddChild(commonTree3, child3);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
 				propertyHeader_return.sName = commonTree4.Text;
-				propertyHeader_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				propertyHeader_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return propertyHeader_return;
 		}
 
 		// Token: 0x06000B06 RID: 2822 RVA: 0x00035DCC File Offset: 0x00033FCC
-		public PapyrusOptimizeWalker.propertyFunc_return propertyFunc(string asPropName)
+		public propertyFunc_return propertyFunc(string asPropName)
 		{
-			PapyrusOptimizeWalker.propertyFunc_return propertyFunc_return = new PapyrusOptimizeWalker.propertyFunc_return();
-			propertyFunc_return.Start = this.input.LT(1);
+			propertyFunc_return propertyFunc_return = new propertyFunc_return();
+			propertyFunc_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				if (num != 17)
 				{
-					NoViableAltException ex = new NoViableAltException("", 22, 0, this.input);
+					NoViableAltException ex = new NoViableAltException("", 22, 0, input);
 					throw ex;
 				}
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -1592,7 +1592,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 3 && num2 != 17)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 22, 1, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 22, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -1601,67 +1601,67 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 17, PapyrusOptimizeWalker.FOLLOW_PROPFUNC_in_propertyFunc521);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_function_in_propertyFunc523);
-					PapyrusOptimizeWalker.function_return function_return = this.function("", asPropName);
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, function_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc521);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_function_in_propertyFunc523);
+					function_return function_return = function("", asPropName);
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, function_return.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 17, PapyrusOptimizeWalker.FOLLOW_PROPFUNC_in_propertyFunc532);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree, child);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc532);
+					CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree, child);
 					break;
 				}
 				}
-				propertyFunc_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				propertyFunc_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex3)
 			{
-				this.ReportError(ex3);
-				this.Recover(this.input, ex3);
+				ReportError(ex3);
+				Recover(input, ex3);
 			}
 			return propertyFunc_return;
 		}
 
 		// Token: 0x06000B07 RID: 2823 RVA: 0x0003604C File Offset: 0x0003424C
-		public PapyrusOptimizeWalker.codeBlock_return codeBlock(ScriptScope akCurrentScope)
+		public codeBlock_return codeBlock(ScriptScope akCurrentScope)
 		{
-			this.codeBlock_stack.Push(new PapyrusOptimizeWalker.codeBlock_scope());
-			PapyrusOptimizeWalker.codeBlock_return codeBlock_return = new PapyrusOptimizeWalker.codeBlock_return();
-			codeBlock_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
-			((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild = 0;
+			codeBlock_stack.Push(new codeBlock_scope());
+			codeBlock_return codeBlock_return = new codeBlock_return();
+			codeBlock_return.Start = input.LT(1);
+			((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild = 0;
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 10, PapyrusOptimizeWalker.FOLLOW_BLOCK_in_codeBlock558);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				if (this.input.LA(1) == 2)
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 10, FOLLOW_BLOCK_in_codeBlock558);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				if (input.LA(1) == 2)
 				{
-					this.Match(this.input, 2, null);
+					Match(input, 2, null);
 					for (;;)
 					{
 						int num = 2;
-						int num2 = this.input.LA(1);
+						int num2 = input.LA(1);
 						if (num2 == 5 || (num2 >= 11 && num2 <= 13) || (num2 == 15 || num2 == 20 || num2 == 22 || (num2 >= 24 && num2 <= 36)) || (num2 == 38 || num2 == 41 || num2 == 62 || (num2 >= 65 && num2 <= 72)) || (num2 >= 77 && num2 <= 84) || num2 == 88 || (num2 >= 90 && num2 <= 93))
 						{
 							num = 1;
@@ -1671,43 +1671,43 @@ namespace pcomps.PCompiler
 						{
 							break;
 						}
-						commonTree2 = (CommonTree)this.input.LT(1);
-						base.PushFollow(PapyrusOptimizeWalker.FOLLOW_statement_in_codeBlock561);
-						PapyrusOptimizeWalker.statement_return statement_return = this.statement();
-						this.state.followingStackPointer--;
-						this.adaptor.AddChild(commonTree3, statement_return.Tree);
+						commonTree2 = (CommonTree)input.LT(1);
+						PushFollow(FOLLOW_statement_in_codeBlock561);
+						statement_return statement_return = statement();
+						state.followingStackPointer--;
+						adaptor.AddChild(commonTree3, statement_return.Tree);
 					}
-					this.Match(this.input, 3, null);
+					Match(input, 3, null);
 				}
-				this.adaptor.AddChild(commonTree, commonTree3);
-				codeBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				adaptor.AddChild(commonTree, commonTree3);
+				codeBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.codeBlock_stack.Pop();
+				codeBlock_stack.Pop();
 			}
 			return codeBlock_return;
 		}
 
 		// Token: 0x06000B08 RID: 2824 RVA: 0x000362D8 File Offset: 0x000344D8
-		public PapyrusOptimizeWalker.statement_return statement()
+		public statement_return statement()
 		{
-			PapyrusOptimizeWalker.statement_return statement_return = new PapyrusOptimizeWalker.statement_return();
-			statement_return.Start = this.input.LT(1);
+			statement_return statement_return = new statement_return();
+			statement_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token EQUALS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule l_value");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token EQUALS");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule l_value");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1805,252 +1805,252 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_203;
 				IL_1EB:
-				NoViableAltException ex = new NoViableAltException("", 24, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 24, 0, input);
 				throw ex;
 				IL_203:
 				switch (num2)
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_localDefinition_in_statement576);
-					PapyrusOptimizeWalker.localDefinition_return localDefinition_return = this.localDefinition();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, localDefinition_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_localDefinition_in_statement576);
+					localDefinition_return localDefinition_return = localDefinition();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, localDefinition_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 41, PapyrusOptimizeWalker.FOLLOW_EQUALS_in_statement583);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement583);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_statement585);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement585);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_statement587);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_statement587);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_l_value_in_statement589);
-					PapyrusOptimizeWalker.l_value_return l_value_return = this.l_value();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_l_value_in_statement589);
+					l_value_return l_value_return = l_value();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(l_value_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_statement591);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_statement591);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
 					statement_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (statement_return != null) ? statement_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (statement_return != null) ? statement_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
-						this.adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream2.NextTree());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree4);
+						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
+						adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream2.NextTree());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree4);
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					else
 					{
-						CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree6 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
-						this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree6, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-						this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree6);
+						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
+						adaptor.AddChild(commonTree6, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree6, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree6);
 					}
 					statement_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_statement658);
-					PapyrusOptimizeWalker.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, expression_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_statement658);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, expression_return2.Tree);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_return_stat_in_statement664);
-					PapyrusOptimizeWalker.return_stat_return return_stat_return = this.return_stat();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, return_stat_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_return_stat_in_statement664);
+					return_stat_return return_stat_return = return_stat();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, return_stat_return.Tree);
 					break;
 				}
 				case 5:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_ifBlock_in_statement670);
-					PapyrusOptimizeWalker.ifBlock_return ifBlock_return = this.ifBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, ifBlock_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_ifBlock_in_statement670);
+					ifBlock_return ifBlock_return = ifBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, ifBlock_return.Tree);
 					break;
 				}
 				case 6:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_whileBlock_in_statement676);
-					PapyrusOptimizeWalker.whileBlock_return whileBlock_return = this.whileBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, whileBlock_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_whileBlock_in_statement676);
+					whileBlock_return whileBlock_return = whileBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, whileBlock_return.Tree);
 					break;
 				}
 				}
-				statement_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				statement_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return statement_return;
 		}
 
 		// Token: 0x06000B09 RID: 2825 RVA: 0x00036B34 File Offset: 0x00034D34
-		public PapyrusOptimizeWalker.localDefinition_return localDefinition()
+		public localDefinition_return localDefinition()
 		{
-			this.localDefinition_stack.Push(new PapyrusOptimizeWalker.localDefinition_scope());
-			PapyrusOptimizeWalker.localDefinition_return localDefinition_return = new PapyrusOptimizeWalker.localDefinition_return();
-			localDefinition_return.Start = this.input.LT(1);
+			localDefinition_stack.Push(new localDefinition_scope());
+			localDefinition_return localDefinition_return = new localDefinition_return();
+			localDefinition_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token VAR");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule type");
-			((PapyrusOptimizeWalker.localDefinition_scope)this.localDefinition_stack.Peek()).bvarUsed = true;
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token VAR");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule type");
+			((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed = true;
 			try
 			{
-				switch (this.dfa25.Predict(this.input))
+				switch (dfa25.Predict(input))
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 5, PapyrusOptimizeWalker.FOLLOW_VAR_in_localDefinition699);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition699);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_localDefinition701);
-					PapyrusOptimizeWalker.type_return type_return = this.type();
-					this.state.followingStackPointer--;
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_type_in_localDefinition701);
+					type_return type_return = type();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(type_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_localDefinition705);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition705);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_localDefinition707);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_localDefinition707);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_localDefinition709);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_localDefinition709);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
 					localDefinition_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token name", commonTree3);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream2.NextTree());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree4);
+						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream2.NextTree());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree4);
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					else
 					{
-						CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree6 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
-						this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree6, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-						this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree6);
+						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
+						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree6, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree6);
 					}
 					localDefinition_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child2 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el2 = (CommonTree)this.Match(this.input, 5, PapyrusOptimizeWalker.FOLLOW_VAR_in_localDefinition776);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el2 = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition776);
 					rewriteRuleNodeStream.Add(el2);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_type_in_localDefinition778);
-					PapyrusOptimizeWalker.type_return type_return2 = this.type();
-					this.state.followingStackPointer--;
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_type_in_localDefinition778);
+					type_return type_return2 = type();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(type_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_localDefinition782);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition782);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child2);
-					if (this.ePassType == PapyrusOptimizeWalker.OptimizePass.VARCLEANUP)
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child2);
+					if (ePassType == OptimizePass.VARCLEANUP)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryGetVarUsed(commonTree3.Text, out ((PapyrusOptimizeWalker.localDefinition_scope)this.localDefinition_stack.Peek()).bvarUsed);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryGetVarUsed(commonTree3.Text, out ((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed);
 					}
 					localDefinition_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token name", commonTree3);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					if (((PapyrusOptimizeWalker.localDefinition_scope)this.localDefinition_stack.Peek()).bvarUsed)
+					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					if (((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed)
 					{
-						CommonTree commonTree7 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree7 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
-						this.adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree7, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree, commonTree7);
+						CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+						commonTree7 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
+						adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree7, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree, commonTree7);
 					}
 					else
 					{
@@ -2060,165 +2060,165 @@ namespace pcomps.PCompiler
 					break;
 				}
 				}
-				localDefinition_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				localDefinition_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.localDefinition_stack.Pop();
+				localDefinition_stack.Pop();
 			}
 			return localDefinition_return;
 		}
 
 		// Token: 0x06000B0A RID: 2826 RVA: 0x0003728C File Offset: 0x0003548C
-		public PapyrusOptimizeWalker.l_value_return l_value()
+		public l_value_return l_value()
 		{
-			PapyrusOptimizeWalker.l_value_return l_value_return = new PapyrusOptimizeWalker.l_value_return();
-			l_value_return.Start = this.input.LT(1);
+			l_value_return l_value_return = new l_value_return();
+			l_value_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token PAREXPR");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ARRAYSET");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
+			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				switch (this.dfa26.Predict(this.input))
+				switch (dfa26.Predict(input))
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 62, PapyrusOptimizeWalker.FOLLOW_DOT_in_l_value823);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 15, PapyrusOptimizeWalker.FOLLOW_PAREXPR_in_l_value826);
-					CommonTree newRoot2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					commonTree4 = (CommonTree)this.adaptor.BecomeRoot(newRoot2, commonTree4);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_l_value828);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree4, expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree3, commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_property_set_in_l_value831);
-					PapyrusOptimizeWalker.property_set_return property_set_return = this.property_set();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, property_set_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_l_value823);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value826);
+					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
+					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree4);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_l_value828);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree4, expression_return.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree3, commonTree4);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_property_set_in_l_value831);
+					property_set_return property_set_return = property_set();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, property_set_return.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 23, PapyrusOptimizeWalker.FOLLOW_ARRAYSET_in_l_value839);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value839);
 					rewriteRuleNodeStream2.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_l_value843);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value843);
 					rewriteRuleNodeStream3.Add(commonTree6);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_l_value847);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value847);
 					rewriteRuleNodeStream3.Add(commonTree7);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_l_value849);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_l_value849);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el2 = (CommonTree)this.Match(this.input, 15, PapyrusOptimizeWalker.FOLLOW_PAREXPR_in_l_value852);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value852);
 					rewriteRuleNodeStream.Add(el2);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_l_value856);
-					PapyrusOptimizeWalker.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_l_value856);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return2.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree5, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_l_value861);
-					PapyrusOptimizeWalker.expression_return expression_return3 = this.expression();
-					this.state.followingStackPointer--;
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree5, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_l_value861);
+					expression_return expression_return3 = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return3.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree5);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree5);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
 					l_value_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token source", commonTree6);
-					RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(this.adaptor, "token self", commonTree7);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (l_value_return != null) ? l_value_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule index", (expression_return3 != null) ? expression_return3.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(this.adaptor, "rule array", (expression_return2 != null) ? expression_return2.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree8 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
-					this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream5.NextNode());
-					this.adaptor.AddChild(commonTree8, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return3 != null) ? expression_return3.kOptimizedTree : null));
-					CommonTree commonTree9 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree9 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree9);
-					this.adaptor.AddChild(commonTree9, rewriteRuleSubtreeStream4.NextTree());
-					this.adaptor.AddChild(commonTree8, commonTree9);
-					this.adaptor.AddChild(commonTree8, rewriteRuleSubtreeStream3.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree8);
+					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token source", commonTree6);
+					RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token self", commonTree7);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (l_value_return != null) ? l_value_return.Tree : null);
+					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule index", (expression_return3 != null) ? expression_return3.Tree : null);
+					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule array", (expression_return2 != null) ? expression_return2.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
+					adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree8, rewriteRuleNodeStream5.NextNode());
+					adaptor.AddChild(commonTree8, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return3 != null) ? expression_return3.kOptimizedTree : null));
+					CommonTree commonTree9 = (CommonTree)adaptor.GetNilNode();
+					commonTree9 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree9);
+					adaptor.AddChild(commonTree9, rewriteRuleSubtreeStream4.NextTree());
+					adaptor.AddChild(commonTree8, commonTree9);
+					adaptor.AddChild(commonTree8, rewriteRuleSubtreeStream3.NextTree());
+					adaptor.AddChild(commonTree, commonTree8);
 					l_value_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_basic_l_value_in_l_value900);
-					PapyrusOptimizeWalker.basic_l_value_return basic_l_value_return = this.basic_l_value();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, basic_l_value_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_basic_l_value_in_l_value900);
+					basic_l_value_return basic_l_value_return = basic_l_value();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, basic_l_value_return.Tree);
 					break;
 				}
 				}
-				l_value_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				l_value_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return l_value_return;
 		}
 
 		// Token: 0x06000B0B RID: 2827 RVA: 0x00037A54 File Offset: 0x00035C54
-		public PapyrusOptimizeWalker.basic_l_value_return basic_l_value()
+		public basic_l_value_return basic_l_value()
 		{
-			PapyrusOptimizeWalker.basic_l_value_return basic_l_value_return = new PapyrusOptimizeWalker.basic_l_value_return();
-			basic_l_value_return.Start = this.input.LT(1);
+			basic_l_value_return basic_l_value_return = new basic_l_value_return();
+			basic_l_value_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token ARRAYSET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule func_or_id");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 25)
 				{
@@ -2261,138 +2261,138 @@ namespace pcomps.PCompiler
 					goto IL_129;
 				}
 				IL_111:
-				NoViableAltException ex = new NoViableAltException("", 27, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 27, 0, input);
 				throw ex;
 				IL_129:
 				switch (num2)
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 62, PapyrusOptimizeWalker.FOLLOW_DOT_in_basic_l_value914);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_array_func_or_id_in_basic_l_value916);
-					PapyrusOptimizeWalker.array_func_or_id_return array_func_or_id_return = this.array_func_or_id();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_basic_l_value_in_basic_l_value918);
-					PapyrusOptimizeWalker.basic_l_value_return basic_l_value_return2 = this.basic_l_value();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, basic_l_value_return2.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_basic_l_value914);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_array_func_or_id_in_basic_l_value916);
+					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_basic_l_value_in_basic_l_value918);
+					basic_l_value_return basic_l_value_return2 = basic_l_value();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, basic_l_value_return2.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_function_call_in_basic_l_value925);
-					PapyrusOptimizeWalker.function_call_return function_call_return = this.function_call();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, function_call_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_function_call_in_basic_l_value925);
+					function_call_return function_call_return = function_call();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, function_call_return.Tree);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_property_set_in_basic_l_value931);
-					PapyrusOptimizeWalker.property_set_return property_set_return = this.property_set();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, property_set_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_property_set_in_basic_l_value931);
+					property_set_return property_set_return = property_set();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, property_set_return.Tree);
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 23, PapyrusOptimizeWalker.FOLLOW_ARRAYSET_in_basic_l_value940);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value940);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_basic_l_value944);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value944);
 					rewriteRuleNodeStream2.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_basic_l_value948);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value948);
 					rewriteRuleNodeStream2.Add(commonTree5);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_basic_l_value950);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_basic_l_value950);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_func_or_id_in_basic_l_value952);
-					PapyrusOptimizeWalker.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_func_or_id_in_basic_l_value952);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(func_or_id_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_basic_l_value954);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_basic_l_value954);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					basic_l_value_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token source", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token self", commonTree5);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (basic_l_value_return != null) ? basic_l_value_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree6 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
-					this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
-					this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree6, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-					this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
-					this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree6);
+					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token source", commonTree4);
+					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token self", commonTree5);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (basic_l_value_return != null) ? basic_l_value_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
+					adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
+					adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree6, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+					adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
+					adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
+					adaptor.AddChild(commonTree, commonTree6);
 					basic_l_value_return.Tree = commonTree;
 					break;
 				}
 				case 5:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_basic_l_value987);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(commonTree7);
-					this.adaptor.AddChild(commonTree, child2);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value987);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree7);
+					adaptor.AddChild(commonTree, child2);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
 					break;
 				}
 				}
-				basic_l_value_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				basic_l_value_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return basic_l_value_return;
 		}
 
 		// Token: 0x06000B0C RID: 2828 RVA: 0x000381CC File Offset: 0x000363CC
-		public PapyrusOptimizeWalker.expression_return expression()
+		public expression_return expression()
 		{
-			PapyrusOptimizeWalker.expression_return expression_return = new PapyrusOptimizeWalker.expression_return();
-			expression_return.Start = this.input.LT(1);
+			expression_return expression_return = new expression_return();
+			expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token OR");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule and_expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token OR");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 65)
 				{
@@ -2402,7 +2402,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 66 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 28, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 28, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2411,87 +2411,87 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 65, PapyrusOptimizeWalker.FOLLOW_OR_in_expression1010);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1010);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_expression1012);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1012);
 					rewriteRuleNodeStream.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_expression1016);
-					PapyrusOptimizeWalker.expression_return expression_return2 = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_expression1016);
+					expression_return expression_return2 = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_and_expression_in_expression1018);
-					PapyrusOptimizeWalker.and_expression_return and_expression_return = this.and_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_and_expression_in_expression1018);
+					and_expression_return and_expression_return = and_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(and_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					expression_return.kOptimizedTree = this.CompilerAutoTwoArgBoolOp((expression_return2 != null) ? ((CommonTree)expression_return2.Tree) : null, (and_expression_return != null) ? ((CommonTree)and_expression_return.Tree) : null, commonTree3.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					expression_return.kOptimizedTree = CompilerAutoTwoArgBoolOp((expression_return2 != null) ? ((CommonTree)expression_return2.Tree) : null, (and_expression_return != null) ? ((CommonTree)and_expression_return.Tree) : null, commonTree3.Token);
 					if (expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					}
 					expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (expression_return != null) ? expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule childExpr", (expression_return2 != null) ? expression_return2.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (expression_return != null) ? expression_return.Tree : null);
+					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (expression_return2 != null) ? expression_return2.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream.NextNode());
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream2.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream.NextNode());
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream2.NextTree());
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_and_expression_in_expression1055);
-					PapyrusOptimizeWalker.and_expression_return and_expression_return2 = this.and_expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, and_expression_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_and_expression_in_expression1055);
+					and_expression_return and_expression_return2 = and_expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, and_expression_return2.Tree);
 					expression_return.kOptimizedTree = ((and_expression_return2 != null) ? and_expression_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return expression_return;
 		}
 
 		// Token: 0x06000B0D RID: 2829 RVA: 0x00038658 File Offset: 0x00036858
-		public PapyrusOptimizeWalker.and_expression_return and_expression()
+		public and_expression_return and_expression()
 		{
-			PapyrusOptimizeWalker.and_expression_return and_expression_return = new PapyrusOptimizeWalker.and_expression_return();
-			and_expression_return.Start = this.input.LT(1);
+			and_expression_return and_expression_return = new and_expression_return();
+			and_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token AND");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule bool_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule and_expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AND");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 66)
 				{
@@ -2501,7 +2501,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 67 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 29, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 29, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2510,94 +2510,94 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 66, PapyrusOptimizeWalker.FOLLOW_AND_in_and_expression1077);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1077);
 					rewriteRuleNodeStream.Add(commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_and_expression1079);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1079);
 					rewriteRuleNodeStream2.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_and_expression_in_and_expression1083);
-					PapyrusOptimizeWalker.and_expression_return and_expression_return2 = this.and_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_and_expression_in_and_expression1083);
+					and_expression_return and_expression_return2 = and_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(and_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_and_expression1085);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_and_expression1085);
+					bool_expression_return bool_expression_return = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(bool_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					and_expression_return.kOptimizedTree = this.CompilerAutoTwoArgBoolOp((and_expression_return2 != null) ? ((CommonTree)and_expression_return2.Tree) : null, (bool_expression_return != null) ? ((CommonTree)bool_expression_return.Tree) : null, commonTree3.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					and_expression_return.kOptimizedTree = CompilerAutoTwoArgBoolOp((and_expression_return2 != null) ? ((CommonTree)and_expression_return2.Tree) : null, (bool_expression_return != null) ? ((CommonTree)bool_expression_return.Tree) : null, commonTree3.Token);
 					if (and_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					}
 					and_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (and_expression_return != null) ? and_expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule childExpr", (and_expression_return2 != null) ? and_expression_return2.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (and_expression_return != null) ? and_expression_return.Tree : null);
+					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (and_expression_return2 != null) ? and_expression_return2.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (and_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, and_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, and_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					and_expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_and_expression1122);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, bool_expression_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_and_expression1122);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, bool_expression_return2.Tree);
 					and_expression_return.kOptimizedTree = ((bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				and_expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				and_expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return and_expression_return;
 		}
 
 		// Token: 0x06000B0E RID: 2830 RVA: 0x00038AE4 File Offset: 0x00036CE4
-		public PapyrusOptimizeWalker.bool_expression_return bool_expression()
+		public bool_expression_return bool_expression()
 		{
-			this.bool_expression_stack.Push(new PapyrusOptimizeWalker.bool_expression_scope());
-			PapyrusOptimizeWalker.bool_expression_return bool_expression_return = new PapyrusOptimizeWalker.bool_expression_return();
-			bool_expression_return.Start = this.input.LT(1);
+			bool_expression_stack.Push(new bool_expression_scope());
+			bool_expression_return bool_expression_return = new bool_expression_return();
+			bool_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token GT");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token LT");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token EQ");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(this.adaptor, "token LTE");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(this.adaptor, "token GTE");
-			RewriteRuleNodeStream rewriteRuleNodeStream7 = new RewriteRuleNodeStream(this.adaptor, "token NE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule bool_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule add_expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token GT");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token LT");
+			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token EQ");
+			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token LTE");
+			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token GTE");
+			RewriteRuleNodeStream rewriteRuleNodeStream7 = new RewriteRuleNodeStream(adaptor, "token NE");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2688,356 +2688,356 @@ namespace pcomps.PCompiler
 				num2 = 7;
 				goto IL_264;
 				IL_24C:
-				NoViableAltException ex = new NoViableAltException("", 30, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 30, 0, input);
 				throw ex;
 				IL_264:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 67, PapyrusOptimizeWalker.FOLLOW_EQ_in_bool_expression1148);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1148);
 					rewriteRuleNodeStream3.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1150);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1150);
 					rewriteRuleNodeStream4.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1154);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1154);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1158);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1158);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1162);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1162);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1166);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1166);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree4);
-					this.adaptor.AddChild(commonTree4, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree4, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree4, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree4, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree4, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree4);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree4);
+					adaptor.AddChild(commonTree4, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree4, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree4, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree4, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree4, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree4);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child2 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el2 = (CommonTree)this.Match(this.input, 68, PapyrusOptimizeWalker.FOLLOW_NE_in_bool_expression1198);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el2 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1198);
 					rewriteRuleNodeStream7.Add(el2);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1200);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1200);
 					rewriteRuleNodeStream4.Add(commonTree5);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1204);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1204);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1208);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1208);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1212);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1212);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1216);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1216);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child2);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child2);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree6 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream7.NextNode(), commonTree6);
-					this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree6, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree6, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree6, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree6, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree6);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream7.NextNode(), commonTree6);
+					adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree6, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree6, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree6, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree6, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree6);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el3 = (CommonTree)this.Match(this.input, 69, PapyrusOptimizeWalker.FOLLOW_GT_in_bool_expression1248);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el3 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1248);
 					rewriteRuleNodeStream.Add(el3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1250);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1250);
 					rewriteRuleNodeStream4.Add(commonTree7);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1254);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1254);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1258);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1258);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1262);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1262);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1266);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1266);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child3);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child3);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree8 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
-					this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree8);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
+					adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree8, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree8, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree8, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree8, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree8);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el4 = (CommonTree)this.Match(this.input, 70, PapyrusOptimizeWalker.FOLLOW_LT_in_bool_expression1298);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el4 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression1298);
 					rewriteRuleNodeStream2.Add(el4);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1300);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree9 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1300);
 					rewriteRuleNodeStream4.Add(commonTree9);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1304);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1304);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1308);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1308);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1312);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1312);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1316);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1316);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child4);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree9.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child4);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree9.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree10 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree10 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree10);
-					this.adaptor.AddChild(commonTree10, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree10, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree10, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree10, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree10, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree10);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree10 = (CommonTree)adaptor.GetNilNode();
+					commonTree10 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree10);
+					adaptor.AddChild(commonTree10, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree10, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree10, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree10, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree10, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree10);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el5 = (CommonTree)this.Match(this.input, 71, PapyrusOptimizeWalker.FOLLOW_GTE_in_bool_expression1348);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el5 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression1348);
 					rewriteRuleNodeStream6.Add(el5);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree11 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1350);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree11 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1350);
 					rewriteRuleNodeStream4.Add(commonTree11);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1354);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1354);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1358);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1358);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1362);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1362);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1366);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1366);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child5);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree11.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child5);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree11.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree12 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree12 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree12);
-					this.adaptor.AddChild(commonTree12, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree12, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree12, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree12, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree12, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree12);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree12 = (CommonTree)adaptor.GetNilNode();
+					commonTree12 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree12);
+					adaptor.AddChild(commonTree12, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree12, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree12, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree12, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree12, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree12);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 6:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child6 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el6 = (CommonTree)this.Match(this.input, 72, PapyrusOptimizeWalker.FOLLOW_LTE_in_bool_expression1398);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child6 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el6 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression1398);
 					rewriteRuleNodeStream5.Add(el6);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree13 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_bool_expression1400);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1400);
 					rewriteRuleNodeStream4.Add(commonTree13);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1404);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1404);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_bool_expression1408);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_bool_expression1408);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_bool_expression_in_bool_expression1412);
-					PapyrusOptimizeWalker.bool_expression_return bool_expression_return2 = this.bool_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_bool_expression_in_bool_expression1412);
+					bool_expression_return bool_expression_return2 = bool_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1416);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1416);
+					add_expression_return add_expression_return = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child6);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
-					this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child6);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
+					FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (bool_expression_return2 != null) ? ((CommonTree)bool_expression_return2.Tree) : null, (bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (add_expression_return != null) ? ((CommonTree)add_expression_return.Tree) : null, (add_expression_return != null) ? add_expression_return.kOptimizedTree : null, out ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB, out ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
 					bool_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree14 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree14 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
-					this.adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeA);
-					this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kautoCastTreeB);
-					this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionA);
-					this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.bool_expression_scope)this.bool_expression_stack.Peek()).kexpressionB);
-					this.adaptor.AddChild(commonTree, commonTree14);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+					commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
+					adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree14, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
+					adaptor.AddChild(commonTree14, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeB);
+					adaptor.AddChild(commonTree14, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionA);
+					adaptor.AddChild(commonTree14, ((bool_expression_scope)bool_expression_stack.Peek()).kexpressionB);
+					adaptor.AddChild(commonTree, commonTree14);
 					bool_expression_return.Tree = commonTree;
 					break;
 				}
 				case 7:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_bool_expression1447);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, add_expression_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_bool_expression1447);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, add_expression_return2.Tree);
 					bool_expression_return.kOptimizedTree = ((add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				bool_expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				bool_expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.bool_expression_stack.Pop();
+				bool_expression_stack.Pop();
 			}
 			return bool_expression_return;
 		}
 
 		// Token: 0x06000B0F RID: 2831 RVA: 0x0003A62C File Offset: 0x0003882C
-		public PapyrusOptimizeWalker.add_expression_return add_expression()
+		public add_expression_return add_expression()
 		{
-			this.add_expression_stack.Push(new PapyrusOptimizeWalker.add_expression_scope());
-			PapyrusOptimizeWalker.add_expression_return add_expression_return = new PapyrusOptimizeWalker.add_expression_return();
-			add_expression_return.Start = this.input.LT(1);
+			add_expression_stack.Push(new add_expression_scope());
+			add_expression_return add_expression_return = new add_expression_return();
+			add_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token IADD");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ISUBTRACT");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token FADD");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(this.adaptor, "token FSUBTRACT");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(this.adaptor, "token STRCAT");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule add_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule mult_expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token IADD");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ISUBTRACT");
+			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FADD");
+			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token FSUBTRACT");
+			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token STRCAT");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3114,361 +3114,361 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_211;
 				IL_1F9:
-				NoViableAltException ex = new NoViableAltException("", 31, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 31, 0, input);
 				throw ex;
 				IL_211:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 26, PapyrusOptimizeWalker.FOLLOW_IADD_in_add_expression1473);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression1473);
 					rewriteRuleNodeStream.Add(commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_add_expression1475);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1475);
 					rewriteRuleNodeStream3.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1479);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1479);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1483);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1483);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_add_expression1487);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_add_expression1487);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1491);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1491);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					add_expression_return.kOptimizedTree = this.CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree3.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					add_expression_return.kOptimizedTree = CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree3.Token);
 					if (add_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree5, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree5, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree5, ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree5, ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					add_expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child2 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 27, PapyrusOptimizeWalker.FOLLOW_FADD_in_add_expression1532);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression1532);
 					rewriteRuleNodeStream4.Add(commonTree6);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_add_expression1534);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1534);
 					rewriteRuleNodeStream3.Add(commonTree7);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1538);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1538);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1542);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1542);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_add_expression1546);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_add_expression1546);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1550);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1550);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child2);
-					add_expression_return.kOptimizedTree = this.CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree6.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child2);
+					add_expression_return.kOptimizedTree = CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree6.Token);
 					if (add_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree8 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree8);
-						this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree8);
+						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree8);
+						adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree8, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree8, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree8, ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree8, ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree8);
 					}
 					add_expression_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 28, PapyrusOptimizeWalker.FOLLOW_ISUBTRACT_in_add_expression1591);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree9 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression1591);
 					rewriteRuleNodeStream2.Add(commonTree9);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree10 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_add_expression1593);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1593);
 					rewriteRuleNodeStream3.Add(commonTree10);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1597);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1597);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1601);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1601);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_add_expression1605);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_add_expression1605);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1609);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1609);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child3);
-					add_expression_return.kOptimizedTree = this.CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree9.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child3);
+					add_expression_return.kOptimizedTree = CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree9.Token);
 					if (add_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree10.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree10.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree11 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree11 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree11);
-						this.adaptor.AddChild(commonTree11, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree11);
+						CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+						commonTree11 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree11);
+						adaptor.AddChild(commonTree11, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree11, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree11, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree11, ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree11, ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree11);
 					}
 					add_expression_return.Tree = commonTree;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree12 = (CommonTree)this.Match(this.input, 29, PapyrusOptimizeWalker.FOLLOW_FSUBTRACT_in_add_expression1650);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree12 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression1650);
 					rewriteRuleNodeStream5.Add(commonTree12);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree13 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_add_expression1652);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1652);
 					rewriteRuleNodeStream3.Add(commonTree13);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1656);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1656);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1660);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1660);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_add_expression1664);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_add_expression1664);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1668);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1668);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child4);
-					add_expression_return.kOptimizedTree = this.CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree12.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child4);
+					add_expression_return.kOptimizedTree = CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree12.Token);
 					if (add_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree14 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree14 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
-						this.adaptor.AddChild(commonTree14, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree14);
+						CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+						commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
+						adaptor.AddChild(commonTree14, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree14, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree14, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree14, ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree14, ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree14);
 					}
 					add_expression_return.Tree = commonTree;
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 36, PapyrusOptimizeWalker.FOLLOW_STRCAT_in_add_expression1709);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression1709);
 					rewriteRuleNodeStream6.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree15 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_add_expression1711);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree15 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1711);
 					rewriteRuleNodeStream3.Add(commonTree15);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1715);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1715);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_add_expression1719);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_add_expression1719);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_add_expression_in_add_expression1723);
-					PapyrusOptimizeWalker.add_expression_return add_expression_return2 = this.add_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_add_expression_in_add_expression1723);
+					add_expression_return add_expression_return2 = add_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1727);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1727);
+					mult_expression_return mult_expression_return = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child5);
-					add_expression_return.kOptimizedTree = this.CompilerAutoStrCat((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child5);
+					add_expression_return.kOptimizedTree = CompilerAutoStrCat((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null);
 					if (add_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree15.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree15.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, add_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree16 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree16 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree16);
-						this.adaptor.AddChild(commonTree16, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree16, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree16, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree16, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree16, ((PapyrusOptimizeWalker.add_expression_scope)this.add_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree16);
+						CommonTree commonTree16 = (CommonTree)adaptor.GetNilNode();
+						commonTree16 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree16);
+						adaptor.AddChild(commonTree16, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree16, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree16, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree16, ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree16, ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree16);
 					}
 					add_expression_return.Tree = commonTree;
 					break;
 				}
 				case 6:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_add_expression1767);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, mult_expression_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_add_expression1767);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, mult_expression_return2.Tree);
 					add_expression_return.kOptimizedTree = ((mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				add_expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				add_expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.add_expression_stack.Pop();
+				add_expression_stack.Pop();
 			}
 			return add_expression_return;
 		}
 
 		// Token: 0x06000B10 RID: 2832 RVA: 0x0003BF0C File Offset: 0x0003A10C
-		public PapyrusOptimizeWalker.mult_expression_return mult_expression()
+		public mult_expression_return mult_expression()
 		{
-			this.mult_expression_stack.Push(new PapyrusOptimizeWalker.mult_expression_scope());
-			PapyrusOptimizeWalker.mult_expression_return mult_expression_return = new PapyrusOptimizeWalker.mult_expression_return();
-			mult_expression_return.Start = this.input.LT(1);
+			mult_expression_stack.Push(new mult_expression_scope());
+			mult_expression_return mult_expression_return = new mult_expression_return();
+			mult_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token FDIVIDE");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token FMULTIPLY");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token IMULTIPLY");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(this.adaptor, "token MOD");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(this.adaptor, "token IDIVIDE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule unary_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule mult_expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token FDIVIDE");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token FMULTIPLY");
+			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token IMULTIPLY");
+			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token MOD");
+			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token IDIVIDE");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule unary_expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3545,343 +3545,343 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_217;
 				IL_1FF:
-				NoViableAltException ex = new NoViableAltException("", 32, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 32, 0, input);
 				throw ex;
 				IL_217:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 30, PapyrusOptimizeWalker.FOLLOW_IMULTIPLY_in_mult_expression1794);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression1794);
 					rewriteRuleNodeStream3.Add(commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_mult_expression1796);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1796);
 					rewriteRuleNodeStream4.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1800);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1800);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1804);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1804);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_mult_expression1808);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression1808);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression1812);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression1812);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					mult_expression_return.kOptimizedTree = this.CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree3.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					mult_expression_return.kOptimizedTree = CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree3.Token);
 					if (mult_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
 					}
 					mult_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree5, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree5, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree5, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree5, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree5, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					mult_expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child2 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 31, PapyrusOptimizeWalker.FOLLOW_FMULTIPLY_in_mult_expression1853);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression1853);
 					rewriteRuleNodeStream2.Add(commonTree6);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_mult_expression1855);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1855);
 					rewriteRuleNodeStream4.Add(commonTree7);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1859);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1859);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1863);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1863);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_mult_expression1867);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression1867);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression1871);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression1871);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child2);
-					mult_expression_return.kOptimizedTree = this.CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree6.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child2);
+					mult_expression_return.kOptimizedTree = CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree6.Token);
 					if (mult_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
 					}
 					mult_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree8 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
-						this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree8, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree8);
+						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
+						adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree8, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree8, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree8, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree8, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree8);
 					}
 					mult_expression_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree9 = (CommonTree)this.Match(this.input, 32, PapyrusOptimizeWalker.FOLLOW_IDIVIDE_in_mult_expression1912);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree9 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression1912);
 					rewriteRuleNodeStream6.Add(commonTree9);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree10 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_mult_expression1914);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1914);
 					rewriteRuleNodeStream4.Add(commonTree10);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1918);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1918);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1922);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1922);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_mult_expression1926);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression1926);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression1930);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression1930);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child3);
-					mult_expression_return.kOptimizedTree = this.CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree9.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child3);
+					mult_expression_return.kOptimizedTree = CompilerAutoIntTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree9.Token);
 					if (mult_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree10.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree10.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
 					}
 					mult_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree11 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree11 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree11);
-						this.adaptor.AddChild(commonTree11, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree11, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree11);
+						CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+						commonTree11 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree11);
+						adaptor.AddChild(commonTree11, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree11, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree11, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree11, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree11, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree11);
 					}
 					mult_expression_return.Tree = commonTree;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree12 = (CommonTree)this.Match(this.input, 33, PapyrusOptimizeWalker.FOLLOW_FDIVIDE_in_mult_expression1971);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree12 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression1971);
 					rewriteRuleNodeStream.Add(commonTree12);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree13 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_mult_expression1973);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1973);
 					rewriteRuleNodeStream4.Add(commonTree13);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1977);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1977);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_mult_expression1981);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return2 = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_mult_expression1981);
+					autoCast_return autoCast_return2 = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_mult_expression1985);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return2 = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression1985);
+					mult_expression_return mult_expression_return2 = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression1989);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return = this.unary_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression1989);
+					unary_expression_return unary_expression_return = unary_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child4);
-					mult_expression_return.kOptimizedTree = this.CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree12.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child4);
+					mult_expression_return.kOptimizedTree = CompilerAutoFloatTwoArgMathOp((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, commonTree12.Token);
 					if (mult_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
-						this.FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB, out ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree13.Text);
+						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (mult_expression_return2 != null) ? ((CommonTree)mult_expression_return2.Tree) : null, (mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (unary_expression_return != null) ? ((CommonTree)unary_expression_return.Tree) : null, (unary_expression_return != null) ? unary_expression_return.kOptimizedTree : null, out ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB, out ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
 					}
 					mult_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree14 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree14 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree14);
-						this.adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeA);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kautoCastTreeB);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionA);
-						this.adaptor.AddChild(commonTree14, ((PapyrusOptimizeWalker.mult_expression_scope)this.mult_expression_stack.Peek()).kexpressionB);
-						this.adaptor.AddChild(commonTree, commonTree14);
+						CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+						commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree14);
+						adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree14, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
+						adaptor.AddChild(commonTree14, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeB);
+						adaptor.AddChild(commonTree14, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionA);
+						adaptor.AddChild(commonTree14, ((mult_expression_scope)mult_expression_stack.Peek()).kexpressionB);
+						adaptor.AddChild(commonTree, commonTree14);
 					}
 					mult_expression_return.Tree = commonTree;
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree15 = (CommonTree)this.Match(this.input, 77, PapyrusOptimizeWalker.FOLLOW_MOD_in_mult_expression2030);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree15 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression2030);
 					rewriteRuleNodeStream5.Add(commonTree15);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree16 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_mult_expression2032);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree16 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2032);
 					rewriteRuleNodeStream4.Add(commonTree16);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_mult_expression_in_mult_expression2036);
-					PapyrusOptimizeWalker.mult_expression_return mult_expression_return3 = this.mult_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_mult_expression_in_mult_expression2036);
+					mult_expression_return mult_expression_return3 = mult_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return3.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression2038);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return2 = this.unary_expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2038);
+					unary_expression_return unary_expression_return2 = unary_expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return2.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child5);
-					mult_expression_return.kOptimizedTree = this.CompilerAutoIntTwoArgMathOp((mult_expression_return3 != null) ? ((CommonTree)mult_expression_return3.Tree) : null, (unary_expression_return2 != null) ? ((CommonTree)unary_expression_return2.Tree) : null, commonTree15.Token);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child5);
+					mult_expression_return.kOptimizedTree = CompilerAutoIntTwoArgMathOp((mult_expression_return3 != null) ? ((CommonTree)mult_expression_return3.Tree) : null, (unary_expression_return2 != null) ? ((CommonTree)unary_expression_return2.Tree) : null, commonTree15.Token);
 					if (mult_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree16.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree16.Text);
 					}
 					mult_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(this.adaptor, "rule child_mult", (mult_expression_return3 != null) ? mult_expression_return3.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
+					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule child_mult", (mult_expression_return3 != null) ? mult_expression_return3.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
-						this.adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, mult_expression_return.kOptimizedTree);
 					}
 					else
 					{
-						CommonTree commonTree17 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree17 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree17);
-						this.adaptor.AddChild(commonTree17, rewriteRuleNodeStream4.NextNode());
-						this.adaptor.AddChild(commonTree17, rewriteRuleSubtreeStream4.NextTree());
-						this.adaptor.AddChild(commonTree17, rewriteRuleSubtreeStream2.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree17);
+						CommonTree commonTree17 = (CommonTree)adaptor.GetNilNode();
+						commonTree17 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree17);
+						adaptor.AddChild(commonTree17, rewriteRuleNodeStream4.NextNode());
+						adaptor.AddChild(commonTree17, rewriteRuleSubtreeStream4.NextTree());
+						adaptor.AddChild(commonTree17, rewriteRuleSubtreeStream2.NextTree());
+						adaptor.AddChild(commonTree, commonTree17);
 					}
 					mult_expression_return.Tree = commonTree;
 					break;
 				}
 				case 6:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_unary_expression_in_mult_expression2075);
-					PapyrusOptimizeWalker.unary_expression_return unary_expression_return3 = this.unary_expression();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, unary_expression_return3.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_unary_expression_in_mult_expression2075);
+					unary_expression_return unary_expression_return3 = unary_expression();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, unary_expression_return3.Tree);
 					mult_expression_return.kOptimizedTree = ((unary_expression_return3 != null) ? unary_expression_return3.kOptimizedTree : null);
 					break;
 				}
 				}
-				mult_expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				mult_expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			finally
 			{
-				this.mult_expression_stack.Pop();
+				mult_expression_stack.Pop();
 			}
 			return mult_expression_return;
 		}
 
 		// Token: 0x06000B11 RID: 2833 RVA: 0x0003D644 File Offset: 0x0003B844
-		public PapyrusOptimizeWalker.unary_expression_return unary_expression()
+		public unary_expression_return unary_expression()
 		{
-			PapyrusOptimizeWalker.unary_expression_return unary_expression_return = new PapyrusOptimizeWalker.unary_expression_return();
-			unary_expression_return.Start = this.input.LT(1);
+			unary_expression_return unary_expression_return = new unary_expression_return();
+			unary_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token NOT");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token INEGATE");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token FNEGATE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule cast_atom");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token NOT");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token INEGATE");
+			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FNEGATE");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule cast_atom");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -3955,168 +3955,168 @@ namespace pcomps.PCompiler
 				num2 = 4;
 				goto IL_18E;
 				IL_176:
-				NoViableAltException ex = new NoViableAltException("", 33, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 33, 0, input);
 				throw ex;
 				IL_18E:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 34, PapyrusOptimizeWalker.FOLLOW_INEGATE_in_unary_expression2098);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression2098);
 					rewriteRuleNodeStream2.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_unary_expression2100);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2100);
 					rewriteRuleNodeStream3.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_cast_atom_in_unary_expression2102);
-					PapyrusOptimizeWalker.cast_atom_return cast_atom_return = this.cast_atom();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression2102);
+					cast_atom_return cast_atom_return = cast_atom();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					unary_expression_return.kOptimizedTree = this.CompilerAutoNegate((cast_atom_return != null) ? ((CommonTree)cast_atom_return.Tree) : null);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					unary_expression_return.kOptimizedTree = CompilerAutoNegate((cast_atom_return != null) ? ((CommonTree)cast_atom_return.Tree) : null);
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
 					}
 					unary_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree4);
-						this.adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree4);
+						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree4);
+						adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree4);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
 					}
 					unary_expression_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child2 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el2 = (CommonTree)this.Match(this.input, 35, PapyrusOptimizeWalker.FOLLOW_FNEGATE_in_unary_expression2138);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el2 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression2138);
 					rewriteRuleNodeStream4.Add(el2);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_unary_expression2140);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2140);
 					rewriteRuleNodeStream3.Add(commonTree5);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_cast_atom_in_unary_expression2142);
-					PapyrusOptimizeWalker.cast_atom_return cast_atom_return2 = this.cast_atom();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression2142);
+					cast_atom_return cast_atom_return2 = cast_atom();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return2.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child2);
-					unary_expression_return.kOptimizedTree = this.CompilerAutoNegate((cast_atom_return2 != null) ? ((CommonTree)cast_atom_return2.Tree) : null);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child2);
+					unary_expression_return.kOptimizedTree = CompilerAutoNegate((cast_atom_return2 != null) ? ((CommonTree)cast_atom_return2.Tree) : null);
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					}
 					unary_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree6 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree6);
-						this.adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree6);
+						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree6);
+						adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree6);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
 					}
 					unary_expression_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el3 = (CommonTree)this.Match(this.input, 78, PapyrusOptimizeWalker.FOLLOW_NOT_in_unary_expression2178);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el3 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression2178);
 					rewriteRuleNodeStream.Add(el3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_unary_expression2180);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2180);
 					rewriteRuleNodeStream3.Add(commonTree7);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_cast_atom_in_unary_expression2182);
-					PapyrusOptimizeWalker.cast_atom_return cast_atom_return3 = this.cast_atom();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression2182);
+					cast_atom_return cast_atom_return3 = cast_atom();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return3.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child3);
-					unary_expression_return.kOptimizedTree = this.CompilerAutoNot((cast_atom_return3 != null) ? ((CommonTree)cast_atom_return3.Tree) : null);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child3);
+					unary_expression_return.kOptimizedTree = CompilerAutoNot((cast_atom_return3 != null) ? ((CommonTree)cast_atom_return3.Tree) : null);
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
 					}
 					unary_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (unary_expression_return != null) ? unary_expression_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree8 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
-						this.adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
-						this.adaptor.AddChild(commonTree8, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree8);
+						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
+						adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
+						adaptor.AddChild(commonTree8, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree8);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, unary_expression_return.kOptimizedTree);
 					}
 					unary_expression_return.Tree = commonTree;
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_cast_atom_in_unary_expression2217);
-					PapyrusOptimizeWalker.cast_atom_return cast_atom_return4 = this.cast_atom();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, cast_atom_return4.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_cast_atom_in_unary_expression2217);
+					cast_atom_return cast_atom_return4 = cast_atom();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, cast_atom_return4.Tree);
 					unary_expression_return.kOptimizedTree = ((cast_atom_return4 != null) ? cast_atom_return4.kOptimizedTree : null);
 					break;
 				}
 				}
-				unary_expression_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				unary_expression_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return unary_expression_return;
 		}
 
 		// Token: 0x06000B12 RID: 2834 RVA: 0x0003DEEC File Offset: 0x0003C0EC
-		public PapyrusOptimizeWalker.cast_atom_return cast_atom()
+		public cast_atom_return cast_atom()
 		{
-			PapyrusOptimizeWalker.cast_atom_return cast_atom_return = new PapyrusOptimizeWalker.cast_atom_return();
-			cast_atom_return.Start = this.input.LT(1);
+			cast_atom_return cast_atom_return = new cast_atom_return();
+			cast_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token AS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule dot_atom");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule dot_atom");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 79)
 				{
@@ -4126,7 +4126,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 25)) && (num != 38 && num != 62 && (num < 80 || num > 82)) && (num < 90 || num > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 34, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 34, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4135,76 +4135,76 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 79, PapyrusOptimizeWalker.FOLLOW_AS_in_cast_atom2240);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom2240);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_cast_atom2242);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom2242);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_dot_atom_in_cast_atom2244);
-					PapyrusOptimizeWalker.dot_atom_return dot_atom_return = this.dot_atom();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_dot_atom_in_cast_atom2244);
+					dot_atom_return dot_atom_return = dot_atom();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(dot_atom_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					cast_atom_return.kOptimizedTree = this.CompilerAutoCast(commonTree3.Text, (dot_atom_return != null) ? ((CommonTree)dot_atom_return.Tree) : null, ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					cast_atom_return.kOptimizedTree = CompilerAutoCast(commonTree3.Text, (dot_atom_return != null) ? ((CommonTree)dot_atom_return.Tree) : null, ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope);
 					if (cast_atom_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
 					}
 					cast_atom_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (cast_atom_return != null) ? cast_atom_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (cast_atom_return != null) ? cast_atom_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (cast_atom_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
-						this.adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree4);
+						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
+						adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree4);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, cast_atom_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, cast_atom_return.kOptimizedTree);
 					}
 					cast_atom_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_dot_atom_in_cast_atom2279);
-					PapyrusOptimizeWalker.dot_atom_return dot_atom_return2 = this.dot_atom();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, dot_atom_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_dot_atom_in_cast_atom2279);
+					dot_atom_return dot_atom_return2 = dot_atom();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, dot_atom_return2.Tree);
 					cast_atom_return.kOptimizedTree = ((dot_atom_return2 != null) ? dot_atom_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				cast_atom_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				cast_atom_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return cast_atom_return;
 		}
 
 		// Token: 0x06000B13 RID: 2835 RVA: 0x0003E2E0 File Offset: 0x0003C4E0
-		public PapyrusOptimizeWalker.dot_atom_return dot_atom()
+		public dot_atom_return dot_atom()
 		{
-			PapyrusOptimizeWalker.dot_atom_return dot_atom_return = new PapyrusOptimizeWalker.dot_atom_return();
-			dot_atom_return.Start = this.input.LT(1);
+			dot_atom_return dot_atom_return = new dot_atom_return();
+			dot_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -4269,83 +4269,83 @@ namespace pcomps.PCompiler
 				num2 = 2;
 				goto IL_F1;
 				IL_D9:
-				NoViableAltException ex = new NoViableAltException("", 35, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 35, 0, input);
 				throw ex;
 				IL_F1:
 				switch (num2)
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 62, PapyrusOptimizeWalker.FOLLOW_DOT_in_dot_atom2302);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_dot_atom_in_dot_atom2306);
-					PapyrusOptimizeWalker.dot_atom_return dot_atom_return2 = this.dot_atom();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, dot_atom_return2.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_array_func_or_id_in_dot_atom2308);
-					PapyrusOptimizeWalker.array_func_or_id_return array_func_or_id_return = this.array_func_or_id();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_dot_atom2302);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_dot_atom_in_dot_atom2306);
+					dot_atom_return dot_atom_return2 = dot_atom();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, dot_atom_return2.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_array_func_or_id_in_dot_atom2308);
+					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
 					dot_atom_return.kOptimizedTree = ((dot_atom_return2 != null) ? dot_atom_return2.kOptimizedTree : null);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_array_atom_in_dot_atom2320);
-					PapyrusOptimizeWalker.array_atom_return array_atom_return = this.array_atom();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, array_atom_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_array_atom_in_dot_atom2320);
+					array_atom_return array_atom_return = array_atom();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, array_atom_return.Tree);
 					dot_atom_return.kOptimizedTree = ((array_atom_return != null) ? array_atom_return.kOptimizedTree : null);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_constant_in_dot_atom2331);
-					PapyrusOptimizeWalker.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, constant_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_constant_in_dot_atom2331);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, constant_return.Tree);
 					dot_atom_return.kOptimizedTree = ((constant_return != null) ? ((CommonTree)constant_return.Tree) : null);
 					break;
 				}
 				}
-				dot_atom_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				dot_atom_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return dot_atom_return;
 		}
 
 		// Token: 0x06000B14 RID: 2836 RVA: 0x0003E6A0 File Offset: 0x0003C8A0
-		public PapyrusOptimizeWalker.array_atom_return array_atom()
+		public array_atom_return array_atom()
 		{
-			PapyrusOptimizeWalker.array_atom_return array_atom_return = new PapyrusOptimizeWalker.array_atom_return();
-			array_atom_return.Start = this.input.LT(1);
+			array_atom_return array_atom_return = new array_atom_return();
+			array_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token ARRAYGET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule atom");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule atom");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -4355,7 +4355,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 15 && num != 20 && (num < 24 || num > 25)) && num != 38 && num != 80 && num != 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 36, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 36, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4364,86 +4364,86 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 22, PapyrusOptimizeWalker.FOLLOW_ARRAYGET_in_array_atom2355);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom2355);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_array_atom2359);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2359);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_array_atom2363);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2363);
 					rewriteRuleNodeStream2.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_array_atom2365);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_array_atom2365);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_atom_in_array_atom2367);
-					PapyrusOptimizeWalker.atom_return atom_return = this.atom();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_atom_in_array_atom2367);
+					atom_return atom_return = atom();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(atom_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_array_atom2369);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_array_atom2369);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					array_atom_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token self", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token retVal", commonTree3);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (array_atom_return != null) ? array_atom_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-					this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
-					this.adaptor.AddChild(commonTree5, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-					this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream2.NextTree());
-					this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree5);
+					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
+					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (array_atom_return != null) ? array_atom_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+					adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
+					adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream2.NextTree());
+					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
+					adaptor.AddChild(commonTree, commonTree5);
 					array_atom_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_atom_in_array_atom2402);
-					PapyrusOptimizeWalker.atom_return atom_return2 = this.atom();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, atom_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_atom_in_array_atom2402);
+					atom_return atom_return2 = atom();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, atom_return2.Tree);
 					array_atom_return.kOptimizedTree = ((atom_return2 != null) ? atom_return2.kOptimizedTree : null);
 					break;
 				}
 				}
-				array_atom_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				array_atom_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return array_atom_return;
 		}
 
 		// Token: 0x06000B15 RID: 2837 RVA: 0x0003EBAC File Offset: 0x0003CDAC
-		public PapyrusOptimizeWalker.atom_return atom()
+		public atom_return atom()
 		{
-			PapyrusOptimizeWalker.atom_return atom_return = new PapyrusOptimizeWalker.atom_return();
-			atom_return.Start = this.input.LT(1);
+			atom_return atom_return = new atom_return();
+			atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token PAREXPR");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -4495,106 +4495,106 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_EE;
 				IL_D6:
-				NoViableAltException ex = new NoViableAltException("", 37, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 37, 0, input);
 				throw ex;
 				IL_EE:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 15, PapyrusOptimizeWalker.FOLLOW_PAREXPR_in_atom2425);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_atom2425);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_atom2427);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_atom2427);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
 					atom_return.kOptimizedTree = ((expression_return != null) ? expression_return.kOptimizedTree : null);
 					if (atom_return.kOptimizedTree != null)
 					{
-						this.bMadeChanges = true;
+						bMadeChanges = true;
 					}
 					atom_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (atom_return != null) ? atom_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (atom_return != null) ? atom_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree3 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
-						this.adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree3);
+						CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+						commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
+						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree3);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, (expression_return != null) ? expression_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree, (expression_return != null) ? expression_return.kOptimizedTree : null);
 					}
 					atom_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 80, PapyrusOptimizeWalker.FOLLOW_NEW_in_atom2461);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree4 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree4);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 81, PapyrusOptimizeWalker.FOLLOW_INTEGER_in_atom2463);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree4, child2);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_atom2465);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree4, child3);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree4);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom2461);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree4);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom2463);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree4, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom2465);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree4, child3);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree4);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_func_or_id_in_atom2477);
-					PapyrusOptimizeWalker.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, func_or_id_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_func_or_id_in_atom2477);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, func_or_id_return.Tree);
 					break;
 				}
 				}
-				atom_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				atom_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return atom_return;
 		}
 
 		// Token: 0x06000B16 RID: 2838 RVA: 0x0003F0A0 File Offset: 0x0003D2A0
-		public PapyrusOptimizeWalker.array_func_or_id_return array_func_or_id()
+		public array_func_or_id_return array_func_or_id()
 		{
-			PapyrusOptimizeWalker.array_func_or_id_return array_func_or_id_return = new PapyrusOptimizeWalker.array_func_or_id_return();
-			array_func_or_id_return.Start = this.input.LT(1);
+			array_func_or_id_return array_func_or_id_return = new array_func_or_id_return();
+			array_func_or_id_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token ARRAYGET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(this.adaptor, "rule func_or_id");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -4604,7 +4604,7 @@ namespace pcomps.PCompiler
 				{
 					if ((num < 11 || num > 13) && (num != 20 && (num < 24 || num > 25)) && num != 38 && num != 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 38, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 38, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4613,83 +4613,83 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 22, PapyrusOptimizeWalker.FOLLOW_ARRAYGET_in_array_func_or_id2491);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id2491);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_array_func_or_id2495);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2495);
 					rewriteRuleNodeStream2.Add(commonTree3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_array_func_or_id2499);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2499);
 					rewriteRuleNodeStream2.Add(commonTree4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_array_func_or_id2501);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_array_func_or_id2501);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_func_or_id_in_array_func_or_id2503);
-					PapyrusOptimizeWalker.func_or_id_return func_or_id_return = this.func_or_id();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_func_or_id_in_array_func_or_id2503);
+					func_or_id_return func_or_id_return = func_or_id();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(func_or_id_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_array_func_or_id2505);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_array_func_or_id2505);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					array_func_or_id_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(this.adaptor, "token self", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(this.adaptor, "token retVal", commonTree3);
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (array_func_or_id_return != null) ? array_func_or_id_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-					this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
-					this.adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
-					this.adaptor.AddChild(commonTree5, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-					this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
-					this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree5);
+					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
+					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (array_func_or_id_return != null) ? array_func_or_id_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+					adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
+					adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
+					adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
+					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
+					adaptor.AddChild(commonTree, commonTree5);
 					array_func_or_id_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_func_or_id_in_array_func_or_id2538);
-					PapyrusOptimizeWalker.func_or_id_return func_or_id_return2 = this.func_or_id();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, func_or_id_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_func_or_id_in_array_func_or_id2538);
+					func_or_id_return func_or_id_return2 = func_or_id();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, func_or_id_return2.Tree);
 					break;
 				}
 				}
-				array_func_or_id_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				array_func_or_id_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return array_func_or_id_return;
 		}
 
 		// Token: 0x06000B17 RID: 2839 RVA: 0x0003F58C File Offset: 0x0003D78C
-		public PapyrusOptimizeWalker.func_or_id_return func_or_id()
+		public func_or_id_return func_or_id()
 		{
-			PapyrusOptimizeWalker.func_or_id_return func_or_id_return = new PapyrusOptimizeWalker.func_or_id_return();
-			func_or_id_return.Start = this.input.LT(1);
+			func_or_id_return func_or_id_return = new func_or_id_return();
+			func_or_id_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -4732,153 +4732,153 @@ namespace pcomps.PCompiler
 				num2 = 1;
 				goto IL_C3;
 				IL_AB:
-				NoViableAltException ex = new NoViableAltException("", 39, 0, this.input);
+				NoViableAltException ex = new NoViableAltException("", 39, 0, input);
 				throw ex;
 				IL_C3:
 				switch (num2)
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_function_call_in_func_or_id2551);
-					PapyrusOptimizeWalker.function_call_return function_call_return = this.function_call();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, function_call_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_function_call_in_func_or_id2551);
+					function_call_return function_call_return = function_call();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, function_call_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 20, PapyrusOptimizeWalker.FOLLOW_PROPGET_in_func_or_id2558);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2562);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree3, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2564);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree3, child2);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2568);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree3, child3);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id2558);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2562);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree3, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2564);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree3, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2568);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree3, child3);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2580);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(commonTree6);
-					this.adaptor.AddChild(commonTree, child4);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2580);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(commonTree6);
+					adaptor.AddChild(commonTree, child4);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 82, PapyrusOptimizeWalker.FOLLOW_LENGTH_in_func_or_id2592);
-					CommonTree newRoot2 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					commonTree7 = (CommonTree)this.adaptor.BecomeRoot(newRoot2, commonTree7);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2596);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree7, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_func_or_id2600);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree7, child3);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree7);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id2592);
+					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
+					commonTree7 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree7);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2596);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree7, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2600);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree7, child3);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree7);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				}
-				func_or_id_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				func_or_id_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return func_or_id_return;
 		}
 
 		// Token: 0x06000B18 RID: 2840 RVA: 0x0003FB44 File Offset: 0x0003DD44
-		public PapyrusOptimizeWalker.property_set_return property_set()
+		public property_set_return property_set()
 		{
-			PapyrusOptimizeWalker.property_set_return property_set_return = new PapyrusOptimizeWalker.property_set_return();
-			property_set_return.Start = this.input.LT(1);
+			property_set_return property_set_return = new property_set_return();
+			property_set_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 21, PapyrusOptimizeWalker.FOLLOW_PROPSET_in_property_set2620);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_property_set2624);
-				CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-				this.adaptor.AddChild(commonTree3, child);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_property_set2626);
-				CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-				this.adaptor.AddChild(commonTree3, child2);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_property_set2630);
-				CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-				this.adaptor.AddChild(commonTree3, child3);
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-				((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
-				property_set_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set2620);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2624);
+				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				adaptor.AddChild(commonTree3, child);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2626);
+				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+				adaptor.AddChild(commonTree3, child2);
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2630);
+				CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+				adaptor.AddChild(commonTree3, child3);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+				((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+				property_set_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return property_set_return;
 		}
 
 		// Token: 0x06000B19 RID: 2841 RVA: 0x0003FDC0 File Offset: 0x0003DFC0
-		public PapyrusOptimizeWalker.return_stat_return return_stat()
+		public return_stat_return return_stat()
 		{
-			PapyrusOptimizeWalker.return_stat_return return_stat_return = new PapyrusOptimizeWalker.return_stat_return();
-			return_stat_return.Start = this.input.LT(1);
+			return_stat_return return_stat_return = new return_stat_return();
+			return_stat_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token RETURN");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token RETURN");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				if (num != 83)
 				{
-					NoViableAltException ex = new NoViableAltException("", 40, 0, this.input);
+					NoViableAltException ex = new NoViableAltException("", 40, 0, input);
 					throw ex;
 				}
-				int num2 = this.input.LA(2);
+				int num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -4888,7 +4888,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 3 && num2 != 5 && (num2 < 11 || num2 > 13) && (num2 != 15 && num2 != 20 && num2 != 22 && (num2 < 24 || num2 > 36)) && (num2 != 38 && num2 != 41 && num2 != 62 && (num2 < 65 || num2 > 72)) && (num2 < 77 || num2 > 84) && num2 != 88 && (num2 < 90 || num2 > 93))
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 40, 1, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 40, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -4897,105 +4897,105 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 83, PapyrusOptimizeWalker.FOLLOW_RETURN_in_return_stat2650);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2650);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_return_stat2652);
-					PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-					this.state.followingStackPointer--;
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_autoCast_in_return_stat2652);
+					autoCast_return autoCast_return = autoCast();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_return_stat2654);
-					PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_expression_in_return_stat2654);
+					expression_return expression_return = expression();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child);
 					return_stat_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (return_stat_return != null) ? return_stat_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (return_stat_return != null) ? return_stat_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree3 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
-						this.adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
-						this.adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree3);
+						CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+						commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
+						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
+						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree3);
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
-						this.adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-						this.adaptor.AddChild(commonTree, commonTree4);
+						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
+						adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+						adaptor.AddChild(commonTree, commonTree4);
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-						this.adaptor.AddChild(commonTree5, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-						this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree5);
+						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+						adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree5);
 					}
 					return_stat_return.Tree = commonTree;
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 83, PapyrusOptimizeWalker.FOLLOW_RETURN_in_return_stat2704);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode);
-					this.adaptor.AddChild(commonTree, child2);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2704);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode);
+					adaptor.AddChild(commonTree, child2);
 					break;
 				}
 				}
-				return_stat_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				return_stat_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex3)
 			{
-				this.ReportError(ex3);
-				this.Recover(this.input, ex3);
+				ReportError(ex3);
+				Recover(input, ex3);
 			}
 			return return_stat_return;
 		}
 
 		// Token: 0x06000B1A RID: 2842 RVA: 0x000402A4 File Offset: 0x0003E4A4
-		public PapyrusOptimizeWalker.ifBlock_return ifBlock()
+		public ifBlock_return ifBlock()
 		{
-			this.ifBlock_stack.Push(new PapyrusOptimizeWalker.ifBlock_scope());
-			PapyrusOptimizeWalker.ifBlock_return ifBlock_return = new PapyrusOptimizeWalker.ifBlock_return();
-			ifBlock_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.ifBlock_scope)this.ifBlock_stack.Peek()).kchildScope = ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			ifBlock_stack.Push(new ifBlock_scope());
+			ifBlock_return ifBlock_return = new ifBlock_return();
+			ifBlock_return.Start = input.LT(1);
+			((ifBlock_scope)ifBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 84, PapyrusOptimizeWalker.FOLLOW_IF_in_ifBlock2732);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_ifBlock2734);
-				PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, expression_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_ifBlock2736);
-				PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.ifBlock_scope)this.ifBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock2732);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_expression_in_ifBlock2734);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, expression_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_codeBlock_in_ifBlock2736);
+				codeBlock_return codeBlock_return = codeBlock(((ifBlock_scope)ifBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				for (;;)
 				{
 					int num = 2;
-					int num2 = this.input.LA(1);
+					int num2 = input.LA(1);
 					if (num2 == 86)
 					{
 						num = 1;
@@ -5005,14 +5005,14 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_elseIfBlock_in_ifBlock2740);
-					PapyrusOptimizeWalker.elseIfBlock_return elseIfBlock_return = this.elseIfBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, elseIfBlock_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_elseIfBlock_in_ifBlock2740);
+					elseIfBlock_return elseIfBlock_return = elseIfBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, elseIfBlock_return.Tree);
 				}
 				int num4 = 2;
-				int num5 = this.input.LA(1);
+				int num5 = input.LA(1);
 				if (num5 == 87)
 				{
 					num4 = 1;
@@ -5020,165 +5020,165 @@ namespace pcomps.PCompiler
 				int num6 = num4;
 				if (num6 == 1)
 				{
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_elseBlock_in_ifBlock2744);
-					PapyrusOptimizeWalker.elseBlock_return elseBlock_return = this.elseBlock();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree3, elseBlock_return.Tree);
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_elseBlock_in_ifBlock2744);
+					elseBlock_return elseBlock_return = elseBlock();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree3, elseBlock_return.Tree);
 				}
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				ifBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
-				((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				ifBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
+				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.ifBlock_stack.Pop();
+				ifBlock_stack.Pop();
 			}
 			return ifBlock_return;
 		}
 
 		// Token: 0x06000B1B RID: 2843 RVA: 0x00040614 File Offset: 0x0003E814
-		public PapyrusOptimizeWalker.elseIfBlock_return elseIfBlock()
+		public elseIfBlock_return elseIfBlock()
 		{
-			this.elseIfBlock_stack.Push(new PapyrusOptimizeWalker.elseIfBlock_scope());
-			PapyrusOptimizeWalker.elseIfBlock_return elseIfBlock_return = new PapyrusOptimizeWalker.elseIfBlock_return();
-			elseIfBlock_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
-			((PapyrusOptimizeWalker.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kchildScope = ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			elseIfBlock_stack.Push(new elseIfBlock_scope());
+			elseIfBlock_return elseIfBlock_return = new elseIfBlock_return();
+			elseIfBlock_return.Start = input.LT(1);
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
+			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 86, PapyrusOptimizeWalker.FOLLOW_ELSEIF_in_elseIfBlock2768);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_elseIfBlock2770);
-				PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, expression_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_elseIfBlock2772);
-				PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.elseIfBlock_scope)this.elseIfBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				elseIfBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock2768);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_expression_in_elseIfBlock2770);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, expression_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_codeBlock_in_elseIfBlock2772);
+				codeBlock_return codeBlock_return = codeBlock(((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				elseIfBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.elseIfBlock_stack.Pop();
+				elseIfBlock_stack.Pop();
 			}
 			return elseIfBlock_return;
 		}
 
 		// Token: 0x06000B1C RID: 2844 RVA: 0x000408A0 File Offset: 0x0003EAA0
-		public PapyrusOptimizeWalker.elseBlock_return elseBlock()
+		public elseBlock_return elseBlock()
 		{
-			this.elseBlock_stack.Push(new PapyrusOptimizeWalker.elseBlock_scope());
-			PapyrusOptimizeWalker.elseBlock_return elseBlock_return = new PapyrusOptimizeWalker.elseBlock_return();
-			elseBlock_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
-			((PapyrusOptimizeWalker.elseBlock_scope)this.elseBlock_stack.Peek()).kchildScope = ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			elseBlock_stack.Push(new elseBlock_scope());
+			elseBlock_return elseBlock_return = new elseBlock_return();
+			elseBlock_return.Start = input.LT(1);
+			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
+			((elseBlock_scope)elseBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 87, PapyrusOptimizeWalker.FOLLOW_ELSE_in_elseBlock2796);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_elseBlock2798);
-				PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.elseBlock_scope)this.elseBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				elseBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 87, FOLLOW_ELSE_in_elseBlock2796);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_codeBlock_in_elseBlock2798);
+				codeBlock_return codeBlock_return = codeBlock(((elseBlock_scope)elseBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				elseBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.elseBlock_stack.Pop();
+				elseBlock_stack.Pop();
 			}
 			return elseBlock_return;
 		}
 
 		// Token: 0x06000B1D RID: 2845 RVA: 0x00040ADC File Offset: 0x0003ECDC
-		public PapyrusOptimizeWalker.whileBlock_return whileBlock()
+		public whileBlock_return whileBlock()
 		{
-			this.whileBlock_stack.Push(new PapyrusOptimizeWalker.whileBlock_scope());
-			PapyrusOptimizeWalker.whileBlock_return whileBlock_return = new PapyrusOptimizeWalker.whileBlock_return();
-			whileBlock_return.Start = this.input.LT(1);
-			((PapyrusOptimizeWalker.whileBlock_scope)this.whileBlock_stack.Peek()).kchildScope = ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.Children[((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild];
+			whileBlock_stack.Push(new whileBlock_scope());
+			whileBlock_return whileBlock_return = new whileBlock_return();
+			whileBlock_return.Start = input.LT(1);
+			((whileBlock_scope)whileBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.Match(this.input, 88, PapyrusOptimizeWalker.FOLLOW_WHILE_in_whileBlock2828);
-				CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-				commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_whileBlock2830);
-				PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, expression_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_codeBlock_in_whileBlock2832);
-				PapyrusOptimizeWalker.codeBlock_return codeBlock_return = this.codeBlock(((PapyrusOptimizeWalker.whileBlock_scope)this.whileBlock_stack.Peek()).kchildScope);
-				this.state.followingStackPointer--;
-				this.adaptor.AddChild(commonTree3, codeBlock_return.Tree);
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, commonTree3);
-				whileBlock_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
-				((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).inextScopeChild++;
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock2828);
+				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_expression_in_whileBlock2830);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, expression_return.Tree);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_codeBlock_in_whileBlock2832);
+				codeBlock_return codeBlock_return = codeBlock(((whileBlock_scope)whileBlock_stack.Peek()).kchildScope);
+				state.followingStackPointer--;
+				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, commonTree3);
+				whileBlock_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
+				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			finally
 			{
-				this.whileBlock_stack.Pop();
+				whileBlock_stack.Pop();
 			}
 			return whileBlock_return;
 		}
 
 		// Token: 0x06000B1E RID: 2846 RVA: 0x00040D68 File Offset: 0x0003EF68
-		public PapyrusOptimizeWalker.function_call_return function_call()
+		public function_call_return function_call()
 		{
-			PapyrusOptimizeWalker.function_call_return function_call_return = new PapyrusOptimizeWalker.function_call_return();
-			function_call_return.Start = this.input.LT(1);
+			function_call_return function_call_return = new function_call_return();
+			function_call_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -5202,7 +5202,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 48, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 48, 0, input);
 						throw ex;
 					}
 					}
@@ -5212,37 +5212,37 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 11, PapyrusOptimizeWalker.FOLLOW_CALL_in_function_call2848);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2852);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree3, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2856);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree3, child2);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2860);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree3, child3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 14, PapyrusOptimizeWalker.FOLLOW_CALLPARAMS_in_function_call2863);
-					CommonTree newRoot2 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					commonTree6 = (CommonTree)this.adaptor.BecomeRoot(newRoot2, commonTree6);
-					if (this.input.LA(1) == 2)
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call2848);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2852);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree3, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2856);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree3, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2860);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree3, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2863);
+					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
+					commonTree6 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree6);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num3 = 2;
-						int num4 = this.input.LA(1);
+						int num4 = input.LA(1);
 						if (num4 == 9)
 						{
 							num3 = 1;
@@ -5250,54 +5250,54 @@ namespace pcomps.PCompiler
 						num = num3;
 						if (num == 1)
 						{
-							commonTree2 = (CommonTree)this.input.LT(1);
-							base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameters_in_function_call2865);
-							PapyrusOptimizeWalker.parameters_return parameters_return = this.parameters();
-							this.state.followingStackPointer--;
-							this.adaptor.AddChild(commonTree6, parameters_return.Tree);
+							commonTree2 = (CommonTree)input.LT(1);
+							PushFollow(FOLLOW_parameters_in_function_call2865);
+							parameters_return parameters_return = parameters();
+							state.followingStackPointer--;
+							adaptor.AddChild(commonTree6, parameters_return.Tree);
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.adaptor.AddChild(commonTree3, commonTree6);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					adaptor.AddChild(commonTree3, commonTree6);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree7 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 13, PapyrusOptimizeWalker.FOLLOW_CALLPARENT_in_function_call2880);
-					CommonTree newRoot3 = (CommonTree)this.adaptor.DupNode(treeNode4);
-					commonTree7 = (CommonTree)this.adaptor.BecomeRoot(newRoot3, commonTree7);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2884);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree7, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2888);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree7, child2);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2892);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree7, child3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree8 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode5 = (CommonTree)this.Match(this.input, 14, PapyrusOptimizeWalker.FOLLOW_CALLPARAMS_in_function_call2895);
-					CommonTree newRoot4 = (CommonTree)this.adaptor.DupNode(treeNode5);
-					commonTree8 = (CommonTree)this.adaptor.BecomeRoot(newRoot4, commonTree8);
-					if (this.input.LA(1) == 2)
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode4 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call2880);
+					CommonTree newRoot3 = (CommonTree)adaptor.DupNode(treeNode4);
+					commonTree7 = (CommonTree)adaptor.BecomeRoot(newRoot3, commonTree7);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2884);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree7, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2888);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree7, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2892);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree7, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode5 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2895);
+					CommonTree newRoot4 = (CommonTree)adaptor.DupNode(treeNode5);
+					commonTree8 = (CommonTree)adaptor.BecomeRoot(newRoot4, commonTree8);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num5 = 2;
-						int num6 = this.input.LA(1);
+						int num6 = input.LA(1);
 						if (num6 == 9)
 						{
 							num5 = 1;
@@ -5305,54 +5305,54 @@ namespace pcomps.PCompiler
 						num = num5;
 						if (num == 1)
 						{
-							commonTree2 = (CommonTree)this.input.LT(1);
-							base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameters_in_function_call2897);
-							PapyrusOptimizeWalker.parameters_return parameters_return2 = this.parameters();
-							this.state.followingStackPointer--;
-							this.adaptor.AddChild(commonTree8, parameters_return2.Tree);
+							commonTree2 = (CommonTree)input.LT(1);
+							PushFollow(FOLLOW_parameters_in_function_call2897);
+							parameters_return parameters_return2 = parameters();
+							state.followingStackPointer--;
+							adaptor.AddChild(commonTree8, parameters_return2.Tree);
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.adaptor.AddChild(commonTree7, commonTree8);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree7);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					adaptor.AddChild(commonTree7, commonTree8);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree7);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree9 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode6 = (CommonTree)this.Match(this.input, 12, PapyrusOptimizeWalker.FOLLOW_CALLGLOBAL_in_function_call2912);
-					CommonTree newRoot5 = (CommonTree)this.adaptor.DupNode(treeNode6);
-					commonTree9 = (CommonTree)this.adaptor.BecomeRoot(newRoot5, commonTree9);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode7 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2916);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(treeNode7);
-					this.adaptor.AddChild(commonTree9, child4);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2920);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree9, child2);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2924);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree9, child3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree10 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode8 = (CommonTree)this.Match(this.input, 14, PapyrusOptimizeWalker.FOLLOW_CALLPARAMS_in_function_call2927);
-					CommonTree newRoot6 = (CommonTree)this.adaptor.DupNode(treeNode8);
-					commonTree10 = (CommonTree)this.adaptor.BecomeRoot(newRoot6, commonTree10);
-					if (this.input.LA(1) == 2)
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree9 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call2912);
+					CommonTree newRoot5 = (CommonTree)adaptor.DupNode(treeNode6);
+					commonTree9 = (CommonTree)adaptor.BecomeRoot(newRoot5, commonTree9);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2916);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode7);
+					adaptor.AddChild(commonTree9, child4);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2920);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree9, child2);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2924);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree9, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree10 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode8 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2927);
+					CommonTree newRoot6 = (CommonTree)adaptor.DupNode(treeNode8);
+					commonTree10 = (CommonTree)adaptor.BecomeRoot(newRoot6, commonTree10);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num7 = 2;
-						int num8 = this.input.LA(1);
+						int num8 = input.LA(1);
 						if (num8 == 9)
 						{
 							num7 = 1;
@@ -5360,49 +5360,49 @@ namespace pcomps.PCompiler
 						num = num7;
 						if (num == 1)
 						{
-							commonTree2 = (CommonTree)this.input.LT(1);
-							base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameters_in_function_call2929);
-							PapyrusOptimizeWalker.parameters_return parameters_return3 = this.parameters();
-							this.state.followingStackPointer--;
-							this.adaptor.AddChild(commonTree10, parameters_return3.Tree);
+							commonTree2 = (CommonTree)input.LT(1);
+							PushFollow(FOLLOW_parameters_in_function_call2929);
+							parameters_return parameters_return3 = parameters();
+							state.followingStackPointer--;
+							adaptor.AddChild(commonTree10, parameters_return3.Tree);
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.adaptor.AddChild(commonTree9, commonTree10);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree9);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					adaptor.AddChild(commonTree9, commonTree10);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree9);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree11 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode9 = (CommonTree)this.Match(this.input, 24, PapyrusOptimizeWalker.FOLLOW_ARRAYFIND_in_function_call2944);
-					CommonTree newRoot7 = (CommonTree)this.adaptor.DupNode(treeNode9);
-					commonTree11 = (CommonTree)this.adaptor.BecomeRoot(newRoot7, commonTree11);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2948);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree11, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2952);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree11, child3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree12 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode10 = (CommonTree)this.Match(this.input, 14, PapyrusOptimizeWalker.FOLLOW_CALLPARAMS_in_function_call2955);
-					CommonTree newRoot8 = (CommonTree)this.adaptor.DupNode(treeNode10);
-					commonTree12 = (CommonTree)this.adaptor.BecomeRoot(newRoot8, commonTree12);
-					if (this.input.LA(1) == 2)
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode9 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call2944);
+					CommonTree newRoot7 = (CommonTree)adaptor.DupNode(treeNode9);
+					commonTree11 = (CommonTree)adaptor.BecomeRoot(newRoot7, commonTree11);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2948);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree11, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2952);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree11, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree12 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode10 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2955);
+					CommonTree newRoot8 = (CommonTree)adaptor.DupNode(treeNode10);
+					commonTree12 = (CommonTree)adaptor.BecomeRoot(newRoot8, commonTree12);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num9 = 2;
-						int num10 = this.input.LA(1);
+						int num10 = input.LA(1);
 						if (num10 == 9)
 						{
 							num9 = 1;
@@ -5410,50 +5410,50 @@ namespace pcomps.PCompiler
 						num = num9;
 						if (num == 1)
 						{
-							commonTree2 = (CommonTree)this.input.LT(1);
-							base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameters_in_function_call2957);
-							PapyrusOptimizeWalker.parameters_return parameters_return4 = this.parameters();
-							this.state.followingStackPointer--;
-							this.adaptor.AddChild(commonTree12, parameters_return4.Tree);
+							commonTree2 = (CommonTree)input.LT(1);
+							PushFollow(FOLLOW_parameters_in_function_call2957);
+							parameters_return parameters_return4 = parameters();
+							state.followingStackPointer--;
+							adaptor.AddChild(commonTree12, parameters_return4.Tree);
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.adaptor.AddChild(commonTree11, commonTree12);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree11);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					adaptor.AddChild(commonTree11, commonTree12);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree11);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 5:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree13 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode11 = (CommonTree)this.Match(this.input, 25, PapyrusOptimizeWalker.FOLLOW_ARRAYRFIND_in_function_call2972);
-					CommonTree newRoot9 = (CommonTree)this.adaptor.DupNode(treeNode11);
-					commonTree13 = (CommonTree)this.adaptor.BecomeRoot(newRoot9, commonTree13);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2976);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree13, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_function_call2980);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree13, child3);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree14 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode12 = (CommonTree)this.Match(this.input, 14, PapyrusOptimizeWalker.FOLLOW_CALLPARAMS_in_function_call2983);
-					CommonTree newRoot10 = (CommonTree)this.adaptor.DupNode(treeNode12);
-					commonTree14 = (CommonTree)this.adaptor.BecomeRoot(newRoot10, commonTree14);
-					if (this.input.LA(1) == 2)
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree13 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode11 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call2972);
+					CommonTree newRoot9 = (CommonTree)adaptor.DupNode(treeNode11);
+					commonTree13 = (CommonTree)adaptor.BecomeRoot(newRoot9, commonTree13);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2976);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree13, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2980);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree13, child3);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode12 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2983);
+					CommonTree newRoot10 = (CommonTree)adaptor.DupNode(treeNode12);
+					commonTree14 = (CommonTree)adaptor.BecomeRoot(newRoot10, commonTree14);
+					if (input.LA(1) == 2)
 					{
-						this.Match(this.input, 2, null);
+						Match(input, 2, null);
 						int num11 = 2;
-						int num12 = this.input.LA(1);
+						int num12 = input.LA(1);
 						if (num12 == 9)
 						{
 							num11 = 1;
@@ -5461,45 +5461,45 @@ namespace pcomps.PCompiler
 						num = num11;
 						if (num == 1)
 						{
-							commonTree2 = (CommonTree)this.input.LT(1);
-							base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameters_in_function_call2985);
-							PapyrusOptimizeWalker.parameters_return parameters_return5 = this.parameters();
-							this.state.followingStackPointer--;
-							this.adaptor.AddChild(commonTree14, parameters_return5.Tree);
+							commonTree2 = (CommonTree)input.LT(1);
+							PushFollow(FOLLOW_parameters_in_function_call2985);
+							parameters_return parameters_return5 = parameters();
+							state.followingStackPointer--;
+							adaptor.AddChild(commonTree14, parameters_return5.Tree);
 						}
-						this.Match(this.input, 3, null);
+						Match(input, 3, null);
 					}
-					this.adaptor.AddChild(commonTree13, commonTree14);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree13);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					adaptor.AddChild(commonTree13, commonTree14);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree13);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				}
-				function_call_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				function_call_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return function_call_return;
 		}
 
 		// Token: 0x06000B1F RID: 2847 RVA: 0x00041DAC File Offset: 0x0003FFAC
-		public PapyrusOptimizeWalker.parameters_return parameters()
+		public parameters_return parameters()
 		{
-			PapyrusOptimizeWalker.parameters_return parameters_return = new PapyrusOptimizeWalker.parameters_return();
-			parameters_return.Start = this.input.LT(1);
+			parameters_return parameters_return = new parameters_return();
+			parameters_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
 				int num = 0;
 				for (;;)
 				{
 					int num2 = 2;
-					int num3 = this.input.LA(1);
+					int num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
@@ -5509,107 +5509,107 @@ namespace pcomps.PCompiler
 					{
 						break;
 					}
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_parameter_in_parameters3006);
-					PapyrusOptimizeWalker.parameter_return parameter_return = this.parameter();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, parameter_return.Tree);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_parameter_in_parameters3006);
+					parameter_return parameter_return = parameter();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, parameter_return.Tree);
 					num++;
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(49, this.input);
+					EarlyExitException ex = new EarlyExitException(49, input);
 					throw ex;
 				}
-				parameters_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				parameters_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return parameters_return;
 		}
 
 		// Token: 0x06000B20 RID: 2848 RVA: 0x00041EBC File Offset: 0x000400BC
-		public PapyrusOptimizeWalker.parameter_return parameter()
+		public parameter_return parameter()
 		{
-			PapyrusOptimizeWalker.parameter_return parameter_return = new PapyrusOptimizeWalker.parameter_return();
-			parameter_return.Start = this.input.LT(1);
+			parameter_return parameter_return = new parameter_return();
+			parameter_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token PARAM");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(this.adaptor, "rule autoCast");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PARAM");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree child = (CommonTree)this.adaptor.GetNilNode();
-				commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree el = (CommonTree)this.Match(this.input, 9, PapyrusOptimizeWalker.FOLLOW_PARAM_in_parameter3021);
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree child = (CommonTree)adaptor.GetNilNode();
+				commonTree2 = (CommonTree)input.LT(1);
+				CommonTree el = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_parameter3021);
 				rewriteRuleNodeStream.Add(el);
-				this.Match(this.input, 2, null);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_autoCast_in_parameter3023);
-				PapyrusOptimizeWalker.autoCast_return autoCast_return = this.autoCast();
-				this.state.followingStackPointer--;
+				Match(input, 2, null);
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_autoCast_in_parameter3023);
+				autoCast_return autoCast_return = autoCast();
+				state.followingStackPointer--;
 				rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
-				commonTree2 = (CommonTree)this.input.LT(1);
-				base.PushFollow(PapyrusOptimizeWalker.FOLLOW_expression_in_parameter3025);
-				PapyrusOptimizeWalker.expression_return expression_return = this.expression();
-				this.state.followingStackPointer--;
+				commonTree2 = (CommonTree)input.LT(1);
+				PushFollow(FOLLOW_expression_in_parameter3025);
+				expression_return expression_return = expression();
+				state.followingStackPointer--;
 				rewriteRuleSubtreeStream.Add(expression_return.Tree);
-				this.Match(this.input, 3, null);
-				this.adaptor.AddChild(commonTree, child);
+				Match(input, 3, null);
+				adaptor.AddChild(commonTree, child);
 				parameter_return.Tree = commonTree;
-				new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (parameter_return != null) ? parameter_return.Tree : null);
-				commonTree = (CommonTree)this.adaptor.GetNilNode();
+				new RewriteRuleSubtreeStream(adaptor, "rule retval", (parameter_return != null) ? parameter_return.Tree : null);
+				commonTree = (CommonTree)adaptor.GetNilNode();
 				if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 				{
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
-					this.adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
-					this.adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree3);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
+					adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
+					adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
+					adaptor.AddChild(commonTree, commonTree3);
 				}
 				else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 				{
-					CommonTree commonTree4 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree4 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
-					this.adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-					this.adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
-					this.adaptor.AddChild(commonTree, commonTree4);
+					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
+					adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+					adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
+					adaptor.AddChild(commonTree, commonTree4);
 				}
 				else
 				{
-					CommonTree commonTree5 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree5 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
-					this.adaptor.AddChild(commonTree5, this.FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
-					this.adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
-					this.adaptor.AddChild(commonTree, commonTree5);
+					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
+					adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
+					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
+					adaptor.AddChild(commonTree, commonTree5);
 				}
 				parameter_return.Tree = commonTree;
-				parameter_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				parameter_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex)
 			{
-				this.ReportError(ex);
-				this.Recover(this.input, ex);
+				ReportError(ex);
+				Recover(input, ex);
 			}
 			return parameter_return;
 		}
 
 		// Token: 0x06000B21 RID: 2849 RVA: 0x00042248 File Offset: 0x00040448
-		public PapyrusOptimizeWalker.autoCast_return autoCast()
+		public autoCast_return autoCast()
 		{
-			PapyrusOptimizeWalker.autoCast_return autoCast_return = new PapyrusOptimizeWalker.autoCast_return();
-			autoCast_return.Start = this.input.LT(1);
+			autoCast_return autoCast_return = new autoCast_return();
+			autoCast_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(this.adaptor, "token AS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(this.adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(this.adaptor, "rule constant");
+			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
+			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule constant");
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num5;
 				if (num != 38)
 				{
@@ -5617,19 +5617,19 @@ namespace pcomps.PCompiler
 					{
 					case 79:
 					{
-						int num2 = this.input.LA(2);
+						int num2 = input.LA(2);
 						if (num2 != 2)
 						{
-							NoViableAltException ex = new NoViableAltException("", 50, 1, this.input);
+							NoViableAltException ex = new NoViableAltException("", 50, 1, input);
 							throw ex;
 						}
-						int num3 = this.input.LA(3);
+						int num3 = input.LA(3);
 						if (num3 != 38)
 						{
-							NoViableAltException ex2 = new NoViableAltException("", 50, 4, this.input);
+							NoViableAltException ex2 = new NoViableAltException("", 50, 4, input);
 							throw ex2;
 						}
-						int num4 = this.input.LA(4);
+						int num4 = input.LA(4);
 						if (num4 == 38)
 						{
 							num5 = 1;
@@ -5640,7 +5640,7 @@ namespace pcomps.PCompiler
 							num5 = 2;
 							goto IL_188;
 						}
-						NoViableAltException ex3 = new NoViableAltException("", 50, 5, this.input);
+						NoViableAltException ex3 = new NoViableAltException("", 50, 5, input);
 						throw ex3;
 					}
 					case 80:
@@ -5663,7 +5663,7 @@ namespace pcomps.PCompiler
 					num5 = 4;
 					goto IL_188;
 					IL_170:
-					NoViableAltException ex4 = new NoViableAltException("", 50, 0, this.input);
+					NoViableAltException ex4 = new NoViableAltException("", 50, 0, input);
 					throw ex4;
 				}
 				num5 = 3;
@@ -5672,109 +5672,109 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 79, PapyrusOptimizeWalker.FOLLOW_AS_in_autoCast3087);
-					CommonTree newRoot = (CommonTree)this.adaptor.DupNode(treeNode);
-					commonTree3 = (CommonTree)this.adaptor.BecomeRoot(newRoot, commonTree3);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_autoCast3091);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(commonTree4);
-					this.adaptor.AddChild(commonTree3, child);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree5 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_autoCast3095);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(commonTree5);
-					this.adaptor.AddChild(commonTree3, child2);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, commonTree3);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3087);
+					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3091);
+					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					adaptor.AddChild(commonTree3, child);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3095);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree5);
+					adaptor.AddChild(commonTree3, child2);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, commonTree3);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree child3 = (CommonTree)this.adaptor.GetNilNode();
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree el = (CommonTree)this.Match(this.input, 79, PapyrusOptimizeWalker.FOLLOW_AS_in_autoCast3108);
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree el = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3108);
 					rewriteRuleNodeStream.Add(el);
-					this.Match(this.input, 2, null);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree6 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_autoCast3110);
+					Match(input, 2, null);
+					commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3110);
 					rewriteRuleNodeStream2.Add(commonTree6);
-					commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_constant_in_autoCast3112);
-					PapyrusOptimizeWalker.constant_return constant_return = this.constant();
-					this.state.followingStackPointer--;
+					commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_constant_in_autoCast3112);
+					constant_return constant_return = constant();
+					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(constant_return.Tree);
-					this.Match(this.input, 3, null);
-					this.adaptor.AddChild(commonTree, child3);
-					autoCast_return.kOptimizedTree = this.CompilerAutoCast(commonTree6.Text, (constant_return != null) ? ((CommonTree)constant_return.Tree) : null, ((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope);
+					Match(input, 3, null);
+					adaptor.AddChild(commonTree, child3);
+					autoCast_return.kOptimizedTree = CompilerAutoCast(commonTree6.Text, (constant_return != null) ? ((CommonTree)constant_return.Tree) : null, ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope);
 					if (autoCast_return.kOptimizedTree == null)
 					{
-						((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
+						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
 					}
 					autoCast_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(this.adaptor, "rule retval", (autoCast_return != null) ? autoCast_return.Tree : null);
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", (autoCast_return != null) ? autoCast_return.Tree : null);
+					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (autoCast_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree7 = (CommonTree)this.adaptor.GetNilNode();
-						commonTree7 = (CommonTree)this.adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
-						this.adaptor.AddChild(commonTree7, rewriteRuleNodeStream2.NextNode());
-						this.adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream.NextTree());
-						this.adaptor.AddChild(commonTree, commonTree7);
+						CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+						commonTree7 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
+						adaptor.AddChild(commonTree7, rewriteRuleNodeStream2.NextNode());
+						adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream.NextTree());
+						adaptor.AddChild(commonTree, commonTree7);
 					}
 					else
 					{
-						this.adaptor.AddChild(commonTree, autoCast_return.kOptimizedTree);
+						adaptor.AddChild(commonTree, autoCast_return.kOptimizedTree);
 					}
 					autoCast_return.Tree = commonTree;
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree commonTree8 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_autoCast3147);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(commonTree8);
-					this.adaptor.AddChild(commonTree, child4);
-					((PapyrusOptimizeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree8.Text);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3147);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(commonTree8);
+					adaptor.AddChild(commonTree, child4);
+					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree8.Text);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_constant_in_autoCast3158);
-					PapyrusOptimizeWalker.constant_return constant_return2 = this.constant();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, constant_return2.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_constant_in_autoCast3158);
+					constant_return constant_return2 = constant();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, constant_return2.Tree);
 					break;
 				}
 				}
-				autoCast_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				autoCast_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex5)
 			{
-				this.ReportError(ex5);
-				this.Recover(this.input, ex5);
+				ReportError(ex5);
+				Recover(input, ex5);
 			}
 			return autoCast_return;
 		}
 
 		// Token: 0x06000B22 RID: 2850 RVA: 0x000428FC File Offset: 0x00040AFC
-		public PapyrusOptimizeWalker.constant_return constant()
+		public constant_return constant()
 		{
-			PapyrusOptimizeWalker.constant_return constant_return = new PapyrusOptimizeWalker.constant_return();
-			constant_return.Start = this.input.LT(1);
+			constant_return constant_return = new constant_return();
+			constant_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num2;
 				if (num != 81)
 				{
@@ -5793,7 +5793,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 51, 0, this.input);
+						NoViableAltException ex = new NoViableAltException("", 51, 0, input);
 						throw ex;
 					}
 					}
@@ -5804,94 +5804,94 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					base.PushFollow(PapyrusOptimizeWalker.FOLLOW_number_in_constant3171);
-					PapyrusOptimizeWalker.number_return number_return = this.number();
-					this.state.followingStackPointer--;
-					this.adaptor.AddChild(commonTree, number_return.Tree);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					PushFollow(FOLLOW_number_in_constant3171);
+					number_return number_return = number();
+					state.followingStackPointer--;
+					adaptor.AddChild(commonTree, number_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 90, PapyrusOptimizeWalker.FOLLOW_STRING_in_constant3177);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode);
-					this.adaptor.AddChild(commonTree, child);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 90, FOLLOW_STRING_in_constant3177);
+					CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+					adaptor.AddChild(commonTree, child);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 91, PapyrusOptimizeWalker.FOLLOW_BOOL_in_constant3183);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree, child2);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree4 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 91, FOLLOW_BOOL_in_constant3183);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree, child2);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 92, PapyrusOptimizeWalker.FOLLOW_NONE_in_constant3189);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					this.adaptor.AddChild(commonTree, child3);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree5 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_constant3189);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					adaptor.AddChild(commonTree, child3);
 					break;
 				}
 				}
-				constant_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				constant_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return constant_return;
 		}
 
 		// Token: 0x06000B23 RID: 2851 RVA: 0x00042B88 File Offset: 0x00040D88
-		public PapyrusOptimizeWalker.number_return number()
+		public number_return number()
 		{
-			PapyrusOptimizeWalker.number_return number_return = new PapyrusOptimizeWalker.number_return();
-			number_return.Start = this.input.LT(1);
+			number_return number_return = new number_return();
+			number_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)this.adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-				CommonTree treeNode = (CommonTree)this.input.LT(1);
-				if (this.input.LA(1) != 81 && this.input.LA(1) != 93)
+				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
+				CommonTree commonTree2 = (CommonTree)input.LT(1);
+				CommonTree treeNode = (CommonTree)input.LT(1);
+				if (input.LA(1) != 81 && input.LA(1) != 93)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, this.input);
+					MismatchedSetException ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
-				this.input.Consume();
-				CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode);
-				this.adaptor.AddChild(commonTree, child);
-				this.state.errorRecovery = false;
-				number_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				input.Consume();
+				CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+				adaptor.AddChild(commonTree, child);
+				state.errorRecovery = false;
+				number_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex2)
 			{
-				this.ReportError(ex2);
-				this.Recover(this.input, ex2);
+				ReportError(ex2);
+				Recover(input, ex2);
 			}
 			return number_return;
 		}
 
 		// Token: 0x06000B24 RID: 2852 RVA: 0x00042C98 File Offset: 0x00040E98
-		public PapyrusOptimizeWalker.type_return type()
+		public type_return type()
 		{
-			PapyrusOptimizeWalker.type_return type_return = new PapyrusOptimizeWalker.type_return();
-			type_return.Start = this.input.LT(1);
+			type_return type_return = new type_return();
+			type_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = this.input.LA(1);
+				int num = input.LA(1);
 				int num3;
 				if (num == 38)
 				{
-					int num2 = this.input.LA(2);
+					int num2 = input.LA(2);
 					if (num2 == 63)
 					{
 						num3 = 2;
@@ -5900,7 +5900,7 @@ namespace pcomps.PCompiler
 					{
 						if (num2 != 38)
 						{
-							NoViableAltException ex = new NoViableAltException("", 52, 1, this.input);
+							NoViableAltException ex = new NoViableAltException("", 52, 1, input);
 							throw ex;
 						}
 						num3 = 1;
@@ -5910,10 +5910,10 @@ namespace pcomps.PCompiler
 				{
 					if (num != 55)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 52, 0, this.input);
+						NoViableAltException ex2 = new NoViableAltException("", 52, 0, input);
 						throw ex2;
 					}
-					int num4 = this.input.LA(2);
+					int num4 = input.LA(2);
 					if (num4 == 63)
 					{
 						num3 = 4;
@@ -5922,7 +5922,7 @@ namespace pcomps.PCompiler
 					{
 						if (num4 != 38)
 						{
-							NoViableAltException ex3 = new NoViableAltException("", 52, 2, this.input);
+							NoViableAltException ex3 = new NoViableAltException("", 52, 2, input);
 							throw ex3;
 						}
 						num3 = 3;
@@ -5932,63 +5932,63 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_type3221);
-					CommonTree child = (CommonTree)this.adaptor.DupNode(treeNode);
-					this.adaptor.AddChild(commonTree, child);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					CommonTree treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3221);
+					CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+					adaptor.AddChild(commonTree, child);
 					break;
 				}
 				case 2:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 38, PapyrusOptimizeWalker.FOLLOW_ID_in_type3227);
-					CommonTree child2 = (CommonTree)this.adaptor.DupNode(treeNode2);
-					this.adaptor.AddChild(commonTree, child2);
-					CommonTree commonTree4 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode3 = (CommonTree)this.Match(this.input, 63, PapyrusOptimizeWalker.FOLLOW_LBRACKET_in_type3229);
-					CommonTree child3 = (CommonTree)this.adaptor.DupNode(treeNode3);
-					this.adaptor.AddChild(commonTree, child3);
-					CommonTree commonTree5 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 64, PapyrusOptimizeWalker.FOLLOW_RBRACKET_in_type3231);
-					CommonTree child4 = (CommonTree)this.adaptor.DupNode(treeNode4);
-					this.adaptor.AddChild(commonTree, child4);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3227);
+					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					adaptor.AddChild(commonTree, child2);
+					CommonTree commonTree4 = (CommonTree)input.LT(1);
+					CommonTree treeNode3 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3229);
+					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					adaptor.AddChild(commonTree, child3);
+					CommonTree commonTree5 = (CommonTree)input.LT(1);
+					CommonTree treeNode4 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3231);
+					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					adaptor.AddChild(commonTree, child4);
 					break;
 				}
 				case 3:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode5 = (CommonTree)this.Match(this.input, 55, PapyrusOptimizeWalker.FOLLOW_BASETYPE_in_type3237);
-					CommonTree child5 = (CommonTree)this.adaptor.DupNode(treeNode5);
-					this.adaptor.AddChild(commonTree, child5);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree6 = (CommonTree)input.LT(1);
+					CommonTree treeNode5 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3237);
+					CommonTree child5 = (CommonTree)adaptor.DupNode(treeNode5);
+					adaptor.AddChild(commonTree, child5);
 					break;
 				}
 				case 4:
 				{
-					commonTree = (CommonTree)this.adaptor.GetNilNode();
-					CommonTree commonTree7 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode6 = (CommonTree)this.Match(this.input, 55, PapyrusOptimizeWalker.FOLLOW_BASETYPE_in_type3243);
-					CommonTree child6 = (CommonTree)this.adaptor.DupNode(treeNode6);
-					this.adaptor.AddChild(commonTree, child6);
-					CommonTree commonTree8 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode7 = (CommonTree)this.Match(this.input, 63, PapyrusOptimizeWalker.FOLLOW_LBRACKET_in_type3245);
-					CommonTree child7 = (CommonTree)this.adaptor.DupNode(treeNode7);
-					this.adaptor.AddChild(commonTree, child7);
-					CommonTree commonTree9 = (CommonTree)this.input.LT(1);
-					CommonTree treeNode8 = (CommonTree)this.Match(this.input, 64, PapyrusOptimizeWalker.FOLLOW_RBRACKET_in_type3247);
-					CommonTree child8 = (CommonTree)this.adaptor.DupNode(treeNode8);
-					this.adaptor.AddChild(commonTree, child8);
+					commonTree = (CommonTree)adaptor.GetNilNode();
+					CommonTree commonTree7 = (CommonTree)input.LT(1);
+					CommonTree treeNode6 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3243);
+					CommonTree child6 = (CommonTree)adaptor.DupNode(treeNode6);
+					adaptor.AddChild(commonTree, child6);
+					CommonTree commonTree8 = (CommonTree)input.LT(1);
+					CommonTree treeNode7 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3245);
+					CommonTree child7 = (CommonTree)adaptor.DupNode(treeNode7);
+					adaptor.AddChild(commonTree, child7);
+					CommonTree commonTree9 = (CommonTree)input.LT(1);
+					CommonTree treeNode8 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3247);
+					CommonTree child8 = (CommonTree)adaptor.DupNode(treeNode8);
+					adaptor.AddChild(commonTree, child8);
 					break;
 				}
 				}
-				type_return.Tree = (CommonTree)this.adaptor.RulePostProcessing(commonTree);
+				type_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
 			}
 			catch (RecognitionException ex4)
 			{
-				this.ReportError(ex4);
-				this.Recover(this.input, ex4);
+				ReportError(ex4);
+				Recover(input, ex4);
 			}
 			return type_return;
 		}
@@ -5996,8 +5996,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B25 RID: 2853 RVA: 0x000430CC File Offset: 0x000412CC
 		private void InitializeCyclicDFAs()
 		{
-			this.dfa25 = new PapyrusOptimizeWalker.DFA25(this);
-			this.dfa26 = new PapyrusOptimizeWalker.DFA26(this);
+			dfa25 = new DFA25(this);
+			dfa26 = new DFA26(this);
 		}
 
 		// Token: 0x0400050B RID: 1291
@@ -6343,7 +6343,7 @@ namespace pcomps.PCompiler
 		private const string DFA26_specialS = "\u0019￿}>";
 
 		// Token: 0x0400057D RID: 1405
-		private PapyrusOptimizeWalker.OptimizePass ePassType;
+		private OptimizePass ePassType;
 
 		// Token: 0x0400057E RID: 1406
 		public bool bMadeChanges;
@@ -6498,10 +6498,10 @@ namespace pcomps.PCompiler
 		protected StackList whileBlock_stack = new StackList();
 
 		// Token: 0x0400058E RID: 1422
-		protected PapyrusOptimizeWalker.DFA25 dfa25;
+		protected DFA25 dfa25;
 
 		// Token: 0x0400058F RID: 1423
-		protected PapyrusOptimizeWalker.DFA26 dfa26;
+		protected DFA26 dfa26;
 
 		// Token: 0x04000590 RID: 1424
 		private static readonly string[] DFA25_transitionS = new string[]
@@ -6539,7 +6539,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA25_special = DFA.UnpackEncodedString("\f￿}>");
 
 		// Token: 0x04000597 RID: 1431
-		private static readonly short[][] DFA25_transition = DFA.UnpackEncodedStringArray(PapyrusOptimizeWalker.DFA25_transitionS);
+		private static readonly short[][] DFA25_transition = DFA.UnpackEncodedStringArray(DFA25_transitionS);
 
 		// Token: 0x04000598 RID: 1432
 		private static readonly string[] DFA26_transitionS = new string[]
@@ -6590,7 +6590,7 @@ namespace pcomps.PCompiler
 		private static readonly short[] DFA26_special = DFA.UnpackEncodedString("\u0019￿}>");
 
 		// Token: 0x0400059F RID: 1439
-		private static readonly short[][] DFA26_transition = DFA.UnpackEncodedStringArray(PapyrusOptimizeWalker.DFA26_transitionS);
+		private static readonly short[][] DFA26_transition = DFA.UnpackEncodedStringArray(DFA26_transitionS);
 
 		// Token: 0x040005A0 RID: 1440
 		public static readonly BitSet FOLLOW_OBJECT_in_script86 = new BitSet(new ulong[]
@@ -8734,11 +8734,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8756,11 +8756,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8778,11 +8778,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8800,11 +8800,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8835,11 +8835,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8860,11 +8860,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8885,11 +8885,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8920,11 +8920,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8942,11 +8942,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8964,11 +8964,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -8986,11 +8986,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9008,11 +9008,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9030,11 +9030,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9052,11 +9052,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9074,11 +9074,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9099,11 +9099,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9131,11 +9131,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9153,11 +9153,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9182,11 +9182,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9204,11 +9204,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9226,11 +9226,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9248,11 +9248,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9273,11 +9273,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9314,11 +9314,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9355,11 +9355,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9396,11 +9396,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9421,11 +9421,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9446,11 +9446,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9471,11 +9471,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9496,11 +9496,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9521,11 +9521,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9546,11 +9546,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9568,11 +9568,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9590,11 +9590,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9612,11 +9612,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9641,11 +9641,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9670,11 +9670,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9699,11 +9699,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9728,11 +9728,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9750,11 +9750,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9772,11 +9772,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9794,11 +9794,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9816,11 +9816,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9841,11 +9841,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9863,11 +9863,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9885,11 +9885,11 @@ namespace pcomps.PCompiler
 			{
 				get
 				{
-					return this.tree;
+					return tree;
 				}
 				set
 				{
-					this.tree = (CommonTree)value;
+					tree = (CommonTree)value;
 				}
 			}
 
@@ -9904,14 +9904,14 @@ namespace pcomps.PCompiler
 			public DFA25(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 25;
-				this.eot = PapyrusOptimizeWalker.DFA25_eot;
-				this.eof = PapyrusOptimizeWalker.DFA25_eof;
-				this.min = PapyrusOptimizeWalker.DFA25_min;
-				this.max = PapyrusOptimizeWalker.DFA25_max;
-				this.accept = PapyrusOptimizeWalker.DFA25_accept;
-				this.special = PapyrusOptimizeWalker.DFA25_special;
-				this.transition = PapyrusOptimizeWalker.DFA25_transition;
+				decisionNumber = 25;
+				eot = DFA25_eot;
+				eof = DFA25_eof;
+				min = DFA25_min;
+				max = DFA25_max;
+				accept = DFA25_accept;
+				special = DFA25_special;
+				transition = DFA25_transition;
 			}
 
 			// Token: 0x1700016B RID: 363
@@ -9932,14 +9932,14 @@ namespace pcomps.PCompiler
 			public DFA26(BaseRecognizer recognizer)
 			{
 				this.recognizer = recognizer;
-				this.decisionNumber = 26;
-				this.eot = PapyrusOptimizeWalker.DFA26_eot;
-				this.eof = PapyrusOptimizeWalker.DFA26_eof;
-				this.min = PapyrusOptimizeWalker.DFA26_min;
-				this.max = PapyrusOptimizeWalker.DFA26_max;
-				this.accept = PapyrusOptimizeWalker.DFA26_accept;
-				this.special = PapyrusOptimizeWalker.DFA26_special;
-				this.transition = PapyrusOptimizeWalker.DFA26_transition;
+				decisionNumber = 26;
+				eot = DFA26_eot;
+				eof = DFA26_eof;
+				min = DFA26_min;
+				max = DFA26_max;
+				accept = DFA26_accept;
+				special = DFA26_special;
+				transition = DFA26_transition;
 			}
 
 			// Token: 0x1700016C RID: 364

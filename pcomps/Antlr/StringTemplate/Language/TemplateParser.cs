@@ -8,34 +8,34 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011DC RID: 4572 RVA: 0x00082634 File Offset: 0x00080834
 		public override void reportError(RecognitionException e)
 		{
-			StringTemplateGroup group = this.self.Group;
+			StringTemplateGroup group = self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
-				this.self.Error(
-                    $"template parse error; template context is {this.self.GetEnclosingInstanceStackString()}", e);
+				self.Error(
+                    $"template parse error; template context is {self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
-			this.self.Error(string.Concat(new object[]
+			self.Error(string.Concat(new object[]
 			{
 				"template parse error in group ",
-				this.self.Group.Name,
+				self.Group.Name,
 				" line ",
-				this.self.GroupFileLine,
+				self.GroupFileLine,
 				"; template context is ",
-				this.self.GetEnclosingInstanceStackString()
+				self.GetEnclosingInstanceStackString()
 			}), e);
 		}
 
 		// Token: 0x060011DD RID: 4573 RVA: 0x000826DC File Offset: 0x000808DC
 		protected void initialize()
 		{
-			this.tokenNames = TemplateParser.tokenNames_;
+			tokenNames = tokenNames_;
 		}
 
 		// Token: 0x060011DE RID: 4574 RVA: 0x000826EC File Offset: 0x000808EC
 		protected TemplateParser(TokenBuffer tokenBuf, int k) : base(tokenBuf, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060011DF RID: 4575 RVA: 0x000826FC File Offset: 0x000808FC
@@ -46,7 +46,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011E0 RID: 4576 RVA: 0x00082708 File Offset: 0x00080908
 		protected TemplateParser(TokenStream lexer, int k) : base(lexer, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060011E1 RID: 4577 RVA: 0x00082718 File Offset: 0x00080918
@@ -57,7 +57,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011E2 RID: 4578 RVA: 0x00082724 File Offset: 0x00080924
 		public TemplateParser(ParserSharedInputState state) : base(state, 1)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x060011E3 RID: 4579 RVA: 0x00082734 File Offset: 0x00080934
@@ -68,20 +68,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				for (;;)
 				{
-					switch (this.LA(1))
+					switch (LA(1))
 					{
 					case 4:
 					{
-						IToken token = this.LT(1);
-						this.match(4);
+						IToken token = LT(1);
+						match(4);
 						self.AddChunk(new StringRef(self, token.getText()));
 						continue;
 					}
 					case 5:
 					{
-						IToken token2 = this.LT(1);
-						this.match(5);
-						if (this.LA(1) != 8 && this.LA(1) != 9)
+						IToken token2 = LT(1);
+						match(5);
+						if (LA(1) != 8 && LA(1) != 9)
 						{
 							self.AddChunk(new NewlineRef(self, token2.getText()));
 							continue;
@@ -92,7 +92,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 7:
 					case 10:
 					case 11:
-						this.action(self);
+						action(self);
 						continue;
 					}
 					break;
@@ -100,8 +100,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, TemplateParser.tokenSet_0_);
+				reportError(ex);
+				recover(ex, tokenSet_0_);
 			}
 		}
 
@@ -110,12 +110,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 6:
 				{
-					IToken token = this.LT(1);
-					this.match(6);
+					IToken token = LT(1);
+					match(6);
 					string indentation = ((ChunkToken)token).Indentation;
 					ASTExpr astexpr = self.ParseAction(token.getText());
 					astexpr.Indentation = indentation;
@@ -124,27 +124,27 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				case 7:
 				{
-					IToken token2 = this.LT(1);
-					this.match(7);
+					IToken token2 = LT(1);
+					match(7);
 					ConditionalExpr conditionalExpr = (ConditionalExpr)self.ParseAction(token2.getText());
 					StringTemplate stringTemplate = new StringTemplate(self.Group, null);
 					stringTemplate.EnclosingInstance = self;
 					stringTemplate.Name = $"{token2.getText()}_subtemplate";
 					self.AddChunk(conditionalExpr);
-					this.template(stringTemplate);
+					template(stringTemplate);
 					if (conditionalExpr != null)
 					{
 						conditionalExpr.Subtemplate = stringTemplate;
 					}
-					switch (this.LA(1))
+					switch (LA(1))
 					{
 					case 8:
 					{
-						this.match(8);
+						match(8);
 						StringTemplate stringTemplate2 = new StringTemplate(self.Group, null);
 						stringTemplate2.EnclosingInstance = self;
 						stringTemplate2.Name = "else_subtemplate";
-						this.template(stringTemplate2);
+						template(stringTemplate2);
 						if (conditionalExpr != null)
 						{
 							conditionalExpr.ElseSubtemplate = stringTemplate2;
@@ -154,15 +154,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 9:
 						break;
 					default:
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
-					this.match(9);
+					match(9);
 					goto IL_355;
 				}
 				case 10:
 				{
-					IToken token3 = this.LT(1);
-					this.match(10);
+					IToken token3 = LT(1);
+					match(10);
 					string text = token3.getText();
 					string text2 = null;
 					bool flag = false;
@@ -204,8 +204,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				case 11:
 				{
-					IToken token4 = this.LT(1);
-					this.match(11);
+					IToken token4 = LT(1);
+					match(11);
 					string text4 = token4.getText();
 					int num = text4.IndexOf("::=");
 					if (num >= 1)
@@ -223,13 +223,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 					goto IL_355;
 				}
 				}
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_355:;
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, TemplateParser.tokenSet_1_);
+				reportError(ex);
+				recover(ex, tokenSet_1_);
 			}
 		}
 
@@ -337,9 +337,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		};
 
 		// Token: 0x04000F19 RID: 3865
-		public static readonly BitSet tokenSet_0_ = new BitSet(TemplateParser.mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
 
 		// Token: 0x04000F1A RID: 3866
-		public static readonly BitSet tokenSet_1_ = new BitSet(TemplateParser.mk_tokenSet_1_());
+		public static readonly BitSet tokenSet_1_ = new BitSet(mk_tokenSet_1_());
 	}
 }

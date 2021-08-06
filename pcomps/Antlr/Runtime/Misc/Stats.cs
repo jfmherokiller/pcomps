@@ -14,7 +14,7 @@ namespace pcomps.Antlr.Runtime.Misc
 			{
 				return 0.0;
 			}
-			double num2 = Stats.Avg(X);
+			double num2 = Avg(X);
 			double num3 = 0.0;
 			for (int i = 0; i < num; i++)
 			{
@@ -101,7 +101,7 @@ namespace pcomps.Antlr.Runtime.Misc
 		// Token: 0x06000835 RID: 2101 RVA: 0x0001722C File Offset: 0x0001542C
 		public static void WriteReport(string filename, string data)
 		{
-			string absoluteFileName = Stats.GetAbsoluteFileName(filename);
+			string absoluteFileName = GetAbsoluteFileName(filename);
 			FileInfo fileInfo = new FileInfo(absoluteFileName);
 			fileInfo.Directory.Create();
 			try

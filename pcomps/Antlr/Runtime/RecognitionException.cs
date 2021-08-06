@@ -36,26 +36,26 @@ namespace pcomps.Antlr.Runtime
 		public RecognitionException(string message, Exception inner, IIntStream input) : base(message, inner)
 		{
 			this.input = input;
-			this.index = input.Index();
+			index = input.Index();
 			if (input is ITokenStream)
 			{
-				this.token = ((ITokenStream)input).LT(1);
-				this.line = this.token.Line;
-				this.charPositionInLine = this.token.CharPositionInLine;
+				token = ((ITokenStream)input).LT(1);
+				line = token.Line;
+				charPositionInLine = token.CharPositionInLine;
 			}
 			if (input is ITreeNodeStream)
 			{
-				this.ExtractInformationFromTreeNodeStream(input);
+				ExtractInformationFromTreeNodeStream(input);
 			}
 			else if (input is ICharStream)
 			{
-				this.c = input.LA(1);
-				this.line = ((ICharStream)input).Line;
-				this.charPositionInLine = ((ICharStream)input).CharPositionInLine;
+				c = input.LA(1);
+				line = ((ICharStream)input).Line;
+				charPositionInLine = ((ICharStream)input).CharPositionInLine;
 			}
 			else
 			{
-				this.c = input.LA(1);
+				c = input.LA(1);
 			}
 		}
 
@@ -66,11 +66,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.input;
+				return input;
 			}
 			set
 			{
-				this.input = value;
+				input = value;
 			}
 		}
 
@@ -81,11 +81,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.index;
+				return index;
 			}
 			set
 			{
-				this.index = value;
+				index = value;
 			}
 		}
 
@@ -96,11 +96,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.token;
+				return token;
 			}
 			set
 			{
-				this.token = value;
+				token = value;
 			}
 		}
 
@@ -111,11 +111,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.node;
+				return node;
 			}
 			set
 			{
-				this.node = value;
+				node = value;
 			}
 		}
 
@@ -126,11 +126,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.c;
+				return c;
 			}
 			set
 			{
-				this.c = value;
+				c = value;
 			}
 		}
 
@@ -141,11 +141,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.charPositionInLine;
+				return charPositionInLine;
 			}
 			set
 			{
-				this.charPositionInLine = value;
+				charPositionInLine = value;
 			}
 		}
 
@@ -156,11 +156,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.line;
+				return line;
 			}
 			set
 			{
-				this.line = value;
+				line = value;
 			}
 		}
 
@@ -170,17 +170,17 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				if (this.input is ITokenStream)
+				if (input is ITokenStream)
 				{
-					return this.token.Type;
+					return token.Type;
 				}
-				if (this.input is ITreeNodeStream)
+				if (input is ITreeNodeStream)
 				{
-					ITreeNodeStream treeNodeStream = (ITreeNodeStream)this.input;
+					ITreeNodeStream treeNodeStream = (ITreeNodeStream)input;
 					ITreeAdaptor treeAdaptor = treeNodeStream.TreeAdaptor;
-					return treeAdaptor.GetNodeType(this.node);
+					return treeAdaptor.GetNodeType(node);
 				}
-				return this.c;
+				return c;
 			}
 		}
 
@@ -188,9 +188,9 @@ namespace pcomps.Antlr.Runtime
 		protected void ExtractInformationFromTreeNodeStream(IIntStream input)
 		{
 			ITreeNodeStream treeNodeStream = (ITreeNodeStream)input;
-			this.node = treeNodeStream.LT(1);
+			node = treeNodeStream.LT(1);
 			ITreeAdaptor treeAdaptor = treeNodeStream.TreeAdaptor;
-			IToken token = treeAdaptor.GetToken(this.node);
+			IToken token = treeAdaptor.GetToken(node);
 			if (token != null)
 			{
 				this.token = token;
@@ -202,9 +202,9 @@ namespace pcomps.Antlr.Runtime
 						IToken token2 = treeAdaptor.GetToken(treeNode);
 						if (token2 != null && token2.Line > 0)
 						{
-							this.line = token2.Line;
-							this.charPositionInLine = token2.CharPositionInLine;
-							this.approximateLineInfo = true;
+							line = token2.Line;
+							charPositionInLine = token2.CharPositionInLine;
+							approximateLineInfo = true;
 							break;
 						}
 						num--;
@@ -212,23 +212,23 @@ namespace pcomps.Antlr.Runtime
 				}
 				else
 				{
-					this.line = token.Line;
-					this.charPositionInLine = token.CharPositionInLine;
+					line = token.Line;
+					charPositionInLine = token.CharPositionInLine;
 				}
 			}
-			else if (this.node is ITree)
+			else if (node is ITree)
 			{
-				this.line = ((ITree)this.node).Line;
-				this.charPositionInLine = ((ITree)this.node).CharPositionInLine;
-				if (this.node is CommonTree)
+				line = ((ITree)node).Line;
+				charPositionInLine = ((ITree)node).CharPositionInLine;
+				if (node is CommonTree)
 				{
-					this.token = ((CommonTree)this.node).Token;
+					this.token = ((CommonTree)node).Token;
 				}
 			}
 			else
 			{
-				int nodeType = treeAdaptor.GetNodeType(this.node);
-				string nodeText = treeAdaptor.GetNodeText(this.node);
+				int nodeType = treeAdaptor.GetNodeType(node);
+				string nodeText = treeAdaptor.GetNodeText(node);
 				this.token = new CommonToken(nodeType, nodeText);
 			}
 		}

@@ -23,9 +23,9 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"MismatchedSetException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				"!=",
-				this.expecting,
+				expecting,
 				")"
 			});
 		}

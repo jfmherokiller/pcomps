@@ -11,7 +11,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.sError;
+				return sError;
 			}
 		}
 
@@ -21,7 +21,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.iLineNumber;
+				return iLineNumber;
 			}
 		}
 
@@ -31,16 +31,16 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				return this.iColumnNumber;
+				return iColumnNumber;
 			}
 		}
 
 		// Token: 0x06000D69 RID: 3433 RVA: 0x0005E054 File Offset: 0x0005C254
 		public InternalErrorEventArgs(string asErrorText, int aiLineNumber, int aiColumnNumber)
 		{
-			this.sError = asErrorText;
-			this.iLineNumber = aiLineNumber;
-			this.iColumnNumber = aiColumnNumber;
+			sError = asErrorText;
+			iLineNumber = aiLineNumber;
+			iColumnNumber = aiColumnNumber;
 		}
 
 		// Token: 0x040009EA RID: 2538

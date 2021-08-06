@@ -25,23 +25,23 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001085 RID: 4229 RVA: 0x00073A08 File Offset: 0x00071C08
 		public ActionLexer(LexerSharedInputState state) : base(state)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x06001086 RID: 4230 RVA: 0x00073A18 File Offset: 0x00071C18
 		private void initialize()
 		{
-			this.caseSensitiveLiterals = true;
-			this.setCaseSensitive(true);
-			this.literals = new Hashtable(100, 0.4f, null, Comparer.Default);
-			this.literals.Add("if", 8);
-			this.literals.Add("rest", 26);
-			this.literals.Add("last", 27);
-			this.literals.Add("length", 28);
-			this.literals.Add("strip", 29);
-			this.literals.Add("trunc", 30);
-			this.literals.Add("first", 25);
-			this.literals.Add("super", 23);
+			caseSensitiveLiterals = true;
+			setCaseSensitive(true);
+			literals = new Hashtable(100, 0.4f, null, Comparer.Default);
+			literals.Add("if", 8);
+			literals.Add("rest", 26);
+			literals.Add("last", 27);
+			literals.Add("length", 28);
+			literals.Add("strip", 29);
+			literals.Add("trunc", 30);
+			literals.Add("first", 25);
+			literals.Add("super", 23);
 		}
 
 		// Token: 0x06001087 RID: 4231 RVA: 0x00073B04 File Offset: 0x00071D04
@@ -50,56 +50,56 @@ namespace pcomps.Antlr.StringTemplate.Language
 			IToken returnToken_18;
 			for (;;)
 			{
-				this.resetText();
+				resetText();
 				try
 				{
 					try
 					{
-						switch (this.cached_LA1)
+						switch (cached_LA1)
 						{
 						case '\t':
 						case '\n':
 						case '\r':
 						case ' ':
 						{
-							this.mWS(true);
+							mWS(true);
 							IToken returnToken_ = this.returnToken_;
 							goto IL_383;
 						}
 						case '!':
 						{
-							this.mNOT(true);
-							IToken returnToken_2 = this.returnToken_;
+							mNOT(true);
+							IToken returnToken_2 = returnToken_;
 							goto IL_383;
 						}
 						case '"':
 						{
-							this.mSTRING(true);
-							IToken returnToken_3 = this.returnToken_;
+							mSTRING(true);
+							IToken returnToken_3 = returnToken_;
 							goto IL_383;
 						}
 						case '(':
 						{
-							this.mLPAREN(true);
-							IToken returnToken_4 = this.returnToken_;
+							mLPAREN(true);
+							IToken returnToken_4 = returnToken_;
 							goto IL_383;
 						}
 						case ')':
 						{
-							this.mRPAREN(true);
-							IToken returnToken_5 = this.returnToken_;
+							mRPAREN(true);
+							IToken returnToken_5 = returnToken_;
 							goto IL_383;
 						}
 						case '+':
 						{
-							this.mPLUS(true);
-							IToken returnToken_6 = this.returnToken_;
+							mPLUS(true);
+							IToken returnToken_6 = returnToken_;
 							goto IL_383;
 						}
 						case ',':
 						{
-							this.mCOMMA(true);
-							IToken returnToken_7 = this.returnToken_;
+							mCOMMA(true);
+							IToken returnToken_7 = returnToken_;
 							goto IL_383;
 						}
 						case '0':
@@ -113,26 +113,26 @@ namespace pcomps.Antlr.StringTemplate.Language
 						case '8':
 						case '9':
 						{
-							this.mINT(true);
-							IToken returnToken_8 = this.returnToken_;
+							mINT(true);
+							IToken returnToken_8 = returnToken_;
 							goto IL_383;
 						}
 						case ':':
 						{
-							this.mCOLON(true);
-							IToken returnToken_9 = this.returnToken_;
+							mCOLON(true);
+							IToken returnToken_9 = returnToken_;
 							goto IL_383;
 						}
 						case ';':
 						{
-							this.mSEMI(true);
-							IToken returnToken_10 = this.returnToken_;
+							mSEMI(true);
+							IToken returnToken_10 = returnToken_;
 							goto IL_383;
 						}
 						case '=':
 						{
-							this.mASSIGN(true);
-							IToken returnToken_11 = this.returnToken_;
+							mASSIGN(true);
+							IToken returnToken_11 = returnToken_;
 							goto IL_383;
 						}
 						case 'A':
@@ -189,47 +189,47 @@ namespace pcomps.Antlr.StringTemplate.Language
 						case 'y':
 						case 'z':
 						{
-							this.mID(true);
-							IToken returnToken_12 = this.returnToken_;
+							mID(true);
+							IToken returnToken_12 = returnToken_;
 							goto IL_383;
 						}
 						case '[':
 						{
-							this.mLBRACK(true);
-							IToken returnToken_13 = this.returnToken_;
+							mLBRACK(true);
+							IToken returnToken_13 = returnToken_;
 							goto IL_383;
 						}
 						case ']':
 						{
-							this.mRBRACK(true);
-							IToken returnToken_14 = this.returnToken_;
+							mRBRACK(true);
+							IToken returnToken_14 = returnToken_;
 							goto IL_383;
 						}
 						case '{':
 						{
-							this.mANONYMOUS_TEMPLATE(true);
-							IToken returnToken_15 = this.returnToken_;
+							mANONYMOUS_TEMPLATE(true);
+							IToken returnToken_15 = returnToken_;
 							goto IL_383;
 						}
 						}
-						if (this.cached_LA1 == '.' && this.cached_LA2 == '.')
+						if (cached_LA1 == '.' && cached_LA2 == '.')
 						{
-							this.mDOTDOTDOT(true);
-							IToken returnToken_16 = this.returnToken_;
+							mDOTDOTDOT(true);
+							IToken returnToken_16 = returnToken_;
 						}
-						else if (this.cached_LA1 == '.')
+						else if (cached_LA1 == '.')
 						{
-							this.mDOT(true);
-							IToken returnToken_17 = this.returnToken_;
+							mDOT(true);
+							IToken returnToken_17 = returnToken_;
 						}
 						else
 						{
-							if (this.cached_LA1 != CharScanner.EOF_CHAR)
+							if (cached_LA1 != EOF_CHAR)
 							{
-								throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+								throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 							}
-							this.uponEOF();
-							this.returnToken_ = this.makeToken(1);
+							uponEOF();
+							returnToken_ = makeToken(1);
 						}
 						IL_383:
 						if (this.returnToken_ == null)
@@ -262,9 +262,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mID(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 18;
-			switch (this.cached_LA1)
+			switch (cached_LA1)
 			{
 			case 'A':
 			case 'B':
@@ -292,7 +292,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			case 'X':
 			case 'Y':
 			case 'Z':
-				this.matchRange('A', 'Z');
+				matchRange('A', 'Z');
 				break;
 			case '[':
 			case '\\':
@@ -301,7 +301,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			case '`':
 				goto IL_12D;
 			case '_':
-				this.match('_');
+				match('_');
 				break;
 			case 'a':
 			case 'b':
@@ -329,17 +329,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 			case 'x':
 			case 'y':
 			case 'z':
-				this.matchRange('a', 'z');
+				matchRange('a', 'z');
 				break;
 			default:
 				goto IL_12D;
 			}
 			for (;;)
 			{
-				switch (this.cached_LA1)
+				switch (cached_LA1)
 				{
 				case '/':
-					this.match('/');
+					match('/');
 					continue;
 				case '0':
 				case '1':
@@ -351,7 +351,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case '7':
 				case '8':
 				case '9':
-					this.matchRange('0', '9');
+					matchRange('0', '9');
 					continue;
 				case 'A':
 				case 'B':
@@ -379,10 +379,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 'X':
 				case 'Y':
 				case 'Z':
-					this.matchRange('A', 'Z');
+					matchRange('A', 'Z');
 					continue;
 				case '_':
-					this.match('_');
+					match('_');
 					continue;
 				case 'a':
 				case 'b':
@@ -410,252 +410,252 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 'x':
 				case 'y':
 				case 'z':
-					this.matchRange('a', 'z');
+					matchRange('a', 'z');
 					continue;
 				}
 				break;
 			}
-			num = this.testLiteralsTable(num);
+			num = testLiteralsTable(num);
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 			return;
 			IL_12D:
-			throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+			throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 		}
 
 		// Token: 0x06001089 RID: 4233 RVA: 0x00074250 File Offset: 0x00072450
 		public void mINT(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 33;
 			int num2 = 0;
-			while (this.cached_LA1 >= '0' && this.cached_LA1 <= '9')
+			while (cached_LA1 >= '0' && cached_LA1 <= '9')
 			{
-				this.matchRange('0', '9');
+				matchRange('0', '9');
 				num2++;
 			}
 			if (num2 < 1)
 			{
-				throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600108A RID: 4234 RVA: 0x000742F4 File Offset: 0x000724F4
 		public void mSTRING(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 32;
-			int length2 = this.text.Length;
-			this.match('"');
-			this.text.Length = length2;
+			int length2 = text.Length;
+			match('"');
+			text.Length = length2;
 			for (;;)
 			{
-				if (this.cached_LA1 == '\\')
+				if (cached_LA1 == '\\')
 				{
-					this.mESC_CHAR(false, true);
+					mESC_CHAR(false, true);
 				}
 				else
 				{
-					if (!ActionLexer.tokenSet_0_.member((int)this.cached_LA1))
+					if (!tokenSet_0_.member((int)cached_LA1))
 					{
 						break;
 					}
-					this.matchNot('"');
+					matchNot('"');
 				}
 			}
-			length2 = this.text.Length;
-			this.match('"');
-			this.text.Length = length2;
+			length2 = text.Length;
+			match('"');
+			text.Length = length2;
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600108B RID: 4235 RVA: 0x000743C0 File Offset: 0x000725C0
 		protected void mESC_CHAR(bool _createToken, bool doEscape)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 39;
-			this.match('\\');
-			if (this.cached_LA1 == 'n' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+			match('\\');
+			if (cached_LA1 == 'n' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
-				this.match('n');
-				if (this.inputState.guessing == 0 && doEscape)
+				match('n');
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append("\n");
+					text.Length = length;
+					text.Append("\n");
 				}
 			}
-			else if (this.cached_LA1 == 'r' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+			else if (cached_LA1 == 'r' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
-				this.match('r');
-				if (this.inputState.guessing == 0 && doEscape)
+				match('r');
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append("\r");
+					text.Length = length;
+					text.Append("\r");
 				}
 			}
-			else if (this.cached_LA1 == 't' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+			else if (cached_LA1 == 't' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
-				this.match('t');
-				if (this.inputState.guessing == 0 && doEscape)
+				match('t');
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append("\t");
+					text.Length = length;
+					text.Append("\t");
 				}
 			}
-			else if (this.cached_LA1 == 'b' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+			else if (cached_LA1 == 'b' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
-				this.match('b');
-				if (this.inputState.guessing == 0 && doEscape)
+				match('b');
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append("\b");
+					text.Length = length;
+					text.Append("\b");
 				}
 			}
-			else if (this.cached_LA1 == 'f' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+			else if (cached_LA1 == 'f' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
-				this.match('f');
-				if (this.inputState.guessing == 0 && doEscape)
+				match('f');
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append("\f");
+					text.Length = length;
+					text.Append("\f");
 				}
 			}
 			else
 			{
-				if (this.cached_LA1 < '\u0003' || this.cached_LA1 > '￾' || this.cached_LA2 < '\u0003' || this.cached_LA2 > '￾')
+				if (cached_LA1 < '\u0003' || cached_LA1 > '￾' || cached_LA2 < '\u0003' || cached_LA2 > '￾')
 				{
-					throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+					throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 				}
-				char cached_LA = this.cached_LA1;
-				this.matchNot(1);
-				if (this.inputState.guessing == 0 && doEscape)
+				char cached_LA = cached_LA1;
+				matchNot(1);
+				if (inputState.guessing == 0 && doEscape)
 				{
-					this.text.Length = length;
-					this.text.Append(cached_LA);
+					text.Length = length;
+					text.Append(cached_LA);
 				}
 			}
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600108C RID: 4236 RVA: 0x00074688 File Offset: 0x00072888
 		public void mANONYMOUS_TEMPLATE(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 31;
 			StringTemplateToken stringTemplateToken = null;
-			int length2 = this.text.Length;
-			this.match('{');
-			this.text.Length = length2;
+			int length2 = text.Length;
+			match('{');
+			text.Length = length2;
 			bool flag = false;
-			if (ActionLexer.tokenSet_1_.member((int)this.cached_LA1) && ActionLexer.tokenSet_2_.member((int)this.cached_LA2))
+			if (tokenSet_1_.member((int)cached_LA1) && tokenSet_2_.member((int)cached_LA2))
 			{
-				int pos = this.mark();
+				int pos = mark();
 				flag = true;
-				this.inputState.guessing++;
+				inputState.guessing++;
 				try
 				{
-					this.mTEMPLATE_ARGS(false);
+					mTEMPLATE_ARGS(false);
 				}
 				catch (RecognitionException)
 				{
 					flag = false;
 				}
-				this.rewind(pos);
-				this.inputState.guessing--;
+				rewind(pos);
+				inputState.guessing--;
 			}
 			if (flag)
 			{
-				IList args = this.mTEMPLATE_ARGS(false);
-				if (ActionLexer.tokenSet_3_.member((int)this.cached_LA1) && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+				IList args = mTEMPLATE_ARGS(false);
+				if (tokenSet_3_.member((int)cached_LA1) && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 				{
-					length2 = this.text.Length;
-					this.mWS_CHAR(false);
-					this.text.Length = length2;
+					length2 = text.Length;
+					mWS_CHAR(false);
+					text.Length = length2;
 				}
-				else if (this.cached_LA1 < '\u0003' || this.cached_LA1 > '￾')
+				else if (cached_LA1 < '\u0003' || cached_LA1 > '￾')
 				{
-					throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+					throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 				}
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
-					stringTemplateToken = new StringTemplateToken(31, this.text.ToString(length, this.text.Length - length), args);
+					stringTemplateToken = new StringTemplateToken(31, text.ToString(length, text.Length - length), args);
 					token = stringTemplateToken;
 				}
 			}
-			else if (this.cached_LA1 < '\u0003' || this.cached_LA1 > '￾')
+			else if (cached_LA1 < '\u0003' || cached_LA1 > '￾')
 			{
-				throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
 			for (;;)
 			{
-				if (this.cached_LA1 == '\\' && this.cached_LA2 == '{')
+				if (cached_LA1 == '\\' && cached_LA2 == '{')
 				{
-					length2 = this.text.Length;
-					this.match('\\');
-					this.text.Length = length2;
-					this.match('{');
+					length2 = text.Length;
+					match('\\');
+					text.Length = length2;
+					match('{');
 				}
-				else if (this.cached_LA1 == '\\' && this.cached_LA2 == '}')
+				else if (cached_LA1 == '\\' && cached_LA2 == '}')
 				{
-					length2 = this.text.Length;
-					this.match('\\');
-					this.text.Length = length2;
-					this.match('}');
+					length2 = text.Length;
+					match('\\');
+					text.Length = length2;
+					match('}');
 				}
-				else if (this.cached_LA1 == '\\' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+				else if (cached_LA1 == '\\' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 				{
-					this.mESC_CHAR(false, false);
+					mESC_CHAR(false, false);
 				}
-				else if (this.cached_LA1 == '{')
+				else if (cached_LA1 == '{')
 				{
-					this.mNESTED_ANONYMOUS_TEMPLATE(false);
+					mNESTED_ANONYMOUS_TEMPLATE(false);
 				}
 				else
 				{
-					if (!ActionLexer.tokenSet_4_.member((int)this.cached_LA1))
+					if (!tokenSet_4_.member((int)cached_LA1))
 					{
 						break;
 					}
-					this.matchNot('}');
+					matchNot('}');
 				}
 			}
-			if (this.inputState.guessing == 0 && stringTemplateToken != null)
+			if (inputState.guessing == 0 && stringTemplateToken != null)
 			{
-				stringTemplateToken.setText(this.text.ToString(length, this.text.Length - length));
+				stringTemplateToken.setText(text.ToString(length, text.Length - length));
 			}
-			length2 = this.text.Length;
-			this.match('}');
-			this.text.Length = length2;
+			length2 = text.Length;
+			match('}');
+			text.Length = length2;
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600108D RID: 4237 RVA: 0x000749B8 File Offset: 0x00072BB8
@@ -663,9 +663,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			IList list = new ArrayList();
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 37;
-			char cached_LA = this.cached_LA1;
+			char cached_LA = cached_LA1;
 			switch (cached_LA)
 			{
 			case '\t':
@@ -777,24 +777,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				break;
 			}
-			int length2 = this.text.Length;
-			this.mWS_CHAR(false);
-			this.text.Length = length2;
+			int length2 = text.Length;
+			mWS_CHAR(false);
+			text.Length = length2;
 			goto IL_202;
 			IL_1E4:
-			throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+			throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			IL_202:
-			length2 = this.text.Length;
-			this.mID(true);
-			this.text.Length = length2;
+			length2 = text.Length;
+			mID(true);
+			text.Length = length2;
 			IToken returnToken_ = this.returnToken_;
-			if (this.inputState.guessing == 0)
+			if (inputState.guessing == 0)
 			{
 				list.Add(returnToken_.getText());
 			}
-			while (ActionLexer.tokenSet_5_.member((int)this.cached_LA1) && ActionLexer.tokenSet_6_.member((int)this.cached_LA2))
+			while (tokenSet_5_.member((int)cached_LA1) && tokenSet_6_.member((int)this.cached_LA2))
 			{
-				char cached_LA2 = this.cached_LA1;
+				char cached_LA2 = cached_LA1;
 				switch (cached_LA2)
 				{
 				case '\t':
@@ -816,10 +816,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 					break;
 				}
 				IL_2E8:
-				length2 = this.text.Length;
-				this.match(',');
-				this.text.Length = length2;
-				char cached_LA3 = this.cached_LA1;
+				length2 = text.Length;
+				match(',');
+				text.Length = length2;
+				char cached_LA3 = cached_LA1;
 				switch (cached_LA3)
 				{
 				case '\t':
@@ -932,32 +932,32 @@ namespace pcomps.Antlr.StringTemplate.Language
 					break;
 				}
 				IL_4E9:
-				length2 = this.text.Length;
-				this.mID(true);
-				this.text.Length = length2;
+				length2 = text.Length;
+				mID(true);
+				text.Length = length2;
 				IToken returnToken_2 = this.returnToken_;
-				if (this.inputState.guessing == 0)
+				if (inputState.guessing == 0)
 				{
 					list.Add(returnToken_2.getText());
 					continue;
 				}
 				continue;
 				IL_4A8:
-				length2 = this.text.Length;
-				this.mWS_CHAR(false);
-				this.text.Length = length2;
+				length2 = text.Length;
+				mWS_CHAR(false);
+				text.Length = length2;
 				goto IL_4E9;
 				IL_4CB:
-				throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 				IL_2A7:
-				length2 = this.text.Length;
-				this.mWS_CHAR(false);
-				this.text.Length = length2;
+				length2 = text.Length;
+				mWS_CHAR(false);
+				text.Length = length2;
 				goto IL_2E8;
 				IL_2CA:
-				throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
-			char cached_LA4 = this.cached_LA1;
+			char cached_LA4 = cached_LA1;
 			switch (cached_LA4)
 			{
 			case '\t':
@@ -978,20 +978,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				break;
 			}
-			length2 = this.text.Length;
-			this.mWS_CHAR(false);
-			this.text.Length = length2;
+			length2 = text.Length;
+			mWS_CHAR(false);
+			text.Length = length2;
 			goto IL_5AA;
 			IL_58C:
-			throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+			throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			IL_5AA:
-			length2 = this.text.Length;
-			this.match('|');
-			this.text.Length = length2;
+			length2 = text.Length;
+			match('|');
+			text.Length = length2;
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
 			this.returnToken_ = token;
 			return list;
@@ -1001,19 +1001,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 		protected void mWS_CHAR(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 41;
-			char cached_LA = this.cached_LA1;
+			char cached_LA = cached_LA1;
 			switch (cached_LA)
 			{
 			case '\t':
-				this.match('\t');
+				match('\t');
 				goto IL_93;
 			case '\n':
-				this.match('\n');
-				if (this.inputState.guessing == 0)
+				match('\n');
+				if (inputState.guessing == 0)
 				{
-					this.newline();
+					newline();
 					goto IL_93;
 				}
 				goto IL_93;
@@ -1021,289 +1021,289 @@ namespace pcomps.Antlr.StringTemplate.Language
 			case '\f':
 				break;
 			case '\r':
-				this.match('\r');
+				match('\r');
 				goto IL_93;
 			default:
 				if (cached_LA == ' ')
 				{
-					this.match(' ');
+					match(' ');
 					goto IL_93;
 				}
 				break;
 			}
-			throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+			throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			IL_93:
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600108F RID: 4239 RVA: 0x000750AC File Offset: 0x000732AC
 		protected void mNESTED_ANONYMOUS_TEMPLATE(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 38;
-			this.match('{');
+			match('{');
 			for (;;)
 			{
-				if (this.cached_LA1 == '\\' && this.cached_LA2 == '{')
+				if (cached_LA1 == '\\' && cached_LA2 == '{')
 				{
-					int length2 = this.text.Length;
-					this.match('\\');
-					this.text.Length = length2;
-					this.match('{');
+					int length2 = text.Length;
+					match('\\');
+					text.Length = length2;
+					match('{');
 				}
-				else if (this.cached_LA1 == '\\' && this.cached_LA2 == '}')
+				else if (cached_LA1 == '\\' && cached_LA2 == '}')
 				{
-					int length3 = this.text.Length;
-					this.match('\\');
-					this.text.Length = length3;
-					this.match('}');
+					int length3 = text.Length;
+					match('\\');
+					text.Length = length3;
+					match('}');
 				}
-				else if (this.cached_LA1 == '\\' && this.cached_LA2 >= '\u0003' && this.cached_LA2 <= '￾')
+				else if (cached_LA1 == '\\' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 				{
-					this.mESC_CHAR(false, false);
+					mESC_CHAR(false, false);
 				}
-				else if (this.cached_LA1 == '{')
+				else if (cached_LA1 == '{')
 				{
-					this.mNESTED_ANONYMOUS_TEMPLATE(false);
+					mNESTED_ANONYMOUS_TEMPLATE(false);
 				}
 				else
 				{
-					if (!ActionLexer.tokenSet_4_.member((int)this.cached_LA1))
+					if (!tokenSet_4_.member((int)cached_LA1))
 					{
 						break;
 					}
-					this.matchNot('}');
+					matchNot('}');
 				}
 			}
-			this.match('}');
+			match('}');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001090 RID: 4240 RVA: 0x00075200 File Offset: 0x00073400
 		public void mLBRACK(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 34;
-			this.match('[');
+			match('[');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001091 RID: 4241 RVA: 0x00075264 File Offset: 0x00073464
 		public void mRBRACK(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 35;
-			this.match(']');
+			match(']');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001092 RID: 4242 RVA: 0x000752C8 File Offset: 0x000734C8
 		public void mLPAREN(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 15;
-			this.match('(');
+			match('(');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001093 RID: 4243 RVA: 0x0007532C File Offset: 0x0007352C
 		public void mRPAREN(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 16;
-			this.match(')');
+			match(')');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001094 RID: 4244 RVA: 0x00075390 File Offset: 0x00073590
 		public void mCOMMA(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 17;
-			this.match(',');
+			match(',');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001095 RID: 4245 RVA: 0x000753F4 File Offset: 0x000735F4
 		public void mDOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 24;
-			this.match('.');
+			match('.');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001096 RID: 4246 RVA: 0x00075458 File Offset: 0x00073658
 		public void mASSIGN(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 19;
-			this.match('=');
+			match('=');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001097 RID: 4247 RVA: 0x000754BC File Offset: 0x000736BC
 		public void mCOLON(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 20;
-			this.match(':');
+			match(':');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001098 RID: 4248 RVA: 0x00075520 File Offset: 0x00073720
 		public void mPLUS(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 22;
-			this.match('+');
+			match('+');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x06001099 RID: 4249 RVA: 0x00075584 File Offset: 0x00073784
 		public void mSEMI(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 14;
-			this.match(';');
+			match(';');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600109A RID: 4250 RVA: 0x000755E8 File Offset: 0x000737E8
 		public void mNOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 21;
-			this.match('!');
+			match('!');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600109B RID: 4251 RVA: 0x0007564C File Offset: 0x0007384C
 		public void mDOTDOTDOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 36;
-			this.match("...");
+			match("...");
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600109C RID: 4252 RVA: 0x000756B4 File Offset: 0x000738B4
 		public void mWS(bool _createToken)
 		{
 			IToken token = null;
-			int length = this.text.Length;
+			int length = text.Length;
 			int num = 40;
 			int num2 = 0;
 			for (;;)
 			{
-				char cached_LA = this.cached_LA1;
+				char cached_LA = cached_LA1;
 				switch (cached_LA)
 				{
 				case '\t':
-					this.match('\t');
+					match('\t');
 					break;
 				case '\n':
-					this.match('\n');
-					if (this.inputState.guessing == 0)
+					match('\n');
+					if (inputState.guessing == 0)
 					{
-						this.newline();
+						newline();
 					}
 					break;
 				case '\v':
 				case '\f':
 					goto IL_7A;
 				case '\r':
-					this.match('\r');
+					match('\r');
 					break;
 				default:
 					if (cached_LA != ' ')
 					{
 						goto IL_7A;
 					}
-					this.match(' ');
+					match(' ');
 					break;
 				}
 				num2++;
@@ -1311,18 +1311,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 			IL_7A:
 			if (num2 < 1)
 			{
-				throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
+				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
-			if (this.inputState.guessing == 0)
+			if (inputState.guessing == 0)
 			{
 				num = Token.SKIP;
 			}
 			if (_createToken && token == null && num != Token.SKIP)
 			{
-				token = this.makeToken(num);
-				token.setText(this.text.ToString(length, this.text.Length - length));
+				token = makeToken(num);
+				token.setText(text.ToString(length, text.Length - length));
 			}
-			this.returnToken_ = token;
+			returnToken_ = token;
 		}
 
 		// Token: 0x0600109D RID: 4253 RVA: 0x000757B8 File Offset: 0x000739B8
@@ -1545,24 +1545,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public const int WS_CHAR = 41;
 
 		// Token: 0x04000D97 RID: 3479
-		public static readonly BitSet tokenSet_0_ = new BitSet(ActionLexer.mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
 
 		// Token: 0x04000D98 RID: 3480
-		public static readonly BitSet tokenSet_1_ = new BitSet(ActionLexer.mk_tokenSet_1_());
+		public static readonly BitSet tokenSet_1_ = new BitSet(mk_tokenSet_1_());
 
 		// Token: 0x04000D99 RID: 3481
-		public static readonly BitSet tokenSet_2_ = new BitSet(ActionLexer.mk_tokenSet_2_());
+		public static readonly BitSet tokenSet_2_ = new BitSet(mk_tokenSet_2_());
 
 		// Token: 0x04000D9A RID: 3482
-		public static readonly BitSet tokenSet_3_ = new BitSet(ActionLexer.mk_tokenSet_3_());
+		public static readonly BitSet tokenSet_3_ = new BitSet(mk_tokenSet_3_());
 
 		// Token: 0x04000D9B RID: 3483
-		public static readonly BitSet tokenSet_4_ = new BitSet(ActionLexer.mk_tokenSet_4_());
+		public static readonly BitSet tokenSet_4_ = new BitSet(mk_tokenSet_4_());
 
 		// Token: 0x04000D9C RID: 3484
-		public static readonly BitSet tokenSet_5_ = new BitSet(ActionLexer.mk_tokenSet_5_());
+		public static readonly BitSet tokenSet_5_ = new BitSet(mk_tokenSet_5_());
 
 		// Token: 0x04000D9D RID: 3485
-		public static readonly BitSet tokenSet_6_ = new BitSet(ActionLexer.mk_tokenSet_6_());
+		public static readonly BitSet tokenSet_6_ = new BitSet(mk_tokenSet_6_());
 	}
 }

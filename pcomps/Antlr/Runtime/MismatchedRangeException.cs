@@ -25,11 +25,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.a;
+				return a;
 			}
 			set
 			{
-				this.a = value;
+				a = value;
 			}
 		}
 
@@ -40,11 +40,11 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				return this.b;
+				return b;
 			}
 			set
 			{
-				this.b = value;
+				b = value;
 			}
 		}
 
@@ -54,11 +54,11 @@ namespace pcomps.Antlr.Runtime
 			return string.Concat(new object[]
 			{
 				"MismatchedNotSetException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				" not in [",
-				this.a,
+				a,
 				",",
-				this.b,
+				b,
 				"])"
 			});
 		}

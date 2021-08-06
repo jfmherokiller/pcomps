@@ -10,11 +10,11 @@
 		{
 			get
 			{
-				return this.start;
+				return start;
 			}
 			set
 			{
-				this.start = (IToken)value;
+				start = (IToken)value;
 			}
 		}
 
@@ -25,11 +25,11 @@
 		{
 			get
 			{
-				return this.stop;
+				return stop;
 			}
 			set
 			{
-				this.stop = (IToken)value;
+				stop = (IToken)value;
 			}
 		}
 

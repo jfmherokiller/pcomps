@@ -10,9 +10,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001179 RID: 4473 RVA: 0x00080264 File Offset: 0x0007E464
 		public override void reportError(RecognitionException e)
 		{
-			if (this._group != null)
+			if (_group != null)
 			{
-				this._group.Error("template group parse error", e);
+				_group.Error("template group parse error", e);
 				return;
 			}
 			Console.Error.WriteLine($"template group parse error: {e}");
@@ -22,13 +22,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600117A RID: 4474 RVA: 0x000802B0 File Offset: 0x0007E4B0
 		protected void initialize()
 		{
-			this.tokenNames = GroupParser.tokenNames_;
+			tokenNames = tokenNames_;
 		}
 
 		// Token: 0x0600117B RID: 4475 RVA: 0x000802C0 File Offset: 0x0007E4C0
 		protected GroupParser(TokenBuffer tokenBuf, int k) : base(tokenBuf, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x0600117C RID: 4476 RVA: 0x000802D0 File Offset: 0x0007E4D0
@@ -39,7 +39,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600117D RID: 4477 RVA: 0x000802DC File Offset: 0x0007E4DC
 		protected GroupParser(TokenStream lexer, int k) : base(lexer, k)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x0600117E RID: 4478 RVA: 0x000802EC File Offset: 0x0007E4EC
@@ -50,26 +50,26 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600117F RID: 4479 RVA: 0x000802F8 File Offset: 0x0007E4F8
 		public GroupParser(ParserSharedInputState state) : base(state, 3)
 		{
-			this.initialize();
+			initialize();
 		}
 
 		// Token: 0x06001180 RID: 4480 RVA: 0x00080308 File Offset: 0x0007E508
 		public void group(StringTemplateGroup g)
 		{
-			this._group = g;
+			_group = g;
 			try
 			{
-				this.match(4);
-				IToken token = this.LT(1);
-				this.match(5);
+				match(4);
+				IToken token = LT(1);
+				match(5);
 				g.Name = token.getText();
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 6:
 				{
-					this.match(6);
-					IToken token2 = this.LT(1);
-					this.match(5);
+					match(6);
+					IToken token2 = LT(1);
+					match(5);
 					g.SetSuperGroup(token2.getText());
 					goto IL_8C;
 				}
@@ -77,21 +77,21 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 9:
 					goto IL_8C;
 				}
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_8C:
-				switch (this.LA(1))
+				switch (LA(1))
 				{
 				case 7:
 				{
-					this.match(7);
-					IToken token3 = this.LT(1);
-					this.match(5);
+					match(7);
+					IToken token3 = LT(1);
+					match(5);
 					g.ImplementInterface(token3.getText());
-					while (this.LA(1) == 8)
+					while (LA(1) == 8)
 					{
-						this.match(8);
-						IToken token4 = this.LT(1);
-						this.match(5);
+						match(8);
+						IToken token4 = LT(1);
+						match(5);
 						g.ImplementInterface(token4.getText());
 					}
 					goto IL_10F;
@@ -99,60 +99,60 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 9:
 					goto IL_10F;
 				}
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_10F:
-				this.match(9);
+				match(9);
 				int num = 0;
 				for (;;)
 				{
-					if ((this.LA(1) == 5 || this.LA(1) == 10) && (this.LA(2) == 5 || this.LA(2) == 12 || this.LA(2) == 14) && (this.LA(3) == 5 || this.LA(3) == 11 || this.LA(3) == 13))
+					if ((LA(1) == 5 || LA(1) == 10) && (LA(2) == 5 || LA(2) == 12 || LA(2) == 14) && (LA(3) == 5 || LA(3) == 11 || LA(3) == 13))
 					{
-						this.template(g);
+						template(g);
 					}
 					else
 					{
-						if (this.LA(1) != 5 || this.LA(2) != 14 || this.LA(3) != 19)
+						if (LA(1) != 5 || LA(2) != 14 || LA(3) != 19)
 						{
 							break;
 						}
-						this.mapdef(g);
+						mapdef(g);
 					}
 					num++;
 				}
 				if (num < 1)
 				{
-					throw new NoViableAltException(this.LT(1), this.getFilename());
+					throw new NoViableAltException(LT(1), getFilename());
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_0_);
+				reportError(ex);
+				recover(ex, tokenSet_0_);
 			}
 		}
 
 		// Token: 0x06001181 RID: 4481 RVA: 0x00080510 File Offset: 0x0007E710
 		public void template(StringTemplateGroup g)
 		{
-			int line = this.LT(1).getLine();
+			int line = LT(1).getLine();
 			try
 			{
-				if ((this.LA(1) == 5 || this.LA(1) == 10) && (this.LA(2) == 5 || this.LA(2) == 12))
+				if ((LA(1) == 5 || LA(1) == 10) && (LA(2) == 5 || LA(2) == 12))
 				{
-					int num = this.LA(1);
+					int num = LA(1);
 					StringTemplate stringTemplate;
 					if (num != 5)
 					{
 						if (num != 10)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
-						this.match(10);
-						IToken token = this.LT(1);
-						this.match(5);
-						this.match(11);
-						IToken token2 = this.LT(1);
-						this.match(5);
+						match(10);
+						IToken token = LT(1);
+						match(5);
+						match(11);
+						IToken token2 = LT(1);
+						match(5);
 						string text = g.GetMangledRegionName(token.getText(), token2.getText());
 						if (g.IsDefinedInThisGroup(text))
 						{
@@ -213,8 +213,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						IToken token3 = this.LT(1);
-						this.match(5);
+						IToken token3 = LT(1);
+						match(5);
 						string text = token3.getText();
 						if (g.IsDefinedInThisGroup(text))
 						{
@@ -230,60 +230,60 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						stringTemplate.GroupFileLine = line;
 					}
-					this.match(12);
-					int num2 = this.LA(1);
+					match(12);
+					int num2 = LA(1);
 					if (num2 != 5)
 					{
 						if (num2 != 13)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
 						stringTemplate.DefineEmptyFormalArgumentList();
 					}
 					else
 					{
-						this.args(stringTemplate);
+						args(stringTemplate);
 					}
-					this.match(13);
-					this.match(14);
-					switch (this.LA(1))
+					match(13);
+					match(14);
+					switch (LA(1))
 					{
 					case 15:
 					{
-						IToken token4 = this.LT(1);
-						this.match(15);
+						IToken token4 = LT(1);
+						match(15);
 						stringTemplate.Template = token4.getText();
 						break;
 					}
 					case 16:
 					{
-						IToken token5 = this.LT(1);
-						this.match(16);
+						IToken token5 = LT(1);
+						match(16);
 						stringTemplate.Template = token5.getText();
 						break;
 					}
 					default:
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
 				}
 				else
 				{
-					if (this.LA(1) != 5 || this.LA(2) != 14)
+					if (LA(1) != 5 || LA(2) != 14)
 					{
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
-					IToken token6 = this.LT(1);
-					this.match(5);
-					this.match(14);
-					IToken token7 = this.LT(1);
-					this.match(5);
+					IToken token6 = LT(1);
+					match(5);
+					match(14);
+					IToken token7 = LT(1);
+					match(5);
 					g.DefineTemplateAlias(token6.getText(), token7.getText());
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_1_);
+				reportError(ex);
+				recover(ex, tokenSet_1_);
 			}
 		}
 
@@ -292,10 +292,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				IToken token = this.LT(1);
-				this.match(5);
-				this.match(14);
-				IDictionary mapping = this.map();
+				IToken token = LT(1);
+				match(5);
+				match(14);
+				IDictionary mapping = map();
 				if (g.GetMap(token.getText()) != null)
 				{
 					g.Error($"redefinition of map: {token.getText()}");
@@ -311,8 +311,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_1_);
+				reportError(ex);
+				recover(ex, tokenSet_1_);
 			}
 		}
 
@@ -321,17 +321,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				this.arg(st);
-				while (this.LA(1) == 8)
+				arg(st);
+				while (LA(1) == 8)
 				{
-					this.match(8);
-					this.arg(st);
+					match(8);
+					arg(st);
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_2_);
+				reportError(ex);
+				recover(ex, tokenSet_2_);
 			}
 		}
 
@@ -341,13 +341,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate stringTemplate = null;
 			try
 			{
-				IToken token = this.LT(1);
-				this.match(5);
-				if (this.LA(1) == 17 && this.LA(2) == 15)
+				IToken token = LT(1);
+				match(5);
+				if (LA(1) == 17 && LA(2) == 15)
 				{
-					this.match(17);
-					IToken token2 = this.LT(1);
-					this.match(15);
+					match(17);
+					IToken token2 = LT(1);
+					match(15);
 					stringTemplate = new StringTemplate("$_val_$");
 					stringTemplate.SetAttribute("_val_", token2.getText());
 					stringTemplate.DefineFormalArgument("_val_");
@@ -360,11 +360,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 						" default value subtemplate>"
 					});
 				}
-				else if (this.LA(1) == 17 && this.LA(2) == 18)
+				else if (LA(1) == 17 && LA(2) == 18)
 				{
-					this.match(17);
-					IToken token3 = this.LT(1);
-					this.match(18);
+					match(17);
+					IToken token3 = LT(1);
+					match(18);
 					stringTemplate = new StringTemplate(st.Group, token3.getText());
 					stringTemplate.Name = string.Concat(new string[]
 					{
@@ -375,16 +375,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 						" default value subtemplate>"
 					});
 				}
-				else if (this.LA(1) != 8 && this.LA(1) != 13)
+				else if (LA(1) != 8 && LA(1) != 13)
 				{
-					throw new NoViableAltException(this.LT(1), this.getFilename());
+					throw new NoViableAltException(LT(1), getFilename());
 				}
 				st.DefineFormalArgument(token.getText(), stringTemplate);
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_3_);
+				reportError(ex);
+				recover(ex, tokenSet_3_);
 			}
 		}
 
@@ -394,14 +394,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			IDictionary dictionary = new Hashtable();
 			try
 			{
-				this.match(19);
-				this.mapPairs(dictionary);
-				this.match(20);
+				match(19);
+				mapPairs(dictionary);
+				match(20);
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_1_);
+				reportError(ex);
+				recover(ex, tokenSet_1_);
 			}
 			return dictionary;
 		}
@@ -411,42 +411,42 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num != 15)
 				{
 					if (num != 21)
 					{
-						throw new NoViableAltException(this.LT(1), this.getFilename());
+						throw new NoViableAltException(LT(1), getFilename());
 					}
-					this.defaultValuePair(mapping);
+					defaultValuePair(mapping);
 				}
 				else
 				{
-					this.keyValuePair(mapping);
-					while (this.LA(1) == 8 && this.LA(2) == 15)
+					keyValuePair(mapping);
+					while (LA(1) == 8 && LA(2) == 15)
 					{
-						this.match(8);
-						this.keyValuePair(mapping);
+						match(8);
+						keyValuePair(mapping);
 					}
-					int num2 = this.LA(1);
+					int num2 = LA(1);
 					if (num2 != 8)
 					{
 						if (num2 != 20)
 						{
-							throw new NoViableAltException(this.LT(1), this.getFilename());
+							throw new NoViableAltException(LT(1), getFilename());
 						}
 					}
 					else
 					{
-						this.match(8);
-						this.defaultValuePair(mapping);
+						match(8);
+						defaultValuePair(mapping);
 					}
 				}
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_4_);
+				reportError(ex);
+				recover(ex, tokenSet_4_);
 			}
 		}
 
@@ -455,16 +455,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				IToken token = this.LT(1);
-				this.match(15);
-				this.match(6);
-				StringTemplate value = this.keyValue();
+				IToken token = LT(1);
+				match(15);
+				match(6);
+				StringTemplate value = keyValue();
 				mapping[token.getText()] = value;
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_5_);
+				reportError(ex);
+				recover(ex, tokenSet_5_);
 			}
 		}
 
@@ -473,15 +473,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				this.match(21);
-				this.match(6);
-				StringTemplate value = this.keyValue();
+				match(21);
+				match(6);
+				StringTemplate value = keyValue();
 				mapping["_default_"] = value;
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_4_);
+				reportError(ex);
+				recover(ex, tokenSet_4_);
 			}
 		}
 
@@ -491,7 +491,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate result = null;
 			try
 			{
-				int num = this.LA(1);
+				int num = LA(1);
 				if (num <= 8)
 				{
 					if (num != 5)
@@ -503,8 +503,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						IToken token = this.LT(1);
-						this.match(5);
+						IToken token = LT(1);
+						match(5);
 						if (!token.getText().Equals("key"))
 						{
 							throw new SemanticException("k.getText().Equals(\"key\")");
@@ -519,16 +519,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 15:
 					{
-						IToken token2 = this.LT(1);
-						this.match(15);
-						result = new StringTemplate(this._group, token2.getText());
+						IToken token2 = LT(1);
+						match(15);
+						result = new StringTemplate(_group, token2.getText());
 						goto IL_DB;
 					}
 					case 16:
 					{
-						IToken token3 = this.LT(1);
-						this.match(16);
-						result = new StringTemplate(this._group, token3.getText());
+						IToken token3 = LT(1);
+						match(16);
+						result = new StringTemplate(_group, token3.getText());
 						goto IL_DB;
 					}
 					default:
@@ -542,13 +542,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 				result = null;
 				goto IL_DB;
 				IL_C8:
-				throw new NoViableAltException(this.LT(1), this.getFilename());
+				throw new NoViableAltException(LT(1), getFilename());
 				IL_DB:;
 			}
 			catch (RecognitionException ex)
 			{
-				this.reportError(ex);
-				this.recover(ex, GroupParser.tokenSet_5_);
+				reportError(ex);
+				recover(ex, tokenSet_5_);
 			}
 			return result;
 		}
@@ -721,21 +721,21 @@ namespace pcomps.Antlr.StringTemplate.Language
 		};
 
 		// Token: 0x04000EAC RID: 3756
-		public static readonly BitSet tokenSet_0_ = new BitSet(GroupParser.mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
 
 		// Token: 0x04000EAD RID: 3757
-		public static readonly BitSet tokenSet_1_ = new BitSet(GroupParser.mk_tokenSet_1_());
+		public static readonly BitSet tokenSet_1_ = new BitSet(mk_tokenSet_1_());
 
 		// Token: 0x04000EAE RID: 3758
-		public static readonly BitSet tokenSet_2_ = new BitSet(GroupParser.mk_tokenSet_2_());
+		public static readonly BitSet tokenSet_2_ = new BitSet(mk_tokenSet_2_());
 
 		// Token: 0x04000EAF RID: 3759
-		public static readonly BitSet tokenSet_3_ = new BitSet(GroupParser.mk_tokenSet_3_());
+		public static readonly BitSet tokenSet_3_ = new BitSet(mk_tokenSet_3_());
 
 		// Token: 0x04000EB0 RID: 3760
-		public static readonly BitSet tokenSet_4_ = new BitSet(GroupParser.mk_tokenSet_4_());
+		public static readonly BitSet tokenSet_4_ = new BitSet(mk_tokenSet_4_());
 
 		// Token: 0x04000EB1 RID: 3761
-		public static readonly BitSet tokenSet_5_ = new BitSet(GroupParser.mk_tokenSet_5_());
+		public static readonly BitSet tokenSet_5_ = new BitSet(mk_tokenSet_5_());
 	}
 }

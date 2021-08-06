@@ -9,28 +9,28 @@ namespace pcomps.Antlr
 		public TokenStreamBasicFilter(TokenStream input)
 		{
 			this.input = input;
-			this.discardMask = new BitSet();
+			discardMask = new BitSet();
 		}
 
 		// Token: 0x06000262 RID: 610 RVA: 0x000082D0 File Offset: 0x000064D0
 		public virtual void discard(int ttype)
 		{
-			this.discardMask.add(ttype);
+			discardMask.add(ttype);
 		}
 
 		// Token: 0x06000263 RID: 611 RVA: 0x000082EC File Offset: 0x000064EC
 		public virtual void discard(BitSet mask)
 		{
-			this.discardMask = mask;
+			discardMask = mask;
 		}
 
 		// Token: 0x06000264 RID: 612 RVA: 0x00008300 File Offset: 0x00006500
 		public virtual IToken nextToken()
 		{
-			IToken token = this.input.nextToken();
-			while (token != null && this.discardMask.member(token.Type))
+			IToken token = input.nextToken();
+			while (token != null && discardMask.member(token.Type))
 			{
-				token = this.input.nextToken();
+				token = input.nextToken();
 			}
 			return token;
 		}

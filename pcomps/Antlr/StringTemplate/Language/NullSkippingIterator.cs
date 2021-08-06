@@ -10,7 +10,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011B8 RID: 4536 RVA: 0x00082280 File Offset: 0x00080480
 		public NullSkippingIterator(IEnumerator enumerator)
 		{
-			this.innerEnumerator = enumerator;
+			innerEnumerator = enumerator;
 		}
 
 		// Token: 0x1700026B RID: 619
@@ -19,34 +19,34 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			get
 			{
-				if (!this.hasCurrent)
+				if (!hasCurrent)
 				{
 					throw new InvalidOperationException("Enumeration not started or already finished.");
 				}
-				return this.innerEnumerator.Current;
+				return innerEnumerator.Current;
 			}
 		}
 
 		// Token: 0x060011BA RID: 4538 RVA: 0x000822B0 File Offset: 0x000804B0
 		public bool MoveNext()
 		{
-			while (this.innerEnumerator.MoveNext())
+			while (innerEnumerator.MoveNext())
 			{
-				if (this.innerEnumerator.Current != null)
+				if (innerEnumerator.Current != null)
 				{
-					return this.hasCurrent = true;
+					return hasCurrent = true;
 				}
 			}
-			return this.hasCurrent = false;
+			return hasCurrent = false;
 		}
 
 		// Token: 0x060011BB RID: 4539 RVA: 0x000822F0 File Offset: 0x000804F0
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			while (this.MoveNext())
+			while (MoveNext())
 			{
-				object value = this.Current;
+				object value = Current;
 				stringBuilder.Append(value);
 			}
 			return stringBuilder.ToString();
@@ -55,8 +55,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011BC RID: 4540 RVA: 0x00082320 File Offset: 0x00080520
 		public void Reset()
 		{
-			this.hasCurrent = false;
-			this.innerEnumerator.Reset();
+			hasCurrent = false;
+			innerEnumerator.Reset();
 		}
 
 		// Token: 0x04000EFA RID: 3834

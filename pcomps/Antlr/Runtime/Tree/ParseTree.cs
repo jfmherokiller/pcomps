@@ -9,7 +9,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x0600069C RID: 1692 RVA: 0x0001285C File Offset: 0x00010A5C
 		public ParseTree(object label)
 		{
-			this.payload = label;
+			payload = label;
 		}
 
 		// Token: 0x170000A9 RID: 169
@@ -28,7 +28,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				return this.ToString();
+				return ToString();
 			}
 		}
 
@@ -69,11 +69,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006A4 RID: 1700 RVA: 0x0001288C File Offset: 0x00010A8C
 		public override string ToString()
 		{
-			if (!(this.payload is IToken))
+			if (!(payload is IToken))
 			{
-				return this.payload.ToString();
+				return payload.ToString();
 			}
-			IToken token = (IToken)this.payload;
+			IToken token = (IToken)payload;
 			if (token.Type == Token.EOF)
 			{
 				return "<EOF>";
@@ -85,15 +85,15 @@ namespace pcomps.Antlr.Runtime.Tree
 		public string ToStringWithHiddenTokens()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			if (this.hiddenTokens != null)
+			if (hiddenTokens != null)
 			{
-				for (int i = 0; i < this.hiddenTokens.Count; i++)
+				for (int i = 0; i < hiddenTokens.Count; i++)
 				{
-					IToken token = (IToken)this.hiddenTokens[i];
+					IToken token = (IToken)hiddenTokens[i];
 					stringBuilder.Append(token.Text);
 				}
 			}
-			string text = this.ToString();
+			string text = ToString();
 			if (text != "<EOF>")
 			{
 				stringBuilder.Append(text);
@@ -105,22 +105,22 @@ namespace pcomps.Antlr.Runtime.Tree
 		public string ToInputString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			this._ToStringLeaves(stringBuilder);
+			_ToStringLeaves(stringBuilder);
 			return stringBuilder.ToString();
 		}
 
 		// Token: 0x060006A7 RID: 1703 RVA: 0x00012980 File Offset: 0x00010B80
 		public void _ToStringLeaves(StringBuilder buf)
 		{
-			if (this.payload is IToken)
+			if (payload is IToken)
 			{
-				buf.Append(this.ToStringWithHiddenTokens());
+				buf.Append(ToStringWithHiddenTokens());
 				return;
 			}
 			int num = 0;
-			while (this.children != null && num < this.children.Count)
+			while (children != null && num < children.Count)
 			{
-				ParseTree parseTree = (ParseTree)this.children[num];
+				ParseTree parseTree = (ParseTree)children[num];
 				parseTree._ToStringLeaves(buf);
 				num++;
 			}

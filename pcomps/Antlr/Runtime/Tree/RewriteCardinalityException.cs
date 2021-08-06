@@ -18,9 +18,9 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				if (this.elementDescription != null)
+				if (elementDescription != null)
 				{
-					return this.elementDescription;
+					return elementDescription;
 				}
 				return null;
 			}

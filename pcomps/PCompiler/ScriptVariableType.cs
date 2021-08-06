@@ -6,13 +6,13 @@
 		// Token: 0x06000D5B RID: 3419 RVA: 0x0005DE48 File Offset: 0x0005C048
 		public ScriptVariableType(string asVarType)
 		{
-			this.VarType = asVarType;
+			VarType = asVarType;
 		}
 
 		// Token: 0x06000D5C RID: 3420 RVA: 0x0005DE64 File Offset: 0x0005C064
 		public ScriptVariableType(ScriptVariableType akVarType)
 		{
-			this.VarType = akVarType.VarType;
+			VarType = akVarType.VarType;
 		}
 
 		// Token: 0x170001AB RID: 427
@@ -22,19 +22,19 @@
 		{
 			get
 			{
-				return this.sVarType;
+				return sVarType;
 			}
 			set
 			{
-				this.sVarType = value.ToLowerInvariant();
-				if (this.sVarType.Length > 2 && this.sVarType.Substring(this.sVarType.Length - 2, 2) == "[]")
+				sVarType = value.ToLowerInvariant();
+				if (sVarType.Length > 2 && sVarType.Substring(sVarType.Length - 2, 2) == "[]")
 				{
-					this.sElementType = this.sVarType.Substring(0, this.sVarType.Length - 2);
-					this.bIsArray = true;
+					sElementType = sVarType.Substring(0, sVarType.Length - 2);
+					bIsArray = true;
 					return;
 				}
-				this.sElementType = "";
-				this.bIsArray = false;
+				sElementType = "";
+				bIsArray = false;
 			}
 		}
 
@@ -44,7 +44,7 @@
 		{
 			get
 			{
-				return this.bIsArray;
+				return bIsArray;
 			}
 		}
 
@@ -54,7 +54,7 @@
 		{
 			get
 			{
-				return this.sElementType;
+				return sElementType;
 			}
 		}
 
@@ -64,7 +64,7 @@
 		{
 			get
 			{
-				return this.VarType != "none" && this.VarType != "int" && this.VarType != "float" && this.VarType != "string" && this.VarType != "bool" && !this.IsArray;
+				return VarType != "none" && VarType != "int" && VarType != "float" && VarType != "string" && VarType != "bool" && !IsArray;
 			}
 		}
 
@@ -74,7 +74,7 @@
 		{
 			get
 			{
-				return this.ArrayElementType != "none" && this.ArrayElementType != "int" && this.ArrayElementType != "float" && this.ArrayElementType != "string" && this.ArrayElementType != "bool";
+				return ArrayElementType != "none" && ArrayElementType != "int" && ArrayElementType != "float" && ArrayElementType != "string" && ArrayElementType != "bool";
 			}
 		}
 
@@ -84,7 +84,7 @@
 		{
 			get
 			{
-				return this.bHasInitialValue;
+				return bHasInitialValue;
 			}
 		}
 
@@ -96,16 +96,16 @@
 			get
 			{
 				string result = "";
-				if (this.HasInitialValue)
+				if (HasInitialValue)
 				{
-					result = this.sInitialValue;
+					result = sInitialValue;
 				}
 				return result;
 			}
 			set
 			{
-				this.sInitialValue = value;
-				this.bHasInitialValue = true;
+				sInitialValue = value;
+				bHasInitialValue = true;
 			}
 		}
 

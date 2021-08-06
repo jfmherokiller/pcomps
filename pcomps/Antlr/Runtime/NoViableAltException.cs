@@ -22,23 +22,23 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600054E RID: 1358 RVA: 0x0000FD18 File Offset: 0x0000DF18
 		public override string ToString()
 		{
-			if (this.input is ICharStream)
+			if (input is ICharStream)
 			{
 				return string.Concat(new object[]
 				{
 					"NoViableAltException('",
-					(char)this.UnexpectedType,
+					(char)UnexpectedType,
 					"'@[",
-					this.grammarDecisionDescription,
+					grammarDecisionDescription,
 					"])"
 				});
 			}
 			return string.Concat(new object[]
 			{
 				"NoViableAltException(",
-				this.UnexpectedType,
+				UnexpectedType,
 				"@[",
-				this.grammarDecisionDescription,
+				grammarDecisionDescription,
 				"])"
 			});
 		}

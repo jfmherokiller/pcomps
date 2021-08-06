@@ -31,36 +31,36 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000884 RID: 2180 RVA: 0x00018380 File Offset: 0x00016580
 		public object NextNode()
 		{
-			return this.FetchObject((object o) => this.adaptor.DupNode(o));
+			return FetchObject((object o) => adaptor.DupNode(o));
 		}
 
 		// Token: 0x06000885 RID: 2181 RVA: 0x00018394 File Offset: 0x00016594
-		private object FetchObject(RewriteRuleSubtreeStream.ProcessHandler ph)
+		private object FetchObject(ProcessHandler ph)
 		{
-			if (this.RequiresDuplication())
+			if (RequiresDuplication())
 			{
-				return ph(base._Next());
+				return ph(_Next());
 			}
-			return base._Next();
+			return _Next();
 		}
 
 		// Token: 0x06000886 RID: 2182 RVA: 0x000183C0 File Offset: 0x000165C0
 		private bool RequiresDuplication()
 		{
-			int count = base.Count;
-			return this.dirty || (this.cursor >= count && count == 1);
+			int count = Count;
+			return dirty || (cursor >= count && count == 1);
 		}
 
 		// Token: 0x06000887 RID: 2183 RVA: 0x000183F8 File Offset: 0x000165F8
 		public override object NextTree()
 		{
-			return this.FetchObject((object o) => this.Dup(o));
+			return FetchObject((object o) => Dup(o));
 		}
 
 		// Token: 0x06000888 RID: 2184 RVA: 0x0001840C File Offset: 0x0001660C
 		private object Dup(object el)
 		{
-			return this.adaptor.DupTree(el);
+			return adaptor.DupTree(el);
 		}
 
 		// Token: 0x020000D5 RID: 213

@@ -13,7 +13,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				return this.bValid;
+				return bValid;
 			}
 		}
 
@@ -24,9 +24,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				bool result = false;
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.bDebug;
+					result = bDebug;
 				}
 				return result;
 			}
@@ -39,9 +39,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				bool result = false;
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.bOptimize;
+					result = bOptimize;
 				}
 				return result;
 			}
@@ -54,9 +54,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				string result = "";
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.sOutputFolder;
+					result = sOutputFolder;
 				}
 				return result;
 			}
@@ -69,9 +69,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				string result = "";
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.sImportFolders;
+					result = sImportFolders;
 				}
 				return result;
 			}
@@ -84,9 +84,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				string result = "";
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.sObjectName;
+					result = sObjectName;
 				}
 				return result;
 			}
@@ -99,9 +99,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				string result = "";
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.sFlagsFile;
+					result = sFlagsFile;
 				}
 				return result;
 			}
@@ -114,9 +114,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				bool result = false;
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.bNoAsm;
+					result = bNoAsm;
 				}
 				return result;
 			}
@@ -129,9 +129,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				bool result = false;
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.bKeepAsm;
+					result = bKeepAsm;
 				}
 				return result;
 			}
@@ -144,9 +144,9 @@ namespace pcomps.PapyrusCompiler
 			get
 			{
 				bool result = false;
-				if (this.bValid)
+				if (bValid)
 				{
-					result = this.bAsmOnly;
+					result = bAsmOnly;
 				}
 				return result;
 			}
@@ -158,7 +158,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				return this.bAll;
+				return bAll;
 			}
 		}
 
@@ -168,25 +168,25 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				return this.bQuiet;
+				return bQuiet;
 			}
 		}
 
 		// Token: 0x0600000F RID: 15 RVA: 0x000021DC File Offset: 0x000003DC
 		public CommandLineArgs(string[] args)
 		{
-			CommandLineArgs.BuildCommandLineStructures();
+			BuildCommandLineStructures();
 			if (args.Length > 0)
 			{
-				this.sObjectName = args[0];
-				if (this.sObjectName != "-?" && this.sObjectName != "/?")
+				sObjectName = args[0];
+				if (sObjectName != "-?" && sObjectName != "/?")
 				{
-					this.bValid = true;
+					bValid = true;
 				}
-				if (this.bValid && args.Length > 1)
+				if (bValid && args.Length > 1)
 				{
 					int num = 1;
-					while (this.bValid)
+					while (bValid)
 					{
 						if (num >= args.Length)
 						{
@@ -194,13 +194,13 @@ namespace pcomps.PapyrusCompiler
 						}
 						string asFlag = "";
 						string asValue = "";
-						if (CommandLineArgs.ParseArgument(args[num], out asFlag, out asValue))
+						if (ParseArgument(args[num], out asFlag, out asValue))
 						{
-							this.bValid = this.HandleArgument(asFlag, asValue);
+							bValid = HandleArgument(asFlag, asValue);
 						}
 						else
 						{
-							this.bValid = false;
+							bValid = false;
 						}
 						num++;
 					}
@@ -210,9 +210,9 @@ namespace pcomps.PapyrusCompiler
 			{
 				Console.Error.Write("You must specify an object or folder name.\n");
 			}
-			if (this.bHelp || !this.bValid)
+			if (bHelp || !bValid)
 			{
-				this.PrintUsage();
+				PrintUsage();
 			}
 		}
 
@@ -225,7 +225,7 @@ namespace pcomps.PapyrusCompiler
 			Console.Write("  object     Specifies the object to compile. (-all is not specified)\n");
 			Console.Write("  folder     Specifies the folder to compile. (-all is specified)\n");
 			Console.Write("  arguments  One or more of the following:\n");
-			foreach (CommandLineFlag commandLineFlag in CommandLineArgs.kCommandLineFlagInfo.Keys)
+			foreach (CommandLineFlag commandLineFlag in kCommandLineFlagInfo.Keys)
 			{
 				Console.Write("   -");
 				bool flag = true;
@@ -241,7 +241,7 @@ namespace pcomps.PapyrusCompiler
 						Console.Write("|{0}", text);
 					}
 				}
-				Type fieldType = CommandLineArgs.kCommandLineFlagInfo[commandLineFlag].FieldType;
+				Type fieldType = kCommandLineFlagInfo[commandLineFlag].FieldType;
 				if (fieldType == typeof(string))
 				{
 					Console.Write("=<string>");
@@ -259,7 +259,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			bool result = true;
 			FieldInfo fieldInfo;
-			if (CommandLineArgs.kCommandLineFields.TryGetValue(asFlag, out fieldInfo))
+			if (kCommandLineFields.TryGetValue(asFlag, out fieldInfo))
 			{
 				Type fieldType = fieldInfo.FieldType;
 				if (fieldType == typeof(bool))
@@ -332,11 +332,11 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000013 RID: 19 RVA: 0x00002558 File Offset: 0x00000758
 		private static void BuildCommandLineStructures()
 		{
-			if (CommandLineArgs.kCommandLineFields == null)
+			if (kCommandLineFields == null)
 			{
 				FieldInfo[] fields = typeof(CommandLineArgs).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-				CommandLineArgs.kCommandLineFields = new Dictionary<string, FieldInfo>();
-				CommandLineArgs.kCommandLineFlagInfo = new Dictionary<CommandLineFlag, FieldInfo>();
+				kCommandLineFields = new Dictionary<string, FieldInfo>();
+				kCommandLineFlagInfo = new Dictionary<CommandLineFlag, FieldInfo>();
 				foreach (FieldInfo fieldInfo in fields)
 				{
 					object[] customAttributes = fieldInfo.GetCustomAttributes(false);
@@ -347,9 +347,9 @@ namespace pcomps.PapyrusCompiler
 						{
 							foreach (string text in commandLineFlag.sFlags)
 							{
-								CommandLineArgs.kCommandLineFields.Add(text.ToLowerInvariant(), fieldInfo);
+								kCommandLineFields.Add(text.ToLowerInvariant(), fieldInfo);
 							}
-							CommandLineArgs.kCommandLineFlagInfo.Add(commandLineFlag, fieldInfo);
+							kCommandLineFlagInfo.Add(commandLineFlag, fieldInfo);
 						}
 					}
 				}

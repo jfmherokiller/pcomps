@@ -10,7 +10,7 @@ namespace pcomps.Antlr.Runtime.Misc
 		// Token: 0x06000838 RID: 2104 RVA: 0x000172B8 File Offset: 0x000154B8
 		public static void InternalError(object error, Exception e)
 		{
-			StackFrame lastNonErrorManagerCodeLocation = ErrorManager.GetLastNonErrorManagerCodeLocation(e);
+			StackFrame lastNonErrorManagerCodeLocation = GetLastNonErrorManagerCodeLocation(e);
 			string arg = string.Concat(new object[]
 			{
 				"Exception ",
@@ -20,15 +20,15 @@ namespace pcomps.Antlr.Runtime.Misc
 				": ",
 				error
 			});
-			ErrorManager.Error(arg);
+			Error(arg);
 		}
 
 		// Token: 0x06000839 RID: 2105 RVA: 0x00017304 File Offset: 0x00015504
 		public static void InternalError(object error)
 		{
-			StackFrame lastNonErrorManagerCodeLocation = ErrorManager.GetLastNonErrorManagerCodeLocation(new Exception());
+			StackFrame lastNonErrorManagerCodeLocation = GetLastNonErrorManagerCodeLocation(new Exception());
 			string arg = $"{lastNonErrorManagerCodeLocation}: {error}";
-			ErrorManager.Error(arg);
+			Error(arg);
 		}
 
 		// Token: 0x0600083A RID: 2106 RVA: 0x00017330 File Offset: 0x00015530

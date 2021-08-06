@@ -13,7 +13,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F5B RID: 3931 RVA: 0x0006EA64 File Offset: 0x0006CC64
 		public override int Write(string str)
 		{
-			this.output.Write(str);
+			output.Write(str);
 			return str.Length;
 		}
 	}

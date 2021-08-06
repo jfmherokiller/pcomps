@@ -19,23 +19,23 @@
 		{
 			get
 			{
-				return this.token;
+				return token;
 			}
 		}
 
 		// Token: 0x0600058E RID: 1422 RVA: 0x00010630 File Offset: 0x0000E830
 		public override string ToString()
 		{
-			string str = $", expected {base.Expecting}";
-			if (base.Expecting == 0)
+			string str = $", expected {Expecting}";
+			if (Expecting == 0)
 			{
 				str = string.Empty;
 			}
-			if (this.token == null)
+			if (token == null)
 			{
 				return $"UnwantedTokenException(found={null}{str})";
 			}
-			return $"UnwantedTokenException(found={this.token.Text}{str})";
+			return $"UnwantedTokenException(found={token.Text}{str})";
 		}
 	}
 }
