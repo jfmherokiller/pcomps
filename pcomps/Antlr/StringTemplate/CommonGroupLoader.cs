@@ -38,11 +38,11 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				else
 				{
-					text2 = string.Format("{0}/{1}", AppDomain.CurrentDomain.BaseDirectory, text);
+					text2 = $"{AppDomain.CurrentDomain.BaseDirectory}/{text}";
 				}
 				if (File.Exists(text2) || !Directory.Exists(text2))
 				{
-					this.Error("group loader: no such dir " + text2);
+					this.Error($"group loader: no such dir {text2}");
 				}
 				else
 				{
@@ -71,10 +71,10 @@ namespace pcomps.Antlr.StringTemplate
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup, Type lexer)
 		{
 			StringTemplateGroup result = null;
-			string text = this.LocateFile(groupName + ".stg");
+			string text = this.LocateFile($"{groupName}.stg");
 			if (text == null)
 			{
-				this.Error("no such group file '" + groupName + ".stg'");
+				this.Error($"no such group file '{groupName}.stg'");
 			}
 			else
 			{
@@ -86,11 +86,11 @@ namespace pcomps.Antlr.StringTemplate
 					}
 					catch (ArgumentException e)
 					{
-						this.Error("Path Error: can't load group '" + groupName + "'", e);
+						this.Error($"Path Error: can't load group '{groupName}'", e);
 					}
 					catch (IOException e2)
 					{
-						this.Error("IO Error: can't load group '" + groupName + "'", e2);
+						this.Error($"IO Error: can't load group '{groupName}'", e2);
 					}
 				}
 			}
@@ -101,10 +101,10 @@ namespace pcomps.Antlr.StringTemplate
 		public StringTemplateGroupInterface LoadInterface(string interfaceName)
 		{
 			StringTemplateGroupInterface result = null;
-			string text = this.LocateFile(interfaceName + ".sti");
+			string text = this.LocateFile($"{interfaceName}.sti");
 			if (text == null)
 			{
-				this.Error("no such interface file '" + interfaceName + ".sti'");
+				this.Error($"no such interface file '{interfaceName}.sti'");
 			}
 			else
 			{
@@ -116,11 +116,11 @@ namespace pcomps.Antlr.StringTemplate
 					}
 					catch (ArgumentException e)
 					{
-						this.Error("Path Error: can't load interface '" + interfaceName + "'", e);
+						this.Error($"Path Error: can't load interface '{interfaceName}'", e);
 					}
 					catch (IOException e2)
 					{
-						this.Error("IO Error: can't load interface '" + interfaceName + "'", e2);
+						this.Error($"IO Error: can't load interface '{interfaceName}'", e2);
 					}
 				}
 			}
@@ -133,7 +133,7 @@ namespace pcomps.Antlr.StringTemplate
 			for (int i = 0; i < this.directories.Count; i++)
 			{
 				string arg = (string)this.directories[i];
-				string text = string.Format("{0}/{1}", arg, filename);
+				string text = $"{arg}/{filename}";
 				if (File.Exists(text))
 				{
 					return text;

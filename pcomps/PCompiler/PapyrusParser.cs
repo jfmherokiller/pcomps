@@ -46,7 +46,8 @@ namespace pcomps.PCompiler
 		{
 			if (this.kObjType.sAutoState != "" && this.kObjType.sAutoState != asState.ToLowerInvariant())
 			{
-				this.OnError(string.Format("script already has the automatic state set to {0}, cannot have more then one", this.kObjType.sAutoState), akAutoToken.Line, akAutoToken.CharPositionInLine);
+				this.OnError(
+                    $"script already has the automatic state set to {this.kObjType.sAutoState}, cannot have more then one", akAutoToken.Line, akAutoToken.CharPositionInLine);
 				return;
 			}
 			this.kObjType.sAutoState = asState.ToLowerInvariant();

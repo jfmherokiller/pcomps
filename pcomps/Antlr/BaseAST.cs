@@ -294,7 +294,7 @@ namespace pcomps.Antlr
 			{
 				text += " (";
 			}
-			text = text + " " + this.ToString();
+			text = $"{text} {this}";
 			if (((AST)this).getFirstChild() != null)
 			{
 				text += ((BaseAST)((AST)this).getFirstChild()).ToStringList();
@@ -318,7 +318,7 @@ namespace pcomps.Antlr
 			{
 				text += " (";
 			}
-			text = text + " " + this.ToString();
+			text = $"{text} {this}";
 			if (((AST)this).getFirstChild() != null)
 			{
 				text += ((BaseAST)((AST)this).getFirstChild()).ToStringList();
@@ -354,11 +354,11 @@ namespace pcomps.Antlr
 			{
 				if (this.getNextSibling() == null)
 				{
-					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree(prefix + "   "));
+					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree($"{prefix}   "));
 				}
 				else
 				{
-					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree(prefix + "|  "));
+					stringBuilder.Append(((BaseAST)this.getFirstChild()).ToTree($"{prefix}|  "));
 				}
 			}
 			if (this.getNextSibling() != null)
@@ -465,7 +465,7 @@ namespace pcomps.Antlr
 		{
 			StringBuilder stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
-			stringBuilder.Append(base.GetType().FullName + " ");
+			stringBuilder.Append($"{base.GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]
 			{
 				"text=\"",
@@ -482,7 +482,7 @@ namespace pcomps.Antlr
 		{
 			StringBuilder stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
-			stringBuilder.Append(base.GetType().FullName + " ");
+			stringBuilder.Append($"{base.GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]
 			{
 				"text=\"",
@@ -497,7 +497,7 @@ namespace pcomps.Antlr
 		// Token: 0x060000A2 RID: 162 RVA: 0x00003F5C File Offset: 0x0000215C
 		public virtual void xmlSerializeRootClose(TextWriter outWriter)
 		{
-			outWriter.Write("</" + base.GetType().FullName + ">\n");
+			outWriter.Write($"</{base.GetType().FullName}>\n");
 		}
 
 		// Token: 0x060000A3 RID: 163 RVA: 0x00003F8C File Offset: 0x0000218C

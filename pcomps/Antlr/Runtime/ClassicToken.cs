@@ -147,7 +147,7 @@ namespace pcomps.Antlr.Runtime
 			string text = string.Empty;
 			if (this.channel > 0)
 			{
-				text = ",channel=" + this.channel;
+				text = $",channel={this.channel}";
 			}
 			string text2 = this.Text;
 			if (text2 != null)

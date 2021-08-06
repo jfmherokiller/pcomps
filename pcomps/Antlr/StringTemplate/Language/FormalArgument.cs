@@ -64,7 +64,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			if (this.defaultValueST != null)
 			{
-				return this.name + "=" + this.defaultValueST;
+				return $"{this.name}={this.defaultValueST}";
 			}
 			return this.name;
 		}

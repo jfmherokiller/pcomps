@@ -25,7 +25,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F63 RID: 3939 RVA: 0x0006EAA8 File Offset: 0x0006CCA8
 		public override string GetLocationFromTemplateName(string templateName)
 		{
-			return templateName + ".st";
+			return $"{templateName}.st";
 		}
 
 		// Token: 0x06000F64 RID: 3940 RVA: 0x0006EAB8 File Offset: 0x0006CCB8

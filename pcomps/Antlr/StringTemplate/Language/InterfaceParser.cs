@@ -15,7 +15,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				this.groupI.Error("template group interface parse error", e);
 				return;
 			}
-			Console.Error.WriteLine("template group interface parse error: " + e);
+			Console.Error.WriteLine($"template group interface parse error: {e}");
 			Console.Error.WriteLine(e.StackTrace);
 		}
 

@@ -41,7 +41,7 @@
 			}
 			else
 			{
-				text = "<missing " + this.TokenNames[expectedTokenType] + ">";
+				text = $"<missing {this.TokenNames[expectedTokenType]}>";
 			}
 			CommonToken commonToken = new CommonToken(expectedTokenType, text);
 			IToken token = ((ITokenStream)input).LT(1);

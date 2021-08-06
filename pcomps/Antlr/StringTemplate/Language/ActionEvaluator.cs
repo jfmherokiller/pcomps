@@ -1051,7 +1051,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					if (flag)
 					{
-						this.self.Error("template " + embedded.Name + " must have exactly one formal arg in template context " + this.self.GetEnclosingInstanceStackString());
+						this.self.Error(
+                            $"template {embedded.Name} must have exactly one formal arg in template context {this.self.GetEnclosingInstanceStackString()}");
 					}
 					else
 					{

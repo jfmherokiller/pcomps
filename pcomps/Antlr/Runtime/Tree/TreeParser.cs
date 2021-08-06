@@ -51,7 +51,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006AF RID: 1711 RVA: 0x00012A9C File Offset: 0x00010C9C
 		protected override object GetMissingSymbol(IIntStream input, RecognitionException e, int expectedTokenType, BitSet follow)
 		{
-			string text = "<missing " + this.TokenNames[expectedTokenType] + ">";
+			string text = $"<missing {this.TokenNames[expectedTokenType]}>";
 			return new CommonTree(new CommonToken(expectedTokenType, text));
 		}
 

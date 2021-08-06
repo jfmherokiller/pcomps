@@ -13,17 +13,17 @@ namespace pcomps.PCompiler
 			string text = akNameToken.Text.ToLowerInvariant();
 			if (this.kFlagDict.ContainsKey(text))
 			{
-				this.OnError(string.Format("Flag {0} has already been defined", akNameToken.Text), akNameToken.Line, akNameToken.CharPositionInLine);
+				this.OnError($"Flag {akNameToken.Text} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
 			if (this.kFlagIndexDict.ContainsKey(aiIndex))
 			{
-				this.OnError(string.Format("Flag index {0} has already been defined", aiIndex), akNameToken.Line, akNameToken.CharPositionInLine);
+				this.OnError($"Flag index {aiIndex} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
 			if (!PapyrusFlag.IsValidFlagIndex(aiIndex))
 			{
-				this.OnError(string.Format("Flag index {0} is out of range.", aiIndex), akNameToken.Line, akNameToken.CharPositionInLine);
+				this.OnError($"Flag index {aiIndex} is out of range.", akNameToken.Line, akNameToken.CharPositionInLine);
 				return;
 			}
 			this.kFlagDict.Add(text, new PapyrusFlag(aiIndex, abAllowedOnObj, abAllowedOnProp, abAllowedOnVar, abAllowedOnFunc));
@@ -33,7 +33,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EB1 RID: 3761 RVA: 0x0006C2CC File Offset: 0x0006A4CC
 		private void DuplicateFlagItem(IToken akToken)
 		{
-			this.OnError(string.Format("Duplicate flag item: {0}", akToken.Text), akToken.Line, akToken.CharPositionInLine);
+			this.OnError($"Duplicate flag item: {akToken.Text}", akToken.Line, akToken.CharPositionInLine);
 		}
 
 		// Token: 0x17000217 RID: 535

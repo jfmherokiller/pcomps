@@ -41,7 +41,7 @@ namespace pcomps.Antlr
 				{
 					Console.Out.Write(ast.getText());
 				}
-				Console.Out.Write(" [" + ast.Type + "] ");
+				Console.Out.Write($" [{ast.Type}] ");
 				if (flag)
 				{
 					Console.Out.Write(" ");

@@ -45,7 +45,7 @@ namespace pcomps.PCompiler
 				ScriptObjectType akObj = this.LoadObject(asObjectName, dictionary);
 				if (this.bDebug)
 				{
-					StringBuilder stringBuilder = new StringBuilder("Known types after parsing:\n");
+					var stringBuilder = new StringBuilder("Known types after parsing:\n");
 					foreach (string arg in dictionary.Keys)
 					{
 						stringBuilder.AppendFormat("\t-{0}\n", arg);
@@ -61,7 +61,7 @@ namespace pcomps.PCompiler
 				{
 					value = this.GenerateCode(akObj);
 				}
-				string text = string.Format("{0}.pas", asObjectName);
+				var text = $"{asObjectName}.pas";
 				if (this.sOutputFolder != "")
 				{
 					text = Path.Combine(this.sOutputFolder, text);
@@ -119,7 +119,8 @@ namespace pcomps.PCompiler
 					{
 						if (asObjectName.Length > 38)
 						{
-							string asMessage = string.Format("\"{0}\" is too long, please shorten it to {1} characters or less", asObjectName, 38);
+							string asMessage =
+                                $"\"{asObjectName}\" is too long, please shorten it to {38} characters or less";
 							this.OnCompilerError(asMessage);
 						}
 						CaseInsensitiveFileStream akInput = new CaseInsensitiveFileStream(text);
@@ -127,14 +128,14 @@ namespace pcomps.PCompiler
 						this.Parse(akTokenStream, out scriptObjectType);
 						if (scriptObjectType.Name != asObjectName.ToLowerInvariant())
 						{
-							this.OnCompilerError(string.Format("filename does not match script name: {0}", scriptObjectType.Name));
+							this.OnCompilerError($"filename does not match script name: {scriptObjectType.Name}");
 						}
 						else
 						{
 							bool flag = this.iNumErrors == 0;
 							if (this.bDebug && this.sFileStack.Count == 1)
 							{
-								string asFilename = string.Format("{0}.preTypeCheck.dot", asObjectName);
+								string asFilename = $"{asObjectName}.preTypeCheck.dot";
 								string arg = this.OutputAST(asFilename, scriptObjectType.kAST);
 								StringBuilder stringBuilder = new StringBuilder();
 								stringBuilder.AppendFormat("Pre-typecheck AST is located in \"{0}\"", arg);
@@ -152,7 +153,7 @@ namespace pcomps.PCompiler
 							}
 							if (this.bDebug && flag2 && this.sFileStack.Count == 1)
 							{
-								string asFilename2 = string.Format("{0}.postTypeCheck.dot", asObjectName);
+								string asFilename2 = $"{asObjectName}.postTypeCheck.dot";
 								string arg2 = this.OutputAST(asFilename2, scriptObjectType.kAST);
 								StringBuilder stringBuilder2 = new StringBuilder();
 								stringBuilder2.AppendFormat("Post-typecheck AST is located in \"{0}\"", arg2);
@@ -162,7 +163,7 @@ namespace pcomps.PCompiler
 					}
 					catch (Exception ex)
 					{
-						this.OnCompilerError(string.Format("error while attempting to read script {0}: {1}", asObjectName, ex.Message));
+						this.OnCompilerError($"error while attempting to read script {asObjectName}: {ex.Message}");
 						scriptObjectType = null;
 					}
 					this.iNumErrors += num;
@@ -170,7 +171,7 @@ namespace pcomps.PCompiler
 				}
 				else if (abErrorOnNoObject)
 				{
-					this.OnCompilerError(string.Format("unable to locate script {0}", asObjectName));
+					this.OnCompilerError($"unable to locate script {asObjectName}");
 					scriptObjectType = null;
 				}
 			}
@@ -241,7 +242,7 @@ namespace pcomps.PCompiler
 							while (enumerator.MoveNext())
 							{
 								KeyValuePair<string, PapyrusFlag> keyValuePair = enumerator.Current;
-								this.OnCompilerNotify(string.Format("Flag {0}: {1}", keyValuePair.Key, keyValuePair.Value.Index));
+								this.OnCompilerNotify($"Flag {keyValuePair.Key}: {keyValuePair.Value.Index}");
 							}
 							return;
 						}
@@ -252,7 +253,7 @@ namespace pcomps.PCompiler
 			}
 			else
 			{
-				this.OnCompilerError(string.Format("Unable to find flags file: {0}", asFlagsFile));
+				this.OnCompilerError($"Unable to find flags file: {asFlagsFile}");
 			}
 		}
 
@@ -293,7 +294,7 @@ namespace pcomps.PCompiler
 			this.FinishOptimizeFile();
 			if (this.bDebug && this.iNumErrors == 0)
 			{
-				string asFilename2 = string.Format("{0}.postOptimize.dot", akObj.Name);
+				string asFilename2 = $"{akObj.Name}.postOptimize.dot";
 				string arg = this.OutputAST(asFilename2, akObj.kAST);
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendFormat("Post-optimize AST is located in \"{0}\"", arg);
@@ -317,7 +318,7 @@ namespace pcomps.PCompiler
 			}
 			catch (Exception ex)
 			{
-				this.OnCompilerError(string.Format("error while attempting to optimize script {0}: {1}", akObj.Name, ex.Message));
+				this.OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
 			}
 			return result;
 		}
@@ -347,7 +348,7 @@ namespace pcomps.PCompiler
 			}
 			catch (Exception ex)
 			{
-				this.OnCompilerError(string.Format("error while attempting to optimize script {0}: {1}", akObj.Name, ex.Message));
+				this.OnCompilerError($"error while attempting to optimize script {akObj.Name}: {ex.Message}");
 			}
 			return result;
 		}
@@ -355,7 +356,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D40 RID: 3392 RVA: 0x0005D4A8 File Offset: 0x0005B6A8
 		private string OutputAST(string asFilename, CommonTree akTree)
 		{
-			this.OnCompilerNotify(string.Format("Generating {0}...", asFilename));
+			this.OnCompilerNotify($"Generating {asFilename}...");
 			StringTemplate treeST = new StringTemplate("digraph {\n ordering=out;\n ranksep=.4\n rankdir=LR\n bgcolor=\"lightgrey\";\n node [shape=box, fixedsize=false, fontsize=12, fontname=\"Helvetica-bold\", fontcolor=\"blue\"\n       width=.25, height=.25, color=\"black\", style=\"bold\"]\n $nodes$\n $edges$\n}\n");
 			StringTemplate edgeST = new StringTemplate("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
 			DOTTreeGenerator dottreeGenerator = new DOTTreeGenerator();
@@ -370,7 +371,7 @@ namespace pcomps.PCompiler
 			{
 				Process process = new Process();
 				process.StartInfo.FileName = "dot.exe";
-				process.StartInfo.Arguments = string.Format("-Tpng -o{0} {1}", text2, asFilename);
+				process.StartInfo.Arguments = $"-Tpng -o{text2} {asFilename}";
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.Start();
@@ -495,7 +496,7 @@ namespace pcomps.PCompiler
 			if (this.bDebug)
 			{
 				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify(string.Format("{0}Starting import of {1}...", arg, asFilename));
+				this.OnCompilerNotify($"{arg}Starting import of {asFilename}...");
 			}
 		}
 
@@ -505,7 +506,7 @@ namespace pcomps.PCompiler
 			if (this.bDebug)
 			{
 				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify(string.Format("{0}Finished import", arg));
+				this.OnCompilerNotify($"{arg}Finished import");
 			}
 			this.sFileStack.Pop();
 		}
@@ -517,7 +518,7 @@ namespace pcomps.PCompiler
 			if (this.bDebug)
 			{
 				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify(string.Format("{0}Starting optimize of {1}...", arg, asFilename));
+				this.OnCompilerNotify($"{arg}Starting optimize of {asFilename}...");
 			}
 		}
 
@@ -527,7 +528,7 @@ namespace pcomps.PCompiler
 			if (this.bDebug)
 			{
 				string arg = new string(' ', this.sFileStack.Count);
-				this.OnCompilerNotify(string.Format("{0}Finished optimize", arg));
+				this.OnCompilerNotify($"{arg}Finished optimize");
 			}
 			this.sFileStack.Pop();
 		}
@@ -557,7 +558,7 @@ namespace pcomps.PCompiler
 				}
 				catch (Exception ex)
 				{
-					this.OnCompilerNotify("Cannot set output folder to \"" + value + "\" - " + ex.Message);
+					this.OnCompilerNotify($"Cannot set output folder to \"{value}\" - {ex.Message}");
 					this.bOutputValid = false;
 				}
 			}
@@ -605,7 +606,7 @@ namespace pcomps.PCompiler
 					}
 					catch (Exception ex)
 					{
-						this.OnCompilerNotify("Cannot use import folder \"" + list[num] + "\" - " + ex.Message);
+						this.OnCompilerNotify($"Cannot use import folder \"{list[num]}\" - {ex.Message}");
 						this.bImportValid = false;
 					}
 					num++;

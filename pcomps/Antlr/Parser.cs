@@ -524,10 +524,10 @@ namespace pcomps.Antlr
 		{
 			if (this.getFilename() == null)
 			{
-				Console.Error.WriteLine("error: " + s);
+				Console.Error.WriteLine($"error: {s}");
 				return;
 			}
-			Console.Error.WriteLine(this.getFilename() + ": error: " + s);
+			Console.Error.WriteLine($"{this.getFilename()}: error: {s}");
 		}
 
 		// Token: 0x06000201 RID: 513 RVA: 0x00006B1C File Offset: 0x00004D1C
@@ -535,10 +535,10 @@ namespace pcomps.Antlr
 		{
 			if (this.getFilename() == null)
 			{
-				Console.Error.WriteLine("warning: " + s);
+				Console.Error.WriteLine($"warning: {s}");
 				return;
 			}
-			Console.Error.WriteLine(this.getFilename() + ": warning: " + s);
+			Console.Error.WriteLine($"{this.getFilename()}: warning: {s}");
 		}
 
 		// Token: 0x06000202 RID: 514 RVA: 0x00006B64 File Offset: 0x00004D64

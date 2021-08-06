@@ -90,13 +90,13 @@ namespace pcomps.Antlr
 		// Token: 0x060002CA RID: 714 RVA: 0x00009308 File Offset: 0x00007508
 		public virtual void reportError(string s)
 		{
-			Console.Error.WriteLine("error: " + s);
+			Console.Error.WriteLine($"error: {s}");
 		}
 
 		// Token: 0x060002CB RID: 715 RVA: 0x0000932C File Offset: 0x0000752C
 		public virtual void reportWarning(string s)
 		{
-			Console.Error.WriteLine("warning: " + s);
+			Console.Error.WriteLine($"warning: {s}");
 		}
 
 		// Token: 0x060002CC RID: 716 RVA: 0x00009350 File Offset: 0x00007550

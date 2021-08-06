@@ -461,7 +461,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				string text = this.adaptor.GetNodeText(p);
 				if (text == null)
 				{
-					text = " " + this.adaptor.GetNodeType(p);
+					text = $" {this.adaptor.GetNodeType(p)}";
 				}
 				buf.Append(text);
 			}

@@ -52,7 +52,8 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroup result = null;
 			try
 			{
-				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(this.namespaceRoot + "." + groupName + ".stg");
+				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(
+                    $"{this.namespaceRoot}.{groupName}.stg");
 				result = this.factory.CreateGroup(new StreamReader(manifestResourceStream), lexer, this.errorListener, superGroup);
 			}
 			catch (Exception e)
@@ -77,7 +78,8 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroupInterface result = null;
 			try
 			{
-				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(this.namespaceRoot + "." + interfaceName + ".sti");
+				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(
+                    $"{this.namespaceRoot}.{interfaceName}.sti");
 				if (manifestResourceStream != null)
 				{
 					result = this.factory.CreateInterface(new StreamReader(manifestResourceStream), this.errorListener, null);

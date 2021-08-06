@@ -2124,7 +2124,7 @@ namespace pcomps.PCompiler
 			}
 			catch (RecognitionException arg)
 			{
-				Console.Error.WriteLine("impossible: " + arg);
+				Console.Error.WriteLine($"impossible: {arg}");
 			}
 			bool result = !this.state.failed;
 			this.input.Rewind(marker);

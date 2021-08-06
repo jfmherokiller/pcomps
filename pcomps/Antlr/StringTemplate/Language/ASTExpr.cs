@@ -63,7 +63,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException e)
 			{
-				self.Error("can't evaluate tree: " + this.exprTree.ToStringList(), e);
+				self.Error($"can't evaluate tree: {this.exprTree.ToStringList()}", e);
 			}
 			output.PopIndentation();
 			if (stringTemplateAST != null)
@@ -104,7 +104,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					string text = (string)obj;
 					if (!ASTExpr.supportedOptions.Contains(text))
 					{
-						self.Warning("ignoring unsupported option: " + text);
+						self.Warning($"ignoring unsupported option: {text}");
 					}
 				}
 			}
@@ -131,14 +131,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 			HashList hashList = (HashList)templateToApply.FormalArguments;
 			if (hashList == null || hashList.Count == 0)
 			{
-				self.Error("missing arguments in anonymous template in context " + self.GetEnclosingInstanceStackString());
+				self.Error(
+                    $"missing arguments in anonymous template in context {self.GetEnclosingInstanceStackString()}");
 				return null;
 			}
 			object[] array = new object[hashList.Count];
 			hashList.Keys.CopyTo(array, 0);
 			if (array.Length != num)
 			{
-				self.Error("number of arguments " + hashList.Keys.ToString() + " mismatch between attribute list and anonymous template in context " + self.GetEnclosingInstanceStackString());
+				self.Error(
+                    $"number of arguments {hashList.Keys} mismatch between attribute list and anonymous template in context {self.GetEnclosingInstanceStackString()}");
 				int num2 = Math.Min(array.Length, num);
 				num = num2;
 				object[] array2 = new object[num2];
@@ -265,7 +267,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (flag && formalArguments.Count > 1)
 					{
-						embedded.Error("too many arguments on {...} template: " + CollectionUtils.DictionaryToString(formalArguments));
+						embedded.Error(
+                            $"too many arguments on {{...}} template: {CollectionUtils.DictionaryToString(formalArguments)}");
 					}
 					IEnumerator enumerator = formalArguments.Keys.GetEnumerator();
 					enumerator.MoveNext();
@@ -458,7 +461,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate embeddedInstanceOf = group.GetEmbeddedInstanceOf(enclosing, templateName);
 			if (embeddedInstanceOf == null)
 			{
-				enclosing.Error("cannot make embedded instance of " + templateName + " in template " + enclosing.Name);
+				enclosing.Error($"cannot make embedded instance of {templateName} in template {enclosing.Name}");
 				return null;
 			}
 			embeddedInstanceOf.ArgumentsAST = argumentsAST;
@@ -577,7 +580,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (IOException e)
 			{
-				self.Error("problem writing object: " + o, e);
+				self.Error($"problem writing object: {o}", e);
 			}
 			return num;
 		}
@@ -601,7 +604,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				catch (RecognitionException e)
 				{
-					self.Error("can't evaluate tree: " + stringTemplateAST.ToStringList(), e);
+					self.Error($"can't evaluate tree: {stringTemplateAST.ToStringList()}", e);
 				}
 				return stringWriter.ToString();
 			}
@@ -619,7 +622,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate enclosingInstance = self.EnclosingInstance;
 			ActionEvaluator actionEvaluator = new ActionEvaluator(new StringTemplate(self.Group, "")
 			{
-				Name = "<invoke " + self.Name + " arg context>",
+				Name = $"<invoke {self.Name} arg context>",
 				EnclosingInstance = enclosingInstance,
 				ArgumentContext = self.ArgumentContext
 			}, this, null);
@@ -631,7 +634,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException e)
 			{
-				self.Error("can't evaluate tree: " + argumentsAST.ToStringList(), e);
+				self.Error($"can't evaluate tree: {argumentsAST.ToStringList()}", e);
 			}
 		}
 

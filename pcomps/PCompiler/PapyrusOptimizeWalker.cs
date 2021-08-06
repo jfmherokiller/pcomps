@@ -265,8 +265,8 @@ namespace pcomps.PCompiler
 				result = new CommonTree(new CommonToken(akValue1.Token)
 				{
 					Type = 90,
-					Text = string.Format("\"{0}{1}\"", arg, arg2)
-				});
+					Text = $"\"{arg}{arg2}\""
+                });
 				this.bMadeChanges = true;
 			}
 			return result;

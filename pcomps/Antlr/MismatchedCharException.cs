@@ -45,7 +45,8 @@ namespace pcomps.Antlr
 				case MismatchedCharException.CharTypeEnum.SetType:
 				case MismatchedCharException.CharTypeEnum.NotSetType:
 				{
-					stringBuilder.Append("expecting " + ((this.mismatchType == MismatchedCharException.CharTypeEnum.NotSetType) ? "NOT " : "") + "one of (");
+					stringBuilder.Append(
+                        $"expecting {((this.mismatchType == MismatchedCharException.CharTypeEnum.NotSetType) ? "NOT " : "")}one of (");
 					int[] array = this.bset.toArray();
 					for (int i = 0; i < array.Length; i++)
 					{

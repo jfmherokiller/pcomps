@@ -22,7 +22,7 @@ namespace pcomps.Antlr
 		public string getLeftmostDerivation(int maxSteps)
 		{
 			StringBuilder stringBuilder = new StringBuilder(2000);
-			stringBuilder.Append("    " + this.ToString());
+			stringBuilder.Append($"    {this}");
 			stringBuilder.Append("\n");
 			for (int i = 1; i < maxSteps; i++)
 			{

@@ -19,7 +19,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateGroup group = this.self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
-				this.self.Error("action parse error; template context is " + this.self.GetEnclosingInstanceStackString(), e);
+				this.self.Error(
+                    $"action parse error; template context is {this.self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
 			this.self.Error(string.Concat(new object[]
@@ -612,7 +613,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					this.match(18);
 					if (this.inputState.guessing == 0)
 					{
-						stringTemplateAST2.setText("super." + stringTemplateAST2.getText());
+						stringTemplateAST2.setText($"super.{stringTemplateAST2.getText()}");
 					}
 					this.argList();
 					if (this.inputState.guessing == 0)
@@ -1326,7 +1327,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						this.match(18);
 						if (this.inputState.guessing == 0)
 						{
-							stringTemplateAST.setText("super." + stringTemplateAST.getText());
+							stringTemplateAST.setText($"super.{stringTemplateAST.getText()}");
 						}
 						this.argList();
 						if (this.inputState.guessing == 0)

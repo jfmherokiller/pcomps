@@ -285,17 +285,19 @@ namespace pcomps.Antlr.Runtime
 			if (e is MismatchedTokenException)
 			{
 				MismatchedTokenException ex = (MismatchedTokenException)e;
-				result = "mismatched character " + this.GetCharErrorDisplay(e.Char) + " expecting " + this.GetCharErrorDisplay(ex.Expecting);
+				result =
+                    $"mismatched character {this.GetCharErrorDisplay(e.Char)} expecting {this.GetCharErrorDisplay(ex.Expecting)}";
 			}
 			else if (e is NoViableAltException)
 			{
 				NoViableAltException ex2 = (NoViableAltException)e;
-				result = "no viable alternative at character " + this.GetCharErrorDisplay(ex2.Char);
+				result = $"no viable alternative at character {this.GetCharErrorDisplay(ex2.Char)}";
 			}
 			else if (e is EarlyExitException)
 			{
 				EarlyExitException ex3 = (EarlyExitException)e;
-				result = "required (...)+ loop did not match anything at character " + this.GetCharErrorDisplay(ex3.Char);
+				result =
+                    $"required (...)+ loop did not match anything at character {this.GetCharErrorDisplay(ex3.Char)}";
 			}
 			else if (e is MismatchedNotSetException)
 			{
@@ -365,7 +367,7 @@ namespace pcomps.Antlr.Runtime
 				str = "\\r";
 				break;
 			}
-			return "'" + str + "'";
+			return $"'{str}'";
 		}
 
 		// Token: 0x06000942 RID: 2370 RVA: 0x0001AB48 File Offset: 0x00018D48

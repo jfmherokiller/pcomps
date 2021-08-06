@@ -112,7 +112,7 @@ namespace pcomps.Antlr.Runtime.Misc
 			}
 			catch (IOException e)
 			{
-				ErrorManager.InternalError("can't write stats to " + absoluteFileName, e);
+				ErrorManager.InternalError($"can't write stats to {absoluteFileName}", e);
 			}
 		}
 

@@ -40,7 +40,7 @@
 			}
 			if (this.raiseExceptionForEmptyTemplate)
 			{
-				throw new TemplateLoadException("no text in template '" + templateName + "'");
+				throw new TemplateLoadException($"no text in template '{templateName}'");
 			}
 			return null;
 		}

@@ -35,7 +35,8 @@ namespace pcomps.Antlr
 		{
 			if (tokenType < 4)
 			{
-				throw new ANTLRException("Internal parser error: Cannot change AST Node Type for Token ID '" + tokenType + "'");
+				throw new ANTLRException(
+                    $"Internal parser error: Cannot change AST Node Type for Token ID '{tokenType}'");
 			}
 			if (tokenType > this.heteroList_.Length + 1)
 			{
@@ -61,7 +62,8 @@ namespace pcomps.Antlr
 		{
 			if (NodeType < 4)
 			{
-				throw new ANTLRException("Internal parser error: Cannot change AST Node Type for Token ID '" + NodeType + "'");
+				throw new ANTLRException(
+                    $"Internal parser error: Cannot change AST Node Type for Token ID '{NodeType}'");
 			}
 			if (NodeType > this.heteroList_.Length + 1)
 			{
@@ -346,7 +348,7 @@ namespace pcomps.Antlr
 			}
 			if (!flag)
 			{
-				throw new TypeLoadException("Unable to load AST Node Type: '" + nodeTypeName + "'");
+				throw new TypeLoadException($"Unable to load AST Node Type: '{nodeTypeName}'");
 			}
 			return type;
 		}
@@ -362,7 +364,7 @@ namespace pcomps.Antlr
 				ast = astnodeCreator.Create();
 				if (ast == null)
 				{
-					throw new ArgumentException("Unable to create AST Node Type: '" + type.FullName + "'");
+					throw new ArgumentException($"Unable to create AST Node Type: '{type.FullName}'");
 				}
 			}
 			else
@@ -382,7 +384,7 @@ namespace pcomps.Antlr
 				ast = astnodeCreator.Create();
 				if (ast == null)
 				{
-					throw new ArgumentException("Unable to create AST Node Type: '" + nodeTypeName + "'");
+					throw new ArgumentException($"Unable to create AST Node Type: '{nodeTypeName}'");
 				}
 			}
 			else
@@ -428,12 +430,12 @@ namespace pcomps.Antlr
 				ast = (AST)Activator.CreateInstance(nodeTypeObject);
 				if (ast == null)
 				{
-					throw new ArgumentException("Unable to create AST Node Type: '" + nodeTypeObject.FullName + "'");
+					throw new ArgumentException($"Unable to create AST Node Type: '{nodeTypeObject.FullName}'");
 				}
 			}
 			catch (Exception innerException)
 			{
-				throw new ArgumentException("Unable to create AST Node Type: '" + nodeTypeObject.FullName + "'", innerException);
+				throw new ArgumentException($"Unable to create AST Node Type: '{nodeTypeObject.FullName}'", innerException);
 			}
 			return ast;
 		}

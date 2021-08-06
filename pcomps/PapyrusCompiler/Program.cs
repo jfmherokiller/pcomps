@@ -106,13 +106,13 @@ namespace pcomps.PapyrusCompiler
 						}
 						else
 						{
-							Console.WriteLine("Folder \"" + directoryInfo.FullName + "\" does not contain any script files");
+							Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not contain any script files");
 							flag = true;
 						}
 					}
 					else
 					{
-						Console.WriteLine("Folder \"" + directoryInfo.FullName + "\" does not exist");
+						Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not exist");
 						flag = true;
 					}
 				}

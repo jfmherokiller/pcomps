@@ -74,7 +74,7 @@ namespace pcomps.Antlr
 				}
 				else
 				{
-					Console.Out.Write("LA(" + i + ")==ull");
+					Console.Out.Write($"LA({i})==ull");
 				}
 			}
 			Console.Out.WriteLine("");

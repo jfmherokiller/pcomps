@@ -440,11 +440,11 @@ namespace pcomps.Antlr.collections.impl
 				long num = this.dataBits[i];
                 ulong v = unchecked((ulong)-1);
                 num &= (long)v;
-				text = text + num + "UL";
+				text = $"{text}{num}UL";
 				text += ", ";
 				num = SupportClass.URShift(this.dataBits[i], 32);
 				num &= (long)v;
-				text = text + num + "UL";
+				text = $"{text}{num}UL";
 			}
 			return text;
 		}
@@ -459,7 +459,7 @@ namespace pcomps.Antlr.collections.impl
 				{
 					text += ", ";
 				}
-				text = text + this.dataBits[i] + "L";
+				text = $"{text}{this.dataBits[i]}L";
 			}
 			return text;
 		}

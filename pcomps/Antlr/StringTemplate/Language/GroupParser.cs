@@ -15,7 +15,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				this._group.Error("template group parse error", e);
 				return;
 			}
-			Console.Error.WriteLine("template group parse error: " + e);
+			Console.Error.WriteLine($"template group parse error: {e}");
 			Console.Error.WriteLine(e.StackTrace);
 		}
 
@@ -218,7 +218,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						string text = token3.getText();
 						if (g.IsDefinedInThisGroup(text))
 						{
-							g.Error("redefinition of template: " + text);
+							g.Error($"redefinition of template: {text}");
 							stringTemplate = new StringTemplate();
 						}
 						else
@@ -298,11 +298,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				IDictionary mapping = this.map();
 				if (g.GetMap(token.getText()) != null)
 				{
-					g.Error("redefinition of map: " + token.getText());
+					g.Error($"redefinition of map: {token.getText()}");
 				}
 				else if (g.IsDefinedInThisGroup(token.getText()))
 				{
-					g.Error("redefinition of template as map: " + token.getText());
+					g.Error($"redefinition of template as map: {token.getText()}");
 				}
 				else
 				{

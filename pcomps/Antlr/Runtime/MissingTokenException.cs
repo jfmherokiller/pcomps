@@ -58,7 +58,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (this.token != null)
 			{
-				return "MissingTokenException(at " + this.token.Text + ")";
+				return $"MissingTokenException(at {this.token.Text})";
 			}
 			return "MissingTokenException";
 		}

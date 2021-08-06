@@ -489,7 +489,7 @@ namespace pcomps.Antlr
 			}
 			if (!flag)
 			{
-				this.panic("Can't create Token object '" + this.tokenCreator.TokenTypeName + "'");
+				this.panic($"Can't create Token object '{this.tokenCreator.TokenTypeName}'");
 				token = Token.badToken;
 			}
 			return token;
@@ -609,7 +609,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000128 RID: 296 RVA: 0x000050A8 File Offset: 0x000032A8
 		public virtual void panic(string s)
 		{
-			throw new ANTLRPanicException("CharScanner::panic: " + s);
+			throw new ANTLRPanicException($"CharScanner::panic: {s}");
 		}
 
 		// Token: 0x06000129 RID: 297 RVA: 0x000050C8 File Offset: 0x000032C8
@@ -623,10 +623,10 @@ namespace pcomps.Antlr
 		{
 			if (this.getFilename() == null)
 			{
-				Console.Error.WriteLine("error: " + s);
+				Console.Error.WriteLine($"error: {s}");
 				return;
 			}
-			Console.Error.WriteLine(this.getFilename() + ": error: " + s);
+			Console.Error.WriteLine($"{this.getFilename()}: error: {s}");
 		}
 
 		// Token: 0x0600012B RID: 299 RVA: 0x00005128 File Offset: 0x00003328
@@ -634,10 +634,10 @@ namespace pcomps.Antlr
 		{
 			if (this.getFilename() == null)
 			{
-				Console.Error.WriteLine("warning: " + s);
+				Console.Error.WriteLine($"warning: {s}");
 				return;
 			}
-			Console.Error.WriteLine(this.getFilename() + ": warning: " + s);
+			Console.Error.WriteLine($"{this.getFilename()}: warning: {s}");
 		}
 
 		// Token: 0x0600012C RID: 300 RVA: 0x00005170 File Offset: 0x00003370
@@ -953,12 +953,12 @@ namespace pcomps.Antlr
 					}
 					catch
 					{
-						throw new TypeLoadException("Unable to load Type for Token class '" + tokenTypeName + "'");
+						throw new TypeLoadException($"Unable to load Type for Token class '{tokenTypeName}'");
 					}
 				}
 				if (this.tokenTypeObject == null)
 				{
-					throw new TypeLoadException("Unable to load Type for Token class '" + tokenTypeName + "'");
+					throw new TypeLoadException($"Unable to load Type for Token class '{tokenTypeName}'");
 				}
 			}
 

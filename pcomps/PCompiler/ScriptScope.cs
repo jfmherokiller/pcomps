@@ -11,7 +11,7 @@ namespace pcomps.PCompiler
 			this.kParent = akParentScope;
 			if (this.kParent != null)
 			{
-				this.sName = this.kParent.Name + "." + asLocalName;
+				this.sName = $"{this.kParent.Name}.{asLocalName}";
 				this.kParent.kChildren.Add(this);
 				return;
 			}

@@ -30,7 +30,7 @@ namespace pcomps.Antlr
 			TokenStream tokenStream = (TokenStream)this.inputStreamNames[sname];
 			if (tokenStream == null)
 			{
-				throw new ArgumentException("TokenStream " + sname + " not found");
+				throw new ArgumentException($"TokenStream {sname} not found");
 			}
 			return tokenStream;
 		}

@@ -467,7 +467,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						num = 11;
 						string text = this.text.ToString(length, this.text.Length - length);
 						this.text.Length = length;
-						this.text.Append(text + "::=");
+						this.text.Append($"{text}::=");
 						if ((this.cached_LA1 == '\n' || this.cached_LA1 == '\r') && this.cached_LA2 >= '\u0001' && this.cached_LA2 <= '￾' && this.LA(3) >= '\u0001' && this.LA(3) <= '￾')
 						{
 							char cached_LA5 = this.cached_LA1;
@@ -560,7 +560,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 								throw new NoViableAltForCharException(this.cached_LA1, this.getFilename(), this.getLine(), this.getColumn());
 							}
 							this.matchNot(1);
-							this.self.Error("missing region " + text + " $@end$ tag");
+							this.self.Error($"missing region {text} $@end$ tag");
 						}
 						if ((this.cached_LA1 == '\n' || this.cached_LA1 == '\r') && flag)
 						{

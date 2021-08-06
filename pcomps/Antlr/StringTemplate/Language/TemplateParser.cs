@@ -11,7 +11,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateGroup group = this.self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
-				this.self.Error("template parse error; template context is " + this.self.GetEnclosingInstanceStackString(), e);
+				this.self.Error(
+                    $"template parse error; template context is {this.self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
 			this.self.Error(string.Concat(new object[]
@@ -128,7 +129,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					ConditionalExpr conditionalExpr = (ConditionalExpr)self.ParseAction(token2.getText());
 					StringTemplate stringTemplate = new StringTemplate(self.Group, null);
 					stringTemplate.EnclosingInstance = self;
-					stringTemplate.Name = token2.getText() + "_subtemplate";
+					stringTemplate.Name = $"{token2.getText()}_subtemplate";
 					self.AddChunk(conditionalExpr);
 					this.template(stringTemplate);
 					if (conditionalExpr != null)
@@ -172,18 +173,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 						StringTemplate stringTemplate3 = self.Group.LookupTemplate(unMangledTemplateName);
 						if (stringTemplate3 == null)
 						{
-							self.Group.Error("reference to region within undefined template: " + unMangledTemplateName);
+							self.Group.Error($"reference to region within undefined template: {unMangledTemplateName}");
 							flag = true;
 						}
 						if (!stringTemplate3.ContainsRegionName(text3))
 						{
-							self.Group.Error("template " + unMangledTemplateName + " has no region called " + text3);
+							self.Group.Error($"template {unMangledTemplateName} has no region called {text3}");
 							flag = true;
 						}
 						else
 						{
 							text2 = self.Group.GetMangledRegionName(unMangledTemplateName, text3);
-							text2 = "super." + text2;
+							text2 = $"super.{text2}";
 						}
 					}
 					else
@@ -194,7 +195,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (!flag)
 					{
 						string indentation2 = ((ChunkToken)token3).Indentation;
-						ASTExpr astexpr2 = self.ParseAction(text2 + "()");
+						ASTExpr astexpr2 = self.ParseAction($"{text2}()");
 						astexpr2.Indentation = indentation2;
 						self.AddChunk(astexpr2);
 						goto IL_355;
@@ -213,7 +214,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						string template = text4.Substring(num + 3, text4.Length - (num + 3));
 						StringTemplate stringTemplate5 = self.Group.DefineRegionTemplate(self, regionName, template, 2);
 						string indentation3 = ((ChunkToken)token4).Indentation;
-						ASTExpr astexpr3 = self.ParseAction(stringTemplate5.Name + "()");
+						ASTExpr astexpr3 = self.ParseAction($"{stringTemplate5.Name}()");
 						astexpr3.Indentation = indentation3;
 						self.AddChunk(astexpr3);
 						goto IL_355;

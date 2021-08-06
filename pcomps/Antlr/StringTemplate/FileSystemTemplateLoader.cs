@@ -42,7 +42,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F4E RID: 3918 RVA: 0x0006E750 File Offset: 0x0006C950
 		public override bool HasChanged(string templateName)
 		{
-			string key = string.Format("{0}/{1}", base.LocationRoot, this.GetLocationFromTemplateName(templateName)).Replace('\\', '/');
+			string key = $"{base.LocationRoot}/{this.GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
 			return this.fileSet[key] != null;
 		}
 
@@ -53,7 +53,7 @@ namespace pcomps.Antlr.StringTemplate
 			string text2 = null;
 			try
 			{
-				text2 = string.Format("{0}/{1}", base.LocationRoot, this.GetLocationFromTemplateName(templateName)).Replace('\\', '/');
+				text2 = $"{base.LocationRoot}/{this.GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
 				StreamReader streamReader;
 				try
 				{
@@ -69,7 +69,7 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				catch (Exception innerException)
 				{
-					throw new TemplateLoadException("Cannot open template file: " + text2, innerException);
+					throw new TemplateLoadException($"Cannot open template file: {text2}", innerException);
 				}
 				try
 				{
@@ -101,17 +101,18 @@ namespace pcomps.Antlr.StringTemplate
 				string message;
 				if (text == null)
 				{
-					message = string.Format("Invalid file character encoding: {0}", this.encoding);
+					message = $"Invalid file character encoding: {this.encoding}";
 				}
 				else
 				{
-					message = string.Format("The location root '{0}' and/or the template name '{1}' is invalid.", base.LocationRoot, templateName);
+					message =
+                        $"The location root '{base.LocationRoot}' and/or the template name '{templateName}' is invalid.";
 				}
 				throw new TemplateLoadException(message, innerException2);
 			}
 			catch (IOException innerException3)
 			{
-				throw new TemplateLoadException("Cannot close template file: " + text2, innerException3);
+				throw new TemplateLoadException($"Cannot close template file: {text2}", innerException3);
 			}
 			return text;
 		}
@@ -119,7 +120,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F50 RID: 3920 RVA: 0x0006E9B8 File Offset: 0x0006CBB8
 		public override string GetLocationFromTemplateName(string templateName)
 		{
-			return templateName + ".st";
+			return $"{templateName}.st";
 		}
 
 		// Token: 0x06000F51 RID: 3921 RVA: 0x0006E9C8 File Offset: 0x0006CBC8

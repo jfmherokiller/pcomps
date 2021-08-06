@@ -30,7 +30,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011D7 RID: 4567 RVA: 0x000825E4 File Offset: 0x000807E4
 		public override string ToString()
 		{
-			return base.ToString() + "; args=" + CollectionUtils.ListToString(this.args);
+			return $"{base.ToString()}; args={CollectionUtils.ListToString(this.args)}";
 		}
 
 		// Token: 0x04000F03 RID: 3843

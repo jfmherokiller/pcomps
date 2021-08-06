@@ -64,13 +64,13 @@ namespace pcomps.Antlr.Utility.Tree
 			{
 				return;
 			}
-			string val = "n" + this.GetNodeNumber(tree);
+			string val = $"n{this.GetNodeNumber(tree)}";
 			string nodeText = adaptor.GetNodeText(tree);
 			for (int i = 0; i < childCount; i++)
 			{
 				object child = adaptor.GetChild(tree, i);
 				string nodeText2 = adaptor.GetNodeText(child);
-				string val2 = "n" + this.GetNodeNumber(child);
+				string val2 = $"n{this.GetNodeNumber(child)}";
 				StringTemplate.StringTemplate instanceOf = DOTTreeGenerator._edgeST.GetInstanceOf();
 				instanceOf.SetAttribute("parent", val);
 				instanceOf.SetAttribute("child", val2);
@@ -86,7 +86,7 @@ namespace pcomps.Antlr.Utility.Tree
 		{
 			string text = adaptor.GetNodeText(t);
 			StringTemplate.StringTemplate instanceOf = DOTTreeGenerator._nodeST.GetInstanceOf();
-			string val = "n" + this.GetNodeNumber(t);
+			string val = $"n{this.GetNodeNumber(t)}";
 			instanceOf.SetAttribute("name", val);
 			if (text != null)
 			{

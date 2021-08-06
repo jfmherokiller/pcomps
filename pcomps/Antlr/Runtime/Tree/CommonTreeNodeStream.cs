@@ -405,7 +405,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (start is CommonTree)
 			{
-				Console.Out.Write("ToString: " + ((CommonTree)start).Token + ", ");
+				Console.Out.Write($"ToString: {((CommonTree)start).Token}, ");
 			}
 			else
 			{
@@ -449,7 +449,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				text = this.adaptor.GetNodeText(obj);
 				if (text == null)
 				{
-					text = " " + this.adaptor.GetNodeType(obj);
+					text = $" {this.adaptor.GetNodeType(obj)}";
 				}
 				stringBuilder.Append(text);
 				i++;
@@ -457,7 +457,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			text = this.adaptor.GetNodeText(stop);
 			if (text == null)
 			{
-				text = " " + this.adaptor.GetNodeType(stop);
+				text = $" {this.adaptor.GetNodeType(stop)}";
 			}
 			stringBuilder.Append(text);
 			return stringBuilder.ToString();

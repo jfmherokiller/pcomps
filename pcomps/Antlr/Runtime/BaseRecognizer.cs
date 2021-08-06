@@ -148,7 +148,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			string errorHeader = this.GetErrorHeader(e);
 			string errorMessage = this.GetErrorMessage(e, tokenNames);
-			this.EmitErrorMessage(errorHeader + " " + errorMessage);
+			this.EmitErrorMessage($"{errorHeader} {errorMessage}");
 		}
 
 		// Token: 0x060008D6 RID: 2262 RVA: 0x000192CC File Offset: 0x000174CC
@@ -167,7 +167,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str = tokenNames[ex.Expecting];
 				}
-				result = "extraneous input " + this.GetTokenErrorDisplay(ex.UnexpectedToken) + " expecting " + str;
+				result = $"extraneous input {this.GetTokenErrorDisplay(ex.UnexpectedToken)} expecting {str}";
 			}
 			else if (e is MissingTokenException)
 			{
@@ -181,7 +181,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str2 = tokenNames[ex2.Expecting];
 				}
-				result = "missing " + str2 + " at " + this.GetTokenErrorDisplay(e.Token);
+				result = $"missing {str2} at {this.GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is MismatchedTokenException)
 			{
@@ -195,7 +195,7 @@ namespace pcomps.Antlr.Runtime
 				{
 					str3 = tokenNames[ex3.Expecting];
 				}
-				result = "mismatched input " + this.GetTokenErrorDisplay(e.Token) + " expecting " + str3;
+				result = $"mismatched input {this.GetTokenErrorDisplay(e.Token)} expecting {str3}";
 			}
 			else if (e is MismatchedTreeNodeException)
 			{
@@ -219,11 +219,11 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is NoViableAltException)
 			{
-				result = "no viable alternative at input " + this.GetTokenErrorDisplay(e.Token);
+				result = $"no viable alternative at input {this.GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is EarlyExitException)
 			{
-				result = "required (...)+ loop did not match anything at input " + this.GetTokenErrorDisplay(e.Token);
+				result = $"required (...)+ loop did not match anything at input {this.GetTokenErrorDisplay(e.Token)}";
 			}
 			else if (e is MismatchedSetException)
 			{
@@ -296,13 +296,13 @@ namespace pcomps.Antlr.Runtime
 				}
 				else
 				{
-					text = "<" + t.Type + ">";
+					text = $"<{t.Type}>";
 				}
 			}
 			text = text.Replace("\n", "\\\\n");
 			text = text.Replace("\r", "\\\\r");
 			text = text.Replace("\t", "\\\\t");
-			return "'" + text + "'";
+			return $"'{text}'";
 		}
 
 		// Token: 0x060008DA RID: 2266 RVA: 0x000196BC File Offset: 0x000178BC
@@ -525,7 +525,7 @@ namespace pcomps.Antlr.Runtime
 			}));
 			if (this.state.backtracking > 0)
 			{
-				Console.Out.Write(" backtracking=" + this.state.backtracking);
+				Console.Out.Write($" backtracking={this.state.backtracking}");
 			}
 			Console.Out.WriteLine();
 		}
@@ -542,14 +542,14 @@ namespace pcomps.Antlr.Runtime
 			}));
 			if (this.state.backtracking > 0)
 			{
-				Console.Out.Write(" backtracking=" + this.state.backtracking);
+				Console.Out.Write($" backtracking={this.state.backtracking}");
 				if (this.state.failed)
 				{
-					Console.Out.WriteLine(" failed" + this.state.failed);
+					Console.Out.WriteLine($" failed{this.state.failed}");
 				}
 				else
 				{
-					Console.Out.WriteLine(" succeeded" + this.state.failed);
+					Console.Out.WriteLine($" succeeded{this.state.failed}");
 				}
 			}
 			Console.Out.WriteLine();

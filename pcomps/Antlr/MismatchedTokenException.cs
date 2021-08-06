@@ -117,7 +117,7 @@ namespace pcomps.Antlr
 					}));
 					break;
 				case MismatchedTokenException.TokenTypeEnum.NotTokenType:
-					stringBuilder.Append("expecting anything but " + this.tokenName(this.expecting) + "; got it anyway");
+					stringBuilder.Append($"expecting anything but {this.tokenName(this.expecting)}; got it anyway");
 					break;
 				case MismatchedTokenException.TokenTypeEnum.RangeType:
 					stringBuilder.Append(string.Concat(new string[]
@@ -146,14 +146,15 @@ namespace pcomps.Antlr
 				case MismatchedTokenException.TokenTypeEnum.SetType:
 				case MismatchedTokenException.TokenTypeEnum.NotSetType:
 				{
-					stringBuilder.Append("expecting " + ((this.mismatchType == MismatchedTokenException.TokenTypeEnum.NotSetType) ? "NOT " : "") + "one of (");
+					stringBuilder.Append(
+                        $"expecting {((this.mismatchType == MismatchedTokenException.TokenTypeEnum.NotSetType) ? "NOT " : "")}one of (");
 					int[] array = this.bset.toArray();
 					for (int i = 0; i < array.Length; i++)
 					{
 						stringBuilder.Append(" ");
 						stringBuilder.Append(this.tokenName(array[i]));
 					}
-					stringBuilder.Append("), found '" + this.tokenText + "'");
+					stringBuilder.Append($"), found '{this.tokenText}'");
 					break;
 				}
 				default:
@@ -173,7 +174,7 @@ namespace pcomps.Antlr
 			}
 			if (tokenType < 0 || tokenType >= this.tokenNames.Length)
 			{
-				return "<" + tokenType.ToString() + ">";
+				return $"<{tokenType}>";
 			}
 			return this.tokenNames[tokenType];
 		}

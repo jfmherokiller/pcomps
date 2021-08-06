@@ -3915,7 +3915,7 @@ namespace pcomps.PCompiler
 					CommonTree commonTree2 = (CommonTree)this.Match(this.input, 38, PapyrusGen.FOLLOW_ID_in_type4996);
 					this.Match(this.input, 63, PapyrusGen.FOLLOW_LBRACKET_in_type4998);
 					this.Match(this.input, 64, PapyrusGen.FOLLOW_RBRACKET_in_type5000);
-					type_return.sTypeString = commonTree2.Text + "[]";
+					type_return.sTypeString = $"{commonTree2.Text}[]";
 					break;
 				}
 				case 3:
@@ -3929,7 +3929,7 @@ namespace pcomps.PCompiler
 					CommonTree commonTree4 = (CommonTree)this.Match(this.input, 55, PapyrusGen.FOLLOW_BASETYPE_in_type5022);
 					this.Match(this.input, 63, PapyrusGen.FOLLOW_LBRACKET_in_type5024);
 					this.Match(this.input, 64, PapyrusGen.FOLLOW_RBRACKET_in_type5026);
-					type_return.sTypeString = commonTree4.Text + "[]";
+					type_return.sTypeString = $"{commonTree4.Text}[]";
 					break;
 				}
 				}
@@ -3961,7 +3961,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA8 RID: 3496 RVA: 0x00068894 File Offset: 0x00066A94
 		private string MangleVariableName(string asOriginalName)
 		{
-			string result = string.Format("::mangled_{0}_{1}", asOriginalName, this.iCurMangleSuffix);
+			string result = $"::mangled_{asOriginalName}_{this.iCurMangleSuffix}";
 			this.iCurMangleSuffix++;
 			return result;
 		}

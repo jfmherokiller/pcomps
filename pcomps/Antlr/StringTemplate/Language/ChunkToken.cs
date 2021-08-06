@@ -32,7 +32,7 @@
 		// Token: 0x06001126 RID: 4390 RVA: 0x0007C028 File Offset: 0x0007A228
 		public override string ToString()
 		{
-			return base.ToString() + "<indent='" + this._indentation + "'>";
+			return $"{base.ToString()}<indent='{this._indentation}'>";
 		}
 
 		// Token: 0x04000E49 RID: 3657

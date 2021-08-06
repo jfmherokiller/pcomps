@@ -27,13 +27,13 @@ namespace pcomps.Antlr
 			{
 				if (this.token != null)
 				{
-					return "unexpected token: " + this.token.ToString();
+					return $"unexpected token: {this.token}";
 				}
 				if (this.node == null || this.node == TreeParser.ASTNULL)
 				{
 					return "unexpected end of subtree";
 				}
-				return "unexpected AST node: " + this.node.ToString();
+				return $"unexpected AST node: {this.node.ToString()}";
 			}
 		}
 

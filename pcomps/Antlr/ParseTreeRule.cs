@@ -59,7 +59,7 @@ namespace pcomps.Antlr
 		{
 			if (this.altNumber == -1)
 			{
-				return '<' + this.ruleName + '>';
+				return $"<{this.ruleName}>";
 			}
 			return string.Concat(new object[]
 			{

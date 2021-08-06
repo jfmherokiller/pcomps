@@ -397,7 +397,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				if (this.label != null)
 				{
-					return "%" + this.label + ":" + base.ToString();
+					return $"%{this.label}:{base.ToString()}";
 				}
 				return base.ToString();
 			}

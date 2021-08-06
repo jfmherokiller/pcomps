@@ -120,7 +120,7 @@ namespace pcomps.PCompiler
 			}
 			else if (this.kChildren.Contains(text))
 			{
-				this.OnError(string.Format("cannot extend from {0} as it extends from us", akParent.Text), akParent.Line, akParent.CharPositionInLine);
+				this.OnError($"cannot extend from {akParent.Text} as it extends from us", akParent.Line, akParent.CharPositionInLine);
 			}
 			else if (!this.kKnownTypes.TryGetValue(text, out scriptObjectType))
 			{
@@ -5172,7 +5172,7 @@ namespace pcomps.PCompiler
 					this.Match(this.input, 3, null);
 					this.adaptor.AddChild(commonTree, child);
 					this.CheckArrayNew(commonTree2.Token, commonTree6.Token);
-					atom_return.kType = new ScriptVariableType(commonTree2.Text + "[]");
+					atom_return.kType = new ScriptVariableType($"{commonTree2.Text}[]");
 					atom_return.sVarName = this.GenerateTempVariable(atom_return.kType, ((PapyrusTypeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kcurrentScope, ((PapyrusTypeWalker.codeBlock_scope)this.codeBlock_stack.Peek()).kTempVars);
 					atom_return.kVarToken = new CommonToken(commonTree5.Token);
 					atom_return.kVarToken.Type = 38;
@@ -6214,7 +6214,7 @@ namespace pcomps.PCompiler
 					CommonTree treeNode2 = (CommonTree)this.Match(this.input, 64, PapyrusTypeWalker.FOLLOW_RBRACKET_in_type3008);
 					CommonTree child4 = (CommonTree)this.adaptor.DupNode(treeNode2);
 					this.adaptor.AddChild(commonTree, child4);
-					type_return.kType = new ScriptVariableType(commonTree5.Text + "[]");
+					type_return.kType = new ScriptVariableType($"{commonTree5.Text}[]");
 					break;
 				}
 				case 3:
@@ -6242,7 +6242,7 @@ namespace pcomps.PCompiler
 					CommonTree treeNode4 = (CommonTree)this.Match(this.input, 64, PapyrusTypeWalker.FOLLOW_RBRACKET_in_type3034);
 					CommonTree child8 = (CommonTree)this.adaptor.DupNode(treeNode4);
 					this.adaptor.AddChild(commonTree, child8);
-					type_return.kType = new ScriptVariableType(commonTree11.Text + "[]");
+					type_return.kType = new ScriptVariableType($"{commonTree11.Text}[]");
 					break;
 				}
 				}

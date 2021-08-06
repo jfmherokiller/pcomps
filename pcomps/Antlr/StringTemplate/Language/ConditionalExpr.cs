@@ -73,7 +73,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (RecognitionException e)
 			{
-				self.Error("can't evaluate tree: " + this.exprTree.ToStringList(), e);
+				self.Error($"can't evaluate tree: {this.exprTree.ToStringList()}", e);
 			}
 			return result;
 		}

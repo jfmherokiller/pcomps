@@ -74,7 +74,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (this.trappedException is MissingTokenException)
 			{
-				return "<missing type: " + ((MissingTokenException)this.trappedException).MissingType + ">";
+				return $"<missing type: {((MissingTokenException)this.trappedException).MissingType}>";
 			}
 			if (this.trappedException is UnwantedTokenException)
 			{
@@ -109,7 +109,7 @@ namespace pcomps.Antlr.Runtime
 					">"
 				});
 			}
-			return "<error: " + this.Text + ">";
+			return $"<error: {this.Text}>";
 		}
 
 		// Token: 0x0400018A RID: 394

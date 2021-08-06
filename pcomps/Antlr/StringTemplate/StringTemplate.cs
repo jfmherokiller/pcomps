@@ -49,7 +49,7 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				if (this == value)
 				{
-					throw new ArgumentException("cannot embed template " + this.Name + " in itself");
+					throw new ArgumentException($"cannot embed template {this.Name} in itself");
 				}
 				this.enclosingInstance = value;
 				if (value != null)
@@ -625,11 +625,11 @@ namespace pcomps.Antlr.StringTemplate
 			string text = this.ParseAggregateAttributeSpec(aggrSpec, list);
 			if (values == null || list.Count == 0)
 			{
-				throw new ArgumentException("missing properties or values for '" + aggrSpec + "'");
+				throw new ArgumentException($"missing properties or values for '{aggrSpec}'");
 			}
 			if (values.Length != list.Count)
 			{
-				throw new ArgumentException("number of properties in '" + aggrSpec + "' != number of values");
+				throw new ArgumentException($"number of properties in '{aggrSpec}' != number of values");
 			}
 			StringTemplate.Aggregate aggregate = new StringTemplate.Aggregate();
 			for (int i = 0; i < values.Length; i++)
@@ -650,7 +650,7 @@ namespace pcomps.Antlr.StringTemplate
 			int num = aggrSpec.IndexOf('.');
 			if (num <= 0)
 			{
-				throw new ArgumentException("invalid aggregate attribute format: " + aggrSpec);
+				throw new ArgumentException($"invalid aggregate attribute format: {aggrSpec}");
 			}
 			string result = aggrSpec.Substring(0, num);
 			string text = aggrSpec.Substring(num + 2, aggrSpec.Length - (num + 3));
@@ -670,7 +670,8 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (this.formalArguments != FormalArgument.UNKNOWN && this.GetFormalArgument(name) == null)
 			{
-				throw new InvalidOperationException("no such attribute: " + name + " in template context " + this.GetEnclosingInstanceStackString());
+				throw new InvalidOperationException(
+                    $"no such attribute: {name} in template context {this.GetEnclosingInstanceStackString()}");
 			}
 			if (objValue == null)
 			{
@@ -825,9 +826,9 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				if (outermostName != null && !text.Equals(outermostName))
 				{
-					text = text + " nested in " + outermostName;
+					text = $"{text} nested in {outermostName}";
 				}
-				this.Error("problem parsing template '" + text + "'", e);
+				this.Error($"problem parsing template '{text}'", e);
 			}
 		}
 
@@ -857,11 +858,11 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			catch (RecognitionException e)
 			{
-				this.Error("Can't parse chunk: " + action.ToString(), e);
+				this.Error($"Can't parse chunk: {action}", e);
 			}
 			catch (TokenStreamException e2)
 			{
-				this.Error("Can't parse chunk: " + action.ToString(), e2);
+				this.Error($"Can't parse chunk: {action}", e2);
 			}
 			return result;
 		}
@@ -1081,7 +1082,8 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			if (self.LookupFormalArgument(attribute) == null)
 			{
-				throw new InvalidOperationException("no such attribute: " + attribute + " in template context " + this.GetEnclosingInstanceStackString());
+				throw new InvalidOperationException(
+                    $"no such attribute: {attribute} in template context {this.GetEnclosingInstanceStackString()}");
 			}
 		}
 
@@ -1097,7 +1099,7 @@ namespace pcomps.Antlr.StringTemplate
 				string text = (string)obj;
 				if (this.referencedAttributes != null && !this.referencedAttributes.Contains(text))
 				{
-					this.Warning(this.Name + ": set but not used: " + text);
+					this.Warning($"{this.Name}: set but not used: {text}");
 				}
 			}
 		}
@@ -1106,7 +1108,7 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual string ToDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.Append("template-" + this.GetTemplateDeclaratorString() + ":");
+			stringBuilder.Append($"template-{this.GetTemplateDeclaratorString()}:");
 			stringBuilder.Append("chunks=");
 			if (this.chunks != null)
 			{
@@ -1123,7 +1125,7 @@ namespace pcomps.Antlr.StringTemplate
 					{
 						stringBuilder.Append(',');
 					}
-					stringBuilder.Append(text + "=");
+					stringBuilder.Append($"{text}=");
 					object obj2 = this.attributes[text];
 					if (obj2 is StringTemplate)
 					{
@@ -1299,7 +1301,7 @@ namespace pcomps.Antlr.StringTemplate
 						object obj5 = enumerator3.Current;
 						AST ast2 = (AST)obj5;
 						string text = ast2.getFirstChild().getText();
-						Console.Out.WriteLine("found include " + text);
+						Console.Out.WriteLine($"found include {text}");
 						this.PutToMultiValuedMap(edges, templateHeaderString, text);
 						StringTemplateGroup stringTemplateGroup = this.Group;
 						if (stringTemplateGroup != null)
@@ -1331,7 +1333,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FBB RID: 4027 RVA: 0x000703F8 File Offset: 0x0006E5F8
 		public virtual void PrintDebugString()
 		{
-			Console.Out.WriteLine("template-" + this.Name + ":");
+			Console.Out.WriteLine($"template-{this.Name}:");
 			Console.Out.Write("chunks=");
 			Console.Out.WriteLine(CollectionUtils.ListToString(this.chunks));
 			if (this.attributes == null)
@@ -1350,7 +1352,7 @@ namespace pcomps.Antlr.StringTemplate
 				object obj2 = this.attributes[text];
 				if (obj2 is StringTemplate)
 				{
-					Console.Out.Write(text + "=");
+					Console.Out.Write($"{text}=");
 					((StringTemplate)obj2).PrintDebugString();
 				}
 				else if (obj2 is IList)
@@ -1380,7 +1382,7 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				else
 				{
-					Console.Out.Write(text + "=");
+					Console.Out.Write($"{text}=");
 					Console.Out.WriteLine(obj2);
 				}
 				num++;
@@ -1406,7 +1408,7 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			catch (IOException)
 			{
-				this.Error("Got IOException writing to writer " + stringTemplateWriter.GetType().FullName);
+				this.Error($"Got IOException writing to writer {stringTemplateWriter.GetType().FullName}");
 			}
 			stringTemplateWriter.LineWidth = -1;
 			return stringWriter.ToString();

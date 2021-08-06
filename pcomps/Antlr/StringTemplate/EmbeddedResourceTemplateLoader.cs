@@ -44,7 +44,7 @@ namespace pcomps.Antlr.StringTemplate
 			StreamReader streamReader = null;
 			try
 			{
-				string name = string.Format("{0}.{1}", base.LocationRoot, this.GetLocationFromTemplateName(templateName));
+				string name = $"{base.LocationRoot}.{this.GetLocationFromTemplateName(templateName)}";
 				Stream manifestResourceStream = this.assembly.GetManifestResourceStream(name);
 				if (manifestResourceStream != null)
 				{
@@ -70,7 +70,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F47 RID: 3911 RVA: 0x0006E6A8 File Offset: 0x0006C8A8
 		public override string GetLocationFromTemplateName(string templateName)
 		{
-			return templateName.Replace('\\', '.').Replace('/', '.') + ".st";
+			return $"{templateName.Replace('\\', '.').Replace('/', '.')}.st";
 		}
 
 		// Token: 0x06000F48 RID: 3912 RVA: 0x0006E6C8 File Offset: 0x0006C8C8

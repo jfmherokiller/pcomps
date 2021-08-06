@@ -330,7 +330,7 @@ namespace pcomps.Antlr.StringTemplate
 				{
 					if (this.superGroup == null)
 					{
-						throw new StringTemplateException(this.Name + " has no super group; invalid template: " + name);
+						throw new StringTemplateException($"{this.Name} has no super group; invalid template: {name}");
 					}
 					int num = name.IndexOf('.');
 					name = name.Substring(num + 1, name.Length - (num + 1));
@@ -365,9 +365,10 @@ namespace pcomps.Antlr.StringTemplate
 							string str = "";
 							if (enclosingInstance != null)
 							{
-								str = "; context is " + enclosingInstance.GetEnclosingInstanceStackString();
+								str = $"; context is {enclosingInstance.GetEnclosingInstanceStackString()}";
 							}
-							throw new TemplateLoadException(this, "Can't load template '" + this.GetLocationFromTemplateName(name) + "'" + str);
+							throw new TemplateLoadException(this,
+                                $"Can't load template '{this.GetLocationFromTemplateName(name)}'{str}");
 						}
 						this.templates[name] = stringTemplate2;
 					}
@@ -453,7 +454,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF7 RID: 4087 RVA: 0x00070E48 File Offset: 0x0006F048
 		public string GetMangledRegionName(string enclosingTemplateName, string name)
 		{
-			return "region__" + enclosingTemplateName + "__" + name;
+			return $"region__{enclosingTemplateName}__{name}";
 		}
 
 		// Token: 0x06000FF8 RID: 4088 RVA: 0x00070E5C File Offset: 0x0006F05C
@@ -471,7 +472,7 @@ namespace pcomps.Antlr.StringTemplate
 				StringTemplate templateDefinition = this.GetTemplateDefinition(target);
 				if (templateDefinition == null)
 				{
-					this.Error("cannot alias " + name + " to undefined template: " + target);
+					this.Error($"cannot alias {name} to undefined template: {target}");
 					result = null;
 				}
 				else
@@ -674,7 +675,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (this.noDebugStartStopStrings == null || !this.noDebugStartStopStrings.Contains(st.Name))
 			{
-				writer.Write("<" + st.Name + ">");
+				writer.Write($"<{st.Name}>");
 			}
 		}
 
@@ -683,7 +684,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (this.noDebugStartStopStrings == null || !this.noDebugStartStopStrings.Contains(st.Name))
 			{
-				writer.Write("</" + st.Name + ">");
+				writer.Write($"</{st.Name}>");
 			}
 		}
 
@@ -697,7 +698,7 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual string ToString(bool showTemplatePatterns)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.Append("group " + this.Name + ";\n");
+			stringBuilder.Append($"group {this.Name};\n");
 			StringTemplate stringTemplate = new StringTemplate("$args;separator=\",\"$");
 			foreach (object obj in new SortedList(this.templates))
 			{

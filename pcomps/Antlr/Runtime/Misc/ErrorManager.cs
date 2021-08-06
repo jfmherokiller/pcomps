@@ -27,7 +27,7 @@ namespace pcomps.Antlr.Runtime.Misc
 		public static void InternalError(object error)
 		{
 			StackFrame lastNonErrorManagerCodeLocation = ErrorManager.GetLastNonErrorManagerCodeLocation(new Exception());
-			string arg = lastNonErrorManagerCodeLocation + ": " + error;
+			string arg = $"{lastNonErrorManagerCodeLocation}: {error}";
 			ErrorManager.Error(arg);
 		}
 
