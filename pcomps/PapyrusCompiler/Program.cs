@@ -57,7 +57,7 @@ namespace pcomps.PapyrusCompiler
 			while ((num = Interlocked.Increment(ref Program.iLastFileNumber)) < Program.FilenamesA.Length)
 			{
 				string text = Program.FilenamesA[num];
-				if (Path.GetExtension(text).ToLowerInvariant() == ".psc")
+                if (Path.GetExtension(text).ToLowerInvariant() == ".psc")
 				{
 					text = Path.GetFileNameWithoutExtension(text);
 				}

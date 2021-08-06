@@ -46,9 +46,9 @@ namespace pcomps.PCompiler
 				if (this.bDebug)
 				{
 					var stringBuilder = new StringBuilder("Known types after parsing:\n");
-					foreach (string arg in dictionary.Keys)
+					foreach (var arg in dictionary.Keys)
 					{
-						stringBuilder.AppendFormat("\t-{0}\n", arg);
+						stringBuilder.Append($"\t-{arg}\n");
 					}
 					this.OnCompilerNotify(stringBuilder.ToString());
 				}
