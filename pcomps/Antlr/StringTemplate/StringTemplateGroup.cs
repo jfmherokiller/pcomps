@@ -234,13 +234,10 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000FE8 RID: 4072 RVA: 0x00070A7C File Offset: 0x0006EC7C
 		public void ImplementInterface(StringTemplateGroupInterface iface)
-		{
-			if (interfaces == null)
-			{
-				interfaces = new ArrayList();
-			}
-			interfaces.Add(iface);
-		}
+        {
+            interfaces ??= new ArrayList();
+            interfaces.Add(iface);
+        }
 
 		// Token: 0x06000FE9 RID: 4073 RVA: 0x00070AA0 File Offset: 0x0006ECA0
 		public void ImplementInterface(string interfaceName)
