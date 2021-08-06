@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Reflection;
 using pcomps.Antlr.collections;
 using pcomps.Antlr.collections.impl;
 
 namespace pcomps.Antlr
 {
-	// Token: 0x02000007 RID: 7
-	public class ASTFactory
+    // Token: 0x02000007 RID: 7
+    public class ASTFactory
 	{
 		// Token: 0x06000020 RID: 32 RVA: 0x00002B10 File Offset: 0x00000D10
 		public ASTFactory() : this(typeof(CommonAST))
@@ -50,14 +49,7 @@ namespace pcomps.Antlr
 			heteroList_[tokenType].NodeTypeObject = loadNodeTypeObject(NodeTypeName);
 		}
 
-		// Token: 0x06000024 RID: 36 RVA: 0x00002C2C File Offset: 0x00000E2C
-		[Obsolete("Replaced by setTokenTypeASTNodeType(int, string) since version 2.7.2.6", true)]
-		public void registerFactory(int NodeType, string NodeTypeName)
-		{
-			setTokenTypeASTNodeType(NodeType, NodeTypeName);
-		}
-
-		// Token: 0x06000025 RID: 37 RVA: 0x00002C44 File Offset: 0x00000E44
+        // Token: 0x06000025 RID: 37 RVA: 0x00002C44 File Offset: 0x00000E44
 		public void setTokenTypeASTNodeCreator(int NodeType, ASTNodeCreator creator)
 		{
 			if (NodeType < 4)
