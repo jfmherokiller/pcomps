@@ -63,43 +63,43 @@ namespace pcomps.Antlr.StringTemplate.Language
 						case ' ':
 						{
 							mWS(true);
-							IToken returnToken_ = this.returnToken_;
+							var returnToken_ = this.returnToken_;
 							goto IL_383;
 						}
 						case '!':
 						{
 							mNOT(true);
-							IToken returnToken_2 = returnToken_;
+							var returnToken_2 = returnToken_;
 							goto IL_383;
 						}
 						case '"':
 						{
 							mSTRING(true);
-							IToken returnToken_3 = returnToken_;
+							var returnToken_3 = returnToken_;
 							goto IL_383;
 						}
 						case '(':
 						{
 							mLPAREN(true);
-							IToken returnToken_4 = returnToken_;
+							var returnToken_4 = returnToken_;
 							goto IL_383;
 						}
 						case ')':
 						{
 							mRPAREN(true);
-							IToken returnToken_5 = returnToken_;
+							var returnToken_5 = returnToken_;
 							goto IL_383;
 						}
 						case '+':
 						{
 							mPLUS(true);
-							IToken returnToken_6 = returnToken_;
+							var returnToken_6 = returnToken_;
 							goto IL_383;
 						}
 						case ',':
 						{
 							mCOMMA(true);
-							IToken returnToken_7 = returnToken_;
+							var returnToken_7 = returnToken_;
 							goto IL_383;
 						}
 						case '0':
@@ -114,25 +114,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 						case '9':
 						{
 							mINT(true);
-							IToken returnToken_8 = returnToken_;
+							var returnToken_8 = returnToken_;
 							goto IL_383;
 						}
 						case ':':
 						{
 							mCOLON(true);
-							IToken returnToken_9 = returnToken_;
+							var returnToken_9 = returnToken_;
 							goto IL_383;
 						}
 						case ';':
 						{
 							mSEMI(true);
-							IToken returnToken_10 = returnToken_;
+							var returnToken_10 = returnToken_;
 							goto IL_383;
 						}
 						case '=':
 						{
 							mASSIGN(true);
-							IToken returnToken_11 = returnToken_;
+							var returnToken_11 = returnToken_;
 							goto IL_383;
 						}
 						case 'A':
@@ -190,37 +190,37 @@ namespace pcomps.Antlr.StringTemplate.Language
 						case 'z':
 						{
 							mID(true);
-							IToken returnToken_12 = returnToken_;
+							var returnToken_12 = returnToken_;
 							goto IL_383;
 						}
 						case '[':
 						{
 							mLBRACK(true);
-							IToken returnToken_13 = returnToken_;
+							var returnToken_13 = returnToken_;
 							goto IL_383;
 						}
 						case ']':
 						{
 							mRBRACK(true);
-							IToken returnToken_14 = returnToken_;
+							var returnToken_14 = returnToken_;
 							goto IL_383;
 						}
 						case '{':
 						{
 							mANONYMOUS_TEMPLATE(true);
-							IToken returnToken_15 = returnToken_;
+							var returnToken_15 = returnToken_;
 							goto IL_383;
 						}
 						}
 						if (cached_LA1 == '.' && cached_LA2 == '.')
 						{
 							mDOTDOTDOT(true);
-							IToken returnToken_16 = returnToken_;
+							var returnToken_16 = returnToken_;
 						}
 						else if (cached_LA1 == '.')
 						{
 							mDOT(true);
-							IToken returnToken_17 = returnToken_;
+							var returnToken_17 = returnToken_;
 						}
 						else
 						{
@@ -236,7 +236,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							continue;
 						}
-						int type = this.returnToken_.Type;
+						var type = this.returnToken_.Type;
 						this.returnToken_.Type = type;
 						returnToken_18 = this.returnToken_;
 					}
@@ -262,8 +262,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mID(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 18;
+			var length = text.Length;
+			var num = 18;
 			switch (cached_LA1)
 			{
 			case 'A':
@@ -431,9 +431,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mINT(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 33;
-			int num2 = 0;
+			var length = text.Length;
+			var num = 33;
+			var num2 = 0;
 			while (cached_LA1 >= '0' && cached_LA1 <= '9')
 			{
 				matchRange('0', '9');
@@ -455,9 +455,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mSTRING(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 32;
-			int length2 = text.Length;
+			var length = text.Length;
+			var num = 32;
+			var length2 = text.Length;
 			match('"');
 			text.Length = length2;
 			for (;;)
@@ -490,8 +490,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		protected void mESC_CHAR(bool _createToken, bool doEscape)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 39;
+			var length = text.Length;
+			var num = 39;
 			match('\\');
 			if (cached_LA1 == 'n' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 			{
@@ -544,7 +544,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 				}
-				char cached_LA = cached_LA1;
+				var cached_LA = cached_LA1;
 				matchNot(1);
 				if (inputState.guessing == 0 && doEscape)
 				{
@@ -564,16 +564,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mANONYMOUS_TEMPLATE(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 31;
+			var length = text.Length;
+			var num = 31;
 			StringTemplateToken stringTemplateToken = null;
-			int length2 = text.Length;
+			var length2 = text.Length;
 			match('{');
 			text.Length = length2;
-			bool flag = false;
+			var flag = false;
 			if (tokenSet_1_.member((int)cached_LA1) && tokenSet_2_.member((int)cached_LA2))
 			{
-				int pos = mark();
+				var pos = mark();
 				flag = true;
 				inputState.guessing++;
 				try
@@ -589,7 +589,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			if (flag)
 			{
-				IList args = mTEMPLATE_ARGS(false);
+				var args = mTEMPLATE_ARGS(false);
 				if (tokenSet_3_.member((int)cached_LA1) && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 				{
 					length2 = text.Length;
@@ -663,9 +663,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			IList list = new ArrayList();
 			IToken token = null;
-			int length = text.Length;
-			int num = 37;
-			char cached_LA = cached_LA1;
+			var length = text.Length;
+			var num = 37;
+			var cached_LA = cached_LA1;
 			switch (cached_LA)
 			{
 			case '\t':
@@ -777,7 +777,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				break;
 			}
-			int length2 = text.Length;
+			var length2 = text.Length;
 			mWS_CHAR(false);
 			text.Length = length2;
 			goto IL_202;
@@ -787,14 +787,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			length2 = text.Length;
 			mID(true);
 			text.Length = length2;
-			IToken returnToken_ = this.returnToken_;
+			var returnToken_ = this.returnToken_;
 			if (inputState.guessing == 0)
 			{
 				list.Add(returnToken_.getText());
 			}
 			while (tokenSet_5_.member((int)cached_LA1) && tokenSet_6_.member((int)this.cached_LA2))
 			{
-				char cached_LA2 = cached_LA1;
+				var cached_LA2 = cached_LA1;
 				switch (cached_LA2)
 				{
 				case '\t':
@@ -819,7 +819,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				length2 = text.Length;
 				match(',');
 				text.Length = length2;
-				char cached_LA3 = cached_LA1;
+				var cached_LA3 = cached_LA1;
 				switch (cached_LA3)
 				{
 				case '\t':
@@ -935,7 +935,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				length2 = text.Length;
 				mID(true);
 				text.Length = length2;
-				IToken returnToken_2 = this.returnToken_;
+				var returnToken_2 = this.returnToken_;
 				if (inputState.guessing == 0)
 				{
 					list.Add(returnToken_2.getText());
@@ -957,7 +957,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				IL_2CA:
 				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
-			char cached_LA4 = cached_LA1;
+			var cached_LA4 = cached_LA1;
 			switch (cached_LA4)
 			{
 			case '\t':
@@ -1001,9 +1001,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		protected void mWS_CHAR(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 41;
-			char cached_LA = cached_LA1;
+			var length = text.Length;
+			var num = 41;
+			var cached_LA = cached_LA1;
 			switch (cached_LA)
 			{
 			case '\t':
@@ -1045,21 +1045,21 @@ namespace pcomps.Antlr.StringTemplate.Language
 		protected void mNESTED_ANONYMOUS_TEMPLATE(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 38;
+			var length = text.Length;
+			var num = 38;
 			match('{');
 			for (;;)
 			{
 				if (cached_LA1 == '\\' && cached_LA2 == '{')
 				{
-					int length2 = text.Length;
+					var length2 = text.Length;
 					match('\\');
 					text.Length = length2;
 					match('{');
 				}
 				else if (cached_LA1 == '\\' && cached_LA2 == '}')
 				{
-					int length3 = text.Length;
+					var length3 = text.Length;
 					match('\\');
 					text.Length = length3;
 					match('}');
@@ -1094,8 +1094,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mLBRACK(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 34;
+			var length = text.Length;
+			var num = 34;
 			match('[');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1109,8 +1109,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mRBRACK(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 35;
+			var length = text.Length;
+			var num = 35;
 			match(']');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1124,8 +1124,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mLPAREN(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 15;
+			var length = text.Length;
+			var num = 15;
 			match('(');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1139,8 +1139,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mRPAREN(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 16;
+			var length = text.Length;
+			var num = 16;
 			match(')');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1154,8 +1154,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mCOMMA(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 17;
+			var length = text.Length;
+			var num = 17;
 			match(',');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1169,8 +1169,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mDOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 24;
+			var length = text.Length;
+			var num = 24;
 			match('.');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1184,8 +1184,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mASSIGN(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 19;
+			var length = text.Length;
+			var num = 19;
 			match('=');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1199,8 +1199,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mCOLON(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 20;
+			var length = text.Length;
+			var num = 20;
 			match(':');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1214,8 +1214,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mPLUS(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 22;
+			var length = text.Length;
+			var num = 22;
 			match('+');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1229,8 +1229,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mSEMI(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 14;
+			var length = text.Length;
+			var num = 14;
 			match(';');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1244,8 +1244,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mNOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 21;
+			var length = text.Length;
+			var num = 21;
 			match('!');
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1259,8 +1259,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mDOTDOTDOT(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 36;
+			var length = text.Length;
+			var num = 36;
 			match("...");
 			if (_createToken && token == null && num != Token.SKIP)
 			{
@@ -1274,12 +1274,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void mWS(bool _createToken)
 		{
 			IToken token = null;
-			int length = text.Length;
-			int num = 40;
-			int num2 = 0;
+			var length = text.Length;
+			var num = 40;
+			var num2 = 0;
 			for (;;)
 			{
-				char cached_LA = cached_LA1;
+				var cached_LA = cached_LA1;
 				switch (cached_LA)
 				{
 				case '\t':
@@ -1328,15 +1328,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600109D RID: 4253 RVA: 0x000757B8 File Offset: 0x000739B8
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2048];
+			var array = new long[2048];
 			array[0] = -17179869192L;
 			array[1] = -268435457L;
-			for (int i = 2; i <= 1022; i++)
+			for (var i = 2; i <= 1022; i++)
 			{
 				array[i] = -1L;
 			}
 			array[1023] = long.MaxValue;
-			for (int j = 1024; j <= 2047; j++)
+			for (var j = 1024; j <= 2047; j++)
 			{
 				array[j] = 0L;
 			}
@@ -1346,10 +1346,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600109E RID: 4254 RVA: 0x00075824 File Offset: 0x00073A24
 		private static long[] mk_tokenSet_1_()
 		{
-			long[] array = new long[1025];
+			var array = new long[1025];
 			array[0] = 4294977024L;
 			array[1] = 576460745995190270L;
-			for (int i = 2; i <= 1024; i++)
+			for (var i = 2; i <= 1024; i++)
 			{
 				array[i] = 0L;
 			}
@@ -1359,10 +1359,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600109F RID: 4255 RVA: 0x0007586C File Offset: 0x00073A6C
 		private static long[] mk_tokenSet_2_()
 		{
-			long[] array = new long[1025];
+			var array = new long[1025];
 			array[0] = 288107235144377856L;
 			array[1] = 1729382250602037246L;
-			for (int i = 2; i <= 1024; i++)
+			for (var i = 2; i <= 1024; i++)
 			{
 				array[i] = 0L;
 			}
@@ -1372,9 +1372,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A0 RID: 4256 RVA: 0x000758B4 File Offset: 0x00073AB4
 		private static long[] mk_tokenSet_3_()
 		{
-			long[] array = new long[1025];
+			var array = new long[1025];
 			array[0] = 4294977024L;
-			for (int i = 1; i <= 1024; i++)
+			for (var i = 1; i <= 1024; i++)
 			{
 				array[i] = 0L;
 			}
@@ -1384,15 +1384,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A1 RID: 4257 RVA: 0x000758F0 File Offset: 0x00073AF0
 		private static long[] mk_tokenSet_4_()
 		{
-			long[] array = new long[2048];
+			var array = new long[2048];
 			array[0] = -8L;
 			array[1] = -2882303761785552897L;
-			for (int i = 2; i <= 1022; i++)
+			for (var i = 2; i <= 1022; i++)
 			{
 				array[i] = -1L;
 			}
 			array[1023] = long.MaxValue;
-			for (int j = 1024; j <= 2047; j++)
+			for (var j = 1024; j <= 2047; j++)
 			{
 				array[j] = 0L;
 			}
@@ -1402,9 +1402,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A2 RID: 4258 RVA: 0x0007595C File Offset: 0x00073B5C
 		private static long[] mk_tokenSet_5_()
 		{
-			long[] array = new long[1025];
+			var array = new long[1025];
 			array[0] = 17596481021440L;
-			for (int i = 1; i <= 1024; i++)
+			for (var i = 1; i <= 1024; i++)
 			{
 				array[i] = 0L;
 			}
@@ -1414,10 +1414,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A3 RID: 4259 RVA: 0x00075998 File Offset: 0x00073B98
 		private static long[] mk_tokenSet_6_()
 		{
-			long[] array = new long[1025];
+			var array = new long[1025];
 			array[0] = 17596481021440L;
 			array[1] = 576460745995190270L;
-			for (int i = 2; i <= 1024; i++)
+			for (var i = 2; i <= 1024; i++)
 			{
 				array[i] = 0L;
 			}

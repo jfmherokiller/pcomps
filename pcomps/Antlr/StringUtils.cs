@@ -1,14 +1,16 @@
-﻿namespace pcomps.Antlr
+﻿using System;
+
+namespace pcomps.Antlr
 {
 	// Token: 0x02000039 RID: 57
-	public class StringUtils
+	public static class StringUtils
 	{
 		// Token: 0x0600024A RID: 586 RVA: 0x00007DE8 File Offset: 0x00005FE8
 		public static string stripBack(string s, char c)
 		{
-			while (s.Length > 0 && s[s.Length - 1] == c)
+			while (s.Length > 0 && s[^1] == c)
 			{
-				s = s.Substring(0, s.Length - 1);
+				s = s[..^1];
 			}
 			return s;
 		}
@@ -20,12 +22,12 @@
 			do
 			{
 				flag = false;
-				foreach (char c in remove)
+				foreach (var c in remove)
 				{
-					while (s.Length > 0 && s[s.Length - 1] == c)
+					while (s.Length > 0 && s[^1] == c)
 					{
 						flag = true;
-						s = s.Substring(0, s.Length - 1);
+						s = s[..^1];
 					}
 				}
 			}
@@ -38,7 +40,7 @@
 		{
 			while (s.Length > 0 && s[0] == c)
 			{
-				s = s.Substring(1);
+				s = s[1..];
 			}
 			return s;
 		}
@@ -50,12 +52,12 @@
 			do
 			{
 				flag = false;
-				foreach (char c in remove)
+				foreach (var c in remove)
 				{
 					while (s.Length > 0 && s[0] == c)
 					{
 						flag = true;
-						s = s.Substring(1);
+						s = s[1..];
 					}
 				}
 			}
@@ -66,8 +68,8 @@
 		// Token: 0x0600024E RID: 590 RVA: 0x00007EF8 File Offset: 0x000060F8
 		public static string stripFrontBack(string src, string head, string tail)
 		{
-			int num = src.IndexOf(head);
-			int num2 = src.LastIndexOf(tail);
+			var num = src.IndexOf(head, StringComparison.Ordinal);
+			var num2 = src.LastIndexOf(tail, StringComparison.Ordinal);
 			if (num == -1 || num2 == -1)
 			{
 				return src;

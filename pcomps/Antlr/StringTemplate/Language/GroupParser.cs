@@ -60,7 +60,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				match(4);
-				IToken token = LT(1);
+				var token = LT(1);
 				match(5);
 				g.Name = token.getText();
 				switch (LA(1))
@@ -68,7 +68,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 6:
 				{
 					match(6);
-					IToken token2 = LT(1);
+					var token2 = LT(1);
 					match(5);
 					g.SetSuperGroup(token2.getText());
 					goto IL_8C;
@@ -84,13 +84,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 				case 7:
 				{
 					match(7);
-					IToken token3 = LT(1);
+					var token3 = LT(1);
 					match(5);
 					g.ImplementInterface(token3.getText());
 					while (LA(1) == 8)
 					{
 						match(8);
-						IToken token4 = LT(1);
+						var token4 = LT(1);
 						match(5);
 						g.ImplementInterface(token4.getText());
 					}
@@ -102,7 +102,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				throw new NoViableAltException(LT(1), getFilename());
 				IL_10F:
 				match(9);
-				int num = 0;
+				var num = 0;
 				for (;;)
 				{
 					if ((LA(1) == 5 || LA(1) == 10) && (LA(2) == 5 || LA(2) == 12 || LA(2) == 14) && (LA(3) == 5 || LA(3) == 11 || LA(3) == 13))
@@ -134,12 +134,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001181 RID: 4481 RVA: 0x00080510 File Offset: 0x0007E710
 		public void template(StringTemplateGroup g)
 		{
-			int line = LT(1).getLine();
+			var line = LT(1).getLine();
 			try
 			{
 				if ((LA(1) == 5 || LA(1) == 10) && (LA(2) == 5 || LA(2) == 12))
 				{
-					int num = LA(1);
+					var num = LA(1);
 					StringTemplate stringTemplate;
 					if (num != 5)
 					{
@@ -148,12 +148,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 							throw new NoViableAltException(LT(1), getFilename());
 						}
 						match(10);
-						IToken token = LT(1);
+						var token = LT(1);
 						match(5);
 						match(11);
-						IToken token2 = LT(1);
+						var token2 = LT(1);
 						match(5);
-						string text = g.GetMangledRegionName(token.getText(), token2.getText());
+						var text = g.GetMangledRegionName(token.getText(), token2.getText());
 						if (g.IsDefinedInThisGroup(text))
 						{
 							g.Error(string.Concat(new object[]
@@ -171,8 +171,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						else
 						{
-							bool flag = false;
-							StringTemplate stringTemplate2 = g.LookupTemplate(token.getText());
+							var flag = false;
+							var stringTemplate2 = g.LookupTemplate(token.getText());
 							if (stringTemplate2 == null)
 							{
 								g.Error(string.Concat(new object[]
@@ -213,9 +213,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						IToken token3 = LT(1);
+						var token3 = LT(1);
 						match(5);
-						string text = token3.getText();
+						var text = token3.getText();
 						if (g.IsDefinedInThisGroup(text))
 						{
 							g.Error($"redefinition of template: {text}");
@@ -231,7 +231,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						stringTemplate.GroupFileLine = line;
 					}
 					match(12);
-					int num2 = LA(1);
+					var num2 = LA(1);
 					if (num2 != 5)
 					{
 						if (num2 != 13)
@@ -250,14 +250,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 15:
 					{
-						IToken token4 = LT(1);
+						var token4 = LT(1);
 						match(15);
 						stringTemplate.Template = token4.getText();
 						break;
 					}
 					case 16:
 					{
-						IToken token5 = LT(1);
+						var token5 = LT(1);
 						match(16);
 						stringTemplate.Template = token5.getText();
 						break;
@@ -272,10 +272,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(LT(1), getFilename());
 					}
-					IToken token6 = LT(1);
+					var token6 = LT(1);
 					match(5);
 					match(14);
-					IToken token7 = LT(1);
+					var token7 = LT(1);
 					match(5);
 					g.DefineTemplateAlias(token6.getText(), token7.getText());
 				}
@@ -292,10 +292,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				IToken token = LT(1);
+				var token = LT(1);
 				match(5);
 				match(14);
-				IDictionary mapping = map();
+				var mapping = map();
 				if (g.GetMap(token.getText()) != null)
 				{
 					g.Error($"redefinition of map: {token.getText()}");
@@ -341,12 +341,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate stringTemplate = null;
 			try
 			{
-				IToken token = LT(1);
+				var token = LT(1);
 				match(5);
 				if (LA(1) == 17 && LA(2) == 15)
 				{
 					match(17);
-					IToken token2 = LT(1);
+					var token2 = LT(1);
 					match(15);
 					stringTemplate = new StringTemplate("$_val_$");
 					stringTemplate.SetAttribute("_val_", token2.getText());
@@ -363,7 +363,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				else if (LA(1) == 17 && LA(2) == 18)
 				{
 					match(17);
-					IToken token3 = LT(1);
+					var token3 = LT(1);
 					match(18);
 					stringTemplate = new StringTemplate(st.Group, token3.getText());
 					stringTemplate.Name = string.Concat(new string[]
@@ -411,7 +411,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 15)
 				{
 					if (num != 21)
@@ -428,7 +428,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						match(8);
 						keyValuePair(mapping);
 					}
-					int num2 = LA(1);
+					var num2 = LA(1);
 					if (num2 != 8)
 					{
 						if (num2 != 20)
@@ -455,10 +455,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				IToken token = LT(1);
+				var token = LT(1);
 				match(15);
 				match(6);
-				StringTemplate value = keyValue();
+				var value = keyValue();
 				mapping[token.getText()] = value;
 			}
 			catch (RecognitionException ex)
@@ -475,7 +475,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				match(21);
 				match(6);
-				StringTemplate value = keyValue();
+				var value = keyValue();
 				mapping["_default_"] = value;
 			}
 			catch (RecognitionException ex)
@@ -491,7 +491,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplate result = null;
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num <= 8)
 				{
 					if (num != 5)
@@ -503,7 +503,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						IToken token = LT(1);
+						var token = LT(1);
 						match(5);
 						if (!token.getText().Equals("key"))
 						{
@@ -519,14 +519,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 15:
 					{
-						IToken token2 = LT(1);
+						var token2 = LT(1);
 						match(15);
 						result = new StringTemplate(_group, token2.getText());
 						goto IL_DB;
 					}
 					case 16:
 					{
-						IToken token3 = LT(1);
+						var token3 = LT(1);
 						match(16);
 						result = new StringTemplate(_group, token3.getText());
 						goto IL_DB;
@@ -561,7 +561,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600118B RID: 4491 RVA: 0x00080ECC File Offset: 0x0007F0CC
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 2L;
 			return array;
 		}
@@ -569,7 +569,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600118C RID: 4492 RVA: 0x00080EE8 File Offset: 0x0007F0E8
 		private static long[] mk_tokenSet_1_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 1058L;
 			return array;
 		}
@@ -577,7 +577,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600118D RID: 4493 RVA: 0x00080F08 File Offset: 0x0007F108
 		private static long[] mk_tokenSet_2_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 8192L;
 			return array;
 		}
@@ -585,7 +585,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600118E RID: 4494 RVA: 0x00080F28 File Offset: 0x0007F128
 		private static long[] mk_tokenSet_3_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 8448L;
 			return array;
 		}
@@ -593,7 +593,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600118F RID: 4495 RVA: 0x00080F48 File Offset: 0x0007F148
 		private static long[] mk_tokenSet_4_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 1048576L;
 			return array;
 		}
@@ -601,7 +601,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001190 RID: 4496 RVA: 0x00080F68 File Offset: 0x0007F168
 		private static long[] mk_tokenSet_5_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 1048832L;
 			return array;
 		}

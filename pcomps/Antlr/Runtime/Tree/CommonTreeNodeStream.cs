@@ -49,19 +49,19 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000634 RID: 1588 RVA: 0x00012064 File Offset: 0x00010264
 		public void FillBuffer(object t)
 		{
-			bool flag = adaptor.IsNil(t);
+			var flag = adaptor.IsNil(t);
 			if (!flag)
 			{
 				nodes.Add(t);
 			}
-			int childCount = adaptor.GetChildCount(t);
+			var childCount = adaptor.GetChildCount(t);
 			if (!flag && childCount > 0)
 			{
 				AddNavigationNode(2);
 			}
-			for (int i = 0; i < childCount; i++)
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = adaptor.GetChild(t, i);
+				var child = adaptor.GetChild(t, i);
 				FillBuffer(child);
 			}
 			if (!flag && childCount > 0)
@@ -77,9 +77,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				FillBuffer();
 			}
-			for (int i = 0; i < nodes.Count; i++)
+			for (var i = 0; i < nodes.Count; i++)
 			{
-				object obj = nodes[i];
+				var obj = nodes[i];
 				if (obj == node)
 				{
 					return i;
@@ -249,7 +249,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000644 RID: 1604 RVA: 0x00012318 File Offset: 0x00010518
 		public int Pop()
 		{
-			int num = (int)calls.Pop();
+			var num = (int)calls.Pop();
 			Seek(num);
 			return num;
 		}
@@ -359,10 +359,10 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				FillBuffer();
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < nodes.Count; i++)
+			var stringBuilder = new StringBuilder();
+			for (var i = 0; i < nodes.Count; i++)
 			{
-				object t = nodes[i];
+				var t = nodes[i];
 				stringBuilder.Append(" ");
 				stringBuilder.Append(adaptor.GetNodeType(t));
 			}
@@ -376,11 +376,11 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				FillBuffer();
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var num = start;
 			while (num < nodes.Count && num <= stop)
 			{
-				object treeNode = nodes[num];
+				var treeNode = nodes[num];
 				stringBuilder.Append(" ");
 				stringBuilder.Append(adaptor.GetToken(treeNode));
 				num++;
@@ -418,8 +418,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (tokens != null)
 			{
-				int tokenStartIndex = adaptor.GetTokenStartIndex(start);
-				int stop2 = adaptor.GetTokenStopIndex(stop);
+				var tokenStartIndex = adaptor.GetTokenStartIndex(start);
+				var stop2 = adaptor.GetTokenStopIndex(stop);
 				if (adaptor.GetNodeType(stop) == 3)
 				{
 					stop2 = adaptor.GetTokenStopIndex(start);
@@ -433,15 +433,15 @@ namespace pcomps.Antlr.Runtime.Tree
 			int i;
 			for (i = 0; i < nodes.Count; i++)
 			{
-				object obj = nodes[i];
+				var obj = nodes[i];
 				if (obj == start)
 				{
 					break;
 				}
 			}
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			string text;
-			for (object obj = nodes[i]; obj != stop; obj = nodes[i])
+			for (var obj = nodes[i]; obj != stop; obj = nodes[i])
 			{
 				text = adaptor.GetNodeText(obj);
 				if (text == null)
@@ -540,7 +540,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				if (_index >= _nodeStream.nodes.Count)
 				{
-					int index = _index;
+					var index = _index;
 					_index++;
 					if (index < _nodeStream.nodes.Count)
 					{

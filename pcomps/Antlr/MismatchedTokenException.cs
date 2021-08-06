@@ -19,14 +19,7 @@ namespace pcomps.Antlr
 		{
 			tokenNames = tokenNames_;
 			node = node_;
-			if (node_ == null)
-			{
-				tokenText = "<empty tree>";
-			}
-			else
-			{
-				tokenText = node_.ToString();
-			}
+			tokenText = node_ == null ? "<empty tree>" : node_.ToString();
 			mismatchType = (matchNot ? TokenTypeEnum.NotRangeType : TokenTypeEnum.RangeType);
 			expecting = lower;
 			upper = upper_;
@@ -37,14 +30,7 @@ namespace pcomps.Antlr
 		{
 			tokenNames = tokenNames_;
 			node = node_;
-			if (node_ == null)
-			{
-				tokenText = "<empty tree>";
-			}
-			else
-			{
-				tokenText = node_.ToString();
-			}
+			tokenText = node_ == null ? "<empty tree>" : node_.ToString();
 			mismatchType = (matchNot ? TokenTypeEnum.NotTokenType : TokenTypeEnum.TokenType);
 			expecting = expecting_;
 		}
@@ -54,14 +40,7 @@ namespace pcomps.Antlr
 		{
 			tokenNames = tokenNames_;
 			node = node_;
-			if (node_ == null)
-			{
-				tokenText = "<empty tree>";
-			}
-			else
-			{
-				tokenText = node_.ToString();
-			}
+			tokenText = node_ == null ? "<empty tree>" : node_.ToString();
 			mismatchType = (matchNot ? TokenTypeEnum.NotSetType : TokenTypeEnum.SetType);
 			bset = set_;
 		}
@@ -103,57 +82,34 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				switch (mismatchType)
 				{
 				case TokenTypeEnum.TokenType:
-					stringBuilder.Append(string.Concat(new string[]
-					{
-						"expecting ",
-						tokenName(expecting),
-						", found '",
-						tokenText,
-						"'"
-					}));
+					stringBuilder.Append($"expecting {tokenName(expecting)}, found '{tokenText}'");
 					break;
 				case TokenTypeEnum.NotTokenType:
 					stringBuilder.Append($"expecting anything but {tokenName(expecting)}; got it anyway");
 					break;
 				case TokenTypeEnum.RangeType:
-					stringBuilder.Append(string.Concat(new string[]
-					{
-						"expecting token in range: ",
-						tokenName(expecting),
-						"..",
-						tokenName(upper),
-						", found '",
-						tokenText,
-						"'"
-					}));
+					stringBuilder.Append(
+                        $"expecting token in range: {tokenName(expecting)}..{tokenName(upper)}, found '{tokenText}'");
 					break;
 				case TokenTypeEnum.NotRangeType:
-					stringBuilder.Append(string.Concat(new string[]
-					{
-						"expecting token NOT in range: ",
-						tokenName(expecting),
-						"..",
-						tokenName(upper),
-						", found '",
-						tokenText,
-						"'"
-					}));
+					stringBuilder.Append(
+                        $"expecting token NOT in range: {tokenName(expecting)}..{tokenName(upper)}, found '{tokenText}'");
 					break;
 				case TokenTypeEnum.SetType:
 				case TokenTypeEnum.NotSetType:
 				{
 					stringBuilder.Append(
                         $"expecting {((mismatchType == TokenTypeEnum.NotSetType) ? "NOT " : "")}one of (");
-					int[] array = bset.toArray();
-					for (int i = 0; i < array.Length; i++)
-					{
-						stringBuilder.Append(" ");
-						stringBuilder.Append(tokenName(array[i]));
-					}
+					var array = bset.toArray();
+					foreach (var t in array)
+                    {
+                        stringBuilder.Append(" ");
+                        stringBuilder.Append(tokenName(t));
+                    }
 					stringBuilder.Append($"), found '{tokenText}'");
 					break;
 				}

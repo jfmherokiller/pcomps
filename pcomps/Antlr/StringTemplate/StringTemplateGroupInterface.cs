@@ -78,13 +78,13 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			try
 			{
-				InterfaceLexer lexer = new InterfaceLexer(r);
-				InterfaceParser interfaceParser = new InterfaceParser(lexer);
+				var lexer = new InterfaceLexer(r);
+				var interfaceParser = new InterfaceParser(lexer);
 				interfaceParser.groupInterface(this);
 			}
 			catch (Exception ex)
 			{
-				string text = (Name == null) ? "<unknown>" : Name;
+				var text = (Name == null) ? "<unknown>" : Name;
 				Error(string.Concat(new object[]
 				{
 					"problem parsing group ",
@@ -98,7 +98,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x0600101C RID: 4124 RVA: 0x00071698 File Offset: 0x0006F898
 		public void DefineTemplate(string name, HashList formalArgs, bool optional)
 		{
-			TemplateDefinition templateDefinition = new TemplateDefinition(name, formalArgs, optional);
+			var templateDefinition = new TemplateDefinition(name, formalArgs, optional);
 			templates.Add(templateDefinition.name, templateDefinition);
 		}
 
@@ -106,10 +106,10 @@ namespace pcomps.Antlr.StringTemplate
 		public IList GetMissingTemplates(StringTemplateGroup group)
 		{
 			ArrayList arrayList = null;
-			foreach (object obj in templates.Keys)
+			foreach (var obj in templates.Keys)
 			{
-				string key = (string)obj;
-				TemplateDefinition templateDefinition = (TemplateDefinition)templates[key];
+				var key = (string)obj;
+				var templateDefinition = (TemplateDefinition)templates[key];
 				if (!templateDefinition.optional && !group.IsDefined(templateDefinition.name))
 				{
 					if (arrayList == null)
@@ -126,24 +126,24 @@ namespace pcomps.Antlr.StringTemplate
 		public IList GetMismatchedTemplates(StringTemplateGroup group)
 		{
 			ArrayList arrayList = null;
-			foreach (object obj in templates.Keys)
+			foreach (var obj in templates.Keys)
 			{
-				string key = (string)obj;
-				TemplateDefinition templateDefinition = (TemplateDefinition)templates[key];
+				var key = (string)obj;
+				var templateDefinition = (TemplateDefinition)templates[key];
 				if (group.IsDefined(templateDefinition.name))
 				{
-					StringTemplate templateDefinition2 = group.GetTemplateDefinition(templateDefinition.name);
-					IDictionary formalArguments = templateDefinition2.FormalArguments;
-					bool flag = false;
+					var templateDefinition2 = group.GetTemplateDefinition(templateDefinition.name);
+					var formalArguments = templateDefinition2.FormalArguments;
+					var flag = false;
 					if ((templateDefinition.formalArgs != null && formalArguments == null) || (templateDefinition.formalArgs == null && formalArguments != null) || templateDefinition.formalArgs.Count != formalArguments.Count)
 					{
 						flag = true;
 					}
 					if (!flag)
 					{
-						foreach (object obj2 in formalArguments.Keys)
+						foreach (var obj2 in formalArguments.Keys)
 						{
-							string key2 = (string)obj2;
+							var key2 = (string)obj2;
 							if (templateDefinition.formalArgs[key2] == null)
 							{
 								flag = true;
@@ -179,14 +179,14 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06001021 RID: 4129 RVA: 0x000718CC File Offset: 0x0006FACC
 		public override string ToString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("interface ");
 			stringBuilder.Append(Name);
 			stringBuilder.Append(";\n");
-			foreach (object obj in templates.Keys)
+			foreach (var obj in templates.Keys)
 			{
-				string key = (string)obj;
-				TemplateDefinition tdef = (TemplateDefinition)templates[key];
+				var key = (string)obj;
+				var tdef = (TemplateDefinition)templates[key];
 				stringBuilder.Append(GetTemplateSignature(tdef));
 				stringBuilder.Append(";\n");
 			}
@@ -196,7 +196,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06001022 RID: 4130 RVA: 0x00071984 File Offset: 0x0006FB84
 		protected string GetTemplateSignature(TemplateDefinition tdef)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (tdef.optional)
 			{
 				stringBuilder.Append("optional ");
@@ -205,10 +205,10 @@ namespace pcomps.Antlr.StringTemplate
 			if (tdef.formalArgs != null)
 			{
 				stringBuilder.Append('(');
-				bool flag = false;
-				foreach (object obj in tdef.formalArgs.Keys)
+				var flag = false;
+				foreach (var obj in tdef.formalArgs.Keys)
 				{
-					string value = (string)obj;
+					var value = (string)obj;
 					if (flag)
 					{
 						stringBuilder.Append(", ");

@@ -19,7 +19,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EC4 RID: 3780 RVA: 0x0006CC08 File Offset: 0x0006AE08
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
@@ -53,8 +53,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EC9 RID: 3785 RVA: 0x0006CC68 File Offset: 0x0006AE68
 		public void mFLAG()
 		{
-			int type = 4;
-			int channel = 0;
+			var type = 4;
+			var channel = 0;
 			Match("flag");
 			state.type = type;
 			state.channel = channel;
@@ -63,8 +63,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECA RID: 3786 RVA: 0x0006CC9C File Offset: 0x0006AE9C
 		public void mSCRIPT()
 		{
-			int type = 8;
-			int channel = 0;
+			var type = 8;
+			var channel = 0;
 			Match("script");
 			state.type = type;
 			state.channel = channel;
@@ -73,8 +73,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECB RID: 3787 RVA: 0x0006CCD0 File Offset: 0x0006AED0
 		public void mPROPERTY()
 		{
-			int type = 9;
-			int channel = 0;
+			var type = 9;
+			var channel = 0;
 			Match("property");
 			state.type = type;
 			state.channel = channel;
@@ -83,8 +83,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECC RID: 3788 RVA: 0x0006CD08 File Offset: 0x0006AF08
 		public void mVARIABLE()
 		{
-			int type = 10;
-			int channel = 0;
+			var type = 10;
+			var channel = 0;
 			Match("variable");
 			state.type = type;
 			state.channel = channel;
@@ -93,8 +93,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECD RID: 3789 RVA: 0x0006CD40 File Offset: 0x0006AF40
 		public void mFUNCTION()
 		{
-			int type = 11;
-			int channel = 0;
+			var type = 11;
+			var channel = 0;
 			Match("function");
 			state.type = type;
 			state.channel = channel;
@@ -103,8 +103,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECE RID: 3790 RVA: 0x0006CD78 File Offset: 0x0006AF78
 		public void mOPEN_BRACE()
 		{
-			int type = 7;
-			int channel = 0;
+			var type = 7;
+			var channel = 0;
 			Match(123);
 			state.type = type;
 			state.channel = channel;
@@ -113,8 +113,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ECF RID: 3791 RVA: 0x0006CDAC File Offset: 0x0006AFAC
 		public void mCLOSE_BRACE()
 		{
-			int type = 12;
-			int channel = 0;
+			var type = 12;
+			var channel = 0;
 			Match(125);
 			state.type = type;
 			state.channel = channel;
@@ -123,20 +123,20 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ED0 RID: 3792 RVA: 0x0006CDE0 File Offset: 0x0006AFE0
 		public void mID()
 		{
-			int type = 5;
-			int channel = 0;
+			var type = 5;
+			var channel = 0;
 			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || input.LA(1) == 95 || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
 				input.Consume();
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if ((num2 >= 48 && num2 <= 57) || (num2 >= 65 && num2 <= 90) || num2 == 95 || (num2 >= 97 && num2 <= 122))
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						goto IL_157;
@@ -147,7 +147,7 @@ namespace pcomps.PCompiler
 					}
 					input.Consume();
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, input);
+				var ex = new MismatchedSetException(null, input);
 				Recover(ex);
 				throw ex;
 				IL_157:
@@ -155,7 +155,7 @@ namespace pcomps.PCompiler
 				state.channel = channel;
 				return;
 			}
-			MismatchedSetException ex2 = new MismatchedSetException(null, input);
+			var ex2 = new MismatchedSetException(null, input);
 			Recover(ex2);
 			throw ex2;
 		}
@@ -163,18 +163,18 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ED1 RID: 3793 RVA: 0x0006CF5C File Offset: 0x0006B15C
 		public void mNUMBER()
 		{
-			int type = 6;
-			int channel = 0;
-			int num = 0;
+			var type = 6;
+			var channel = 0;
+			var num = 0;
 			for (;;)
 			{
-				int num2 = 2;
-				int num3 = input.LA(1);
+				var num2 = 2;
+				var num3 = input.LA(1);
 				if (num3 >= 48 && num3 <= 57)
 				{
 					num2 = 1;
 				}
-				int num4 = num2;
+				var num4 = num2;
 				if (num4 != 1)
 				{
 					break;
@@ -184,7 +184,7 @@ namespace pcomps.PCompiler
 			}
 			if (num < 1)
 			{
-				EarlyExitException ex = new EarlyExitException(2, input);
+				var ex = new EarlyExitException(2, input);
 				throw ex;
 			}
 			state.type = type;
@@ -194,17 +194,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ED2 RID: 3794 RVA: 0x0006CFD0 File Offset: 0x0006B1D0
 		public void mWS()
 		{
-			int type = 16;
-			int num = 0;
+			var type = 16;
+			var num = 0;
 			for (;;)
 			{
-				int num2 = 2;
-				int num3 = input.LA(1);
+				var num2 = 2;
+				var num3 = input.LA(1);
 				if ((num3 >= 9 && num3 <= 10) || num3 == 13 || num3 == 32)
 				{
 					num2 = 1;
 				}
-				int num4 = num2;
+				var num4 = num2;
 				if (num4 != 1)
 				{
 					break;
@@ -214,10 +214,10 @@ namespace pcomps.PCompiler
 			}
 			if (num < 1)
 			{
-				EarlyExitException ex = new EarlyExitException(3, input);
+				var ex = new EarlyExitException(3, input);
 				throw ex;
 			}
-			int channel = 99;
+			var channel = 99;
 			state.type = type;
 			state.channel = channel;
 		}
@@ -225,12 +225,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ED3 RID: 3795 RVA: 0x0006D054 File Offset: 0x0006B254
 		public void mCOMMENT()
 		{
-			int type = 17;
-			int channel = 0;
-			int num = input.LA(1);
+			var type = 17;
+			var channel = 0;
+			var num = input.LA(1);
 			if (num == 47)
 			{
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				int num3;
 				if (num2 == 42)
 				{
@@ -240,7 +240,7 @@ namespace pcomps.PCompiler
 				{
 					if (num2 != 47)
 					{
-						NoViableAltException ex = new NoViableAltException("", 6, 1, input);
+						var ex = new NoViableAltException("", 6, 1, input);
 						throw ex;
 					}
 					num3 = 2;
@@ -251,11 +251,11 @@ namespace pcomps.PCompiler
 					Match("/*");
 					for (;;)
 					{
-						int num4 = 2;
-						int num5 = input.LA(1);
+						var num4 = 2;
+						var num5 = input.LA(1);
 						if (num5 == 42)
 						{
-							int num6 = input.LA(2);
+							var num6 = input.LA(2);
 							if (num6 == 47)
 							{
 								num4 = 2;
@@ -269,7 +269,7 @@ namespace pcomps.PCompiler
 						{
 							num4 = 1;
 						}
-						int num7 = num4;
+						var num7 = num4;
 						if (num7 != 1)
 						{
 							break;
@@ -284,13 +284,13 @@ namespace pcomps.PCompiler
 					Match("//");
 					for (;;)
 					{
-						int num8 = 2;
-						int num9 = input.LA(1);
+						var num8 = 2;
+						var num9 = input.LA(1);
 						if ((num9 >= 0 && num9 <= 9) || (num9 >= 11 && num9 <= 65535))
 						{
 							num8 = 1;
 						}
-						int num10 = num8;
+						var num10 = num8;
 						if (num10 != 1)
 						{
 							goto IL_1CA;
@@ -301,7 +301,7 @@ namespace pcomps.PCompiler
 						}
 						input.Consume();
 					}
-					MismatchedSetException ex2 = new MismatchedSetException(null, input);
+					var ex2 = new MismatchedSetException(null, input);
 					Recover(ex2);
 					throw ex2;
 					IL_1CA:
@@ -313,7 +313,7 @@ namespace pcomps.PCompiler
 				state.channel = channel;
 				return;
 			}
-			NoViableAltException ex3 = new NoViableAltException("", 6, 0, input);
+			var ex3 = new NoViableAltException("", 6, 0, input);
 			throw ex3;
 		}
 
@@ -325,7 +325,7 @@ namespace pcomps.PCompiler
 				input.Consume();
 				return;
 			}
-			MismatchedSetException ex = new MismatchedSetException(null, input);
+			var ex = new MismatchedSetException(null, input);
 			Recover(ex);
 			throw ex;
 		}
@@ -344,7 +344,7 @@ namespace pcomps.PCompiler
 				input.Consume();
 				return;
 			}
-			MismatchedSetException ex = new MismatchedSetException(null, input);
+			var ex = new MismatchedSetException(null, input);
 			Recover(ex);
 			throw ex;
 		}

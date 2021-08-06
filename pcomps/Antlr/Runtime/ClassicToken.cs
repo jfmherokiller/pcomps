@@ -141,12 +141,12 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000501 RID: 1281 RVA: 0x0000F298 File Offset: 0x0000D498
 		public override string ToString()
 		{
-			string text = string.Empty;
+			var text = string.Empty;
 			if (channel > 0)
 			{
 				text = $",channel={channel}";
 			}
-			string text2 = Text;
+			var text2 = Text;
 			if (text2 != null)
 			{
 				text2 = text2.Replace("\n", "\\\\n");

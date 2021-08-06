@@ -53,7 +53,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			}
 			set
 			{
-				bool flag = !_dictionary.Contains(key);
+				var flag = !_dictionary.Contains(key);
 				_dictionary[key] = value;
 				if (flag)
 				{
@@ -156,10 +156,10 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		// Token: 0x0600103F RID: 4159 RVA: 0x00071E28 File Offset: 0x00070028
 		public void CopyTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
-				DictionaryEntry dictionaryEntry = new DictionaryEntry(_insertionOrderList[i], _dictionary[_insertionOrderList[i]]);
+				var dictionaryEntry = new DictionaryEntry(_insertionOrderList[i], _dictionary[_insertionOrderList[i]]);
 				array.SetValue(dictionaryEntry, index++);
 			}
 		}
@@ -183,8 +183,8 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		// Token: 0x06001042 RID: 4162 RVA: 0x00071EA8 File Offset: 0x000700A8
 		private void CopyKeysTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
 				array.SetValue(_insertionOrderList[i], index++);
 			}
@@ -193,8 +193,8 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		// Token: 0x06001043 RID: 4163 RVA: 0x00071EE8 File Offset: 0x000700E8
 		private void CopyValuesTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
 				array.SetValue(_dictionary[_insertionOrderList[i]], index++);
 			}
@@ -376,10 +376,10 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			// Token: 0x0600104E RID: 4174 RVA: 0x0007212C File Offset: 0x0007032C
 			public override string ToString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
-				ArrayList insertionOrderList = _hashList._insertionOrderList;
-				for (int i = 0; i < insertionOrderList.Count; i++)
+				var insertionOrderList = _hashList._insertionOrderList;
+				for (var i = 0; i < insertionOrderList.Count; i++)
 				{
 					if (i > 0)
 					{
@@ -396,14 +396,14 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			{
 				if (o is KeyCollection)
 				{
-					KeyCollection keyCollection = (KeyCollection)o;
+					var keyCollection = (KeyCollection)o;
 					if (Count == 0 && keyCollection.Count == 0)
 					{
 						return true;
 					}
 					if (Count == keyCollection.Count)
 					{
-						for (int i = 0; i < Count; i++)
+						for (var i = 0; i < Count; i++)
 						{
 							if (_hashList._insertionOrderList[i] == keyCollection._hashList._insertionOrderList[i] || _hashList._insertionOrderList[i].Equals(keyCollection._hashList._insertionOrderList[i]))
 							{
@@ -559,7 +559,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			// Token: 0x06001063 RID: 4195 RVA: 0x00072340 File Offset: 0x00070540
 			public override string ToString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
 				IEnumerator enumerator = new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Value);
 				if (enumerator.MoveNext())

@@ -14,7 +14,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x060005C2 RID: 1474 RVA: 0x000110C4 File Offset: 0x0000F2C4
 		public object Pop()
 		{
-			object result = this[Count - 1];
+			var result = this[Count - 1];
 			RemoveAt(Count - 1);
 			return result;
 		}

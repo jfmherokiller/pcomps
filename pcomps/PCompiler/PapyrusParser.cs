@@ -33,7 +33,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000991 RID: 2449 RVA: 0x0001BC38 File Offset: 0x00019E38
 		private ScriptVariableType ConstructVarType(string asType, IToken akInitialValue)
 		{
-			ScriptVariableType scriptVariableType = new ScriptVariableType(asType);
+			var scriptVariableType = new ScriptVariableType(asType);
 			if (akInitialValue != null)
 			{
 				scriptVariableType.InitialValue = akInitialValue.Text;

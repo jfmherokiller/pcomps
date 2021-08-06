@@ -89,7 +89,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return;
 			}
-			BaseTree baseTree = (BaseTree)t;
+			var baseTree = (BaseTree)t;
 			if (baseTree.IsNil)
 			{
 				if (children != null && children == baseTree.children)
@@ -100,10 +100,10 @@ namespace pcomps.Antlr.Runtime.Tree
 				{
 					if (children != null)
 					{
-						int count = baseTree.children.Count;
-						for (int i = 0; i < count; i++)
+						var count = baseTree.children.Count;
+						for (var i = 0; i < count; i++)
 						{
-							ITree tree = (ITree)baseTree.Children[i];
+							var tree = (ITree)baseTree.Children[i];
 							children.Add(tree);
 							tree.Parent = this;
 							tree.ChildIndex = children.Count - 1;
@@ -131,9 +131,9 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005CD RID: 1485 RVA: 0x00011288 File Offset: 0x0000F488
 		public void AddChildren(IList kids)
 		{
-			for (int i = 0; i < kids.Count; i++)
+			for (var i = 0; i < kids.Count; i++)
 			{
-				ITree t = (ITree)kids[i];
+				var t = (ITree)kids[i];
 				AddChild(t);
 			}
 		}
@@ -165,7 +165,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			ITree result = (ITree)children[i];
+			var result = (ITree)children[i];
 			children.RemoveAt(i);
 			FreshenParentAndChildIndexes(i);
 			return result;
@@ -178,8 +178,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				throw new ArgumentException("indexes invalid; no children in list");
 			}
-			int num = stopChildIndex - startChildIndex + 1;
-			BaseTree baseTree = (BaseTree)t;
+			var num = stopChildIndex - startChildIndex + 1;
+			var baseTree = (BaseTree)t;
 			IList list;
 			if (baseTree.IsNil)
 			{
@@ -190,15 +190,15 @@ namespace pcomps.Antlr.Runtime.Tree
 				list = new ArrayList(1);
 				list.Add(baseTree);
 			}
-			int count = list.Count;
-			int count2 = list.Count;
-			int num2 = num - count;
+			var count = list.Count;
+			var count2 = list.Count;
+			var num2 = num - count;
 			if (num2 == 0)
 			{
-				int num3 = 0;
-				for (int i = startChildIndex; i <= stopChildIndex; i++)
+				var num3 = 0;
+				for (var i = startChildIndex; i <= stopChildIndex; i++)
 				{
-					BaseTree baseTree2 = (BaseTree)list[num3];
+					var baseTree2 = (BaseTree)list[num3];
 					children[i] = baseTree2;
 					baseTree2.Parent = this;
 					baseTree2.ChildIndex = i;
@@ -207,12 +207,12 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			else if (num2 > 0)
 			{
-				for (int j = 0; j < count2; j++)
+				for (var j = 0; j < count2; j++)
 				{
 					children[startChildIndex + j] = list[j];
 				}
-				int num4 = startChildIndex + count2;
-				for (int k = num4; k <= stopChildIndex; k++)
+				var num4 = startChildIndex + count2;
+				for (var k = num4; k <= stopChildIndex; k++)
 				{
 					children.RemoveAt(num4);
 				}
@@ -249,10 +249,10 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005D3 RID: 1491 RVA: 0x00011500 File Offset: 0x0000F700
 		public virtual void FreshenParentAndChildIndexes(int offset)
 		{
-			int childCount = ChildCount;
-			for (int i = offset; i < childCount; i++)
+			var childCount = ChildCount;
+			for (var i = offset; i < childCount; i++)
 			{
-				ITree child = GetChild(i);
+				var child = GetChild(i);
 				child.ChildIndex = i;
 				child.Parent = this;
 			}
@@ -287,10 +287,10 @@ namespace pcomps.Antlr.Runtime.Tree
 					ChildIndex
 				}));
 			}
-			int childCount = ChildCount;
-			for (int j = 0; j < childCount; j++)
+			var childCount = ChildCount;
+			for (var j = 0; j < childCount; j++)
 			{
-				CommonTree commonTree = (CommonTree)GetChild(j);
+				var commonTree = (CommonTree)GetChild(j);
 				commonTree.SanityCheckParentAndChildIndexes(this, j);
 			}
 		}
@@ -332,7 +332,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005DB RID: 1499 RVA: 0x00011624 File Offset: 0x0000F824
 		public ITree GetAncestor(int ttype)
 		{
-			for (ITree parent = ((ITree)this).Parent; parent != null; parent = parent.Parent)
+			for (var parent = ((ITree)this).Parent; parent != null; parent = parent.Parent)
 			{
 				if (parent.Type == ttype)
 				{
@@ -350,7 +350,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				return null;
 			}
 			IList list = new ArrayList();
-			for (ITree parent = ((ITree)this).Parent; parent != null; parent = parent.Parent)
+			for (var parent = ((ITree)this).Parent; parent != null; parent = parent.Parent)
 			{
 				list.Insert(0, parent);
 			}
@@ -364,17 +364,17 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return ToString();
 			}
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (!IsNil)
 			{
 				stringBuilder.Append("(");
 				stringBuilder.Append(ToString());
 				stringBuilder.Append(' ');
 			}
-			int num = 0;
+			var num = 0;
 			while (children != null && num < children.Count)
 			{
-				ITree tree = (ITree)children[num];
+				var tree = (ITree)children[num];
 				if (num > 0)
 				{
 					stringBuilder.Append(' ');

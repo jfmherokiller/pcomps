@@ -29,7 +29,7 @@ namespace pcomps.Antlr.StringTemplate
 			this.factory = factory;
 			this.errorListener = ((errorListener == null) ? new NullErrorListener() : errorListener);
 			this.encoding = encoding;
-			foreach (string text in directoryNames)
+			foreach (var text in directoryNames)
 			{
 				string text2;
 				if (Path.IsPathRooted(text))
@@ -71,14 +71,14 @@ namespace pcomps.Antlr.StringTemplate
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup, Type lexer)
 		{
 			StringTemplateGroup result = null;
-			string text = LocateFile($"{groupName}.stg");
+			var text = LocateFile($"{groupName}.stg");
 			if (text == null)
 			{
 				Error($"no such group file '{groupName}.stg'");
 			}
 			else
 			{
-				using (StreamReader streamReader = new StreamReader(text, encoding))
+				using (var streamReader = new StreamReader(text, encoding))
 				{
 					try
 					{
@@ -101,14 +101,14 @@ namespace pcomps.Antlr.StringTemplate
 		public StringTemplateGroupInterface LoadInterface(string interfaceName)
 		{
 			StringTemplateGroupInterface result = null;
-			string text = LocateFile($"{interfaceName}.sti");
+			var text = LocateFile($"{interfaceName}.sti");
 			if (text == null)
 			{
 				Error($"no such interface file '{interfaceName}.sti'");
 			}
 			else
 			{
-				using (StreamReader streamReader = new StreamReader(text, encoding))
+				using (var streamReader = new StreamReader(text, encoding))
 				{
 					try
 					{
@@ -130,10 +130,10 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F18 RID: 3864 RVA: 0x0006E11C File Offset: 0x0006C31C
 		protected string LocateFile(string filename)
 		{
-			for (int i = 0; i < directories.Count; i++)
+			for (var i = 0; i < directories.Count; i++)
 			{
-				string arg = (string)directories[i];
-				string text = $"{arg}/{filename}";
+				var arg = (string)directories[i];
+				var text = $"{arg}/{filename}";
 				if (File.Exists(text))
 				{
 					return text;

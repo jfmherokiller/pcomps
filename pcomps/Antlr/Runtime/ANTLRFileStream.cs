@@ -43,8 +43,8 @@ namespace pcomps.Antlr.Runtime
 			StreamReader streamReader = null;
 			try
 			{
-				FileInfo file = new FileInfo(fileName);
-				int num = (int)GetFileLength(file);
+				var file = new FileInfo(fileName);
+				var num = (int)GetFileLength(file);
 				data = new char[num];
 				if (encoding != null)
 				{

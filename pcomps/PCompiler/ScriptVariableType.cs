@@ -95,7 +95,7 @@
 		{
 			get
 			{
-				string result = "";
+				var result = "";
 				if (HasInitialValue)
 				{
 					result = sInitialValue;

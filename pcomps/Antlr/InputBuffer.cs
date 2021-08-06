@@ -31,8 +31,8 @@ namespace pcomps.Antlr
 		// Token: 0x060000AC RID: 172 RVA: 0x000040B4 File Offset: 0x000022B4
 		public virtual string getLAChars()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			char[] array = new char[queue.Count - markerOffset];
+			var stringBuilder = new StringBuilder();
+			var array = new char[queue.Count - markerOffset];
 			queue.CopyTo(array, markerOffset);
 			stringBuilder.Append(array);
 			return stringBuilder.ToString();
@@ -41,8 +41,8 @@ namespace pcomps.Antlr
 		// Token: 0x060000AD RID: 173 RVA: 0x00004100 File Offset: 0x00002300
 		public virtual string getMarkedChars()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			char[] array = new char[queue.Count - markerOffset];
+			var stringBuilder = new StringBuilder();
+			var array = new char[queue.Count - markerOffset];
 			queue.CopyTo(array, markerOffset);
 			stringBuilder.Append(array);
 			return stringBuilder.ToString();

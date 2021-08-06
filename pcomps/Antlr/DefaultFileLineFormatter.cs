@@ -8,7 +8,7 @@ namespace pcomps.Antlr
 		// Token: 0x060001A3 RID: 419 RVA: 0x00005F9C File Offset: 0x0000419C
 		public override string getFormatString(string fileName, int line, int column)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (fileName != null)
 			{
 				stringBuilder.Append($"{fileName}:");

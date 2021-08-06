@@ -55,7 +55,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return false;
 			}
-			FormalArgument formalArgument = (FormalArgument)o;
+			var formalArgument = (FormalArgument)o;
 			return name.Equals(formalArgument.name) && (defaultValueST == null || formalArgument.defaultValueST != null) && (defaultValueST != null || formalArgument.defaultValueST == null);
 		}
 

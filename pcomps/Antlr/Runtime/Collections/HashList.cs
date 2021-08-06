@@ -59,7 +59,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			}
 			set
 			{
-				bool flag = !_dictionary.Contains(key);
+				var flag = !_dictionary.Contains(key);
 				_dictionary[key] = value;
 				if (flag)
 				{
@@ -152,10 +152,10 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x060005A2 RID: 1442 RVA: 0x00010AC8 File Offset: 0x0000ECC8
 		public void CopyTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
-				DictionaryEntry dictionaryEntry = new DictionaryEntry(_insertionOrderList[i], _dictionary[_insertionOrderList[i]]);
+				var dictionaryEntry = new DictionaryEntry(_insertionOrderList[i], _dictionary[_insertionOrderList[i]]);
 				array.SetValue(dictionaryEntry, index++);
 			}
 		}
@@ -173,8 +173,8 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x060005A4 RID: 1444 RVA: 0x00010B40 File Offset: 0x0000ED40
 		private void CopyKeysTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
 				array.SetValue(_insertionOrderList[i], index++);
 			}
@@ -183,8 +183,8 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x060005A5 RID: 1445 RVA: 0x00010B84 File Offset: 0x0000ED84
 		private void CopyValuesTo(Array array, int index)
 		{
-			int count = _insertionOrderList.Count;
-			for (int i = 0; i < count; i++)
+			var count = _insertionOrderList.Count;
+			for (var i = 0; i < count; i++)
 			{
 				array.SetValue(_dictionary[_insertionOrderList[i]], index++);
 			}
@@ -260,7 +260,7 @@ namespace pcomps.Antlr.Runtime.Collections
 					{
 						throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 					}
-					DictionaryEntry result = new DictionaryEntry(_key, _value);
+					var result = new DictionaryEntry(_key, _value);
 					return result;
 				}
 			}
@@ -295,7 +295,7 @@ namespace pcomps.Antlr.Runtime.Collections
 					{
 						return _value;
 					}
-					DictionaryEntry dictionaryEntry = new DictionaryEntry(_key, _value);
+					var dictionaryEntry = new DictionaryEntry(_key, _value);
 					return dictionaryEntry;
 				}
 			}
@@ -368,10 +368,10 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005B0 RID: 1456 RVA: 0x00010E08 File Offset: 0x0000F008
 			public override string ToString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
-				ArrayList insertionOrderList = _hashList._insertionOrderList;
-				for (int i = 0; i < insertionOrderList.Count; i++)
+				var insertionOrderList = _hashList._insertionOrderList;
+				for (var i = 0; i < insertionOrderList.Count; i++)
 				{
 					if (i > 0)
 					{
@@ -388,14 +388,14 @@ namespace pcomps.Antlr.Runtime.Collections
 			{
 				if (o is KeyCollection)
 				{
-					KeyCollection keyCollection = (KeyCollection)o;
+					var keyCollection = (KeyCollection)o;
 					if (Count == 0 && keyCollection.Count == 0)
 					{
 						return true;
 					}
 					if (Count == keyCollection.Count)
 					{
-						for (int i = 0; i < Count; i++)
+						for (var i = 0; i < Count; i++)
 						{
 							if (_hashList._insertionOrderList[i] == keyCollection._hashList._insertionOrderList[i] || _hashList._insertionOrderList[i].Equals(keyCollection._hashList._insertionOrderList[i]))
 							{
@@ -476,7 +476,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			// Token: 0x060005BA RID: 1466 RVA: 0x00010FB4 File Offset: 0x0000F1B4
 			public override string ToString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				stringBuilder.Append("[");
 				IEnumerator enumerator = new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Value);
 				if (enumerator.MoveNext())

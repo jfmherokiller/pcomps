@@ -33,62 +33,60 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D32 RID: 3378 RVA: 0x0005CC2C File Offset: 0x0005AE2C
 		public bool Compile(string asObjectName, string asFlagsFile, bool abOptimize)
 		{
-			if (bOutputValid && bImportValid)
-			{
-				sFileStack.Clear();
-				iNumErrors = 0;
-				if (asFlagsFile != "")
-				{
-					ParseFlags(asFlagsFile);
-				}
-				Dictionary<string, ScriptObjectType> dictionary = new Dictionary<string, ScriptObjectType>();
-				ScriptObjectType akObj = LoadObject(asObjectName, dictionary);
-				if (bDebug)
-				{
-					var stringBuilder = new StringBuilder("Known types after parsing:\n");
-					foreach (var arg in dictionary.Keys)
-					{
-						stringBuilder.Append($"\t-{arg}\n");
-					}
-					OnCompilerNotify(stringBuilder.ToString());
-				}
-				if (abOptimize && iNumErrors == 0)
-				{
-					Optimize(akObj);
-				}
-				string value = "";
-				if (iNumErrors == 0)
-				{
-					value = GenerateCode(akObj);
-				}
-				var text = $"{asObjectName}.pas";
-				if (sOutputFolder != "")
-				{
-					text = Path.Combine(sOutputFolder, text);
-				}
-				if (iNumErrors == 0 && eAsmOption != AssemblyOption.NoAssembly)
-				{
-					try
-					{
-						if (sOutputFolder != "" && !Directory.Exists(sOutputFolder))
-						{
-							Directory.CreateDirectory(sOutputFolder);
-						}
-						StreamWriter streamWriter = new StreamWriter(text);
-						streamWriter.Write(value);
-						streamWriter.Close();
-					}
-					catch (Exception ex)
-					{
-						OnCompilerError(ex.Message);
-					}
-					if (iNumErrors == 0 && (eAsmOption == AssemblyOption.AssembleAndDelete || eAsmOption == AssemblyOption.AssembleAndKeep) && Assemble(asObjectName) && !bDebug && eAsmOption == AssemblyOption.AssembleAndDelete && File.Exists(text))
-					{
-						File.Delete(text);
-					}
-				}
-			}
-			return iNumErrors == 0 && bOutputValid && bImportValid;
+            if (!bOutputValid || !bImportValid) return iNumErrors == 0 && bOutputValid && bImportValid;
+            sFileStack.Clear();
+            iNumErrors = 0;
+            if (asFlagsFile != "")
+            {
+                ParseFlags(asFlagsFile);
+            }
+            var dictionary = new Dictionary<string, ScriptObjectType>();
+            var akObj = LoadObject(asObjectName, dictionary);
+            if (bDebug)
+            {
+                var stringBuilder = new StringBuilder("Known types after parsing:\n");
+                foreach (var arg in dictionary.Keys)
+                {
+                    stringBuilder.Append($"\t-{arg}\n");
+                }
+                OnCompilerNotify(stringBuilder.ToString());
+            }
+            if (abOptimize && iNumErrors == 0)
+            {
+                Optimize(akObj);
+            }
+            var value = "";
+            if (iNumErrors == 0)
+            {
+                value = GenerateCode(akObj);
+            }
+            var text = $"{asObjectName}.pas";
+            if (sOutputFolder != "")
+            {
+                text = Path.Combine(sOutputFolder, text);
+            }
+
+            if (iNumErrors != 0 || eAsmOption == AssemblyOption.NoAssembly)
+                return iNumErrors == 0 && bOutputValid && bImportValid;
+            try
+            {
+                if (sOutputFolder != "" && !Directory.Exists(sOutputFolder))
+                {
+                    Directory.CreateDirectory(sOutputFolder);
+                }
+                var streamWriter = new StreamWriter(text);
+                streamWriter.Write(value);
+                streamWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                OnCompilerError(ex.Message);
+            }
+            if (iNumErrors == 0 && eAsmOption is AssemblyOption.AssembleAndDelete or AssemblyOption.AssembleAndKeep && Assemble(asObjectName) && !bDebug && eAsmOption == AssemblyOption.AssembleAndDelete && File.Exists(text))
+            {
+                File.Delete(text);
+            }
+            return iNumErrors == 0 && bOutputValid && bImportValid;
 		}
 
 		// Token: 0x06000D33 RID: 3379 RVA: 0x0005CE1C File Offset: 0x0005B01C
@@ -109,22 +107,21 @@ namespace pcomps.PCompiler
 			ScriptObjectType scriptObjectType;
 			if (!akKnownTypes.TryGetValue(asObjectName.ToLowerInvariant(), out scriptObjectType))
 			{
-				string text;
-				if (GetFilename(asObjectName, out text))
+                if (GetFilename(asObjectName, out var text))
 				{
 					StartImportFile(text);
-					int num = iNumErrors;
+					var num = iNumErrors;
 					iNumErrors = 0;
 					try
 					{
 						if (asObjectName.Length > 38)
 						{
-							string asMessage =
+							var asMessage =
                                 $"\"{asObjectName}\" is too long, please shorten it to {38} characters or less";
 							OnCompilerError(asMessage);
 						}
-						CaseInsensitiveFileStream akInput = new CaseInsensitiveFileStream(text);
-						CommonTokenStream akTokenStream = GenerateTokenStream(akInput);
+						var akInput = new CaseInsensitiveFileStream(text);
+						var akTokenStream = GenerateTokenStream(akInput);
 						Parse(akTokenStream, out scriptObjectType);
 						if (scriptObjectType.Name != asObjectName.ToLowerInvariant())
 						{
@@ -132,16 +129,16 @@ namespace pcomps.PCompiler
 						}
 						else
 						{
-							bool flag = iNumErrors == 0;
+							var flag = iNumErrors == 0;
 							if (bDebug && sFileStack.Count == 1)
 							{
-								string asFilename = $"{asObjectName}.preTypeCheck.dot";
-								string arg = OutputAST(asFilename, scriptObjectType.kAST);
-								StringBuilder stringBuilder = new StringBuilder();
+								var asFilename = $"{asObjectName}.preTypeCheck.dot";
+								var arg = OutputAST(asFilename, scriptObjectType.kAST);
+								var stringBuilder = new StringBuilder();
 								stringBuilder.AppendFormat("Pre-typecheck AST is located in \"{0}\"", arg);
 								OnCompilerNotify(stringBuilder.ToString());
 							}
-							bool flag2 = false;
+							var flag2 = false;
 							if (flag)
 							{
 								if (akImmediateChild != null)
@@ -153,9 +150,9 @@ namespace pcomps.PCompiler
 							}
 							if (bDebug && flag2 && sFileStack.Count == 1)
 							{
-								string asFilename2 = $"{asObjectName}.postTypeCheck.dot";
-								string arg2 = OutputAST(asFilename2, scriptObjectType.kAST);
-								StringBuilder stringBuilder2 = new StringBuilder();
+								var asFilename2 = $"{asObjectName}.postTypeCheck.dot";
+								var arg2 = OutputAST(asFilename2, scriptObjectType.kAST);
+								var stringBuilder2 = new StringBuilder();
 								stringBuilder2.AppendFormat("Post-typecheck AST is located in \"{0}\"", arg2);
 								OnCompilerNotify(stringBuilder2.ToString());
 							}
@@ -185,7 +182,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D36 RID: 3382 RVA: 0x0005D050 File Offset: 0x0005B250
 		private CommonTokenStream GenerateTokenStream(ICharStream akInput)
 		{
-			PapyrusLexer papyrusLexer = new PapyrusLexer(akInput);
+			var papyrusLexer = new PapyrusLexer(akInput);
 			papyrusLexer.ErrorHandler += OnInternalError;
 			return new CommonTokenStream(papyrusLexer);
 		}
@@ -193,7 +190,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D37 RID: 3383 RVA: 0x0005D07C File Offset: 0x0005B27C
 		private void Parse(ITokenStream akTokenStream, out ScriptObjectType akParsedObj)
 		{
-			PapyrusParser papyrusParser = new PapyrusParser(akTokenStream);
+			var papyrusParser = new PapyrusParser(akTokenStream);
 			papyrusParser.ErrorHandler += OnInternalError;
 			papyrusParser.KnownUserFlags = kFlagDict;
 			papyrusParser.script();
@@ -209,7 +206,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D39 RID: 3385 RVA: 0x0005D0D0 File Offset: 0x0005B2D0
 		private void TypeCheck(ScriptObjectType akObj, Dictionary<string, ScriptObjectType> akKnownTypes, Stack<string> akChildren)
 		{
-			PapyrusTypeWalker papyrusTypeWalker = new PapyrusTypeWalker(new CommonTreeNodeStream(akObj.kAST)
+			var papyrusTypeWalker = new PapyrusTypeWalker(new CommonTreeNodeStream(akObj.kAST)
 			{
 				TokenStream = akObj.kTokenStream
 			});
@@ -224,33 +221,29 @@ namespace pcomps.PCompiler
 			if (FindFile(asFlagsFile, out text))
 			{
 				StartImportFile(text);
-				CaseInsensitiveFileStream input = new CaseInsensitiveFileStream(text);
-				FlagsLexer flagsLexer = new FlagsLexer(input);
+				var input = new CaseInsensitiveFileStream(text);
+				var flagsLexer = new FlagsLexer(input);
 				flagsLexer.ErrorHandler += OnInternalError;
-				CommonTokenStream input2 = new CommonTokenStream(flagsLexer);
-				FlagsParser flagsParser = new FlagsParser(input2);
+				var input2 = new CommonTokenStream(flagsLexer);
+				var flagsParser = new FlagsParser(input2);
 				flagsParser.ErrorHandler += OnInternalError;
 				flagsParser.flags();
 				FinishImportFile();
 				kFlagDict = flagsParser.DefinedFlags;
-				if (bDebug)
-				{
-					if (kFlagDict.Count > 0)
-					{
-						using (Dictionary<string, PapyrusFlag>.Enumerator enumerator = kFlagDict.GetEnumerator())
-						{
-							while (enumerator.MoveNext())
-							{
-								KeyValuePair<string, PapyrusFlag> keyValuePair = enumerator.Current;
-								OnCompilerNotify($"Flag {keyValuePair.Key}: {keyValuePair.Value.Index}");
-							}
-							return;
-						}
-					}
-					OnCompilerNotify("No user flags defined");
-					return;
-				}
-			}
+                if (!bDebug) return;
+                if (kFlagDict.Count > 0)
+                {
+                    using var enumerator = kFlagDict.GetEnumerator();
+                    while (enumerator.MoveNext())
+                    {
+                        var (key, value) = enumerator.Current;
+                        OnCompilerNotify($"Flag {key}: {value.Index}");
+                    }
+                    return;
+                }
+                OnCompilerNotify("No user flags defined");
+                return;
+            }
 			else
 			{
 				OnCompilerError($"Unable to find flags file: {asFlagsFile}");
@@ -261,8 +254,8 @@ namespace pcomps.PCompiler
 		private bool FindFile(string asFilename, out string asFoundFilename)
 		{
 			asFoundFilename = asFilename;
-			bool flag = File.Exists(asFilename);
-			int num = 0;
+			var flag = File.Exists(asFilename);
+			var num = 0;
 			while (num < kImportFolders.Count && !flag)
 			{
 				asFoundFilename = Path.Combine(kImportFolders[num], asFilename);
@@ -292,24 +285,22 @@ namespace pcomps.PCompiler
 				RunOptimizePass(akObj, PapyrusOptimizeWalker.OptimizePass.VARCLEANUP);
 			}
 			FinishOptimizeFile();
-			if (bDebug && iNumErrors == 0)
-			{
-				string asFilename2 = $"{akObj.Name}.postOptimize.dot";
-				string arg = OutputAST(asFilename2, akObj.kAST);
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendFormat("Post-optimize AST is located in \"{0}\"", arg);
-				OnCompilerNotify(stringBuilder.ToString());
-			}
-		}
+            if (!bDebug || iNumErrors != 0) return;
+            var asFilename2 = $"{akObj.Name}.postOptimize.dot";
+            var arg = OutputAST(asFilename2, akObj.kAST);
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"Post-optimize AST is located in \"{arg}\"");
+            OnCompilerNotify(stringBuilder.ToString());
+        }
 
 		// Token: 0x06000D3E RID: 3390 RVA: 0x0005D33C File Offset: 0x0005B53C
 		private bool RunOptimizePass(ScriptObjectType akObj, PapyrusOptimizeWalker.OptimizePass aePass)
 		{
-			PapyrusOptimizeWalker papyrusOptimizeWalker = new PapyrusOptimizeWalker(new CommonTreeNodeStream(akObj.kAST)
+			var papyrusOptimizeWalker = new PapyrusOptimizeWalker(new CommonTreeNodeStream(akObj.kAST)
 			{
 				TokenStream = akObj.kTokenStream
 			});
-			bool result = false;
+			var result = false;
 			try
 			{
 				papyrusOptimizeWalker.ErrorHandler += OnInternalError;
@@ -326,21 +317,21 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D3F RID: 3391 RVA: 0x0005D3C0 File Offset: 0x0005B5C0
 		private string GenerateCode(ScriptObjectType akObj)
 		{
-			Assembly executingAssembly = Assembly.GetExecutingAssembly();
-			Stream manifestResourceStream = executingAssembly.GetManifestResourceStream("pcomps.PCompiler.PapyrusAssembly.stg");
+			var executingAssembly = Assembly.GetExecutingAssembly();
+			var manifestResourceStream = executingAssembly.GetManifestResourceStream("pcomps.PCompiler.PapyrusAssembly.stg");
 			string asSourceFilename;
 			GetFilename(akObj.Name, out asSourceFilename);
-			PapyrusGen papyrusGen = new PapyrusGen(new CommonTreeNodeStream(akObj.kAST)
+			var papyrusGen = new PapyrusGen(new CommonTreeNodeStream(akObj.kAST)
 			{
 				TokenStream = akObj.kTokenStream
 			});
-			string result = "";
+			var result = "";
 			try
 			{
 				papyrusGen.ErrorHandler += OnInternalError;
 				papyrusGen.TemplateLib = new StringTemplateGroup(new StreamReader(manifestResourceStream));
 				papyrusGen.KnownUserFlags = kFlagDict;
-				StringTemplate stringTemplate = (StringTemplate)papyrusGen.script(asSourceFilename, akObj).Template;
+				var stringTemplate = (StringTemplate)papyrusGen.script(asSourceFilename, akObj).Template;
 				if (iNumErrors == 0 && stringTemplate != null)
 				{
 					result = stringTemplate.ToString();
@@ -357,25 +348,25 @@ namespace pcomps.PCompiler
 		private string OutputAST(string asFilename, CommonTree akTree)
 		{
 			OnCompilerNotify($"Generating {asFilename}...");
-			StringTemplate treeST = new StringTemplate("digraph {\n ordering=out;\n ranksep=.4\n rankdir=LR\n bgcolor=\"lightgrey\";\n node [shape=box, fixedsize=false, fontsize=12, fontname=\"Helvetica-bold\", fontcolor=\"blue\"\n       width=.25, height=.25, color=\"black\", style=\"bold\"]\n $nodes$\n $edges$\n}\n");
-			StringTemplate edgeST = new StringTemplate("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
-			DOTTreeGenerator dottreeGenerator = new DOTTreeGenerator();
-			StringTemplate stringTemplate = dottreeGenerator.ToDOT(akTree, new CommonTreeAdaptor(), treeST, edgeST);
-			string text = stringTemplate.ToString();
+			var treeST = new StringTemplate("digraph {\n ordering=out;\n ranksep=.4\n rankdir=LR\n bgcolor=\"lightgrey\";\n node [shape=box, fixedsize=false, fontsize=12, fontname=\"Helvetica-bold\", fontcolor=\"blue\"\n       width=.25, height=.25, color=\"black\", style=\"bold\"]\n $nodes$\n $edges$\n}\n");
+			var edgeST = new StringTemplate("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
+			var dottreeGenerator = new DOTTreeGenerator();
+			var stringTemplate = dottreeGenerator.ToDOT(akTree, new CommonTreeAdaptor(), treeST, edgeST);
+			var text = stringTemplate.ToString();
 			text = text.Replace("\\\\\"", "\\\"");
-			StreamWriter streamWriter = new StreamWriter(asFilename);
+			var streamWriter = new StreamWriter(asFilename);
 			streamWriter.Write(text);
 			streamWriter.Close();
-			string text2 = Path.ChangeExtension(asFilename, ".png");
+			var text2 = Path.ChangeExtension(asFilename, ".png");
 			try
 			{
-				Process process = new Process();
+				var process = new Process();
 				process.StartInfo.FileName = "dot.exe";
 				process.StartInfo.Arguments = $"-Tpng -o{text2} {asFilename}";
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.Start();
-				string text3 = process.StandardOutput.ReadToEnd();
+				var text3 = process.StandardOutput.ReadToEnd();
 				if (text3 != "")
 				{
 					OnCompilerNotify(text3);
@@ -394,11 +385,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D41 RID: 3393 RVA: 0x0005D5E0 File Offset: 0x0005B7E0
 		private bool Assemble(string asObjectName)
 		{
-			bool flag = true;
-			string path = "PapyrusAssembler.exe";
-			Uri uri = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase);
-			string directoryName = Path.GetDirectoryName(uri.LocalPath);
-			string text = Path.Combine(directoryName, path);
+			var flag = true;
+			var path = "PapyrusAssembler.exe";
+			var uri = new Uri(Assembly.GetExecutingAssembly().GetName().CodeBase ?? string.Empty);
+			var directoryName = Path.GetDirectoryName(uri.LocalPath);
+			var text = Path.Combine(directoryName, path);
 			if (!File.Exists(text))
 			{
 				text = Path.Combine(Environment.CurrentDirectory, path);
@@ -412,24 +403,24 @@ namespace pcomps.PCompiler
 			{
 				try
 				{
-					Process process = new Process();
+					var process = new Process();
 					process.StartInfo.FileName = text;
 					process.StartInfo.Arguments = asObjectName;
 					if (bDebug)
 					{
-						ProcessStartInfo startInfo = process.StartInfo;
+						var startInfo = process.StartInfo;
 						startInfo.Arguments += " /V";
 					}
 					if (bQuiet)
 					{
-						ProcessStartInfo startInfo2 = process.StartInfo;
+						var startInfo2 = process.StartInfo;
 						startInfo2.Arguments += " /Q";
 					}
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WorkingDirectory = sOutputFolder;
 					process.Start();
-					string text2 = process.StandardOutput.ReadToEnd();
+					var text2 = process.StandardOutput.ReadToEnd();
 					if (text2 != "")
 					{
 						OnCompilerNotify(text2);
@@ -492,7 +483,7 @@ namespace pcomps.PCompiler
 			sFileStack.Push(asFilename);
 			if (bDebug)
 			{
-				string arg = new string(' ', sFileStack.Count);
+				var arg = new string(' ', sFileStack.Count);
 				OnCompilerNotify($"{arg}Starting import of {asFilename}...");
 			}
 		}
@@ -502,7 +493,7 @@ namespace pcomps.PCompiler
 		{
 			if (bDebug)
 			{
-				string arg = new string(' ', sFileStack.Count);
+				var arg = new string(' ', sFileStack.Count);
 				OnCompilerNotify($"{arg}Finished import");
 			}
 			sFileStack.Pop();
@@ -514,7 +505,7 @@ namespace pcomps.PCompiler
 			sFileStack.Push(asFilename);
 			if (bDebug)
 			{
-				string arg = new string(' ', sFileStack.Count);
+				var arg = new string(' ', sFileStack.Count);
 				OnCompilerNotify($"{arg}Starting optimize of {asFilename}...");
 			}
 		}
@@ -524,7 +515,7 @@ namespace pcomps.PCompiler
 		{
 			if (bDebug)
 			{
-				string arg = new string(' ', sFileStack.Count);
+				var arg = new string(' ', sFileStack.Count);
 				OnCompilerNotify($"{arg}Finished optimize");
 			}
 			sFileStack.Pop();
@@ -564,10 +555,10 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D4B RID: 3403 RVA: 0x0005D9EC File Offset: 0x0005BBEC
 		private void ScanImportPath(string asPath)
 		{
-			string[] files = Directory.GetFiles(asPath, "*.psc");
-			foreach (string text in files)
+			var files = Directory.GetFiles(asPath, "*.psc");
+			foreach (var text in files)
 			{
-				string key = Path.GetFileNameWithoutExtension(text).ToLower();
+				var key = Path.GetFileNameWithoutExtension(text).ToLower();
 				if (!kObjectToPath.ContainsKey(key))
 				{
 					kObjectToPath.Add(key, text);
@@ -586,11 +577,11 @@ namespace pcomps.PCompiler
 			}
 			set
 			{
-				List<string> list = new List<string>(value);
+				var list = new List<string>(value);
 				bImportValid = true;
 				kObjectToPath = new Dictionary<string, string>();
 				ScanImportPath(Environment.CurrentDirectory);
-				int num = 0;
+				var num = 0;
 				while (num < list.Count && bImportValid)
 				{
 					try

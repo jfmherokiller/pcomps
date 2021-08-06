@@ -27,7 +27,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000264 RID: 612 RVA: 0x00008300 File Offset: 0x00006500
 		public virtual IToken nextToken()
 		{
-			IToken token = input.nextToken();
+			var token = input.nextToken();
 			while (token != null && discardMask.member(token.Type))
 			{
 				token = input.nextToken();

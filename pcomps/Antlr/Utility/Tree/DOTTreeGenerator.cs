@@ -9,7 +9,7 @@ namespace pcomps.Antlr.Utility.Tree
 		// Token: 0x06000988 RID: 2440 RVA: 0x0001B9B8 File Offset: 0x00019BB8
 		public StringTemplate.StringTemplate ToDOT(object tree, ITreeAdaptor adaptor, StringTemplate.StringTemplate _treeST, StringTemplate.StringTemplate _edgeST)
 		{
-			StringTemplate.StringTemplate instanceOf = _treeST.GetInstanceOf();
+			var instanceOf = _treeST.GetInstanceOf();
 			nodeNumber = 0;
 			ToDOTDefineNodes(tree, adaptor, instanceOf);
 			nodeNumber = 0;
@@ -36,17 +36,17 @@ namespace pcomps.Antlr.Utility.Tree
 			{
 				return;
 			}
-			int childCount = adaptor.GetChildCount(tree);
+			var childCount = adaptor.GetChildCount(tree);
 			if (childCount == 0)
 			{
 				return;
 			}
-			StringTemplate.StringTemplate nodeST = GetNodeST(adaptor, tree);
+			var nodeST = GetNodeST(adaptor, tree);
 			treeST.SetAttribute("nodes", nodeST);
-			for (int i = 0; i < childCount; i++)
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = adaptor.GetChild(tree, i);
-				StringTemplate.StringTemplate nodeST2 = GetNodeST(adaptor, child);
+				var child = adaptor.GetChild(tree, i);
+				var nodeST2 = GetNodeST(adaptor, child);
 				treeST.SetAttribute("nodes", nodeST2);
 				ToDOTDefineNodes(child, adaptor, treeST);
 			}
@@ -59,19 +59,19 @@ namespace pcomps.Antlr.Utility.Tree
 			{
 				return;
 			}
-			int childCount = adaptor.GetChildCount(tree);
+			var childCount = adaptor.GetChildCount(tree);
 			if (childCount == 0)
 			{
 				return;
 			}
-			string val = $"n{GetNodeNumber(tree)}";
-			string nodeText = adaptor.GetNodeText(tree);
-			for (int i = 0; i < childCount; i++)
+			var val = $"n{GetNodeNumber(tree)}";
+			var nodeText = adaptor.GetNodeText(tree);
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = adaptor.GetChild(tree, i);
-				string nodeText2 = adaptor.GetNodeText(child);
-				string val2 = $"n{GetNodeNumber(child)}";
-				StringTemplate.StringTemplate instanceOf = _edgeST.GetInstanceOf();
+				var child = adaptor.GetChild(tree, i);
+				var nodeText2 = adaptor.GetNodeText(child);
+				var val2 = $"n{GetNodeNumber(child)}";
+				var instanceOf = _edgeST.GetInstanceOf();
 				instanceOf.SetAttribute("parent", val);
 				instanceOf.SetAttribute("child", val2);
 				instanceOf.SetAttribute("parentText", nodeText);
@@ -84,9 +84,9 @@ namespace pcomps.Antlr.Utility.Tree
 		// Token: 0x0600098D RID: 2445 RVA: 0x0001BB64 File Offset: 0x00019D64
 		protected StringTemplate.StringTemplate GetNodeST(ITreeAdaptor adaptor, object t)
 		{
-			string text = adaptor.GetNodeText(t);
-			StringTemplate.StringTemplate instanceOf = _nodeST.GetInstanceOf();
-			string val = $"n{GetNodeNumber(t)}";
+			var text = adaptor.GetNodeText(t);
+			var instanceOf = _nodeST.GetInstanceOf();
+			var val = $"n{GetNodeNumber(t)}";
 			instanceOf.SetAttribute("name", val);
             text = text?.Replace("\"", "\\\\\"");
             instanceOf.SetAttribute("text", text);
@@ -96,7 +96,7 @@ namespace pcomps.Antlr.Utility.Tree
 		// Token: 0x0600098E RID: 2446 RVA: 0x0001BBCC File Offset: 0x00019DCC
 		protected int GetNodeNumber(object t)
 		{
-			object obj = nodeToNumberMap[t];
+			var obj = nodeToNumberMap[t];
 			if (obj != null)
 			{
 				return (int)obj;

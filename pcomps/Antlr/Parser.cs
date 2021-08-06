@@ -603,7 +603,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600020B RID: 523 RVA: 0x00006C50 File Offset: 0x00004E50
 		public virtual void traceIndent()
 		{
-			for (int i = 0; i < traceDepth; i++)
+			for (var i = 0; i < traceDepth; i++)
 			{
 				Console.Out.Write(" ");
 			}

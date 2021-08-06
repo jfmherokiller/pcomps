@@ -530,8 +530,8 @@ namespace pcomps.Antlr
 		// Token: 0x0600011E RID: 286 RVA: 0x00004F20 File Offset: 0x00003120
 		public virtual void match(string s)
 		{
-			int length = s.Length;
-			for (int i = 0; i < length; i++)
+			var length = s.Length;
+			for (var i = 0; i < length; i++)
 			{
 				if (cached_LA1 != s[i])
 				{
@@ -583,8 +583,8 @@ namespace pcomps.Antlr
 		// Token: 0x06000124 RID: 292 RVA: 0x00005034 File Offset: 0x00003234
 		public virtual void tab()
 		{
-			int column = getColumn();
-			int column2 = ((column - 1) / tabsize + 1) * tabsize + 1;
+			var column = getColumn();
+			var column2 = ((column - 1) / tabsize + 1) * tabsize + 1;
 			setColumn(column2);
 		}
 
@@ -750,12 +750,12 @@ namespace pcomps.Antlr
 		// Token: 0x06000139 RID: 313 RVA: 0x00005458 File Offset: 0x00003658
 		public virtual int testLiteralsTable(int ttype)
 		{
-			string text = this.text.ToString();
+			var text = this.text.ToString();
 			if (text == null || text == string.Empty)
 			{
 				return ttype;
 			}
-			object obj = literals[text];
+			var obj = literals[text];
 			if (obj != null)
 			{
 				return (int)obj;
@@ -770,7 +770,7 @@ namespace pcomps.Antlr
 			{
 				return ttype;
 			}
-			object obj = literals[someText];
+			var obj = literals[someText];
 			if (obj != null)
 			{
 				return (int)obj;
@@ -787,7 +787,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600013C RID: 316 RVA: 0x000054F4 File Offset: 0x000036F4
 		public virtual void traceIndent()
 		{
-			for (int i = 0; i < traceDepth; i++)
+			for (var i = 0; i < traceDepth; i++)
 			{
 				Console.Out.Write(" ");
 			}
@@ -941,7 +941,7 @@ namespace pcomps.Antlr
 			private void SetTokenType(string tokenTypeName)
 			{
 				this.tokenTypeName = tokenTypeName;
-				foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 				{
 					try
 					{

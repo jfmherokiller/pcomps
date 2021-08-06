@@ -31,7 +31,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				string result = sFilename;
+				var result = sFilename;
 				if (!FilenameValid)
 				{
 					result = "<unknown>";
@@ -56,7 +56,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				int result = iLineNumber;
+				var result = iLineNumber;
 				if (!LineInformationValid)
 				{
 					result = 0;
@@ -71,7 +71,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				int result = iColumnNumber;
+				var result = iColumnNumber;
 				if (!LineInformationValid)
 				{
 					result = 0;

@@ -52,7 +52,7 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroup result = null;
 			try
 			{
-				Stream manifestResourceStream = assembly.GetManifestResourceStream(
+				var manifestResourceStream = assembly.GetManifestResourceStream(
                     $"{namespaceRoot}.{groupName}.stg");
 				result = factory.CreateGroup(new StreamReader(manifestResourceStream), lexer, errorListener, superGroup);
 			}
@@ -78,7 +78,7 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplateGroupInterface result = null;
 			try
 			{
-				Stream manifestResourceStream = assembly.GetManifestResourceStream(
+				var manifestResourceStream = assembly.GetManifestResourceStream(
                     $"{namespaceRoot}.{interfaceName}.sti");
 				if (manifestResourceStream != null)
 				{

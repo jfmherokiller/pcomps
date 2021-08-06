@@ -49,8 +49,8 @@ namespace pcomps.Antlr.Runtime
 				string result;
 				if (start is IToken)
 				{
-					int tokenIndex = start.TokenIndex;
-					int num = stop.TokenIndex;
+					var tokenIndex = start.TokenIndex;
+					var num = stop.TokenIndex;
 					if (stop.Type == Antlr.Runtime.Token.EOF)
 					{
 						num = ((ITokenStream)input).Count;

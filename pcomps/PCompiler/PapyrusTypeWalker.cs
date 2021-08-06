@@ -53,7 +53,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C1F RID: 3103 RVA: 0x00049CD0 File Offset: 0x00047ED0
 		private ScriptObjectType GetKnownType(ScriptVariableType akType)
 		{
-			string text = akType.VarType;
+			var text = akType.VarType;
 			if (akType.IsArray)
 			{
 				text = akType.ArrayElementType;

@@ -23,7 +23,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				bool result = false;
+				var result = false;
 				if (bValid)
 				{
 					result = bDebug;
@@ -38,7 +38,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				bool result = false;
+				var result = false;
 				if (bValid)
 				{
 					result = bOptimize;
@@ -53,7 +53,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				string result = "";
+				var result = "";
 				if (bValid)
 				{
 					result = sOutputFolder;
@@ -68,7 +68,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				string result = "";
+				var result = "";
 				if (bValid)
 				{
 					result = sImportFolders;
@@ -83,7 +83,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				string result = "";
+				var result = "";
 				if (bValid)
 				{
 					result = sObjectName;
@@ -98,7 +98,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				string result = "";
+				var result = "";
 				if (bValid)
 				{
 					result = sFlagsFile;
@@ -113,7 +113,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				bool result = false;
+				var result = false;
 				if (bValid)
 				{
 					result = bNoAsm;
@@ -128,7 +128,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				bool result = false;
+				var result = false;
 				if (bValid)
 				{
 					result = bKeepAsm;
@@ -143,7 +143,7 @@ namespace pcomps.PapyrusCompiler
 		{
 			get
 			{
-				bool result = false;
+				var result = false;
 				if (bValid)
 				{
 					result = bAsmOnly;
@@ -214,7 +214,7 @@ namespace pcomps.PapyrusCompiler
 			foreach (var commandLineFlag in kCommandLineFlagInfo.Keys)
 			{
 				Console.Write("   -");
-				bool flag = true;
+				var flag = true;
 				foreach (var text in commandLineFlag.sFlags)
 				{
 					if (flag)
@@ -227,7 +227,7 @@ namespace pcomps.PapyrusCompiler
 						Console.Write("|{0}", text);
 					}
 				}
-				Type fieldType = kCommandLineFlagInfo[commandLineFlag].FieldType;
+				var fieldType = kCommandLineFlagInfo[commandLineFlag].FieldType;
 				if (fieldType == typeof(string))
 				{
 					Console.Write("=<string>");
@@ -243,10 +243,10 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000011 RID: 17 RVA: 0x00002408 File Offset: 0x00000608
 		private bool HandleArgument(string asFlag, string asValue)
 		{
-			bool result = true;
+			var result = true;
             if (kCommandLineFields.TryGetValue(asFlag, out var fieldInfo))
 			{
-				Type fieldType = fieldInfo.FieldType;
+				var fieldType = fieldInfo.FieldType;
 				if (fieldType == typeof(bool))
 				{
 					if (asValue != "")
@@ -280,7 +280,7 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000012 RID: 18 RVA: 0x000024B4 File Offset: 0x000006B4
 		private static bool ParseArgument(string asArg, out string asFlag, out string asValue)
 		{
-			bool result = true;
+			var result = true;
 			string text;
 			asValue = (text = "");
 			asFlag = text;
@@ -326,7 +326,7 @@ namespace pcomps.PapyrusCompiler
                 var customAttributes = fieldInfo.GetCustomAttributes(false);
                 foreach (var obj in customAttributes)
                 {
-                    CommandLineFlag commandLineFlag = (CommandLineFlag)obj;
+                    var commandLineFlag = (CommandLineFlag)obj;
                     foreach (var text in commandLineFlag.sFlags)
                     {
                         kCommandLineFields.Add(text.ToLowerInvariant(), fieldInfo);

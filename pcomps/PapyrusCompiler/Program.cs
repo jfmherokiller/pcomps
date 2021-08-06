@@ -12,7 +12,7 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000014 RID: 20 RVA: 0x00002628 File Offset: 0x00000828
 		private static void CompilerErrorHandler(object kSender, CompilerErrorEventArgs kArgs)
 		{
-			string value = string.Format("{0}({1},{2}): {3}\n", new object[]
+			var value = string.Format("{0}({1},{2}): {3}\n", new object[]
 			{
 				kArgs.Filename,
 				kArgs.LineNumber,
@@ -31,7 +31,7 @@ namespace pcomps.PapyrusCompiler
 		// Token: 0x06000016 RID: 22 RVA: 0x00002698 File Offset: 0x00000898
 		private static void CompilerThread()
 		{
-			Compiler compiler = new Compiler();
+			var compiler = new Compiler();
 			compiler.CompilerErrorHandler += CompilerErrorHandler;
 			compiler.CompilerNotifyHandler += CompilerNotifyHandler;
 			compiler.bDebug = kArgs.Debug;
@@ -56,8 +56,8 @@ namespace pcomps.PapyrusCompiler
 			int num;
 			while ((num = Interlocked.Increment(ref iLastFileNumber)) < FilenamesA.Length)
 			{
-				string text = FilenamesA[num];
-                string FileDirectory = Path.GetDirectoryName(text);
+				var text = FilenamesA[num];
+                var FileDirectory = Path.GetDirectoryName(text);
                 compiler.ImportFolders.Add(FileDirectory);
                 compiler.ImportFolders = compiler.ImportFolders;
                 if (Path.GetExtension(text).ToLowerInvariant() == ".psc")
@@ -92,17 +92,17 @@ namespace pcomps.PapyrusCompiler
 			kArgs = new CommandLineArgs(args);
 			if (kArgs.Valid)
 			{
-				bool flag = false;
+				var flag = false;
 				if (kArgs.All)
 				{
-					DirectoryInfo directoryInfo = new DirectoryInfo(kArgs.ObjectName);
+					var directoryInfo = new DirectoryInfo(kArgs.ObjectName);
 					if (directoryInfo.Exists)
 					{
-						FileInfo[] files = directoryInfo.GetFiles("*.psc");
+						var files = directoryInfo.GetFiles("*.psc");
 						if (files.Length > 0)
 						{
 							FilenamesA = new string[files.Length];
-							for (int i = 0; i < files.Length; i++)
+							for (var i = 0; i < files.Length; i++)
 							{
 								FilenamesA[i] = files[i].ToString();
 							}
@@ -126,25 +126,25 @@ namespace pcomps.PapyrusCompiler
 				}
 				if (FilenamesA != null && FilenamesA.Length > 0)
 				{
-					int num = Math.Min(FilenamesA.Length, Environment.ProcessorCount + 1);
+					var num = Math.Min(FilenamesA.Length, Environment.ProcessorCount + 1);
 					if (!kArgs.Quiet)
 					{
 						Console.Write("Starting {0} compile threads for {1} files...\n", num, FilenamesA.Length);
 					}
-					Thread[] array = new Thread[num];
-					for (int j = 0; j < num; j++)
+					var array = new Thread[num];
+					for (var j = 0; j < num; j++)
 					{
 						array[j] = new Thread(new ThreadStart(CompilerThread));
 						array[j].Start();
 					}
-					foreach (Thread thread in array)
+					foreach (var thread in array)
 					{
 						thread.Join();
 					}
 					if (!kArgs.Quiet)
 					{
 						Console.Write("\nBatch compile of {0} files finished. {1} succeeded, {2} failed.\n", FilenamesA.Length, iCompilesSucceeded, FilenamesA.Length - iCompilesSucceeded);
-						for (int l = 0; l < FailedCompiles.Count; l++)
+						for (var l = 0; l < FailedCompiles.Count; l++)
 						{
 							Console.WriteLine("Failed on {0}", FailedCompiles[l]);
 						}

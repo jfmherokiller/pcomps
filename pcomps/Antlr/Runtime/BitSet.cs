@@ -21,9 +21,9 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004CC RID: 1228 RVA: 0x0000EB50 File Offset: 0x0000CD50
 		public BitSet(IList items) : this(64)
 		{
-			for (int i = 0; i < items.Count; i++)
+			for (var i = 0; i < items.Count; i++)
 			{
-				int el = (int)items[i];
+				var el = (int)items[i];
 				Add(el);
 			}
 		}
@@ -37,7 +37,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004CF RID: 1231 RVA: 0x0000EBBC File Offset: 0x0000CDBC
 		public static BitSet Of(int el)
 		{
-			BitSet bitSet = new BitSet(el + 1);
+			var bitSet = new BitSet(el + 1);
 			bitSet.Add(el);
 			return bitSet;
 		}
@@ -45,7 +45,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004D0 RID: 1232 RVA: 0x0000EBDC File Offset: 0x0000CDDC
 		public static BitSet Of(int a, int b)
 		{
-			BitSet bitSet = new BitSet(Math.Max(a, b) + 1);
+			var bitSet = new BitSet(Math.Max(a, b) + 1);
 			bitSet.Add(a);
 			bitSet.Add(b);
 			return bitSet;
@@ -54,7 +54,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004D1 RID: 1233 RVA: 0x0000EC08 File Offset: 0x0000CE08
 		public static BitSet Of(int a, int b, int c)
 		{
-			BitSet bitSet = new BitSet();
+			var bitSet = new BitSet();
 			bitSet.Add(a);
 			bitSet.Add(b);
 			bitSet.Add(c);
@@ -64,7 +64,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004D2 RID: 1234 RVA: 0x0000EC34 File Offset: 0x0000CE34
 		public static BitSet Of(int a, int b, int c, int d)
 		{
-			BitSet bitSet = new BitSet();
+			var bitSet = new BitSet();
 			bitSet.Add(a);
 			bitSet.Add(b);
 			bitSet.Add(c);
@@ -79,7 +79,7 @@ namespace pcomps.Antlr.Runtime
 			{
 				return this;
 			}
-			BitSet bitSet = (BitSet)Clone();
+			var bitSet = (BitSet)Clone();
 			bitSet.OrInPlace(a);
 			return bitSet;
 		}
@@ -87,7 +87,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004D4 RID: 1236 RVA: 0x0000EC90 File Offset: 0x0000CE90
 		public virtual void Add(int el)
 		{
-			int num = WordNumber(el);
+			var num = WordNumber(el);
 			if (num >= bits.Length)
 			{
 				GrowToInclude(el);
@@ -98,8 +98,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004D5 RID: 1237 RVA: 0x0000ECD0 File Offset: 0x0000CED0
 		public virtual void GrowToInclude(int bit)
 		{
-			int num = Math.Max(bits.Length << 1, NumWordsToHold(bit));
-			ulong[] destinationArray = new ulong[num];
+			var num = Math.Max(bits.Length << 1, NumWordsToHold(bit));
+			var destinationArray = new ulong[num];
 			Array.Copy(bits, 0, destinationArray, 0, bits.Length);
 			bits = destinationArray;
 		}
@@ -115,8 +115,8 @@ namespace pcomps.Antlr.Runtime
 			{
 				SetSize(a.bits.Length);
 			}
-			int num = Math.Min(bits.Length, a.bits.Length);
-			for (int i = num - 1; i >= 0; i--)
+			var num = Math.Min(bits.Length, a.bits.Length);
+			for (var i = num - 1; i >= 0; i--)
 			{
 				bits[i] |= a.bits[i];
 			}
@@ -128,7 +128,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				for (int i = bits.Length - 1; i >= 0; i--)
+				for (var i = bits.Length - 1; i >= 0; i--)
 				{
 					if (bits[i] != 0UL)
 					{
@@ -162,13 +162,13 @@ namespace pcomps.Antlr.Runtime
 		{
 			get
 			{
-				int num = 0;
-				for (int i = bits.Length - 1; i >= 0; i--)
+				var num = 0;
+				for (var i = bits.Length - 1; i >= 0; i--)
 				{
-					ulong num2 = bits[i];
+					var num2 = bits[i];
 					if (num2 != 0UL)
 					{
-						for (int j = 63; j >= 0; j--)
+						for (var j = 63; j >= 0; j--)
 						{
 							if ((num2 & 1UL << j) != 0UL)
 							{
@@ -188,14 +188,14 @@ namespace pcomps.Antlr.Runtime
 			{
 				return false;
 			}
-			int num = WordNumber(el);
+			var num = WordNumber(el);
 			return num < bits.Length && (bits[num] & BitMask(el)) != 0UL;
 		}
 
 		// Token: 0x060004DB RID: 1243 RVA: 0x0000EEE0 File Offset: 0x0000D0E0
 		public virtual void Remove(int el)
 		{
-			int num = WordNumber(el);
+			var num = WordNumber(el);
 			if (num < bits.Length)
 			{
 				bits[num] &= ~BitMask(el);
@@ -217,9 +217,9 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004DE RID: 1246 RVA: 0x0000EF34 File Offset: 0x0000D134
 		public virtual int[] ToArray()
 		{
-			int[] array = new int[Count];
-			int num = 0;
-			for (int i = 0; i < bits.Length << 6; i++)
+			var array = new int[Count];
+			var num = 0;
+			for (var i = 0; i < bits.Length << 6; i++)
 			{
 				if (Member(i))
 				{
@@ -250,11 +250,11 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004E2 RID: 1250 RVA: 0x0000EF9C File Offset: 0x0000D19C
 		public virtual string ToString(string[] tokenNames)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			string value = ",";
-			bool flag = false;
+			var stringBuilder = new StringBuilder();
+			var value = ",";
+			var flag = false;
 			stringBuilder.Append('{');
-			for (int i = 0; i < bits.Length << 6; i++)
+			for (var i = 0; i < bits.Length << 6; i++)
 			{
 				if (Member(i))
 				{
@@ -284,9 +284,9 @@ namespace pcomps.Antlr.Runtime
 			{
 				return false;
 			}
-			BitSet bitSet = (BitSet)other;
-			int num = Math.Min(bits.Length, bitSet.bits.Length);
-			for (int i = 0; i < num; i++)
+			var bitSet = (BitSet)other;
+			var num = Math.Min(bits.Length, bitSet.bits.Length);
+			for (var i = 0; i < num; i++)
 			{
 				if (bits[i] != bitSet.bits[i])
 				{
@@ -295,7 +295,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (bits.Length > num)
 			{
-				for (int j = num + 1; j < bits.Length; j++)
+				for (var j = num + 1; j < bits.Length; j++)
 				{
 					if (bits[j] != 0UL)
 					{
@@ -305,7 +305,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (bitSet.bits.Length > num)
 			{
-				for (int k = num + 1; k < bitSet.bits.Length; k++)
+				for (var k = num + 1; k < bitSet.bits.Length; k++)
 				{
 					if (bitSet.bits[k] != 0UL)
 					{
@@ -325,15 +325,15 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004E5 RID: 1253 RVA: 0x0000F118 File Offset: 0x0000D318
 		private static ulong BitMask(int bitNumber)
 		{
-			int num = bitNumber & MOD_MASK;
+			var num = bitNumber & MOD_MASK;
 			return 1UL << num;
 		}
 
 		// Token: 0x060004E6 RID: 1254 RVA: 0x0000F134 File Offset: 0x0000D334
 		private void SetSize(int nwords)
 		{
-			ulong[] destinationArray = new ulong[nwords];
-			int length = Math.Min(nwords, bits.Length);
+			var destinationArray = new ulong[nwords];
+			var length = Math.Min(nwords, bits.Length);
 			Array.Copy(bits, 0, destinationArray, 0, length);
 			bits = destinationArray;
 		}

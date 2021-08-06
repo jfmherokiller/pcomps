@@ -42,7 +42,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000949 RID: 2377 RVA: 0x0001AC80 File Offset: 0x00018E80
 		public virtual void Rollback(string programName, int instructionIndex)
 		{
-			IList list = (IList)programs[programName];
+			var list = (IList)programs[programName];
 			if (list != null)
 			{
 				programs[programName] = ((ArrayList)list).GetRange(0, instructionIndex);
@@ -107,7 +107,7 @@ namespace pcomps.Antlr.Runtime
 		public virtual void InsertBefore(string programName, int index, object text)
 		{
 			RewriteOperation value = new InsertBeforeOp(index, text, this);
-			IList program = GetProgram(programName);
+			var program = GetProgram(programName);
 			program.Add(value);
 		}
 
@@ -152,7 +152,7 @@ namespace pcomps.Antlr.Runtime
 				}));
 			}
 			RewriteOperation rewriteOperation = new ReplaceOp(from, to, text, this);
-			IList program = GetProgram(programName);
+			var program = GetProgram(programName);
 			rewriteOperation.instructionIndex = program.Count;
 			program.Add(rewriteOperation);
 		}
@@ -208,7 +208,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000961 RID: 2401 RVA: 0x0001AEF0 File Offset: 0x000190F0
 		protected virtual int GetLastRewriteTokenIndex(string programName)
 		{
-			object obj = lastRewriteTokenIndexes[programName];
+			var obj = lastRewriteTokenIndexes[programName];
 			if (obj == null)
 			{
 				return -1;
@@ -225,7 +225,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000963 RID: 2403 RVA: 0x0001AF30 File Offset: 0x00019130
 		protected virtual IList GetProgram(string name)
 		{
-			IList list = (IList)programs[name];
+			var list = (IList)programs[name];
 			if (list == null)
 			{
 				list = InitializeProgram(name);
@@ -250,8 +250,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000966 RID: 2406 RVA: 0x0001AF98 File Offset: 0x00019198
 		public virtual string ToOriginalString(int start, int end)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var num = start;
 			while (num >= 0 && num <= end && num < tokens.Count)
 			{
 				stringBuilder.Append(Get(num).Text);
@@ -281,7 +281,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600096A RID: 2410 RVA: 0x0001B028 File Offset: 0x00019228
 		public virtual string ToString(string programName, int start, int end)
 		{
-			IList list = (IList)programs[programName];
+			var list = (IList)programs[programName];
 			if (end > tokens.Count - 1)
 			{
 				end = tokens.Count - 1;
@@ -294,14 +294,14 @@ namespace pcomps.Antlr.Runtime
 			{
 				return ToOriginalString(start, end);
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			IDictionary dictionary = ReduceToSingleOperationPerIndex(list);
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var dictionary = ReduceToSingleOperationPerIndex(list);
+			var num = start;
 			while (num <= end && num < tokens.Count)
 			{
-				RewriteOperation rewriteOperation = (RewriteOperation)dictionary[num];
+				var rewriteOperation = (RewriteOperation)dictionary[num];
 				dictionary.Remove(num);
-				IToken token = (IToken)tokens[num];
+				var token = (IToken)tokens[num];
 				if (rewriteOperation == null)
 				{
 					stringBuilder.Append(token.Text);
@@ -314,9 +314,9 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (end == tokens.Count - 1)
 			{
-				foreach (object obj in dictionary.Values)
+				foreach (var obj in dictionary.Values)
 				{
-					InsertBeforeOp insertBeforeOp = (InsertBeforeOp)obj;
+					var insertBeforeOp = (InsertBeforeOp)obj;
 					if (insertBeforeOp.index >= tokens.Count - 1)
 					{
 						stringBuilder.Append(insertBeforeOp.text);
@@ -329,33 +329,33 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600096B RID: 2411 RVA: 0x0001B180 File Offset: 0x00019380
 		protected IDictionary ReduceToSingleOperationPerIndex(IList rewrites)
 		{
-			for (int i = 0; i < rewrites.Count; i++)
+			for (var i = 0; i < rewrites.Count; i++)
 			{
-				RewriteOperation rewriteOperation = (RewriteOperation)rewrites[i];
+				var rewriteOperation = (RewriteOperation)rewrites[i];
                 if (rewriteOperation is ReplaceOp)
                 {
-                    ReplaceOp replaceOp = (ReplaceOp)rewrites[i];
-                    IList kindOfOps = GetKindOfOps(rewrites, typeof(InsertBeforeOp), i);
-                    for (int j = 0; j < kindOfOps.Count; j++)
+                    var replaceOp = (ReplaceOp)rewrites[i];
+                    var kindOfOps = GetKindOfOps(rewrites, typeof(InsertBeforeOp), i);
+                    for (var j = 0; j < kindOfOps.Count; j++)
                     {
-                        InsertBeforeOp insertBeforeOp = (InsertBeforeOp)kindOfOps[j];
+                        var insertBeforeOp = (InsertBeforeOp)kindOfOps[j];
                         if (insertBeforeOp.index >= replaceOp.index && insertBeforeOp.index <= replaceOp.lastIndex)
                         {
                             rewrites[insertBeforeOp.instructionIndex] = null;
                         }
                     }
-                    IList kindOfOps2 = GetKindOfOps(rewrites, typeof(ReplaceOp), i);
-                    for (int k = 0; k < kindOfOps2.Count; k++)
+                    var kindOfOps2 = GetKindOfOps(rewrites, typeof(ReplaceOp), i);
+                    for (var k = 0; k < kindOfOps2.Count; k++)
                     {
-                        ReplaceOp replaceOp2 = (ReplaceOp)kindOfOps2[k];
+                        var replaceOp2 = (ReplaceOp)kindOfOps2[k];
                         if (replaceOp2.index >= replaceOp.index && replaceOp2.lastIndex <= replaceOp.lastIndex)
                         {
                             rewrites[replaceOp2.instructionIndex] = null;
                         }
                         else
                         {
-                            bool flag = replaceOp2.lastIndex < replaceOp.index || replaceOp2.index > replaceOp.lastIndex;
-                            bool flag2 = replaceOp2.index == replaceOp.index && replaceOp2.lastIndex == replaceOp.lastIndex;
+                            var flag = replaceOp2.lastIndex < replaceOp.index || replaceOp2.index > replaceOp.lastIndex;
+                            var flag2 = replaceOp2.index == replaceOp.index && replaceOp2.lastIndex == replaceOp.lastIndex;
                             if (!flag && !flag2)
                             {
                                 throw new ArgumentOutOfRangeException(string.Concat(new object[]
@@ -370,26 +370,26 @@ namespace pcomps.Antlr.Runtime
                     }
                 }
             }
-			for (int l = 0; l < rewrites.Count; l++)
+			for (var l = 0; l < rewrites.Count; l++)
 			{
-				RewriteOperation rewriteOperation2 = (RewriteOperation)rewrites[l];
+				var rewriteOperation2 = (RewriteOperation)rewrites[l];
                 if (rewriteOperation2 is InsertBeforeOp)
                 {
-                    InsertBeforeOp insertBeforeOp2 = (InsertBeforeOp)rewrites[l];
-                    IList kindOfOps3 = GetKindOfOps(rewrites, typeof(InsertBeforeOp), l);
-                    for (int m = 0; m < kindOfOps3.Count; m++)
+                    var insertBeforeOp2 = (InsertBeforeOp)rewrites[l];
+                    var kindOfOps3 = GetKindOfOps(rewrites, typeof(InsertBeforeOp), l);
+                    for (var m = 0; m < kindOfOps3.Count; m++)
                     {
-                        InsertBeforeOp insertBeforeOp3 = (InsertBeforeOp)kindOfOps3[m];
+                        var insertBeforeOp3 = (InsertBeforeOp)kindOfOps3[m];
                         if (insertBeforeOp3.index == insertBeforeOp2.index)
                         {
                             insertBeforeOp2.text = CatOpText(insertBeforeOp2.text, insertBeforeOp3.text);
                             rewrites[insertBeforeOp3.instructionIndex] = null;
                         }
                     }
-                    IList kindOfOps4 = GetKindOfOps(rewrites, typeof(ReplaceOp), l);
-                    for (int n = 0; n < kindOfOps4.Count; n++)
+                    var kindOfOps4 = GetKindOfOps(rewrites, typeof(ReplaceOp), l);
+                    for (var n = 0; n < kindOfOps4.Count; n++)
                     {
-                        ReplaceOp replaceOp3 = (ReplaceOp)kindOfOps4[n];
+                        var replaceOp3 = (ReplaceOp)kindOfOps4[n];
                         if (insertBeforeOp2.index == replaceOp3.index)
                         {
                             replaceOp3.text = CatOpText(insertBeforeOp2.text, replaceOp3.text);
@@ -409,9 +409,9 @@ namespace pcomps.Antlr.Runtime
                 }
             }
 			IDictionary dictionary = new Hashtable();
-			for (int num = 0; num < rewrites.Count; num++)
+			for (var num = 0; num < rewrites.Count; num++)
 			{
-				RewriteOperation rewriteOperation3 = (RewriteOperation)rewrites[num];
+				var rewriteOperation3 = (RewriteOperation)rewrites[num];
 				if (rewriteOperation3 != null)
 				{
 					if (dictionary[rewriteOperation3.index] != null)
@@ -427,8 +427,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600096C RID: 2412 RVA: 0x0001B55C File Offset: 0x0001975C
 		protected string CatOpText(object a, object b)
 		{
-			string str = string.Empty;
-			string str2 = string.Empty;
+			var str = string.Empty;
+			var str2 = string.Empty;
 			if (a != null)
 			{
 				str = a.ToString();
@@ -450,10 +450,10 @@ namespace pcomps.Antlr.Runtime
 		protected IList GetKindOfOps(IList rewrites, Type kind, int before)
 		{
 			IList list = new ArrayList();
-			int num = 0;
+			var num = 0;
 			while (num < before && num < rewrites.Count)
 			{
-				RewriteOperation rewriteOperation = (RewriteOperation)rewrites[num];
+				var rewriteOperation = (RewriteOperation)rewrites[num];
 				if (rewriteOperation != null)
 				{
 					if (rewriteOperation.GetType() == kind)
@@ -475,8 +475,8 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000970 RID: 2416 RVA: 0x0001B61C File Offset: 0x0001981C
 		public virtual string ToDebugString(int start, int end)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var num = start;
 			while (num >= 0 && num <= end && num < tokens.Count)
 			{
 				stringBuilder.Append(Get(num));
@@ -506,8 +506,8 @@ namespace pcomps.Antlr.Runtime
 			// Token: 0x06000972 RID: 2418 RVA: 0x0001B678 File Offset: 0x00019878
 			public virtual int Compare(object o1, object o2)
 			{
-				RewriteOperation rewriteOperation = (RewriteOperation)o1;
-				RewriteOperation rewriteOperation2 = (RewriteOperation)o2;
+				var rewriteOperation = (RewriteOperation)o1;
+				var rewriteOperation2 = (RewriteOperation)o2;
 				if (rewriteOperation.index < rewriteOperation2.index)
 				{
 					return -1;
@@ -540,8 +540,8 @@ namespace pcomps.Antlr.Runtime
 			// Token: 0x06000975 RID: 2421 RVA: 0x0001B6E4 File Offset: 0x000198E4
 			public override string ToString()
 			{
-				string text = GetType().FullName;
-				int num = text.IndexOf('$');
+				var text = GetType().FullName;
+				var num = text.IndexOf('$');
 				text = text.Substring(num + 1, text.Length - (num + 1));
 				return string.Concat(new object[]
 				{

@@ -25,7 +25,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			object result = ParseNode();
+			var result = ParseNode();
 			if (ttype == -1)
 			{
 				return result;
@@ -42,7 +42,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				return null;
 			}
 			ttype = tokenizer.NextToken();
-			object obj = ParseNode();
+			var obj = ParseNode();
 			if (obj == null)
 			{
 				return null;
@@ -51,12 +51,12 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				if (ttype == 1)
 				{
-					object child = ParseTree();
+					var child = ParseTree();
 					adaptor.AddChild(obj, child);
 				}
 				else
 				{
-					object obj2 = ParseNode();
+					var obj2 = ParseNode();
 					if (obj2 == null)
 					{
 						return null;
@@ -107,13 +107,13 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			string text2 = tokenizer.sval.ToString();
+			var text2 = tokenizer.sval.ToString();
 			ttype = tokenizer.NextToken();
 			if (text2.Equals("nil"))
 			{
 				return adaptor.GetNilNode();
 			}
-			string text3 = text2;
+			var text3 = text2;
 			string text4 = null;
 			if (ttype == 4)
 			{
@@ -121,12 +121,12 @@ namespace pcomps.Antlr.Runtime.Tree
 				text3 = text4;
 				ttype = tokenizer.NextToken();
 			}
-			int tokenType = wizard.GetTokenType(text2);
+			var tokenType = wizard.GetTokenType(text2);
 			if (tokenType == 0)
 			{
 				return null;
 			}
-			object obj = adaptor.Create(tokenType, text3);
+			var obj = adaptor.Create(tokenType, text3);
 			if (text != null && obj.GetType() == typeof(TreeWizard.TreePattern))
 			{
 				((TreeWizard.TreePattern)obj).label = text;

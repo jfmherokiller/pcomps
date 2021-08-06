@@ -41,7 +41,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (anchors_sp + 1 >= anchors.Length)
 			{
-				int[] destinationArray = new int[anchors.Length * 2];
+				var destinationArray = new int[anchors.Length * 2];
 				Array.Copy(anchors, 0, destinationArray, 0, anchors.Length - 1);
 				anchors = destinationArray;
 			}
@@ -58,10 +58,10 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F04 RID: 3844 RVA: 0x0006DC24 File Offset: 0x0006BE24
 		public virtual int GetIndentationWidth()
 		{
-			int num = 0;
-			for (int i = 0; i < indents.Count; i++)
+			var num = 0;
+			for (var i = 0; i < indents.Count; i++)
 			{
-				string text = (string)indents[i];
+				var text = (string)indents[i];
 				if (text != null)
 				{
 					num += text.Length;
@@ -73,8 +73,8 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F05 RID: 3845 RVA: 0x0006DC68 File Offset: 0x0006BE68
 		public virtual int Write(string str)
 		{
-			int num = 0;
-			foreach (char c in str)
+			var num = 0;
+			foreach (var c in str)
 			{
 				if (c == '\n')
 				{
@@ -102,25 +102,25 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F07 RID: 3847 RVA: 0x0006DCE8 File Offset: 0x0006BEE8
 		public int Write(string str, string wrap)
 		{
-			int num = WriteWrapSeparator(wrap);
+			var num = WriteWrapSeparator(wrap);
 			return num + Write(str);
 		}
 
 		// Token: 0x06000F08 RID: 3848 RVA: 0x0006DD08 File Offset: 0x0006BF08
 		public int WriteWrapSeparator(string wrap)
 		{
-			int num = 0;
+			var num = 0;
 			if (lineWidth != -1 && wrap != null && !atStartOfLine && charPosition >= lineWidth)
 			{
-				foreach (char c in wrap)
+				foreach (var c in wrap)
 				{
 					if (c == '\n')
 					{
 						num++;
 						output.Write(c);
 						charPosition = 0;
-						int indentationWidth = GetIndentationWidth();
-						int num2 = 0;
+						var indentationWidth = GetIndentationWidth();
+						var num2 = 0;
 						if (anchors_sp >= 0)
 						{
 							num2 = anchors[anchors_sp];
@@ -148,10 +148,10 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F09 RID: 3849 RVA: 0x0006DDE0 File Offset: 0x0006BFE0
 		public virtual int Indent()
 		{
-			int num = 0;
-			for (int i = 0; i < indents.Count; i++)
+			var num = 0;
+			for (var i = 0; i < indents.Count; i++)
 			{
-				string text = (string)indents[i];
+				var text = (string)indents[i];
 				if (text != null)
 				{
 					num += text.Length;
@@ -165,7 +165,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F0A RID: 3850 RVA: 0x0006DE40 File Offset: 0x0006C040
 		public int Indent(int spaces)
 		{
-			for (int i = 1; i <= spaces; i++)
+			for (var i = 1; i <= spaces; i++)
 			{
 				output.Write(' ');
 			}

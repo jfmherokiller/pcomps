@@ -27,7 +27,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002B2 RID: 690 RVA: 0x00008F30 File Offset: 0x00007130
 		public virtual TokenStream getStream(string sname)
 		{
-			TokenStream tokenStream = (TokenStream)inputStreamNames[sname];
+			var tokenStream = (TokenStream)inputStreamNames[sname];
 			if (tokenStream == null)
 			{
 				throw new ArgumentException($"TokenStream {sname} not found");
@@ -53,7 +53,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002B4 RID: 692 RVA: 0x00008F9C File Offset: 0x0000719C
 		public virtual TokenStream pop()
 		{
-			TokenStream tokenStream = (TokenStream)streamStack.Pop();
+			var tokenStream = (TokenStream)streamStack.Pop();
 			select(tokenStream);
 			return tokenStream;
 		}

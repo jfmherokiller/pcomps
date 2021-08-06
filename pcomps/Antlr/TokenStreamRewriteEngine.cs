@@ -52,7 +52,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600027C RID: 636 RVA: 0x00008774 File Offset: 0x00006974
 		public void rollback(string programName, int instructionIndex)
 		{
-			ArrayList arrayList = (ArrayList)programs[programName];
+			var arrayList = (ArrayList)programs[programName];
 			if (arrayList != null)
 			{
 				programs[programName] = arrayList.GetRange(0, instructionIndex);
@@ -80,14 +80,14 @@ namespace pcomps.Antlr
 		// Token: 0x06000280 RID: 640 RVA: 0x000087F8 File Offset: 0x000069F8
 		protected void addToSortedRewriteList(string programName, RewriteOperation op)
 		{
-			ArrayList arrayList = (ArrayList)getProgram(programName);
+			var arrayList = (ArrayList)getProgram(programName);
 			if (op.index >= getLastRewriteTokenIndex(programName))
 			{
 				arrayList.Add(op);
 				setLastRewriteTokenIndex(programName, op.index);
 				return;
 			}
-			int num = arrayList.BinarySearch(op, RewriteOperationComparer.Default);
+			var num = arrayList.BinarySearch(op, RewriteOperationComparer.Default);
 			if (num < 0)
 			{
 				arrayList.Insert(-num - 1, op);
@@ -241,8 +241,8 @@ namespace pcomps.Antlr
 		// Token: 0x06000299 RID: 665 RVA: 0x00008B00 File Offset: 0x00006D00
 		public string ToOriginalString(int start, int end)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var num = start;
 			while (num >= 0 && num <= end && num < tokens.Count)
 			{
 				stringBuilder.Append(getToken(num).getText());
@@ -272,19 +272,19 @@ namespace pcomps.Antlr
 		// Token: 0x0600029D RID: 669 RVA: 0x00008BA0 File Offset: 0x00006DA0
 		public string ToString(string programName, int start, int end)
 		{
-			IList list = (IList)programs[programName];
+			var list = (IList)programs[programName];
 			if (list == null)
 			{
 				return null;
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = 0;
-			int num2 = start;
+			var stringBuilder = new StringBuilder();
+			var num = 0;
+			var num2 = start;
 			while (num2 >= 0 && num2 <= end && num2 < tokens.Count)
 			{
 				if (num < list.Count)
 				{
-					RewriteOperation rewriteOperation = (RewriteOperation)list[num];
+					var rewriteOperation = (RewriteOperation)list[num];
 					while (num2 == rewriteOperation.index && num < list.Count)
 					{
 						num2 = rewriteOperation.execute(stringBuilder);
@@ -301,9 +301,9 @@ namespace pcomps.Antlr
 					num2++;
 				}
 			}
-			for (int i = num; i < list.Count; i++)
+			for (var i = num; i < list.Count; i++)
 			{
-				RewriteOperation rewriteOperation2 = (RewriteOperation)list[i];
+				var rewriteOperation2 = (RewriteOperation)list[i];
 				rewriteOperation2.execute(stringBuilder);
 			}
 			return stringBuilder.ToString();
@@ -318,8 +318,8 @@ namespace pcomps.Antlr
 		// Token: 0x0600029F RID: 671 RVA: 0x00008CA4 File Offset: 0x00006EA4
 		public string ToDebugString(int start, int end)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			int num = start;
+			var stringBuilder = new StringBuilder();
+			var num = start;
 			while (num >= 0 && num <= end && num < tokens.Count)
 			{
 				stringBuilder.Append(getToken(num));
@@ -337,7 +337,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002A1 RID: 673 RVA: 0x00008D04 File Offset: 0x00006F04
 		protected int getLastRewriteTokenIndex(string programName)
 		{
-			object obj = lastRewriteTokenIndexes[programName];
+			var obj = lastRewriteTokenIndexes[programName];
 			if (obj == null)
 			{
 				return -1;
@@ -354,7 +354,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002A3 RID: 675 RVA: 0x00008D4C File Offset: 0x00006F4C
 		protected IList getProgram(string name)
 		{
-			IList list = (IList)programs[name];
+			var list = (IList)programs[name];
 			if (list == null)
 			{
 				list = initializeProgram(name);
@@ -474,8 +474,8 @@ namespace pcomps.Antlr
 			// Token: 0x060002AC RID: 684 RVA: 0x00008E6C File Offset: 0x0000706C
 			public virtual int Compare(object o1, object o2)
 			{
-				RewriteOperation rewriteOperation = (RewriteOperation)o1;
-				RewriteOperation rewriteOperation2 = (RewriteOperation)o2;
+				var rewriteOperation = (RewriteOperation)o1;
+				var rewriteOperation2 = (RewriteOperation)o2;
 				if (rewriteOperation.index < rewriteOperation2.index)
 				{
 					return -1;

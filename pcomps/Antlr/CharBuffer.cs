@@ -19,10 +19,10 @@ namespace pcomps.Antlr
 			{
 				syncConsume();
 				int num;
-				for (int i = amount + markerOffset - queue.Count; i > 0; i -= num)
+				for (var i = amount + markerOffset - queue.Count; i > 0; i -= num)
 				{
 					num = input.Read(buf, 0, 16);
-					for (int j = 0; j < num; j++)
+					for (var j = 0; j < num; j++)
 					{
 						queue.Add(buf[j]);
 					}

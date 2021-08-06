@@ -6,15 +6,15 @@
 		// Token: 0x0600051A RID: 1306 RVA: 0x0000F6FC File Offset: 0x0000D8FC
 		public int Predict(IIntStream input)
 		{
-			int marker = input.Mark();
-			int num = 0;
+			var marker = input.Mark();
+			var num = 0;
 			int result;
 			try
 			{
 				char c;
 				for (;;)
 				{
-					int num2 = (int)special[num];
+					var num2 = (int)special[num];
 					if (num2 >= 0)
 					{
 						num = specialStateTransitionHandler(this, num2, input);
@@ -33,7 +33,7 @@
 						c = (char)input.LA(1);
 						if (c >= min[num] && c <= max[num])
 						{
-							int num3 = (int)transition[num][(int)(c - min[num])];
+							var num3 = (int)transition[num][(int)(c - min[num])];
 							if (num3 < 0)
 							{
 								if (eot[num] < 0)
@@ -93,7 +93,7 @@
 				recognizer.state.failed = true;
 				return;
 			}
-			NoViableAltException ex = new NoViableAltException(Description, decisionNumber, s, input);
+			var ex = new NoViableAltException(Description, decisionNumber, s, input);
 			Error(ex);
 			throw ex;
 		}
@@ -122,18 +122,18 @@
 		// Token: 0x0600051F RID: 1311 RVA: 0x0000F8E8 File Offset: 0x0000DAE8
 		public static short[] UnpackEncodedString(string encodedString)
 		{
-			int num = 0;
-			for (int i = 0; i < encodedString.Length; i += 2)
+			var num = 0;
+			for (var i = 0; i < encodedString.Length; i += 2)
 			{
 				num += (int)encodedString[i];
 			}
-			short[] array = new short[num];
-			int num2 = 0;
-			for (int j = 0; j < encodedString.Length; j += 2)
+			var array = new short[num];
+			var num2 = 0;
+			for (var j = 0; j < encodedString.Length; j += 2)
 			{
-				char c = encodedString[j];
-				char c2 = encodedString[j + 1];
-				for (int k = 1; k <= (int)c; k++)
+				var c = encodedString[j];
+				var c2 = encodedString[j + 1];
+				for (var k = 1; k <= (int)c; k++)
 				{
 					array[num2++] = (short)c2;
 				}
@@ -144,8 +144,8 @@
 		// Token: 0x06000520 RID: 1312 RVA: 0x0000F974 File Offset: 0x0000DB74
 		public static short[][] UnpackEncodedStringArray(string[] encodedStrings)
 		{
-			short[][] array = new short[encodedStrings.Length][];
-			for (int i = 0; i < encodedStrings.Length; i++)
+			var array = new short[encodedStrings.Length][];
+			for (var i = 0; i < encodedStrings.Length; i++)
 			{
 				array[i] = UnpackEncodedString(encodedStrings[i]);
 			}
@@ -155,18 +155,18 @@
 		// Token: 0x06000521 RID: 1313 RVA: 0x0000F9AC File Offset: 0x0000DBAC
 		public static char[] UnpackEncodedStringToUnsignedChars(string encodedString)
 		{
-			int num = 0;
-			for (int i = 0; i < encodedString.Length; i += 2)
+			var num = 0;
+			for (var i = 0; i < encodedString.Length; i += 2)
 			{
 				num += (int)encodedString[i];
 			}
-			char[] array = new char[num];
-			int num2 = 0;
-			for (int j = 0; j < encodedString.Length; j += 2)
+			var array = new char[num];
+			var num2 = 0;
+			for (var j = 0; j < encodedString.Length; j += 2)
 			{
-				char c = encodedString[j];
-				char c2 = encodedString[j + 1];
-				for (int k = 1; k <= (int)c; k++)
+				var c = encodedString[j];
+				var c2 = encodedString[j + 1];
+				for (var k = 1; k <= (int)c; k++)
 				{
 					array[num2++] = c2;
 				}

@@ -73,7 +73,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return payload.ToString();
 			}
-			IToken token = (IToken)payload;
+			var token = (IToken)payload;
 			if (token.Type == Token.EOF)
 			{
 				return "<EOF>";
@@ -84,16 +84,16 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006A5 RID: 1701 RVA: 0x000128E0 File Offset: 0x00010AE0
 		public string ToStringWithHiddenTokens()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (hiddenTokens != null)
 			{
-				for (int i = 0; i < hiddenTokens.Count; i++)
+				for (var i = 0; i < hiddenTokens.Count; i++)
 				{
-					IToken token = (IToken)hiddenTokens[i];
+					var token = (IToken)hiddenTokens[i];
 					stringBuilder.Append(token.Text);
 				}
 			}
-			string text = ToString();
+			var text = ToString();
 			if (text != "<EOF>")
 			{
 				stringBuilder.Append(text);
@@ -104,7 +104,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006A6 RID: 1702 RVA: 0x00012960 File Offset: 0x00010B60
 		public string ToInputString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			_ToStringLeaves(stringBuilder);
 			return stringBuilder.ToString();
 		}
@@ -117,10 +117,10 @@ namespace pcomps.Antlr.Runtime.Tree
 				buf.Append(ToStringWithHiddenTokens());
 				return;
 			}
-			int num = 0;
+			var num = 0;
 			while (children != null && num < children.Count)
 			{
-				ParseTree parseTree = (ParseTree)children[num];
+				var parseTree = (ParseTree)children[num];
 				parseTree._ToStringLeaves(buf);
 				num++;
 			}

@@ -51,7 +51,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006AF RID: 1711 RVA: 0x00012A9C File Offset: 0x00010C9C
 		protected override object GetMissingSymbol(IIntStream input, RecognitionException e, int expectedTokenType, BitSet follow)
 		{
-			string text = $"<missing {TokenNames[expectedTokenType]}>";
+			var text = $"<missing {TokenNames[expectedTokenType]}>";
 			return new CommonTree(new CommonToken(expectedTokenType, text));
 		}
 
@@ -67,14 +67,14 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			state.errorRecovery = false;
 			state.failed = false;
-			object t = input.LT(1);
+			var t = input.LT(1);
 			if (input.TreeAdaptor.GetChildCount(t) == 0)
 			{
 				input.Consume();
 				return;
 			}
-			int num = 0;
-			int nodeType = input.TreeAdaptor.GetNodeType(t);
+			var num = 0;
+			var nodeType = input.TreeAdaptor.GetNodeType(t);
 			while (nodeType != Token.EOF && (nodeType != 3 || num != 0))
 			{
 				input.Consume();
@@ -128,7 +128,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			if (this is TreeParser)
 			{
-				ITreeAdaptor treeAdaptor = ((ITreeNodeStream)e.Input).TreeAdaptor;
+				var treeAdaptor = ((ITreeNodeStream)e.Input).TreeAdaptor;
 				e.Token = treeAdaptor.GetToken(e.Node);
 				if (e.Token == null)
 				{

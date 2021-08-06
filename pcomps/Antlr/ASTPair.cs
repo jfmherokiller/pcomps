@@ -37,8 +37,8 @@ namespace pcomps.Antlr
 		// Token: 0x0600007C RID: 124 RVA: 0x0000352C File Offset: 0x0000172C
 		public override string ToString()
 		{
-			string text = (root == null) ? "null" : root.getText();
-			string text2 = (child == null) ? "null" : child.getText();
+			var text = (root == null) ? "null" : root.getText();
+			var text2 = (child == null) ? "null" : child.getText();
 			return string.Concat(new string[]
 			{
 				"[",

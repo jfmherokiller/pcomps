@@ -14,7 +14,7 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				switch (mismatchType)
 				{
 				case CharTypeEnum.CharType:
@@ -47,11 +47,11 @@ namespace pcomps.Antlr
 				{
 					stringBuilder.Append(
                         $"expecting {((mismatchType == CharTypeEnum.NotSetType) ? "NOT " : "")}one of (");
-					int[] array = bset.toArray();
-					for (int i = 0; i < array.Length; i++)
-					{
-						appendCharName(stringBuilder, array[i]);
-					}
+					var array = bset.toArray();
+					foreach (var t in array)
+                    {
+                        appendCharName(stringBuilder, t);
+                    }
 					stringBuilder.Append("), found ");
 					appendCharName(stringBuilder, foundChar);
 					break;

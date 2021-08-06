@@ -46,8 +46,8 @@ namespace pcomps.Antlr.Runtime
 			{
 				return Token.EOF_TOKEN;
 			}
-			int num = p;
-			for (int i = 1; i < k; i++)
+			var num = p;
+			for (var i = 1; i < k; i++)
 			{
 				num = SkipOffTokenChannels(num + 1);
 			}
@@ -107,10 +107,10 @@ namespace pcomps.Antlr.Runtime
 			{
 				stop = tokens.Count - 1;
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = start; i <= stop; i++)
+			var stringBuilder = new StringBuilder();
+			for (var i = start; i <= stop; i++)
 			{
-				IToken token = (IToken)tokens[i];
+				var token = (IToken)tokens[i];
 				stringBuilder.Append(token.Text);
 			}
 			return stringBuilder.ToString();
@@ -209,12 +209,12 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000909 RID: 2313 RVA: 0x0001A058 File Offset: 0x00018258
 		protected virtual void FillBuffer()
 		{
-			int num = 0;
-			IToken token = tokenSource.NextToken();
+			var num = 0;
+			var token = tokenSource.NextToken();
 			while (token != null && token.Type != -1)
 			{
-				bool flag = false;
-                object obj = channelOverrideMap?[token.Type];
+				var flag = false;
+                var obj = channelOverrideMap?[token.Type];
                 if (obj != null)
                 {
                     token.Channel = (int)obj;
@@ -242,7 +242,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600090A RID: 2314 RVA: 0x0001A154 File Offset: 0x00018354
 		protected virtual int SkipOffTokenChannels(int i)
 		{
-			int count = tokens.Count;
+			var count = tokens.Count;
 			while (i < count && ((IToken)tokens[i]).Channel != channel)
 			{
 				i++;
@@ -322,9 +322,9 @@ namespace pcomps.Antlr.Runtime
 				return null;
 			}
 			IList list = new ArrayList();
-			for (int i = start; i <= stop; i++)
+			for (var i = start; i <= stop; i++)
 			{
-				IToken token = (IToken)tokens[i];
+				var token = (IToken)tokens[i];
 				if (types == null || types.Member(token.Type))
 				{
 					list.Add(token);
@@ -364,8 +364,8 @@ namespace pcomps.Antlr.Runtime
 			{
 				return null;
 			}
-			int num = p;
-			for (int i = 1; i <= k; i++)
+			var num = p;
+			for (var i = 1; i <= k; i++)
 			{
 				num = SkipOffTokenChannelsReverse(num - 1);
 			}

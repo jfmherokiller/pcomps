@@ -10,11 +10,11 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		// Token: 0x0600102B RID: 4139 RVA: 0x00071AC0 File Offset: 0x0006FCC0
 		public static string ListToString(IList coll)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (coll != null)
 			{
 				stringBuilder.Append("[");
-				for (int i = 0; i < coll.Count; i++)
+				for (var i = 0; i < coll.Count; i++)
 				{
 					if (i > 0)
 					{
@@ -41,14 +41,14 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		// Token: 0x0600102C RID: 4140 RVA: 0x00071B50 File Offset: 0x0006FD50
 		public static string DictionaryToString(IDictionary dict)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (dict != null)
 			{
 				stringBuilder.Append("{");
-				int num = 0;
-				foreach (object obj in dict)
+				var num = 0;
+				foreach (var obj in dict)
 				{
-					DictionaryEntry dictionaryEntry = (DictionaryEntry)obj;
+					var dictionaryEntry = (DictionaryEntry)obj;
 					if (num > 0)
 					{
 						stringBuilder.Append(", ");
@@ -70,7 +70,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 		{
 			try
 			{
-				object obj = enumerator.Current;
+				var obj = enumerator.Current;
 				return false;
 			}
 			catch (InvalidOperationException)

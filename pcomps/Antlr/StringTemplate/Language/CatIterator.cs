@@ -32,7 +32,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			if (currentIteratorIndex < iterators.Count)
 			{
-				IEnumerator enumerator = (IEnumerator)iterators[currentIteratorIndex];
+				var enumerator = (IEnumerator)iterators[currentIteratorIndex];
 				if (enumerator.MoveNext())
 				{
 					currentObject = enumerator.Current;
@@ -56,10 +56,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001120 RID: 4384 RVA: 0x0007BF58 File Offset: 0x0007A158
 		public override string ToString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			while (MoveNext())
 			{
-				object value = Current;
+				var value = Current;
 				stringBuilder.Append(value);
 			}
 			return stringBuilder.ToString();
@@ -71,9 +71,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 			currentIteratorIndex = 0;
 			currentObject = null;
 			hasCurrent = false;
-			foreach (object obj in iterators)
+			foreach (var obj in iterators)
 			{
-				IEnumerator enumerator2 = (IEnumerator)obj;
+				var enumerator2 = (IEnumerator)obj;
 				enumerator2.Reset();
 			}
 		}

@@ -60,11 +60,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			try
 			{
 				match(4);
-				IToken token = LT(1);
+				var token = LT(1);
 				match(5);
 				groupI.Name = token.getText();
 				match(6);
-				int num = 0;
+				var num = 0;
 				while (LA(1) == 5 || LA(1) == 7)
 				{
 					template(groupI);
@@ -86,7 +86,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void template(StringTemplateGroupInterface groupI)
 		{
 			IToken token = null;
-			HashList formalArgs = new HashList();
+			var formalArgs = new HashList();
 			try
 			{
 				switch (LA(1))
@@ -100,10 +100,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				throw new NoViableAltException(LT(1), getFilename());
 				IL_50:
-				IToken token2 = LT(1);
+				var token2 = LT(1);
 				match(5);
 				match(8);
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 5)
 				{
 					if (num != 9)
@@ -117,7 +117,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				match(9);
 				match(6);
-				string text = token2.getText();
+				var text = token2.getText();
 				groupI.DefineTemplate(text, formalArgs, token != null);
 			}
 			catch (RecognitionException ex)
@@ -130,16 +130,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011AD RID: 4525 RVA: 0x00082050 File Offset: 0x00080250
 		public HashList args()
 		{
-			HashList hashList = new HashList();
+			var hashList = new HashList();
 			try
 			{
-				IToken token = LT(1);
+				var token = LT(1);
 				match(5);
 				hashList[token.getText()] = new FormalArgument(token.getText());
 				while (LA(1) == 10)
 				{
 					match(10);
-					IToken token2 = LT(1);
+					var token2 = LT(1);
 					match(5);
 					hashList[token2.getText()] = new FormalArgument(token2.getText());
 				}
@@ -160,7 +160,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011AF RID: 4527 RVA: 0x000820F8 File Offset: 0x000802F8
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 2L;
 			return array;
 		}
@@ -168,7 +168,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011B0 RID: 4528 RVA: 0x00082114 File Offset: 0x00080314
 		private static long[] mk_tokenSet_1_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 162L;
 			return array;
 		}
@@ -176,7 +176,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011B1 RID: 4529 RVA: 0x00082134 File Offset: 0x00080334
 		private static long[] mk_tokenSet_2_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 512L;
 			return array;
 		}

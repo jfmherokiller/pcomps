@@ -35,9 +35,9 @@ namespace pcomps.Antlr.Runtime.Tree
 			this.elements = new List<T>();
 			if (elements != null)
 			{
-				foreach (object obj in elements)
+				foreach (var obj in elements)
 				{
-					T item = (T)((object)obj);
+					var item = (T)((object)obj);
 					this.elements.Add(item);
 				}
 			}
@@ -88,7 +88,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x0600087B RID: 2171 RVA: 0x00018260 File Offset: 0x00016460
 		protected object _Next()
 		{
-			int count = Count;
+			var count = Count;
 			if (count == 0)
 			{
 				throw new RewriteEmptyStreamException(elementDescription);

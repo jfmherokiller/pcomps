@@ -45,13 +45,13 @@ namespace pcomps.Antlr.Runtime
 			try
 			{
 				data = new char[size];
-				int num = 0;
+				var num = 0;
 				int num2;
 				do
 				{
 					if (num + readChunkSize > data.Length)
 					{
-						char[] array = new char[data.Length * 2];
+						var array = new char[data.Length * 2];
 						Array.Copy(data, 0, array, 0, data.Length);
 						data = array;
 					}

@@ -101,11 +101,11 @@ namespace pcomps.Antlr
 			{
 				consumeFirst();
 			}
-			IHiddenStreamToken hiddenStreamToken = LA(1);
+			var hiddenStreamToken = LA(1);
 			hiddenStreamToken.setHiddenBefore(lastHiddenToken);
 			lastHiddenToken = null;
 			consume();
-			IHiddenStreamToken hiddenStreamToken2 = hiddenStreamToken;
+			var hiddenStreamToken2 = hiddenStreamToken;
 			while (hideMask.member(LA(1).Type) || discardMask.member(LA(1).Type))
 			{
 				if (hideMask.member(LA(1).Type))

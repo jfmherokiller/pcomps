@@ -43,10 +43,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011BB RID: 4539 RVA: 0x000822F0 File Offset: 0x000804F0
 		public override string ToString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			while (MoveNext())
 			{
-				object value = Current;
+				var value = Current;
 				stringBuilder.Append(value);
 			}
 			return stringBuilder.ToString();

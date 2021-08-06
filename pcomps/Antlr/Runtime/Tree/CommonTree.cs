@@ -154,7 +154,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				}
 				return;
 			}
-			for (int i = 0; i < children.Count; i++)
+			for (var i = 0; i < children.Count; i++)
 			{
 				((CommonTree)children[i]).SetUnknownTokenBoundaries();
 			}
@@ -164,8 +164,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (children.Count > 0)
 			{
-				CommonTree commonTree = (CommonTree)children[0];
-				CommonTree commonTree2 = (CommonTree)children[children.Count - 1];
+				var commonTree = (CommonTree)children[0];
+				var commonTree2 = (CommonTree)children[children.Count - 1];
 				startIndex = commonTree.TokenStartIndex;
 				stopIndex = commonTree2.TokenStopIndex;
 			}

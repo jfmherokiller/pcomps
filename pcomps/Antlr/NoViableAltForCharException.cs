@@ -25,7 +25,7 @@ namespace pcomps.Antlr
 		{
 			get
 			{
-				StringBuilder stringBuilder = new StringBuilder("unexpected char: ");
+				var stringBuilder = new StringBuilder("unexpected char: ");
 				if (foundChar >= ' ' && foundChar <= '~')
 				{
 					stringBuilder.Append('\'');
@@ -35,8 +35,8 @@ namespace pcomps.Antlr
 				else
 				{
 					stringBuilder.Append("0x");
-					StringBuilder stringBuilder2 = stringBuilder;
-					int num = (int)foundChar;
+					var stringBuilder2 = stringBuilder;
+					var num = (int)foundChar;
 					stringBuilder2.Append(num.ToString("X"));
 				}
 				return stringBuilder.ToString();

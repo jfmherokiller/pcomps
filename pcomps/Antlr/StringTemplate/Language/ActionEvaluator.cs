@@ -32,11 +32,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001070 RID: 4208 RVA: 0x000724BC File Offset: 0x000706BC
 		public int action(AST _t)
 		{
-			int result = 0;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var result = 0;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				object o = expr(_t);
+				var o = expr(_t);
 				_t = retTree_;
 				result = chunk.WriteAttribute(self, o, @out);
 			}
@@ -53,11 +53,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object expr(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
 				_t ??= ASTNULL;
-				int type = _t.Type;
+				var type = _t.Type;
 				if (type <= 18)
 				{
 					switch (type)
@@ -78,20 +78,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_1E8;
 					case 9:
 					{
-						AST ast = _t;
+						var ast = _t;
 						if (_t != ASTNULL)
 						{
-							StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+							var stringTemplateAST2 = (StringTemplateAST)_t;
 						}
 						match(_t, 9);
 						_t = _t.getFirstChild();
-						object o = expr(_t);
+						var o = expr(_t);
 						_t = retTree_;
 						_t = ast;
 						_t = _t.getNextSibling();
-						StringWriter stringWriter = new StringWriter();
-						IStringTemplateWriter output = self.Group.CreateInstanceOfTemplateWriter(stringWriter);
-						int num = chunk.WriteAttribute(self, o, output);
+						var stringWriter = new StringWriter();
+						var output = self.Group.CreateInstanceOfTemplateWriter(stringWriter);
+						var num = chunk.WriteAttribute(self, o, output);
 						if (num > 0)
 						{
 							result = stringWriter.ToString();
@@ -121,16 +121,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 22:
 					{
-						AST ast2 = _t;
+						var ast2 = _t;
 						if (_t != ASTNULL)
 						{
-							StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
+							var stringTemplateAST3 = (StringTemplateAST)_t;
 						}
 						match(_t, 22);
 						_t = _t.getFirstChild();
-						object a = expr(_t);
+						var a = expr(_t);
 						_t = retTree_;
-						object b = expr(_t);
+						var b = expr(_t);
 						_t = retTree_;
 						result = chunk.Add(a, b);
 						_t = ast2;
@@ -174,9 +174,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object templateApplication(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
-			ArrayList arrayList = new ArrayList();
-			ArrayList arrayList2 = new ArrayList();
+			var stringTemplateAST = (StringTemplateAST)_t;
+			var arrayList = new ArrayList();
+			var arrayList2 = new ArrayList();
 			try
             {
                 _t ??= ASTNULL;
@@ -184,16 +184,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 				case 4:
 				{
-					AST ast = _t;
+					var ast = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+						var stringTemplateAST2 = (StringTemplateAST)_t;
 					}
 					match(_t, 4);
 					_t = _t.getFirstChild();
-					object obj = expr(_t);
+					var obj = expr(_t);
 					_t = retTree_;
-					int num = 0;
+					var num = 0;
 					for (;;)
 					{
 						_t ??= ASTNULL;
@@ -216,14 +216,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				case 5:
 				{
-					AST ast2 = _t;
+					var ast2 = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
+						var stringTemplateAST3 = (StringTemplateAST)_t;
 					}
 					match(_t, 5);
 					_t = _t.getFirstChild();
-					int num2 = 0;
+					var num2 = 0;
 					for (;;)
 					{
 						_t ??= ASTNULL;
@@ -231,7 +231,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							break;
 						}
-						object obj = expr(_t);
+						var obj = expr(_t);
 						_t = retTree_;
 						arrayList2.Add(obj);
 						num2++;
@@ -242,14 +242,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST4 = (StringTemplateAST)_t;
+						var stringTemplateAST4 = (StringTemplateAST)_t;
 					}
 					match(_t, 20);
 					_t = _t.getNextSibling();
-					StringTemplateAST stringTemplateAST5 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST5 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					match(_t, 31);
 					_t = _t.getNextSibling();
-					StringTemplate stringTemplate = stringTemplateAST5.StringTemplate;
+					var stringTemplate = stringTemplateAST5.StringTemplate;
 					arrayList.Add(stringTemplate);
 					result = chunk.ApplyTemplateToListOfAttributes(self, arrayList2, stringTemplateAST5.StringTemplate);
 					_t = ast2;
@@ -273,12 +273,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object attribute(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			string propertyName = null;
 			try
 			{
 				_t ??= ASTNULL;
-				int type = _t.Type;
+				var type = _t.Type;
 				if (type != 18)
 				{
 					if (type != 24)
@@ -287,7 +287,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 						case 31:
 						{
-							StringTemplateAST stringTemplateAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							var stringTemplateAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 							match(_t, 31);
 							_t = _t.getNextSibling();
 							result = stringTemplateAST2.getText();
@@ -303,7 +303,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						case 32:
 						{
-							StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							var stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 							match(_t, 32);
 							_t = _t.getNextSibling();
 							result = stringTemplateAST3.getText();
@@ -311,7 +311,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						case 33:
 						{
-							StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							var stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 							match(_t, 33);
 							_t = _t.getNextSibling();
 							result = int.Parse(stringTemplateAST4.getText());
@@ -323,41 +323,41 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						AST ast = _t;
+						var ast = _t;
 						if (_t != ASTNULL)
 						{
-							StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
+							var stringTemplateAST5 = (StringTemplateAST)_t;
 						}
 						match(_t, 24);
 						_t = _t.getFirstChild();
-						object o = expr(_t);
+						var o = expr(_t);
 						_t = retTree_;
 						if (_t == null)
 						{
 							_t = ASTNULL;
 						}
-						int type2 = _t.Type;
+						var type2 = _t.Type;
 						if (type2 != 9)
 						{
 							if (type2 != 18)
 							{
 								throw new NoViableAltException(_t);
 							}
-							StringTemplateAST stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+							var stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 							match(_t, 18);
 							_t = _t.getNextSibling();
 							propertyName = stringTemplateAST6.getText();
 						}
 						else
 						{
-							AST ast2 = _t;
+							var ast2 = _t;
 							if (_t != ASTNULL)
 							{
-								StringTemplateAST stringTemplateAST7 = (StringTemplateAST)_t;
+								var stringTemplateAST7 = (StringTemplateAST)_t;
 							}
 							match(_t, 9);
 							_t = _t.getFirstChild();
-							object obj = expr(_t);
+							var obj = expr(_t);
 							_t = retTree_;
 							_t = ast2;
 							_t = _t.getNextSibling();
@@ -373,7 +373,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					StringTemplateAST stringTemplateAST8 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST8 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					match(_t, 18);
 					_t = _t.getNextSibling();
 					result = self.GetAttribute(stringTemplateAST8.getText());
@@ -392,14 +392,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object templateInclude(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			string text = null;
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 7);
 				_t = _t.getFirstChild();
@@ -407,7 +407,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					_t = ASTNULL;
 				}
-				int type = _t.Type;
+				var type = _t.Type;
 				StringTemplateAST argumentsAST;
 				if (type != 9)
 				{
@@ -415,10 +415,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						throw new NoViableAltException(_t);
 					}
-					StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					match(_t, 18);
 					_t = _t.getNextSibling();
-					StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -429,16 +429,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					AST ast2 = _t;
+					var ast2 = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
+						var stringTemplateAST5 = (StringTemplateAST)_t;
 					}
 					match(_t, 9);
 					_t = _t.getFirstChild();
-					object obj = expr(_t);
+					var obj = expr(_t);
 					_t = retTree_;
-					StringTemplateAST stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST6 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -472,13 +472,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object function(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 11);
 				_t = _t.getFirstChild();
@@ -492,11 +492,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
+						var stringTemplateAST3 = (StringTemplateAST)_t;
 					}
 					match(_t, 25);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.First(attribute);
 					break;
@@ -505,11 +505,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST4 = (StringTemplateAST)_t;
+						var stringTemplateAST4 = (StringTemplateAST)_t;
 					}
 					match(_t, 26);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.Rest(attribute);
 					break;
@@ -518,11 +518,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
+						var stringTemplateAST5 = (StringTemplateAST)_t;
 					}
 					match(_t, 27);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.Last(attribute);
 					break;
@@ -531,11 +531,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST6 = (StringTemplateAST)_t;
+						var stringTemplateAST6 = (StringTemplateAST)_t;
 					}
 					match(_t, 28);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.Length(attribute);
 					break;
@@ -544,11 +544,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST7 = (StringTemplateAST)_t;
+						var stringTemplateAST7 = (StringTemplateAST)_t;
 					}
 					match(_t, 29);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.Strip(attribute);
 					break;
@@ -557,11 +557,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST8 = (StringTemplateAST)_t;
+						var stringTemplateAST8 = (StringTemplateAST)_t;
 					}
 					match(_t, 30);
 					_t = _t.getNextSibling();
-					object attribute = singleFunctionArg(_t);
+					var attribute = singleFunctionArg(_t);
 					_t = retTree_;
 					result = chunk.Trunc(attribute);
 					break;
@@ -585,19 +585,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object list(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			IList list = new ArrayList();
 			result = new CatIterator(list);
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 13);
 				_t = _t.getFirstChild();
-				int num = 0;
+				var num = 0;
 				for (;;)
 				{
 					if (_t == null)
@@ -608,7 +608,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						break;
 					}
-					object obj = expr(_t);
+					var obj = expr(_t);
 					_t = retTree_;
 					if (obj != null)
 					{
@@ -636,17 +636,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001077 RID: 4215 RVA: 0x000730E4 File Offset: 0x000712E4
 		public void template(AST _t, ArrayList templatesToApply)
 		{
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 10);
 				_t = _t.getFirstChild() ?? ASTNULL;
-                int type = _t.Type;
+                var type = _t.Type;
 				if (type != 9)
 				{
 					if (type != 18)
@@ -655,27 +655,27 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							throw new NoViableAltException(_t);
 						}
-						StringTemplateAST stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+						var stringTemplateAST3 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 						match(_t, 31);
 						_t = _t.getNextSibling();
-						StringTemplate stringTemplate = stringTemplateAST3.StringTemplate;
+						var stringTemplate = stringTemplateAST3.StringTemplate;
 						stringTemplate.Group = self.Group;
 						templatesToApply.Add(stringTemplate);
 					}
 					else
 					{
-						StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+						var stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 						match(_t, 18);
 						_t = _t.getNextSibling();
-						StringTemplateAST argumentsAST = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+						var argumentsAST = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 						if (_t == null)
 						{
 							throw new MismatchedTokenException();
 						}
 						_t = _t.getNextSibling();
-						string text = stringTemplateAST4.getText();
-						StringTemplateGroup group = self.Group;
-						StringTemplate embeddedInstanceOf = group.GetEmbeddedInstanceOf(self, text);
+						var text = stringTemplateAST4.getText();
+						var group = self.Group;
+						var embeddedInstanceOf = group.GetEmbeddedInstanceOf(self, text);
 						if (embeddedInstanceOf != null)
 						{
 							embeddedInstanceOf.ArgumentsAST = argumentsAST;
@@ -685,16 +685,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					AST ast2 = _t;
+					var ast2 = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST5 = (StringTemplateAST)_t;
+						var stringTemplateAST5 = (StringTemplateAST)_t;
 					}
 					match(_t, 9);
 					_t = _t.getFirstChild();
-					object obj = expr(_t);
+					var obj = expr(_t);
 					_t = retTree_;
-					StringTemplateAST argumentsAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var argumentsAST2 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					if (_t == null)
 					{
 						throw new MismatchedTokenException();
@@ -702,9 +702,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 					_t = _t.getNextSibling();
 					if (obj != null)
 					{
-						string name = obj.ToString();
-						StringTemplateGroup group2 = self.Group;
-						StringTemplate embeddedInstanceOf2 = group2.GetEmbeddedInstanceOf(self, name);
+						var name = obj.ToString();
+						var group2 = self.Group;
+						var embeddedInstanceOf2 = group2.GetEmbeddedInstanceOf(self, name);
 						if (embeddedInstanceOf2 != null)
 						{
 							embeddedInstanceOf2.ArgumentsAST = argumentsAST2;
@@ -729,13 +729,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object singleFunctionArg(AST _t)
 		{
 			object result = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 12);
 				_t = _t.getFirstChild();
@@ -756,12 +756,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001079 RID: 4217 RVA: 0x000733A4 File Offset: 0x000715A4
 		public bool ifCondition(AST _t)
 		{
-			bool result = false;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var result = false;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
 				_t ??= ASTNULL;
-				int type = _t.Type;
+				var type = _t.Type;
 				object a;
 				switch (type)
 				{
@@ -790,10 +790,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_FA;
 					case 21:
 					{
-						AST ast = _t;
+						var ast = _t;
 						if (_t != ASTNULL)
 						{
-							StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+							var stringTemplateAST2 = (StringTemplateAST)_t;
 						}
 						match(_t, 21);
 						_t = _t.getFirstChild();
@@ -839,12 +839,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public IDictionary argList(AST _t, StringTemplate embedded, IDictionary initialContext)
 		{
 			IDictionary dictionary = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			dictionary = initialContext ?? new Hashtable();
             try
 			{
 				_t ??= ASTNULL;
-				int type = _t.Type;
+				var type = _t.Type;
 				if (type != 6)
 				{
 					if (type != 12)
@@ -856,10 +856,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					AST ast = _t;
+					var ast = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+						var stringTemplateAST2 = (StringTemplateAST)_t;
 					}
 					match(_t, 6);
 					_t = _t.getFirstChild();
@@ -889,11 +889,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600107B RID: 4219 RVA: 0x000735CC File Offset: 0x000717CC
 		public void argumentAssignment(AST _t, StringTemplate embedded, IDictionary argumentContext)
 		{
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
 				_t ??= ASTNULL;
-				int type = _t.Type;
+				var type = _t.Type;
 				if (type != 19)
 				{
 					if (type != 36)
@@ -902,7 +902,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+						var stringTemplateAST2 = (StringTemplateAST)_t;
 					}
 					match(_t, 36);
 					_t = _t.getNextSibling();
@@ -910,17 +910,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					AST ast = _t;
+					var ast = _t;
 					if (_t != ASTNULL)
 					{
-						StringTemplateAST stringTemplateAST3 = (StringTemplateAST)_t;
+						var stringTemplateAST3 = (StringTemplateAST)_t;
 					}
 					match(_t, 19);
 					_t = _t.getFirstChild();
-					StringTemplateAST stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
+					var stringTemplateAST4 = (_t == ASTNULL) ? null : ((StringTemplateAST)_t);
 					match(_t, 18);
 					_t = _t.getNextSibling();
-					object obj = expr(_t);
+					var obj = expr(_t);
 					_t = retTree_;
 					_t = ast;
 					_t = _t.getNextSibling();
@@ -941,31 +941,31 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600107C RID: 4220 RVA: 0x000736E0 File Offset: 0x000718E0
 		public void singleTemplateArg(AST _t, StringTemplate embedded, IDictionary argumentContext)
 		{
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
+			var stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				AST ast = _t;
+				var ast = _t;
 				if (_t != ASTNULL)
 				{
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
+					var stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 12);
 				_t = _t.getFirstChild();
-				object obj = expr(_t);
+				var obj = expr(_t);
 				_t = retTree_;
 				_t = ast;
 				_t = _t.getNextSibling();
 				if (obj != null)
 				{
 					string name = null;
-					bool flag = false;
-					HashList hashList = (HashList)embedded.FormalArguments;
+					var flag = false;
+					var hashList = (HashList)embedded.FormalArguments;
 					if (hashList != null)
 					{
-						ICollection keys = hashList.Keys;
+						var keys = hashList.Keys;
 						if (keys.Count == 1)
 						{
-							IEnumerator enumerator = keys.GetEnumerator();
+							var enumerator = keys.GetEnumerator();
 							enumerator.MoveNext();
 							name = (string)enumerator.Current;
 						}
@@ -1006,7 +1006,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600107E RID: 4222 RVA: 0x00073808 File Offset: 0x00071A08
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 15053630128L;
 			return array;
 		}

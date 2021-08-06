@@ -22,7 +22,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BC3 RID: 3011 RVA: 0x00046470 File Offset: 0x00044670
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
@@ -56,8 +56,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BC8 RID: 3016 RVA: 0x000464D0 File Offset: 0x000446D0
 		public void mSCRIPTNAME()
 		{
-			int type = 37;
-			int channel = 0;
+			var type = 37;
+			var channel = 0;
 			Match("scriptname");
 			if (!state.failed)
 			{
@@ -69,8 +69,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BC9 RID: 3017 RVA: 0x00046514 File Offset: 0x00044714
 		public void mFUNCTION()
 		{
-			int type = 6;
-			int channel = 0;
+			var type = 6;
+			var channel = 0;
 			Match("function");
 			if (!state.failed)
 			{
@@ -82,8 +82,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCA RID: 3018 RVA: 0x00046558 File Offset: 0x00044758
 		public void mENDFUNCTION()
 		{
-			int type = 45;
-			int channel = 0;
+			var type = 45;
+			var channel = 0;
 			Match("endfunction");
 			if (!state.failed)
 			{
@@ -95,8 +95,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCB RID: 3019 RVA: 0x0004659C File Offset: 0x0004479C
 		public void mEVENT()
 		{
-			int type = 7;
-			int channel = 0;
+			var type = 7;
+			var channel = 0;
 			Match("event");
 			if (!state.failed)
 			{
@@ -108,8 +108,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCC RID: 3020 RVA: 0x000465E0 File Offset: 0x000447E0
 		public void mENDEVENT()
 		{
-			int type = 48;
-			int channel = 0;
+			var type = 48;
+			var channel = 0;
 			Match("endevent");
 			if (!state.failed)
 			{
@@ -121,8 +121,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCD RID: 3021 RVA: 0x00046624 File Offset: 0x00044824
 		public void mNATIVE()
 		{
-			int type = 47;
-			int channel = 0;
+			var type = 47;
+			var channel = 0;
 			Match("native");
 			if (!state.failed)
 			{
@@ -134,8 +134,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCE RID: 3022 RVA: 0x00046668 File Offset: 0x00044868
 		public void mGLOBAL()
 		{
-			int type = 46;
-			int channel = 0;
+			var type = 46;
+			var channel = 0;
 			Match("global");
 			if (!state.failed)
 			{
@@ -147,8 +147,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BCF RID: 3023 RVA: 0x000466AC File Offset: 0x000448AC
 		public void mRETURN()
 		{
-			int type = 83;
-			int channel = 0;
+			var type = 83;
+			var channel = 0;
 			Match("return");
 			if (!state.failed)
 			{
@@ -160,8 +160,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD0 RID: 3024 RVA: 0x000466F0 File Offset: 0x000448F0
 		public void mAS()
 		{
-			int type = 79;
-			int channel = 0;
+			var type = 79;
+			var channel = 0;
 			Match("as");
 			if (!state.failed)
 			{
@@ -173,8 +173,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD1 RID: 3025 RVA: 0x00046734 File Offset: 0x00044934
 		public void mIF()
 		{
-			int type = 84;
-			int channel = 0;
+			var type = 84;
+			var channel = 0;
 			Match("if");
 			if (!state.failed)
 			{
@@ -186,8 +186,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD2 RID: 3026 RVA: 0x00046778 File Offset: 0x00044978
 		public void mELSEIF()
 		{
-			int type = 86;
-			int channel = 0;
+			var type = 86;
+			var channel = 0;
 			Match("elseif");
 			if (!state.failed)
 			{
@@ -199,8 +199,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD3 RID: 3027 RVA: 0x000467BC File Offset: 0x000449BC
 		public void mELSE()
 		{
-			int type = 87;
-			int channel = 0;
+			var type = 87;
+			var channel = 0;
 			Match("else");
 			if (!state.failed)
 			{
@@ -212,8 +212,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD4 RID: 3028 RVA: 0x00046800 File Offset: 0x00044A00
 		public void mENDIF()
 		{
-			int type = 85;
-			int channel = 0;
+			var type = 85;
+			var channel = 0;
 			Match("endif");
 			if (!state.failed)
 			{
@@ -225,8 +225,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD5 RID: 3029 RVA: 0x00046844 File Offset: 0x00044A44
 		public void mEXTENDS()
 		{
-			int type = 39;
-			int channel = 0;
+			var type = 39;
+			var channel = 0;
 			Match("extends");
 			if (!state.failed)
 			{
@@ -238,8 +238,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD6 RID: 3030 RVA: 0x00046888 File Offset: 0x00044A88
 		public void mIMPORT()
 		{
-			int type = 42;
-			int channel = 0;
+			var type = 42;
+			var channel = 0;
 			Match("import");
 			if (!state.failed)
 			{
@@ -251,8 +251,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD7 RID: 3031 RVA: 0x000468CC File Offset: 0x00044ACC
 		public void mAUTO()
 		{
-			int type = 50;
-			int channel = 0;
+			var type = 50;
+			var channel = 0;
 			Match("auto");
 			if (!state.failed)
 			{
@@ -264,8 +264,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD8 RID: 3032 RVA: 0x00046910 File Offset: 0x00044B10
 		public void mAUTOREADONLY()
 		{
-			int type = 56;
-			int channel = 0;
+			var type = 56;
+			var channel = 0;
 			Match("autoreadonly");
 			if (!state.failed)
 			{
@@ -277,8 +277,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BD9 RID: 3033 RVA: 0x00046954 File Offset: 0x00044B54
 		public void mSTATE()
 		{
-			int type = 51;
-			int channel = 0;
+			var type = 51;
+			var channel = 0;
 			Match("state");
 			if (!state.failed)
 			{
@@ -290,8 +290,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDA RID: 3034 RVA: 0x00046998 File Offset: 0x00044B98
 		public void mENDSTATE()
 		{
-			int type = 52;
-			int channel = 0;
+			var type = 52;
+			var channel = 0;
 			Match("endstate");
 			if (!state.failed)
 			{
@@ -303,8 +303,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDB RID: 3035 RVA: 0x000469DC File Offset: 0x00044BDC
 		public void mPROPERTY()
 		{
-			int type = 54;
-			int channel = 0;
+			var type = 54;
+			var channel = 0;
 			Match("property");
 			if (!state.failed)
 			{
@@ -316,8 +316,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDC RID: 3036 RVA: 0x00046A20 File Offset: 0x00044C20
 		public void mENDPROPERTY()
 		{
-			int type = 53;
-			int channel = 0;
+			var type = 53;
+			var channel = 0;
 			Match("endproperty");
 			if (!state.failed)
 			{
@@ -329,8 +329,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDD RID: 3037 RVA: 0x00046A64 File Offset: 0x00044C64
 		public void mWHILE()
 		{
-			int type = 88;
-			int channel = 0;
+			var type = 88;
+			var channel = 0;
 			Match("while");
 			if (!state.failed)
 			{
@@ -342,8 +342,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDE RID: 3038 RVA: 0x00046AA8 File Offset: 0x00044CA8
 		public void mENDWHILE()
 		{
-			int type = 89;
-			int channel = 0;
+			var type = 89;
+			var channel = 0;
 			Match("endwhile");
 			if (!state.failed)
 			{
@@ -355,9 +355,9 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BDF RID: 3039 RVA: 0x00046AEC File Offset: 0x00044CEC
 		public void mBASETYPE()
 		{
-			int type = 55;
-			int channel = 0;
-			int num = input.LA(1);
+			var type = 55;
+			var channel = 0;
+			var num = input.LA(1);
 			int num2;
 			if (num <= 102)
 			{
@@ -390,7 +390,7 @@ namespace pcomps.PCompiler
 				state.failed = true;
 				return;
 			}
-			NoViableAltException ex = new NoViableAltException("", 1, 0, input);
+			var ex = new NoViableAltException("", 1, 0, input);
 			throw ex;
 			IL_7B:
 			switch (num2)
@@ -431,8 +431,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE0 RID: 3040 RVA: 0x00046C14 File Offset: 0x00044E14
 		public void mNONE()
 		{
-			int type = 92;
-			int channel = 0;
+			var type = 92;
+			var channel = 0;
 			Match("none");
 			if (!state.failed)
 			{
@@ -444,8 +444,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE1 RID: 3041 RVA: 0x00046C58 File Offset: 0x00044E58
 		public void mNEW()
 		{
-			int type = 80;
-			int channel = 0;
+			var type = 80;
+			var channel = 0;
 			Match("new");
 			if (!state.failed)
 			{
@@ -457,8 +457,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE2 RID: 3042 RVA: 0x00046C9C File Offset: 0x00044E9C
 		public void mLENGTH()
 		{
-			int type = 82;
-			int channel = 0;
+			var type = 82;
+			var channel = 0;
 			Match("length");
 			if (!state.failed)
 			{
@@ -470,9 +470,9 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE3 RID: 3043 RVA: 0x00046CE0 File Offset: 0x00044EE0
 		public void mBOOL()
 		{
-			int type = 91;
-			int channel = 0;
-			int num = input.LA(1);
+			var type = 91;
+			var channel = 0;
+			var num = input.LA(1);
 			int num2;
 			if (num == 116)
 			{
@@ -489,7 +489,7 @@ namespace pcomps.PCompiler
 					state.failed = true;
 					return;
 				}
-				NoViableAltException ex = new NoViableAltException("", 2, 0, input);
+				var ex = new NoViableAltException("", 2, 0, input);
 				throw ex;
 			}
 			switch (num2)
@@ -516,21 +516,21 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE4 RID: 3044 RVA: 0x00046DA8 File Offset: 0x00044FA8
 		public void mID()
 		{
-			int type = 38;
-			int channel = 0;
+			var type = 38;
+			var channel = 0;
 			if ((input.LA(1) >= 65 && input.LA(1) <= 90) || input.LA(1) == 95 || (input.LA(1) >= 97 && input.LA(1) <= 122))
 			{
 				input.Consume();
 				state.failed = false;
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if ((num2 >= 48 && num2 <= 57) || (num2 >= 65 && num2 <= 90) || num2 == 95 || (num2 >= 97 && num2 <= 122))
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						goto IL_1AB;
@@ -547,7 +547,7 @@ namespace pcomps.PCompiler
 					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, input);
+				var ex = new MismatchedSetException(null, input);
 				Recover(ex);
 				throw ex;
 				IL_1AB:
@@ -558,7 +558,7 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex2 = new MismatchedSetException(null, input);
+					var ex2 = new MismatchedSetException(null, input);
 					Recover(ex2);
 					throw ex2;
 				}
@@ -569,9 +569,9 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE5 RID: 3045 RVA: 0x00046F78 File Offset: 0x00045178
 		public void mINTEGER()
 		{
-			int type = 81;
-			int channel = 0;
-			int num = input.LA(1);
+			var type = 81;
+			var channel = 0;
+			var num = input.LA(1);
 			int num2;
 			if (num == 45 || (num >= 49 && num <= 57))
 			{
@@ -579,7 +579,7 @@ namespace pcomps.PCompiler
 			}
 			else if (num == 48)
 			{
-				int num3 = input.LA(2);
+				var num3 = input.LA(2);
 				if (num3 == 120)
 				{
 					num2 = 2;
@@ -596,20 +596,20 @@ namespace pcomps.PCompiler
 					state.failed = true;
 					return;
 				}
-				NoViableAltException ex = new NoViableAltException("", 7, 0, input);
+				var ex = new NoViableAltException("", 7, 0, input);
 				throw ex;
 			}
 			switch (num2)
 			{
 			case 1:
 			{
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 45)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					mMINUS();
@@ -618,16 +618,16 @@ namespace pcomps.PCompiler
 						return;
 					}
 				}
-				int num7 = 0;
+				var num7 = 0;
 				for (;;)
 				{
-					int num8 = 2;
-					int num9 = input.LA(1);
+					var num8 = 2;
+					var num9 = input.LA(1);
 					if (num9 >= 48 && num9 <= 57)
 					{
 						num8 = 1;
 					}
-					int num10 = num8;
+					var num10 = num8;
 					if (num10 != 1)
 					{
 						goto IL_116;
@@ -648,7 +648,7 @@ namespace pcomps.PCompiler
 						state.failed = true;
 						return;
 					}
-					EarlyExitException ex2 = new EarlyExitException(5, input);
+					var ex2 = new EarlyExitException(5, input);
 					throw ex2;
 				}
 				break;
@@ -660,16 +660,16 @@ namespace pcomps.PCompiler
 				{
 					return;
 				}
-				int num11 = 0;
+				var num11 = 0;
 				for (;;)
 				{
-					int num12 = 2;
-					int num13 = input.LA(1);
+					var num12 = 2;
+					var num13 = input.LA(1);
 					if ((num13 >= 48 && num13 <= 57) || (num13 >= 65 && num13 <= 70) || (num13 >= 97 && num13 <= 102))
 					{
 						num12 = 1;
 					}
-					int num14 = num12;
+					var num14 = num12;
 					if (num14 != 1)
 					{
 						goto IL_26E;
@@ -687,7 +687,7 @@ namespace pcomps.PCompiler
 					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex3 = new MismatchedSetException(null, input);
+				var ex3 = new MismatchedSetException(null, input);
 				Recover(ex3);
 				throw ex3;
 				IL_26E:
@@ -698,7 +698,7 @@ namespace pcomps.PCompiler
 						state.failed = true;
 						return;
 					}
-					EarlyExitException ex4 = new EarlyExitException(6, input);
+					var ex4 = new EarlyExitException(6, input);
 					throw ex4;
 				}
 				else if (state.backtracking == 0)
@@ -715,15 +715,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE6 RID: 3046 RVA: 0x00047268 File Offset: 0x00045468
 		public void mFLOAT()
 		{
-			int type = 93;
-			int channel = 0;
-			int num = 2;
-			int num2 = input.LA(1);
+			var type = 93;
+			var channel = 0;
+			var num = 2;
+			var num2 = input.LA(1);
 			if (num2 == 45)
 			{
 				num = 1;
 			}
-			int num3 = num;
+			var num3 = num;
 			if (num3 == 1)
 			{
 				mMINUS();
@@ -732,16 +732,16 @@ namespace pcomps.PCompiler
 					return;
 				}
 			}
-			int num4 = 0;
+			var num4 = 0;
 			for (;;)
 			{
-				int num5 = 2;
-				int num6 = input.LA(1);
+				var num5 = 2;
+				var num6 = input.LA(1);
 				if (num6 >= 48 && num6 <= 57)
 				{
 					num5 = 1;
 				}
-				int num7 = num5;
+				var num7 = num5;
 				if (num7 != 1)
 				{
 					goto IL_7F;
@@ -759,20 +759,20 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					EarlyExitException ex = new EarlyExitException(9, input);
+					var ex = new EarlyExitException(9, input);
 					throw ex;
 				}
 				state.failed = true;
 			}
 			else
 			{
-				int num8 = 2;
-				int num9 = input.LA(1);
+				var num8 = 2;
+				var num9 = input.LA(1);
 				if (num9 == 46)
 				{
 					num8 = 1;
 				}
-				int num10 = num8;
+				var num10 = num8;
 				if (num10 == 1)
 				{
 					mDOT();
@@ -780,16 +780,16 @@ namespace pcomps.PCompiler
 					{
 						return;
 					}
-					int num11 = 0;
+					var num11 = 0;
 					for (;;)
 					{
-						int num12 = 2;
-						int num13 = input.LA(1);
+						var num12 = 2;
+						var num13 = input.LA(1);
 						if (num13 >= 48 && num13 <= 57)
 						{
 							num12 = 1;
 						}
-						int num14 = num12;
+						var num14 = num12;
 						if (num14 != 1)
 						{
 							goto IL_13C;
@@ -810,7 +810,7 @@ namespace pcomps.PCompiler
 							state.failed = true;
 							return;
 						}
-						EarlyExitException ex2 = new EarlyExitException(10, input);
+						var ex2 = new EarlyExitException(10, input);
 						throw ex2;
 					}
 				}
@@ -822,22 +822,22 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE7 RID: 3047 RVA: 0x00047404 File Offset: 0x00045604
 		public void mSTRING()
 		{
-			int type = 90;
-			int channel = 0;
+			var type = 90;
+			var channel = 0;
 			mDQUOTE();
 			if (!state.failed)
 			{
 				for (;;)
 				{
-					int num = 6;
-					int num2 = input.LA(1);
+					var num = 6;
+					var num2 = input.LA(1);
 					if ((num2 >= 0 && num2 <= 9) || (num2 >= 11 && num2 <= 12) || (num2 >= 14 && num2 <= 33) || (num2 >= 35 && num2 <= 91) || (num2 >= 93 && num2 <= 65535))
 					{
 						num = 1;
 					}
 					else if (num2 == 92)
 					{
-						int num3 = input.LA(2);
+						var num3 = input.LA(2);
 						if (num3 <= 92)
 						{
 							if (num3 != 34)
@@ -916,7 +916,7 @@ namespace pcomps.PCompiler
 				IL_18D:
 				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					Recover(ex);
 					throw ex;
 				}
@@ -931,15 +931,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE8 RID: 3048 RVA: 0x0004767C File Offset: 0x0004587C
 		public void mDOCSTRING()
 		{
-			int type = 40;
-			int channel = 0;
+			var type = 40;
+			var channel = 0;
 			mLBRACE();
 			if (!state.failed)
 			{
 				do
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 125)
 					{
 						num = 2;
@@ -948,7 +948,7 @@ namespace pcomps.PCompiler
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						goto IL_6A;
@@ -974,8 +974,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BE9 RID: 3049 RVA: 0x00047740 File Offset: 0x00045940
 		public void mLPAREN()
 		{
-			int type = 43;
-			int channel = 0;
+			var type = 43;
+			var channel = 0;
 			Match(40);
 			if (!state.failed)
 			{
@@ -987,8 +987,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BEA RID: 3050 RVA: 0x00047784 File Offset: 0x00045984
 		public void mRPAREN()
 		{
-			int type = 44;
-			int channel = 0;
+			var type = 44;
+			var channel = 0;
 			Match(41);
 			if (!state.failed)
 			{
@@ -1000,8 +1000,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BEB RID: 3051 RVA: 0x000477C8 File Offset: 0x000459C8
 		public void mLBRACE()
 		{
-			int type = 99;
-			int channel = 0;
+			var type = 99;
+			var channel = 0;
 			Match(123);
 			if (!state.failed)
 			{
@@ -1013,8 +1013,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BEC RID: 3052 RVA: 0x0004780C File Offset: 0x00045A0C
 		public void mRBRACE()
 		{
-			int type = 100;
-			int channel = 0;
+			var type = 100;
+			var channel = 0;
 			Match(125);
 			if (!state.failed)
 			{
@@ -1026,8 +1026,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BED RID: 3053 RVA: 0x00047850 File Offset: 0x00045A50
 		public void mLBRACKET()
 		{
-			int type = 63;
-			int channel = 0;
+			var type = 63;
+			var channel = 0;
 			Match(91);
 			if (!state.failed)
 			{
@@ -1039,8 +1039,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BEE RID: 3054 RVA: 0x00047894 File Offset: 0x00045A94
 		public void mRBRACKET()
 		{
-			int type = 64;
-			int channel = 0;
+			var type = 64;
+			var channel = 0;
 			Match(93);
 			if (!state.failed)
 			{
@@ -1052,8 +1052,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BEF RID: 3055 RVA: 0x000478D8 File Offset: 0x00045AD8
 		public void mCOMMA()
 		{
-			int type = 49;
-			int channel = 0;
+			var type = 49;
+			var channel = 0;
 			Match(44);
 			if (!state.failed)
 			{
@@ -1065,8 +1065,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF0 RID: 3056 RVA: 0x0004791C File Offset: 0x00045B1C
 		public void mEQUALS()
 		{
-			int type = 41;
-			int channel = 0;
+			var type = 41;
+			var channel = 0;
 			Match(61);
 			if (!state.failed)
 			{
@@ -1078,8 +1078,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF1 RID: 3057 RVA: 0x00047960 File Offset: 0x00045B60
 		public void mPLUS()
 		{
-			int type = 73;
-			int channel = 0;
+			var type = 73;
+			var channel = 0;
 			Match(43);
 			if (!state.failed)
 			{
@@ -1091,8 +1091,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF2 RID: 3058 RVA: 0x000479A4 File Offset: 0x00045BA4
 		public void mMINUS()
 		{
-			int type = 74;
-			int channel = 0;
+			var type = 74;
+			var channel = 0;
 			Match(45);
 			if (!state.failed)
 			{
@@ -1104,8 +1104,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF3 RID: 3059 RVA: 0x000479E8 File Offset: 0x00045BE8
 		public void mMULT()
 		{
-			int type = 75;
-			int channel = 0;
+			var type = 75;
+			var channel = 0;
 			Match(42);
 			if (!state.failed)
 			{
@@ -1117,8 +1117,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF4 RID: 3060 RVA: 0x00047A2C File Offset: 0x00045C2C
 		public void mDIVIDE()
 		{
-			int type = 76;
-			int channel = 0;
+			var type = 76;
+			var channel = 0;
 			Match(47);
 			if (!state.failed)
 			{
@@ -1130,8 +1130,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF5 RID: 3061 RVA: 0x00047A70 File Offset: 0x00045C70
 		public void mMOD()
 		{
-			int type = 77;
-			int channel = 0;
+			var type = 77;
+			var channel = 0;
 			Match(37);
 			if (!state.failed)
 			{
@@ -1143,8 +1143,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF6 RID: 3062 RVA: 0x00047AB4 File Offset: 0x00045CB4
 		public void mDOT()
 		{
-			int type = 62;
-			int channel = 0;
+			var type = 62;
+			var channel = 0;
 			Match(46);
 			if (!state.failed)
 			{
@@ -1156,8 +1156,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF7 RID: 3063 RVA: 0x00047AF8 File Offset: 0x00045CF8
 		public void mDQUOTE()
 		{
-			int type = 98;
-			int channel = 0;
+			var type = 98;
+			var channel = 0;
 			Match(34);
 			if (!state.failed)
 			{
@@ -1169,8 +1169,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF8 RID: 3064 RVA: 0x00047B3C File Offset: 0x00045D3C
 		public void mNOT()
 		{
-			int type = 78;
-			int channel = 0;
+			var type = 78;
+			var channel = 0;
 			Match(33);
 			if (!state.failed)
 			{
@@ -1182,8 +1182,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BF9 RID: 3065 RVA: 0x00047B80 File Offset: 0x00045D80
 		public void mEQ()
 		{
-			int type = 67;
-			int channel = 0;
+			var type = 67;
+			var channel = 0;
 			Match("==");
 			if (!state.failed)
 			{
@@ -1195,8 +1195,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFA RID: 3066 RVA: 0x00047BC4 File Offset: 0x00045DC4
 		public void mNE()
 		{
-			int type = 68;
-			int channel = 0;
+			var type = 68;
+			var channel = 0;
 			Match("!=");
 			if (!state.failed)
 			{
@@ -1208,8 +1208,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFB RID: 3067 RVA: 0x00047C08 File Offset: 0x00045E08
 		public void mGT()
 		{
-			int type = 69;
-			int channel = 0;
+			var type = 69;
+			var channel = 0;
 			Match(62);
 			if (!state.failed)
 			{
@@ -1221,8 +1221,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFC RID: 3068 RVA: 0x00047C4C File Offset: 0x00045E4C
 		public void mLT()
 		{
-			int type = 70;
-			int channel = 0;
+			var type = 70;
+			var channel = 0;
 			Match(60);
 			if (!state.failed)
 			{
@@ -1234,8 +1234,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFD RID: 3069 RVA: 0x00047C90 File Offset: 0x00045E90
 		public void mGTE()
 		{
-			int type = 71;
-			int channel = 0;
+			var type = 71;
+			var channel = 0;
 			Match(">=");
 			if (!state.failed)
 			{
@@ -1247,8 +1247,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFE RID: 3070 RVA: 0x00047CD4 File Offset: 0x00045ED4
 		public void mLTE()
 		{
-			int type = 72;
-			int channel = 0;
+			var type = 72;
+			var channel = 0;
 			Match("<=");
 			if (!state.failed)
 			{
@@ -1260,8 +1260,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000BFF RID: 3071 RVA: 0x00047D18 File Offset: 0x00045F18
 		public void mOR()
 		{
-			int type = 65;
-			int channel = 0;
+			var type = 65;
+			var channel = 0;
 			Match("||");
 			if (!state.failed)
 			{
@@ -1273,8 +1273,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C00 RID: 3072 RVA: 0x00047D5C File Offset: 0x00045F5C
 		public void mAND()
 		{
-			int type = 66;
-			int channel = 0;
+			var type = 66;
+			var channel = 0;
 			Match("&&");
 			if (!state.failed)
 			{
@@ -1286,8 +1286,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C01 RID: 3073 RVA: 0x00047DA0 File Offset: 0x00045FA0
 		public void mPLUSEQUALS()
 		{
-			int type = 57;
-			int channel = 0;
+			var type = 57;
+			var channel = 0;
 			Match("+=");
 			if (!state.failed)
 			{
@@ -1299,8 +1299,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C02 RID: 3074 RVA: 0x00047DE4 File Offset: 0x00045FE4
 		public void mMINUSEQUALS()
 		{
-			int type = 58;
-			int channel = 0;
+			var type = 58;
+			var channel = 0;
 			Match("-=");
 			if (!state.failed)
 			{
@@ -1312,8 +1312,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C03 RID: 3075 RVA: 0x00047E28 File Offset: 0x00046028
 		public void mMULTEQUALS()
 		{
-			int type = 59;
-			int channel = 0;
+			var type = 59;
+			var channel = 0;
 			Match("*=");
 			if (!state.failed)
 			{
@@ -1325,8 +1325,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C04 RID: 3076 RVA: 0x00047E6C File Offset: 0x0004606C
 		public void mDIVEQUALS()
 		{
-			int type = 60;
-			int channel = 0;
+			var type = 60;
+			var channel = 0;
 			Match("/=");
 			if (!state.failed)
 			{
@@ -1338,8 +1338,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C05 RID: 3077 RVA: 0x00047EB0 File Offset: 0x000460B0
 		public void mMODEQUALS()
 		{
-			int type = 61;
-			int channel = 0;
+			var type = 61;
+			var channel = 0;
 			Match("%=");
 			if (!state.failed)
 			{
@@ -1351,15 +1351,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C06 RID: 3078 RVA: 0x00047EF4 File Offset: 0x000460F4
 		public void mEOL()
 		{
-			int type = 94;
-			int channel = 0;
-			int num = 2;
-			int num2 = input.LA(1);
+			var type = 94;
+			var channel = 0;
+			var num = 2;
+			var num2 = input.LA(1);
 			if (num2 == 13)
 			{
 				num = 1;
 			}
-			int num3 = num;
+			var num3 = num;
 			if (num3 == 1)
 			{
 				Match(13);
@@ -1379,18 +1379,18 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C07 RID: 3079 RVA: 0x00047F6C File Offset: 0x0004616C
 		public void mWS()
 		{
-			int type = 102;
-			int channel = 0;
-			int num = 0;
+			var type = 102;
+			var channel = 0;
+			var num = 0;
 			for (;;)
 			{
-				int num2 = 2;
-				int num3 = input.LA(1);
+				var num2 = 2;
+				var num3 = input.LA(1);
 				if (num3 == 9 || num3 == 32)
 				{
 					num2 = 1;
 				}
-				int num4 = num2;
+				var num4 = num2;
 				if (num4 != 1)
 				{
 					goto IL_42;
@@ -1408,7 +1408,7 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					EarlyExitException ex = new EarlyExitException(15, input);
+					var ex = new EarlyExitException(15, input);
 					throw ex;
 				}
 				state.failed = true;
@@ -1427,20 +1427,20 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C08 RID: 3080 RVA: 0x0004801C File Offset: 0x0004621C
 		public void mEAT_EOL()
 		{
-			int type = 103;
-			int channel = 0;
+			var type = 103;
+			var channel = 0;
 			Match(92);
 			if (!state.failed)
 			{
 				do
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 9 || num2 == 32)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						goto IL_54;
@@ -1466,8 +1466,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C09 RID: 3081 RVA: 0x000480BC File Offset: 0x000462BC
 		public void mCOMMENT()
 		{
-			int type = 104;
-			int channel = 0;
+			var type = 104;
+			var channel = 0;
 			switch (dfa19.Predict(input))
 			{
 			case 1:
@@ -1478,11 +1478,11 @@ namespace pcomps.PCompiler
 				}
 				do
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 47)
 					{
-						int num3 = input.LA(2);
+						var num3 = input.LA(2);
 						if (num3 == 59)
 						{
 							num = 2;
@@ -1496,7 +1496,7 @@ namespace pcomps.PCompiler
 					{
 						num = 1;
 					}
-					int num4 = num;
+					var num4 = num;
 					if (num4 != 1)
 					{
 						goto IL_DA;
@@ -1525,13 +1525,13 @@ namespace pcomps.PCompiler
 				}
 				for (;;)
 				{
-					int num5 = 2;
-					int num6 = input.LA(1);
+					var num5 = 2;
+					var num6 = input.LA(1);
 					if ((num6 >= 0 && num6 <= 9) || (num6 >= 11 && num6 <= 65535))
 					{
 						num5 = 1;
 					}
-					int num7 = num5;
+					var num7 = num5;
 					if (num7 != 1)
 					{
 						goto IL_1F6;
@@ -1548,7 +1548,7 @@ namespace pcomps.PCompiler
 					state.failed = true;
 					return;
 				}
-				MismatchedSetException ex = new MismatchedSetException(null, input);
+				var ex = new MismatchedSetException(null, input);
 				Recover(ex);
 				throw ex;
 				IL_1F6:
@@ -1575,7 +1575,7 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					Recover(ex);
 					throw ex;
 				}
@@ -1604,7 +1604,7 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					Recover(ex);
 					throw ex;
 				}
@@ -1624,7 +1624,7 @@ namespace pcomps.PCompiler
 			{
 				if (state.backtracking <= 0)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					Recover(ex);
 					throw ex;
 				}
@@ -2095,7 +2095,7 @@ namespace pcomps.PCompiler
 			case 66:
 			{
 				mCOMMENT();
-				bool failed = state.failed;
+				var failed = state.failed;
 				break;
 			}
 			default:
@@ -2107,14 +2107,14 @@ namespace pcomps.PCompiler
 		public void synpred1_Papyrus_fragment()
 		{
 			Match(";/");
-			bool failed = state.failed;
+			var failed = state.failed;
 		}
 
 		// Token: 0x06000C10 RID: 3088 RVA: 0x00048BD4 File Offset: 0x00046DD4
 		public bool synpred1_Papyrus()
 		{
 			state.backtracking++;
-			int marker = input.Mark();
+			var marker = input.Mark();
 			try
 			{
 				synpred1_Papyrus_fragment();
@@ -2123,7 +2123,7 @@ namespace pcomps.PCompiler
 			{
 				Console.Error.WriteLine($"impossible: {arg}");
 			}
-			bool result = !state.failed;
+			var result = !state.failed;
 			input.Rewind(marker);
 			state.backtracking--;
 			state.failed = false;
@@ -2142,13 +2142,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C12 RID: 3090 RVA: 0x00048CC0 File Offset: 0x00046EC0
 		protected internal int DFA19_SpecialStateTransition(DFA dfa, int s, IIntStream _input)
 		{
-			int stateNumber = s;
+			var stateNumber = s;
 			switch (s)
 			{
 			case 0:
 			{
 				_input.LA(1);
-				int index = _input.Index();
+				var index = _input.Index();
 				_input.Rewind();
 				s = -1;
 				if (synpred1_Papyrus())
@@ -2168,8 +2168,8 @@ namespace pcomps.PCompiler
 			}
 			case 1:
 			{
-				int num = _input.LA(1);
-				int index2 = _input.Index();
+				var num = _input.LA(1);
+				var index2 = _input.Index();
 				_input.Rewind();
 				s = -1;
 				if (num == 47)
@@ -2197,8 +2197,8 @@ namespace pcomps.PCompiler
 			}
 			case 2:
 			{
-				int num2 = _input.LA(1);
-				int index3 = _input.Index();
+				var num2 = _input.LA(1);
+				var index3 = _input.Index();
 				_input.Rewind();
 				s = -1;
 				if (num2 == 47)
@@ -2226,8 +2226,8 @@ namespace pcomps.PCompiler
 			}
 			case 3:
 			{
-				int num3 = _input.LA(1);
-				int index4 = _input.Index();
+				var num3 = _input.LA(1);
+				var index4 = _input.Index();
 				_input.Rewind();
 				s = -1;
 				if (num3 == 59)
@@ -2263,7 +2263,7 @@ namespace pcomps.PCompiler
 				state.failed = true;
 				return -1;
 			}
-			NoViableAltException ex = new NoViableAltException(dfa.Description, 19, stateNumber, _input);
+			var ex = new NoViableAltException(dfa.Description, 19, stateNumber, _input);
 			dfa.Error(ex);
 			throw ex;
 		}
@@ -2271,12 +2271,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C13 RID: 3091 RVA: 0x00048ED0 File Offset: 0x000470D0
 		protected internal int DFA20_SpecialStateTransition(DFA dfa, int s, IIntStream _input)
 		{
-			int stateNumber = s;
+			var stateNumber = s;
 			switch (s)
 			{
 			case 0:
 			{
-				int num = _input.LA(1);
+				var num = _input.LA(1);
 				s = -1;
 				if (num >= 0 && num <= 65535)
 				{
@@ -2294,7 +2294,7 @@ namespace pcomps.PCompiler
 			}
 			case 1:
 			{
-				int num2 = _input.LA(1);
+				var num2 = _input.LA(1);
 				s = -1;
 				if ((num2 >= 0 && num2 <= 9) || (num2 >= 11 && num2 <= 12) || (num2 >= 14 && num2 <= 65535))
 				{
@@ -2316,7 +2316,7 @@ namespace pcomps.PCompiler
 				state.failed = true;
 				return -1;
 			}
-			NoViableAltException ex = new NoViableAltException(dfa.Description, 20, stateNumber, _input);
+			var ex = new NoViableAltException(dfa.Description, 20, stateNumber, _input);
 			dfa.Error(ex);
 			throw ex;
 		}
@@ -2331,10 +2331,10 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C15 RID: 3093 RVA: 0x00048FBC File Offset: 0x000471BC
 		private string DocStringToEscapedString(string asDocString)
 		{
-			string text = asDocString.Substring(1, asDocString.Length - 2);
+			var text = asDocString.Substring(1, asDocString.Length - 2);
 			text = text.Trim();
-			StringBuilder stringBuilder = new StringBuilder();
-			foreach (char c in text)
+			var stringBuilder = new StringBuilder();
+			foreach (var c in text)
 			{
 				if (c == '\n')
 				{

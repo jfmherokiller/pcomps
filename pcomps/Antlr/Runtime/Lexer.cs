@@ -196,7 +196,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600093A RID: 2362 RVA: 0x0001A75C File Offset: 0x0001895C
 		public virtual void Match(string s)
 		{
-			int i = 0;
+			var i = 0;
 			while (i < s.Length)
 			{
 				if (input.LA(1) != (int)s[i])
@@ -206,7 +206,7 @@ namespace pcomps.Antlr.Runtime
 						state.failed = true;
 						return;
 					}
-					MismatchedTokenException ex = new MismatchedTokenException((int)s[i], input);
+					var ex = new MismatchedTokenException((int)s[i], input);
 					Recover(ex);
 					throw ex;
 				}
@@ -239,7 +239,7 @@ namespace pcomps.Antlr.Runtime
 				state.failed = true;
 				return;
 			}
-			MismatchedTokenException ex = new MismatchedTokenException(c, input);
+			var ex = new MismatchedTokenException(c, input);
 			Recover(ex);
 			throw ex;
 		}
@@ -258,7 +258,7 @@ namespace pcomps.Antlr.Runtime
 				state.failed = true;
 				return;
 			}
-			MismatchedRangeException ex = new MismatchedRangeException(a, b, input);
+			var ex = new MismatchedRangeException(a, b, input);
 			Recover(ex);
 			throw ex;
 		}
@@ -281,24 +281,24 @@ namespace pcomps.Antlr.Runtime
 			string result;
 			if (e is MismatchedTokenException)
 			{
-				MismatchedTokenException ex = (MismatchedTokenException)e;
+				var ex = (MismatchedTokenException)e;
 				result =
                     $"mismatched character {GetCharErrorDisplay(e.Char)} expecting {GetCharErrorDisplay(ex.Expecting)}";
 			}
 			else if (e is NoViableAltException)
 			{
-				NoViableAltException ex2 = (NoViableAltException)e;
+				var ex2 = (NoViableAltException)e;
 				result = $"no viable alternative at character {GetCharErrorDisplay(ex2.Char)}";
 			}
 			else if (e is EarlyExitException)
 			{
-				EarlyExitException ex3 = (EarlyExitException)e;
+				var ex3 = (EarlyExitException)e;
 				result =
                     $"required (...)+ loop did not match anything at character {GetCharErrorDisplay(ex3.Char)}";
 			}
 			else if (e is MismatchedNotSetException)
 			{
-				MismatchedSetException ex4 = (MismatchedSetException)e;
+				var ex4 = (MismatchedSetException)e;
 				result = string.Concat(new object[]
 				{
 					"mismatched character ",
@@ -309,7 +309,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedSetException)
 			{
-				MismatchedSetException ex5 = (MismatchedSetException)e;
+				var ex5 = (MismatchedSetException)e;
 				result = string.Concat(new object[]
 				{
 					"mismatched character ",
@@ -320,7 +320,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedRangeException)
 			{
-				MismatchedRangeException ex6 = (MismatchedRangeException)e;
+				var ex6 = (MismatchedRangeException)e;
 				result = string.Concat(new string[]
 				{
 					"mismatched character ",
@@ -370,7 +370,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000942 RID: 2370 RVA: 0x0001AB48 File Offset: 0x00018D48
 		public virtual void TraceIn(string ruleName, int ruleIndex)
 		{
-			string inputSymbol = string.Concat(new object[]
+			var inputSymbol = string.Concat(new object[]
 			{
 				(char)input.LT(1),
 				" line=",
@@ -384,7 +384,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000943 RID: 2371 RVA: 0x0001ABAC File Offset: 0x00018DAC
 		public virtual void TraceOut(string ruleName, int ruleIndex)
 		{
-			string inputSymbol = string.Concat(new object[]
+			var inputSymbol = string.Concat(new object[]
 			{
 				(char)input.LT(1),
 				" line=",

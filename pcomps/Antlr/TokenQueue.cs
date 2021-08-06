@@ -43,8 +43,8 @@
 		// Token: 0x0600025D RID: 605 RVA: 0x000081D4 File Offset: 0x000063D4
 		private void expand()
 		{
-			IToken[] array = new IToken[buffer.Length * 2];
-			for (int i = 0; i < buffer.Length; i++)
+			var array = new IToken[buffer.Length * 2];
+			for (var i = 0; i < buffer.Length; i++)
 			{
 				array[i] = elementAt(i);
 			}

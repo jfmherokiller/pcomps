@@ -73,15 +73,7 @@ namespace pcomps.Antlr
 			}
 		}
 
-		// Token: 0x060002C8 RID: 712 RVA: 0x000092C4 File Offset: 0x000074C4
-		[Obsolete("De-activated since version 2.7.2.6 as it cannot be overidden.", true)]
-		public static void panic()
-		{
-			Console.Error.WriteLine("TreeWalker: panic");
-			Environment.Exit(1);
-		}
-
-		// Token: 0x060002C9 RID: 713 RVA: 0x000092E8 File Offset: 0x000074E8
+        // Token: 0x060002C9 RID: 713 RVA: 0x000092E8 File Offset: 0x000074E8
 		public virtual void reportError(RecognitionException ex)
 		{
 			Console.Error.WriteLine(ex.ToString());
@@ -120,7 +112,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002CF RID: 719 RVA: 0x00009394 File Offset: 0x00007594
 		public virtual void traceIndent()
 		{
-			for (int i = 0; i < traceDepth; i++)
+			for (var i = 0; i < traceDepth; i++)
 			{
 				Console.Out.Write(" ");
 			}
@@ -146,15 +138,8 @@ namespace pcomps.Antlr
 		public virtual void traceOut(string rname, AST t)
 		{
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new string[]
-			{
-				"< ",
-				rname,
-				"(",
-				(t != null) ? t.ToString() : "null",
-				")",
-				(inputState.guessing > 0) ? " [guessing]" : ""
-			}));
+			Console.Out.WriteLine(
+                $"< {rname}({((t != null) ? t.ToString() : "null")}){((inputState.guessing > 0) ? " [guessing]" : "")}");
 			traceDepth--;
 		}
 

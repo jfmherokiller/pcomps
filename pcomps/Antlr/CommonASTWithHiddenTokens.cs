@@ -47,7 +47,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000161 RID: 353 RVA: 0x00005A78 File Offset: 0x00003C78
 		public override void initialize(IToken tok)
 		{
-			IHiddenStreamToken hiddenStreamToken = (IHiddenStreamToken)tok;
+			var hiddenStreamToken = (IHiddenStreamToken)tok;
 			base.initialize(hiddenStreamToken);
 			hiddenBefore = hiddenStreamToken.getHiddenBefore();
 			hiddenAfter = hiddenStreamToken.getHiddenAfter();

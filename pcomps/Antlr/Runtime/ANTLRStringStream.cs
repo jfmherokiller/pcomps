@@ -159,7 +159,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060004C3 RID: 1219 RVA: 0x0000EA68 File Offset: 0x0000CC68
 		public virtual void Rewind(int m)
 		{
-			CharStreamState charStreamState = (CharStreamState)markers[m];
+			var charStreamState = (CharStreamState)markers[m];
 			Seek(charStreamState.p);
 			line = charStreamState.line;
 			charPositionInLine = charStreamState.charPositionInLine;

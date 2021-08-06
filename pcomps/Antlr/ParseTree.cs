@@ -13,7 +13,7 @@ namespace pcomps.Antlr
 			{
 				return ToString();
 			}
-			StringBuilder stringBuilder = new StringBuilder(2000);
+			var stringBuilder = new StringBuilder(2000);
 			getLeftmostDerivation(stringBuilder, step);
 			return stringBuilder.ToString();
 		}
@@ -21,7 +21,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000239 RID: 569 RVA: 0x00007B48 File Offset: 0x00005D48
 		public string getLeftmostDerivation(int maxSteps)
 		{
-			StringBuilder stringBuilder = new StringBuilder(2000);
+			var stringBuilder = new StringBuilder(2000);
 			stringBuilder.Append($"    {this}");
 			stringBuilder.Append('\n');
 			for (var i = 1; i < maxSteps; i++)

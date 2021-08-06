@@ -42,7 +42,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F4E RID: 3918 RVA: 0x0006E750 File Offset: 0x0006C950
 		public override bool HasChanged(string templateName)
 		{
-			string key = $"{LocationRoot}/{GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
+			var key = $"{LocationRoot}/{GetLocationFromTemplateName(templateName)}".Replace('\\', '/');
 			return fileSet[key] != null;
 		}
 
@@ -129,14 +129,14 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F52 RID: 3922 RVA: 0x0006E9D4 File Offset: 0x0006CBD4
 		private void OnChanged(object source, FileSystemEventArgs e)
 		{
-			string key = e.FullPath.Replace('\\', '/');
+			var key = e.FullPath.Replace('\\', '/');
 			fileSet[key] = locationRoot;
 		}
 
 		// Token: 0x06000F53 RID: 3923 RVA: 0x0006EA04 File Offset: 0x0006CC04
 		private void OnRenamed(object source, RenamedEventArgs e)
 		{
-			string key = e.FullPath.Replace('\\', '/');
+			var key = e.FullPath.Replace('\\', '/');
 			fileSet[key] = locationRoot;
 			key = e.OldFullPath.Replace('\\', '/');
 			fileSet[key] = locationRoot;

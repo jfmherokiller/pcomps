@@ -40,8 +40,8 @@
 			{
 				text = $"<missing {TokenNames[expectedTokenType]}>";
 			}
-			CommonToken commonToken = new CommonToken(expectedTokenType, text);
-			IToken token = ((ITokenStream)input).LT(1);
+			var commonToken = new CommonToken(expectedTokenType, text);
+			var token = ((ITokenStream)input).LT(1);
 			if (token.Type == Token.EOF)
 			{
 				token = ((ITokenStream)input).LT(-1);

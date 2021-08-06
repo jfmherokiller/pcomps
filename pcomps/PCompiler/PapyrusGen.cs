@@ -73,7 +73,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D77 RID: 3447 RVA: 0x0005E210 File Offset: 0x0005C410
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 

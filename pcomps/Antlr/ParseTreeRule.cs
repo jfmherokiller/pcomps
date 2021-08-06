@@ -27,14 +27,14 @@ namespace pcomps.Antlr
 		// Token: 0x06000242 RID: 578 RVA: 0x00007C50 File Offset: 0x00005E50
 		protected internal override int getLeftmostDerivation(StringBuilder buf, int step)
 		{
-			int num = 0;
+			var num = 0;
 			if (step <= 0)
 			{
 				buf.Append(' ');
 				buf.Append(ToString());
 				return num;
 			}
-			AST ast = getFirstChild();
+			var ast = getFirstChild();
 			num = 1;
 			while (ast != null)
 			{
@@ -45,8 +45,8 @@ namespace pcomps.Antlr
 				}
 				else
 				{
-					int step2 = step - num;
-					int leftmostDerivation = ((ParseTree)ast).getLeftmostDerivation(buf, step2);
+					var step2 = step - num;
+					var leftmostDerivation = ((ParseTree)ast).getLeftmostDerivation(buf, step2);
 					num += leftmostDerivation;
 				}
 				ast = ast.getNextSibling();

@@ -10,7 +10,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EB0 RID: 3760 RVA: 0x0006C200 File Offset: 0x0006A400
 		private void AddFlag(IToken akNameToken, int aiIndex, bool abAllowedOnObj, bool abAllowedOnProp, bool abAllowedOnVar, bool abAllowedOnFunc)
 		{
-			string text = akNameToken.Text.ToLowerInvariant();
+			var text = akNameToken.Text.ToLowerInvariant();
 			if (kFlagDict.ContainsKey(text))
 			{
 				OnError($"Flag {akNameToken.Text} has already been defined", akNameToken.Line, akNameToken.CharPositionInLine);
@@ -91,7 +91,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EBA RID: 3770 RVA: 0x0006C3A4 File Offset: 0x0006A5A4
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
@@ -102,13 +102,13 @@ namespace pcomps.PCompiler
 			{
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 4)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						break;
@@ -136,25 +136,25 @@ namespace pcomps.PCompiler
 			((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc = false;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				if (num != 4)
 				{
-					NoViableAltException ex = new NoViableAltException("", 2, 0, input);
+					var ex = new NoViableAltException("", 2, 0, input);
 					throw ex;
 				}
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				if (num2 != 5)
 				{
-					NoViableAltException ex2 = new NoViableAltException("", 2, 1, input);
+					var ex2 = new NoViableAltException("", 2, 1, input);
 					throw ex2;
 				}
-				int num3 = input.LA(3);
+				var num3 = input.LA(3);
 				if (num3 != 6)
 				{
-					NoViableAltException ex3 = new NoViableAltException("", 2, 2, input);
+					var ex3 = new NoViableAltException("", 2, 2, input);
 					throw ex3;
 				}
-				int num4 = input.LA(4);
+				var num4 = input.LA(4);
 				int num5;
 				if (num4 == -1 || num4 == 4)
 				{
@@ -164,7 +164,7 @@ namespace pcomps.PCompiler
 				{
 					if (num4 != 7)
 					{
-						NoViableAltException ex4 = new NoViableAltException("", 2, 3, input);
+						var ex4 = new NoViableAltException("", 2, 3, input);
 						throw ex4;
 					}
 					num5 = 2;
@@ -174,16 +174,16 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					Match(input, 4, FOLLOW_FLAG_in_flagDefinition105);
-					IToken akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition109);
-					IToken token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition113);
+					var akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition109);
+					var token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition113);
 					AddFlag(akNameToken, int.Parse(token.Text), true, true, true, true);
 					break;
 				}
 				case 2:
 				{
 					Match(input, 4, FOLLOW_FLAG_in_flagDefinition124);
-					IToken akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition128);
-					IToken token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition132);
+					var akNameToken = (IToken)Match(input, 5, FOLLOW_ID_in_flagDefinition128);
+					var token = (IToken)Match(input, 6, FOLLOW_NUMBER_in_flagDefinition132);
 					PushFollow(FOLLOW_allowedBlock_in_flagDefinition134);
 					allowedBlock();
 					state.followingStackPointer--;
@@ -211,7 +211,7 @@ namespace pcomps.PCompiler
 				Match(input, 7, FOLLOW_OPEN_BRACE_in_allowedBlock153);
 				for (;;)
 				{
-					int num = 5;
+					var num = 5;
 					switch (input.LA(1))
 					{
 					case 8:
@@ -231,7 +231,7 @@ namespace pcomps.PCompiler
 					{
 					case 1:
 					{
-						IToken akToken = (IToken)Match(input, 8, FOLLOW_SCRIPT_in_allowedBlock161);
+						var akToken = (IToken)Match(input, 8, FOLLOW_SCRIPT_in_allowedBlock161);
 						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnObj)
 						{
 							DuplicateFlagItem(akToken);
@@ -241,7 +241,7 @@ namespace pcomps.PCompiler
 					}
 					case 2:
 					{
-						IToken akToken2 = (IToken)Match(input, 9, FOLLOW_PROPERTY_in_allowedBlock176);
+						var akToken2 = (IToken)Match(input, 9, FOLLOW_PROPERTY_in_allowedBlock176);
 						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnProp)
 						{
 							DuplicateFlagItem(akToken2);
@@ -251,7 +251,7 @@ namespace pcomps.PCompiler
 					}
 					case 3:
 					{
-						IToken akToken3 = (IToken)Match(input, 10, FOLLOW_VARIABLE_in_allowedBlock191);
+						var akToken3 = (IToken)Match(input, 10, FOLLOW_VARIABLE_in_allowedBlock191);
 						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnVar)
 						{
 							DuplicateFlagItem(akToken3);
@@ -261,7 +261,7 @@ namespace pcomps.PCompiler
 					}
 					case 4:
 					{
-						IToken akToken4 = (IToken)Match(input, 11, FOLLOW_FUNCTION_in_allowedBlock206);
+						var akToken4 = (IToken)Match(input, 11, FOLLOW_FUNCTION_in_allowedBlock206);
 						if (((flagDefinition_scope)flagDefinition_stack.Peek()).bAllowedOnFunc)
 						{
 							DuplicateFlagItem(akToken4);

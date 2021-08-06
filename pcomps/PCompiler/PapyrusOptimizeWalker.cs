@@ -11,8 +11,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AE2 RID: 2786 RVA: 0x000329E0 File Offset: 0x00030BE0
 		private ITree DuplicateTree(ITree akOriginal)
 		{
-			ITree tree = akOriginal.DupNode();
-			for (int i = 0; i < akOriginal.ChildCount; i++)
+			var tree = akOriginal.DupNode();
+			for (var i = 0; i < akOriginal.ChildCount; i++)
 			{
 				tree.AddChild(DuplicateTree(akOriginal.GetChild(i)));
 			}

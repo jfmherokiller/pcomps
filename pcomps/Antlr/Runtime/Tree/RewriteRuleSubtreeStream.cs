@@ -47,7 +47,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000886 RID: 2182 RVA: 0x000183C0 File Offset: 0x000165C0
 		private bool RequiresDuplication()
 		{
-			int count = Count;
+			var count = Count;
 			return dirty || (cursor >= count && count == 1);
 		}
 

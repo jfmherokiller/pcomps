@@ -8,7 +8,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011DC RID: 4572 RVA: 0x00082634 File Offset: 0x00080834
 		public override void reportError(RecognitionException e)
 		{
-			StringTemplateGroup group = self.Group;
+			var group = self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
 				self.Error(
@@ -72,14 +72,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 					case 4:
 					{
-						IToken token = LT(1);
+						var token = LT(1);
 						match(4);
 						self.AddChunk(new StringRef(self, token.getText()));
 						continue;
 					}
 					case 5:
 					{
-						IToken token2 = LT(1);
+						var token2 = LT(1);
 						match(5);
 						if (LA(1) != 8 && LA(1) != 9)
 						{
@@ -114,20 +114,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 				case 6:
 				{
-					IToken token = LT(1);
+					var token = LT(1);
 					match(6);
-					string indentation = ((ChunkToken)token).Indentation;
-					ASTExpr astexpr = self.ParseAction(token.getText());
+					var indentation = ((ChunkToken)token).Indentation;
+					var astexpr = self.ParseAction(token.getText());
 					astexpr.Indentation = indentation;
 					self.AddChunk(astexpr);
 					goto IL_355;
 				}
 				case 7:
 				{
-					IToken token2 = LT(1);
+					var token2 = LT(1);
 					match(7);
-					ConditionalExpr conditionalExpr = (ConditionalExpr)self.ParseAction(token2.getText());
-					StringTemplate stringTemplate = new StringTemplate(self.Group, null);
+					var conditionalExpr = (ConditionalExpr)self.ParseAction(token2.getText());
+					var stringTemplate = new StringTemplate(self.Group, null);
 					stringTemplate.EnclosingInstance = self;
 					stringTemplate.Name = $"{token2.getText()}_subtemplate";
 					self.AddChunk(conditionalExpr);
@@ -141,7 +141,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					case 8:
 					{
 						match(8);
-						StringTemplate stringTemplate2 = new StringTemplate(self.Group, null);
+						var stringTemplate2 = new StringTemplate(self.Group, null);
 						stringTemplate2.EnclosingInstance = self;
 						stringTemplate2.Name = "else_subtemplate";
 						template(stringTemplate2);
@@ -161,16 +161,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				case 10:
 				{
-					IToken token3 = LT(1);
+					var token3 = LT(1);
 					match(10);
-					string text = token3.getText();
+					var text = token3.getText();
 					string text2 = null;
-					bool flag = false;
+					var flag = false;
 					if (text.StartsWith("super."))
 					{
-						string text3 = text.Substring("super.".Length, text.Length - "super.".Length);
-						string unMangledTemplateName = self.Group.GetUnMangledTemplateName(self.Name);
-						StringTemplate stringTemplate3 = self.Group.LookupTemplate(unMangledTemplateName);
+						var text3 = text.Substring("super.".Length, text.Length - "super.".Length);
+						var unMangledTemplateName = self.Group.GetUnMangledTemplateName(self.Name);
+						var stringTemplate3 = self.Group.LookupTemplate(unMangledTemplateName);
 						if (stringTemplate3 == null)
 						{
 							self.Group.Error($"reference to region within undefined template: {unMangledTemplateName}");
@@ -189,13 +189,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						StringTemplate stringTemplate4 = self.Group.DefineImplicitRegionTemplate(self, text);
+						var stringTemplate4 = self.Group.DefineImplicitRegionTemplate(self, text);
 						text2 = stringTemplate4.Name;
 					}
 					if (!flag)
 					{
-						string indentation2 = ((ChunkToken)token3).Indentation;
-						ASTExpr astexpr2 = self.ParseAction($"{text2}()");
+						var indentation2 = ((ChunkToken)token3).Indentation;
+						var astexpr2 = self.ParseAction($"{text2}()");
 						astexpr2.Indentation = indentation2;
 						self.AddChunk(astexpr2);
 						goto IL_355;
@@ -204,17 +204,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				case 11:
 				{
-					IToken token4 = LT(1);
+					var token4 = LT(1);
 					match(11);
-					string text4 = token4.getText();
-					int num = text4.IndexOf("::=");
+					var text4 = token4.getText();
+					var num = text4.IndexOf("::=");
 					if (num >= 1)
 					{
-						string regionName = text4.Substring(0, num);
-						string template = text4.Substring(num + 3, text4.Length - (num + 3));
-						StringTemplate stringTemplate5 = self.Group.DefineRegionTemplate(self, regionName, template, 2);
-						string indentation3 = ((ChunkToken)token4).Indentation;
-						ASTExpr astexpr3 = self.ParseAction($"{stringTemplate5.Name}()");
+						var regionName = text4.Substring(0, num);
+						var template = text4.Substring(num + 3, text4.Length - (num + 3));
+						var stringTemplate5 = self.Group.DefineRegionTemplate(self, regionName, template, 2);
+						var indentation3 = ((ChunkToken)token4).Indentation;
+						var astexpr3 = self.ParseAction($"{stringTemplate5.Name}()");
 						astexpr3.Indentation = indentation3;
 						self.AddChunk(astexpr3);
 						goto IL_355;
@@ -241,7 +241,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011E6 RID: 4582 RVA: 0x00082BB0 File Offset: 0x00080DB0
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 768L;
 			return array;
 		}
@@ -249,7 +249,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060011E7 RID: 4583 RVA: 0x00082BD0 File Offset: 0x00080DD0
 		private static long[] mk_tokenSet_1_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 4080L;
 			return array;
 		}

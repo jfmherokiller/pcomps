@@ -27,10 +27,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				_inner = new object[0];
 				return;
 			}
-			ArrayList arrayList = new ArrayList();
+			var arrayList = new ArrayList();
 			while (enumerator.MoveNext())
 			{
-				object value = enumerator.Current;
+				var value = enumerator.Current;
 				arrayList.Add(value);
 			}
 			_inner = arrayList;
@@ -42,15 +42,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			if (o is RestCollection)
 			{
-				RestCollection restCollection = (RestCollection)o;
+				var restCollection = (RestCollection)o;
 				if (Count == 0 && restCollection.Count == 0)
 				{
 					return true;
 				}
 				if (Count == restCollection.Count)
 				{
-					IEnumerator enumerator = GetEnumerator();
-					IEnumerator enumerator2 = restCollection.GetEnumerator();
+					var enumerator = GetEnumerator();
+					var enumerator2 = restCollection.GetEnumerator();
 					while (enumerator.MoveNext())
 					{
 						if (!enumerator2.MoveNext() || !enumerator.Current.Equals(enumerator2.Current))
@@ -164,10 +164,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 			// Token: 0x060011CA RID: 4554 RVA: 0x0008251C File Offset: 0x0008071C
 			public override string ToString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 				while (MoveNext())
 				{
-					object value = Current;
+					var value = Current;
 					stringBuilder.Append(value);
 				}
 				return stringBuilder.ToString();

@@ -16,7 +16,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010A6 RID: 4262 RVA: 0x00075A6C File Offset: 0x00073C6C
 		public override void reportError(RecognitionException e)
 		{
-			StringTemplateGroup group = self.Group;
+			var group = self.Group;
 			if (group == StringTemplate.defaultGroup)
 			{
 				self.Error(
@@ -74,7 +74,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			object result = null;
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
@@ -83,7 +83,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					astFactory.addASTChild(ref astpair, this.returnAST);
 				}
-				StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+				var child = (StringTemplateAST)astFactory.create(LT(1));
 				astFactory.addASTChild(ref astpair, child);
 				match(1);
 				returnAST = (StringTemplateAST)astpair.root;
@@ -106,7 +106,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			IDictionary result = null;
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
@@ -114,7 +114,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 				case 8:
 				{
-					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					var root = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.makeASTRoot(ref astpair, root);
 					match(8);
 					match(15);
@@ -146,7 +146,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						astFactory.addASTChild(ref astpair, this.returnAST);
 					}
-					int num = LA(1);
+					var num = LA(1);
 					if (num != 1)
 					{
 						if (num != 14)
@@ -184,7 +184,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void templatesExpr()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
@@ -193,7 +193,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					astFactory.addASTChild(ref astpair, returnAST);
 				}
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 1)
 				{
 					switch (num)
@@ -204,7 +204,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_1BB;
 					case 17:
 					{
-						int num2 = 0;
+						var num2 = 0;
 						while (LA(1) == 17)
 						{
 							match(17);
@@ -219,7 +219,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							throw new NoViableAltException(LT(1), getFilename());
 						}
-						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						var child = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child);
 						match(20);
 						anonymousTemplate();
@@ -255,8 +255,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				IL_1BB:
 				while (LA(1) == 20)
 				{
-					IToken tok = LT(1);
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+					var tok = LT(1);
+					var stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
 					astFactory.makeASTRoot(ref astpair, stringTemplateAST2);
 					match(20);
 					if (inputState.guessing == 0)
@@ -304,7 +304,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				option(dictionary);
 				while (LA(1) == 17)
 				{
-					StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(LT(1));
+					var stringTemplateAST = (StringTemplateAST)astFactory.create(LT(1));
 					match(17);
 					option(dictionary);
 				}
@@ -326,7 +326,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void ifCondition()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
@@ -354,7 +354,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					goto IL_126;
 				case 21:
 				{
-					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					var root = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.makeASTRoot(ref astpair, root);
 					match(21);
 					expr();
@@ -385,17 +385,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void option(IDictionary opts)
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			StringTemplateAST stringTemplateAST = null;
 			object value = null;
 			try
 			{
-				IToken tok = LT(1);
-				StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+				var tok = LT(1);
+				var stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
 				astFactory.addASTChild(ref astpair, stringTemplateAST2);
 				match(18);
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 1)
 				{
 					switch (num)
@@ -404,7 +404,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						goto IL_F0;
 					case 19:
 					{
-						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						var child = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child);
 						match(19);
 						expr();
@@ -451,7 +451,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void expr()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
@@ -462,7 +462,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				while (LA(1) == 22)
 				{
-					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					var root = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.makeASTRoot(ref astpair, root);
 					match(22);
 					primaryExpr();
@@ -489,17 +489,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void anonymousTemplate()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken token = LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(token);
+				var token = LT(1);
+				var stringTemplateAST = (StringTemplateAST)astFactory.create(token);
 				astFactory.addASTChild(ref astpair, stringTemplateAST);
 				match(31);
 				if (inputState.guessing == 0)
 				{
-					StringTemplate stringTemplate = new StringTemplate();
+					var stringTemplate = new StringTemplate();
 					stringTemplate.Group = self.Group;
 					stringTemplate.EnclosingInstance = self;
 					stringTemplate.Template = token.getText();
@@ -524,11 +524,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void template()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num <= 18)
 				{
 					if (num != 15 && num != 18)
@@ -597,7 +597,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void primaryExpr()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
@@ -607,8 +607,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					match(23);
 					match(24);
-					IToken tok = LT(1);
-					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
+					var tok = LT(1);
+					var stringTemplateAST2 = (StringTemplateAST)astFactory.create(tok);
 					astFactory.addASTChild(ref astpair, stringTemplateAST2);
 					match(18);
 					if (inputState.guessing == 0)
@@ -666,7 +666,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				if (LA(1) == 18 && LA(2) == 15)
 				{
-					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					var child = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child);
 					match(18);
 					argList();
@@ -704,17 +704,17 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					while (LA(1) == 24)
 					{
-						StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+						var root = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.makeASTRoot(ref astpair, root);
 						match(24);
-						int num = LA(1);
+						var num = LA(1);
 						if (num != 15)
 						{
 							if (num != 18)
 							{
 								throw new NoViableAltException(LT(1), getFilename());
 							}
-							StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+							var child2 = (StringTemplateAST)astFactory.create(LT(1));
 							astFactory.addASTChild(ref astpair, child2);
 							match(18);
 						}
@@ -731,10 +731,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					bool flag = false;
+					var flag = false;
 					if (LA(1) == 15 && tokenSet_8_.member(LA(2)))
 					{
-						int pos = mark();
+						var pos = mark();
 						flag = true;
 						inputState.guessing++;
 						try
@@ -808,7 +808,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void argList()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
@@ -834,10 +834,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					bool flag = false;
+					var flag = false;
 					if (LA(1) == 15 && tokenSet_8_.member(LA(2)))
 					{
-						int pos = mark();
+						var pos = mark();
 						flag = true;
 						inputState.guessing++;
 						try
@@ -921,18 +921,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void atom()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 18)
 				{
 					switch (num)
 					{
 					case 31:
 					{
-						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						var child = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child);
 						match(31);
 						returnAST = (StringTemplateAST)astpair.root;
@@ -940,7 +940,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					case 32:
 					{
-						StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+						var child2 = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child2);
 						match(32);
 						returnAST = (StringTemplateAST)astpair.root;
@@ -948,7 +948,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					case 33:
 					{
-						StringTemplateAST child3 = (StringTemplateAST)astFactory.create(LT(1));
+						var child3 = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child3);
 						match(33);
 						returnAST = (StringTemplateAST)astpair.root;
@@ -960,7 +960,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					StringTemplateAST child4 = (StringTemplateAST)astFactory.create(LT(1));
+					var child4 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child4);
 					match(18);
 					returnAST = (StringTemplateAST)astpair.root;
@@ -982,12 +982,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void valueExpr()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken tok = LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+				var tok = LT(1);
+				var stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
 				astFactory.makeASTRoot(ref astpair, stringTemplateAST);
 				match(15);
 				templatesExpr();
@@ -1019,7 +1019,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void function()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
@@ -1027,42 +1027,42 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 				case 25:
 				{
-					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					var child = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child);
 					match(25);
 					break;
 				}
 				case 26:
 				{
-					StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+					var child2 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child2);
 					match(26);
 					break;
 				}
 				case 27:
 				{
-					StringTemplateAST child3 = (StringTemplateAST)astFactory.create(LT(1));
+					var child3 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child3);
 					match(27);
 					break;
 				}
 				case 28:
 				{
-					StringTemplateAST child4 = (StringTemplateAST)astFactory.create(LT(1));
+					var child4 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child4);
 					match(28);
 					break;
 				}
 				case 29:
 				{
-					StringTemplateAST child5 = (StringTemplateAST)astFactory.create(LT(1));
+					var child5 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child5);
 					match(29);
 					break;
 				}
 				case 30:
 				{
-					StringTemplateAST child6 = (StringTemplateAST)astFactory.create(LT(1));
+					var child6 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child6);
 					match(30);
 					break;
@@ -1112,12 +1112,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void list()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				IToken tok = LT(1);
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+				var tok = LT(1);
+				var stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
 				astFactory.makeASTRoot(ref astpair, stringTemplateAST);
 				match(34);
 				if (inputState.guessing == 0)
@@ -1158,20 +1158,20 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void indirectTemplate()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			StringTemplateAST stringTemplateAST2 = null;
 			StringTemplateAST stringTemplateAST3 = null;
 			try
 			{
-				StringTemplateAST stringTemplateAST4 = (StringTemplateAST)astFactory.create(LT(1));
+				var stringTemplateAST4 = (StringTemplateAST)astFactory.create(LT(1));
 				match(15);
 				templatesExpr();
 				if (inputState.guessing == 0)
 				{
 					stringTemplateAST2 = (StringTemplateAST)returnAST;
 				}
-				StringTemplateAST stringTemplateAST5 = (StringTemplateAST)astFactory.create(LT(1));
+				var stringTemplateAST5 = (StringTemplateAST)astFactory.create(LT(1));
 				match(16);
 				argList();
 				if (inputState.guessing == 0)
@@ -1215,7 +1215,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void nonAlternatingTemplateExpr()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
@@ -1226,8 +1226,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				while (LA(1) == 20)
 				{
-					IToken tok = LT(1);
-					StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+					var tok = LT(1);
+					var stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
 					astFactory.makeASTRoot(ref astpair, stringTemplateAST);
 					match(20);
 					if (inputState.guessing == 0)
@@ -1258,7 +1258,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void singleArg()
 		{
 			returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST stringTemplateAST = null;
 			try
 			{
@@ -1306,11 +1306,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void namedTemplate()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 15)
 				{
 					if (num != 18)
@@ -1321,8 +1321,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						match(23);
 						match(24);
-						IToken tok = LT(1);
-						StringTemplateAST stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
+						var tok = LT(1);
+						var stringTemplateAST = (StringTemplateAST)astFactory.create(tok);
 						astFactory.addASTChild(ref astpair, stringTemplateAST);
 						match(18);
 						if (inputState.guessing == 0)
@@ -1338,7 +1338,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+						var child = (StringTemplateAST)astFactory.create(LT(1));
 						astFactory.addASTChild(ref astpair, child);
 						match(18);
 						argList();
@@ -1375,28 +1375,28 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public void argumentAssignment()
 		{
 			this.returnAST = null;
-			ASTPair astpair = default(ASTPair);
+			var astpair = default(ASTPair);
 			StringTemplateAST returnAST = null;
 			try
 			{
-				int num = LA(1);
+				var num = LA(1);
 				if (num != 18)
 				{
 					if (num != 36)
 					{
 						throw new NoViableAltException(LT(1), getFilename());
 					}
-					StringTemplateAST child = (StringTemplateAST)astFactory.create(LT(1));
+					var child = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child);
 					match(36);
 					returnAST = (StringTemplateAST)astpair.root;
 				}
 				else
 				{
-					StringTemplateAST child2 = (StringTemplateAST)astFactory.create(LT(1));
+					var child2 = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.addASTChild(ref astpair, child2);
 					match(18);
-					StringTemplateAST root = (StringTemplateAST)astFactory.create(LT(1));
+					var root = (StringTemplateAST)astFactory.create(LT(1));
 					astFactory.makeASTRoot(ref astpair, root);
 					match(19);
 					nonAlternatingTemplateExpr();
@@ -1444,7 +1444,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C4 RID: 4292 RVA: 0x00077F50 File Offset: 0x00076150
 		private static long[] mk_tokenSet_0_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 2L;
 			return array;
 		}
@@ -1452,7 +1452,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C5 RID: 4293 RVA: 0x00077F6C File Offset: 0x0007616C
 		private static long[] mk_tokenSet_1_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 81922L;
 			return array;
 		}
@@ -1460,7 +1460,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C6 RID: 4294 RVA: 0x00077F8C File Offset: 0x0007618C
 		private static long[] mk_tokenSet_2_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 65536L;
 			return array;
 		}
@@ -1468,7 +1468,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C7 RID: 4295 RVA: 0x00077FAC File Offset: 0x000761AC
 		private static long[] mk_tokenSet_3_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 131074L;
 			return array;
 		}
@@ -1476,7 +1476,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C8 RID: 4296 RVA: 0x00077FCC File Offset: 0x000761CC
 		private static long[] mk_tokenSet_4_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 34360999938L;
 			return array;
 		}
@@ -1484,7 +1484,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010C9 RID: 4297 RVA: 0x00077FF0 File Offset: 0x000761F0
 		private static long[] mk_tokenSet_5_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 1261570L;
 			return array;
 		}
@@ -1492,7 +1492,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010CA RID: 4298 RVA: 0x00078010 File Offset: 0x00076210
 		private static long[] mk_tokenSet_6_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 15032647680L;
 			return array;
 		}
@@ -1500,7 +1500,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010CB RID: 4299 RVA: 0x00078034 File Offset: 0x00076234
 		private static long[] mk_tokenSet_7_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 34381971458L;
 			return array;
 		}
@@ -1508,7 +1508,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010CC RID: 4300 RVA: 0x00078058 File Offset: 0x00076258
 		private static long[] mk_tokenSet_8_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 34334867456L;
 			return array;
 		}
@@ -1516,7 +1516,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010CD RID: 4301 RVA: 0x0007807C File Offset: 0x0007627C
 		private static long[] mk_tokenSet_9_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 34365194242L;
 			return array;
 		}
@@ -1524,7 +1524,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x060010CE RID: 4302 RVA: 0x000780A0 File Offset: 0x000762A0
 		private static long[] mk_tokenSet_10_()
 		{
-			long[] array = new long[2];
+			var array = new long[2];
 			array[0] = 196608L;
 			return array;
 		}

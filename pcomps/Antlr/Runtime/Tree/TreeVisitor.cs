@@ -17,17 +17,17 @@
 		// Token: 0x06000981 RID: 2433 RVA: 0x0001B8C8 File Offset: 0x00019AC8
 		public object Visit(object t, ITreeVisitorAction action)
 		{
-			bool flag = adaptor.IsNil(t);
+			var flag = adaptor.IsNil(t);
 			if (action != null && !flag)
 			{
 				t = action.Pre(t);
 			}
-			int childCount = adaptor.GetChildCount(t);
-			for (int i = 0; i < childCount; i++)
+			var childCount = adaptor.GetChildCount(t);
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = adaptor.GetChild(t, i);
-				object obj = Visit(child, action);
-				object child2 = adaptor.GetChild(t, i);
+				var child = adaptor.GetChild(t, i);
+				var obj = Visit(child, action);
+				var child2 = adaptor.GetChild(t, i);
 				if (obj != child2)
 				{
 					adaptor.SetChild(t, i, obj);

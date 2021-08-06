@@ -34,7 +34,7 @@ namespace pcomps.PCompiler
 		{
 			get
 			{
-				ScriptScope scriptScope = this;
+				var scriptScope = this;
 				while (scriptScope.Parent != null)
 				{
 					scriptScope = scriptScope.Parent;
@@ -66,7 +66,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AD7 RID: 2775 RVA: 0x00032768 File Offset: 0x00030968
 		public bool TryDefineVariable(string asName, ScriptVariableType akType)
 		{
-			bool flag = !kVars.ContainsKey(asName.ToLowerInvariant());
+			var flag = !kVars.ContainsKey(asName.ToLowerInvariant());
 			if (flag)
 			{
 				kVars.Add(asName.ToLowerInvariant(), new ScopeVariable(akType));
@@ -78,7 +78,7 @@ namespace pcomps.PCompiler
 		public bool TryGetVariable(string asName, out ScriptVariableType akType)
 		{
 			ScopeVariable scopeVariable;
-			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			var flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				akType = scopeVariable.kType;
@@ -105,7 +105,7 @@ namespace pcomps.PCompiler
 		public bool TryFlagVarAsUsed(string asName)
 		{
 			ScopeVariable scopeVariable;
-			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			var flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				scopeVariable.bUsed = true;
@@ -121,7 +121,7 @@ namespace pcomps.PCompiler
 		public bool TryGetVarUsed(string asName, out bool abUsed)
 		{
 			ScopeVariable scopeVariable;
-			bool flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
+			var flag = kVars.TryGetValue(asName.ToLowerInvariant(), out scopeVariable);
 			if (flag)
 			{
 				abUsed = scopeVariable.bUsed;
@@ -140,11 +140,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ADC RID: 2780 RVA: 0x000328AC File Offset: 0x00030AAC
 		public void ClearUsedVars()
 		{
-			foreach (KeyValuePair<string, ScopeVariable> keyValuePair in kVars)
+			foreach (var keyValuePair in kVars)
 			{
 				keyValuePair.Value.bUsed = false;
 			}
-			foreach (ScriptScope scriptScope in kChildren)
+			foreach (var scriptScope in kChildren)
 			{
 				scriptScope.ClearUsedVars();
 			}
@@ -163,7 +163,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ADE RID: 2782 RVA: 0x00032950 File Offset: 0x00030B50
 		public string GetMangledVariableName(string asVarName)
 		{
-			string result = asVarName;
+			var result = asVarName;
 			if (kMangledVarNames.ContainsKey(asVarName.ToLowerInvariant()))
 			{
 				kMangledVarNames.TryGetValue(asVarName.ToLowerInvariant(), out result);

@@ -28,7 +28,7 @@ namespace pcomps.Antlr.Runtime
 			get
 			{
                 if (!ReferenceEquals(resourceMan, null)) return resourceMan;
-                ResourceManager resourceManager = new ResourceManager("Antlr.Runtime.Messages", typeof(Messages).Assembly);
+                var resourceManager = new ResourceManager("Antlr.Runtime.Messages", typeof(Messages).Assembly);
                 resourceMan = resourceManager;
                 return resourceMan;
 			}

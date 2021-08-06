@@ -48,15 +48,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return 0;
 			}
 			output.PushIndentation(Indentation);
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)GetOption("anchor");
+			var stringTemplateAST = (StringTemplateAST)GetOption("anchor");
 			if (stringTemplateAST != null)
 			{
 				output.PushAnchorPoint();
 			}
 			HandleExprOptions(self);
-			ActionEvaluator actionEvaluator = new ActionEvaluator(self, this, output);
+			var actionEvaluator = new ActionEvaluator(self, this, output);
 			ActionParser.initializeASTFactory(actionEvaluator.getASTFactory());
-			int result = 0;
+			var result = 0;
 			try
 			{
 				result = actionEvaluator.action(exprTree);
@@ -77,31 +77,31 @@ namespace pcomps.Antlr.StringTemplate.Language
 		private void HandleExprOptions(StringTemplate self)
 		{
 			formatString = null;
-			StringTemplateAST stringTemplateAST = (StringTemplateAST)GetOption("wrap");
+			var stringTemplateAST = (StringTemplateAST)GetOption("wrap");
 			if (stringTemplateAST != null)
 			{
 				wrapString = EvaluateExpression(self, stringTemplateAST);
 			}
-			StringTemplateAST stringTemplateAST2 = (StringTemplateAST)GetOption("null");
+			var stringTemplateAST2 = (StringTemplateAST)GetOption("null");
 			if (stringTemplateAST2 != null)
 			{
 				nullValue = EvaluateExpression(self, stringTemplateAST2);
 			}
-			StringTemplateAST stringTemplateAST3 = (StringTemplateAST)GetOption("separator");
+			var stringTemplateAST3 = (StringTemplateAST)GetOption("separator");
 			if (stringTemplateAST3 != null)
 			{
 				separatorString = EvaluateExpression(self, stringTemplateAST3);
 			}
-			StringTemplateAST stringTemplateAST4 = (StringTemplateAST)GetOption("format");
+			var stringTemplateAST4 = (StringTemplateAST)GetOption("format");
 			if (stringTemplateAST4 != null)
 			{
 				formatString = EvaluateExpression(self, stringTemplateAST4);
 			}
 			if (options != null)
 			{
-				foreach (object obj in options.Keys)
+				foreach (var obj in options.Keys)
 				{
-					string text = (string)obj;
+					var text = (string)obj;
 					if (!supportedOptions.Contains(text))
 					{
 						self.Warning($"ignoring unsupported option: {text}");
@@ -118,47 +118,47 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return null;
 			}
 			IList list = new StringTemplate.STAttributeList();
-			for (int i = 0; i < attributes.Count; i++)
+			for (var i = 0; i < attributes.Count; i++)
 			{
-				object obj = attributes[i];
+				var obj = attributes[i];
 				if (obj != null)
 				{
 					obj = ConvertAnythingToIterator(obj);
 					attributes[i] = obj;
 				}
 			}
-			int num = attributes.Count;
-			HashList hashList = (HashList)templateToApply.FormalArguments;
+			var num = attributes.Count;
+			var hashList = (HashList)templateToApply.FormalArguments;
 			if (hashList == null || hashList.Count == 0)
 			{
 				self.Error(
                     $"missing arguments in anonymous template in context {self.GetEnclosingInstanceStackString()}");
 				return null;
 			}
-			object[] array = new object[hashList.Count];
+			var array = new object[hashList.Count];
 			hashList.Keys.CopyTo(array, 0);
 			if (array.Length != num)
 			{
 				self.Error(
                     $"number of arguments {hashList.Keys} mismatch between attribute list and anonymous template in context {self.GetEnclosingInstanceStackString()}");
-				int num2 = Math.Min(array.Length, num);
+				var num2 = Math.Min(array.Length, num);
 				num = num2;
-				object[] array2 = new object[num2];
+				var array2 = new object[num2];
 				Array.Copy(array, 0, array2, 0, num2);
 				array = array2;
 			}
-			int num3 = 0;
+			var num3 = 0;
 			for (;;)
 			{
 				IDictionary dictionary = new Hashtable();
-				int num4 = 0;
-				for (int j = 0; j < num; j++)
+				var num4 = 0;
+				for (var j = 0; j < num; j++)
 				{
-					IEnumerator enumerator = (IEnumerator)attributes[j];
+					var enumerator = (IEnumerator)attributes[j];
 					if (enumerator != null && enumerator.MoveNext())
 					{
-						string key = (string)array[j];
-						object value = enumerator.Current;
+						var key = (string)array[j];
+						var value = enumerator.Current;
 						dictionary[key] = value;
 					}
 					else
@@ -172,7 +172,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				dictionary["i"] = num3 + 1;
 				dictionary["i0"] = num3;
-				StringTemplate instanceOf = templateToApply.GetInstanceOf();
+				var instanceOf = templateToApply.GetInstanceOf();
 				instanceOf.EnclosingInstance = self;
 				instanceOf.ArgumentContext = dictionary;
 				list.Add(instanceOf);
@@ -196,11 +196,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			if (attributeValue is IEnumerator)
 			{
 				IList list = new StringTemplate.STAttributeList();
-				IEnumerator enumerator = (IEnumerator)attributeValue;
-				int num = 0;
+				var enumerator = (IEnumerator)attributeValue;
+				var num = 0;
 				while (enumerator.MoveNext())
 				{
-					object obj = enumerator.Current;
+					var obj = enumerator.Current;
 					if (obj == null)
 					{
 						if (nullValue == null)
@@ -209,15 +209,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						obj = nullValue;
 					}
-					int index = num % templatesToApply.Count;
+					var index = num % templatesToApply.Count;
 					stringTemplate = (StringTemplate)templatesToApply[index];
-					StringTemplateAST argumentsAST = stringTemplate.ArgumentsAST;
+					var argumentsAST = stringTemplate.ArgumentsAST;
 					stringTemplate = stringTemplate.GetInstanceOf();
 					stringTemplate.EnclosingInstance = self;
 					stringTemplate.ArgumentsAST = argumentsAST;
 					dictionary = new Hashtable();
 					flag = (stringTemplate.Name == "anonymous");
-					IDictionary formalArguments = stringTemplate.FormalArguments;
+					var formalArguments = stringTemplate.FormalArguments;
 					SetSoleFormalArgumentToIthValue(stringTemplate, dictionary, obj);
 					flag2 = (formalArguments != null && formalArguments.Count > 0);
 					if (!flag || !flag2)
@@ -240,7 +240,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			stringTemplate = (StringTemplate)templatesToApply[0];
 			dictionary = new Hashtable();
-			IDictionary formalArguments2 = stringTemplate.FormalArguments;
+			var formalArguments2 = stringTemplate.FormalArguments;
 			SetSoleFormalArgumentToIthValue(stringTemplate, dictionary, attributeValue);
 			flag = (stringTemplate.Name == "anonymous");
 			flag2 = (formalArguments2 != null && formalArguments2.Count > 0);
@@ -259,10 +259,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001101 RID: 4353 RVA: 0x0007B0D0 File Offset: 0x000792D0
 		protected internal virtual void SetSoleFormalArgumentToIthValue(StringTemplate embedded, IDictionary argumentContext, object ithValue)
 		{
-			IDictionary formalArguments = embedded.FormalArguments;
+			var formalArguments = embedded.FormalArguments;
 			if (formalArguments != null)
 			{
-				bool flag = embedded.Name == "anonymous";
+				var flag = embedded.Name == "anonymous";
 				if (formalArguments.Count == 1 || (flag && formalArguments.Count > 0))
 				{
 					if (flag && formalArguments.Count > 1)
@@ -270,9 +270,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 						embedded.Error(
                             $"too many arguments on {{...}} template: {CollectionUtils.DictionaryToString(formalArguments)}");
 					}
-					IEnumerator enumerator = formalArguments.Keys.GetEnumerator();
+					var enumerator = formalArguments.Keys.GetEnumerator();
 					enumerator.MoveNext();
-					string key = (string)enumerator.Current;
+					var key = (string)enumerator.Current;
 					argumentContext[key] = ithValue;
 				}
 			}
@@ -286,7 +286,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return null;
 			}
 			totalObjPropRefs++;
-			IAttributeStrategy attributeStrategy = enclosingTemplate.Group.AttributeStrategy;
+			var attributeStrategy = enclosingTemplate.Group.AttributeStrategy;
 			object result;
 			if (attributeStrategy != null && attributeStrategy.UseCustomGetObjectProperty)
 			{
@@ -302,7 +302,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001103 RID: 4355 RVA: 0x0007B1B0 File Offset: 0x000793B0
 		protected object RawGetObjectProperty(StringTemplate self, object o, string propertyName)
 		{
-			Type type = o.GetType();
+			var type = o.GetType();
 			object obj = null;
 			if (type == typeof(StringTemplate.Aggregate))
 			{
@@ -311,7 +311,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			if (type == typeof(StringTemplate))
 			{
-				IDictionary attributes = ((StringTemplate)o).Attributes;
+				var attributes = ((StringTemplate)o).Attributes;
 				if (attributes != null)
 				{
 					obj = attributes[propertyName];
@@ -320,7 +320,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			if (typeof(IDictionary).IsAssignableFrom(type))
 			{
-				IDictionary dictionary = (IDictionary)o;
+				var dictionary = (IDictionary)o;
 				if (propertyName.Equals("keys"))
 				{
 					obj = dictionary.Keys;
@@ -343,13 +343,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				return obj;
 			}
-			string text = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
-			PropertyLookupParams propertyLookupParams = new PropertyLookupParams(self, type, o, propertyName, text);
+			var text = char.ToUpper(propertyName[0]) + propertyName.Substring(1);
+			var propertyLookupParams = new PropertyLookupParams(self, type, o, propertyName, text);
 			totalReflectionLookups++;
 			if (!GetPropertyValueByName(propertyLookupParams, ref obj))
 			{
-				bool flag = false;
-				foreach (string str in new string[]
+				var flag = false;
+				foreach (var str in new string[]
 				{
 					"get_",
 					"Get",
@@ -372,7 +372,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (!GetFieldValueByName(propertyLookupParams, ref obj))
 					{
 						totalReflectionLookups++;
-						PropertyInfo property = type.GetProperty("Item", new Type[]
+						var property = type.GetProperty("Item", new Type[]
 						{
 							typeof(string)
 						});
@@ -416,7 +416,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001104 RID: 4356 RVA: 0x0007B46C File Offset: 0x0007966C
 		public virtual bool TestAttributeTrue(object a)
 		{
-			IAttributeStrategy attributeStrategy = enclosingTemplate.Group.AttributeStrategy;
+			var attributeStrategy = enclosingTemplate.Group.AttributeStrategy;
 			if (attributeStrategy != null && attributeStrategy.UseCustomTestAttributeTrue)
 			{
 				return attributeStrategy.TestAttributeTrue(a);
@@ -457,8 +457,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001106 RID: 4358 RVA: 0x0007B518 File Offset: 0x00079718
 		public virtual StringTemplate GetTemplateInclude(StringTemplate enclosing, string templateName, StringTemplateAST argumentsAST)
 		{
-			StringTemplateGroup group = enclosing.Group;
-			StringTemplate embeddedInstanceOf = group.GetEmbeddedInstanceOf(enclosing, templateName);
+			var group = enclosing.Group;
+			var embeddedInstanceOf = group.GetEmbeddedInstanceOf(enclosing, templateName);
 			if (embeddedInstanceOf == null)
 			{
 				enclosing.Error($"cannot make embedded instance of {templateName} in template {enclosing.Name}");
@@ -486,12 +486,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				o = nullValue;
 			}
-			int num = 0;
+			var num = 0;
 			try
 			{
 				if (o is StringTemplate)
 				{
-					StringTemplate stringTemplate = (StringTemplate)o;
+					var stringTemplate = (StringTemplate)o;
 					stringTemplate.EnclosingInstance = self;
 					if (StringTemplate.IsInLintMode && StringTemplate.IsRecursiveEnclosingInstance(stringTemplate))
 					{
@@ -511,11 +511,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					if (formatString != null)
 					{
-						IAttributeRenderer attributeRenderer = self.GetAttributeRenderer(typeof(string));
+						var attributeRenderer = self.GetAttributeRenderer(typeof(string));
 						if (attributeRenderer != null)
 						{
-							StringWriter stringWriter = new StringWriter();
-							IStringTemplateWriter output2 = self.Group.CreateInstanceOfTemplateWriter(stringWriter);
+							var stringWriter = new StringWriter();
+							var output2 = self.Group.CreateInstanceOfTemplateWriter(stringWriter);
 							stringTemplate.Write(output2);
 							num = output.Write(attributeRenderer.ToString(stringWriter.ToString(), formatString));
 							return num;
@@ -529,7 +529,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					o = ConvertAnythingIteratableToIterator(o);
 					if (!(o is IEnumerator))
 					{
-						IAttributeRenderer attributeRenderer2 = self.GetAttributeRenderer(o.GetType());
+						var attributeRenderer2 = self.GetAttributeRenderer(o.GetType());
 						string str;
 						if (attributeRenderer2 != null)
 						{
@@ -556,11 +556,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 						}
 						return num;
 					}
-					IEnumerator enumerator = (IEnumerator)o;
-					bool flag = false;
+					var enumerator = (IEnumerator)o;
+					var flag = false;
 					while (enumerator.MoveNext())
 					{
-						object obj = enumerator.Current;
+						var obj = enumerator.Current;
 						if (obj == null)
 						{
 							obj = nullValue;
@@ -572,7 +572,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 								num += output.WriteSeparator(separatorString);
 							}
 							flag = true;
-							int num2 = Write(self, obj, output);
+							var num2 = Write(self, obj, output);
 							num += num2;
 						}
 					}
@@ -594,10 +594,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			if (expr is StringTemplateAST)
 			{
-				StringTemplateAST stringTemplateAST = (StringTemplateAST)expr;
-				StringWriter stringWriter = new StringWriter();
-				IStringTemplateWriter @out = self.group.CreateInstanceOfTemplateWriter(stringWriter);
-				ActionEvaluator actionEvaluator = new ActionEvaluator(self, this, @out);
+				var stringTemplateAST = (StringTemplateAST)expr;
+				var stringWriter = new StringWriter();
+				var @out = self.group.CreateInstanceOfTemplateWriter(stringWriter);
+				var actionEvaluator = new ActionEvaluator(self, this, @out);
 				try
 				{
 					actionEvaluator.action(stringTemplateAST);
@@ -614,13 +614,13 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600110A RID: 4362 RVA: 0x0007B828 File Offset: 0x00079A28
 		protected internal virtual void EvaluateArguments(StringTemplate self)
 		{
-			StringTemplateAST argumentsAST = self.ArgumentsAST;
+			var argumentsAST = self.ArgumentsAST;
 			if (argumentsAST == null || argumentsAST.getFirstChild() == null)
 			{
 				return;
 			}
-			StringTemplate enclosingInstance = self.EnclosingInstance;
-			ActionEvaluator actionEvaluator = new ActionEvaluator(new StringTemplate(self.Group, "")
+			var enclosingInstance = self.EnclosingInstance;
+			var actionEvaluator = new ActionEvaluator(new StringTemplate(self.Group, "")
 			{
 				Name = $"<invoke {self.Name} arg context>",
 				EnclosingInstance = enclosingInstance,
@@ -629,7 +629,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			ActionParser.initializeASTFactory(actionEvaluator.getASTFactory());
 			try
 			{
-				IDictionary argumentContext = actionEvaluator.argList(argumentsAST, self, self.ArgumentContext);
+				var argumentContext = actionEvaluator.argList(argumentsAST, self, self.ArgumentContext);
 				self.ArgumentContext = argumentContext;
 			}
 			catch (RecognitionException e)
@@ -694,11 +694,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return null;
 			}
-			object result = attribute;
+			var result = attribute;
 			attribute = ConvertAnythingIteratableToIterator(attribute);
 			if (attribute is IEnumerator)
 			{
-				IEnumerator enumerator = (IEnumerator)attribute;
+				var enumerator = (IEnumerator)attribute;
 				if (enumerator.MoveNext())
 				{
 					result = enumerator.Current;
@@ -735,11 +735,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return null;
 			}
-			object result = attribute;
+			var result = attribute;
 			attribute = ConvertAnythingIteratableToIterator(attribute);
 			if (attribute is IEnumerator)
 			{
-				IEnumerator enumerator = (IEnumerator)attribute;
+				var enumerator = (IEnumerator)attribute;
 				while (enumerator.MoveNext())
 				{
 					result = enumerator.Current;
@@ -776,14 +776,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return 0;
 			}
-			int num = 1;
+			var num = 1;
 			if (attribute is ICollection)
 			{
 				num = ((ICollection)attribute).Count;
 			}
 			else if (attribute is IEnumerator)
 			{
-				IEnumerator enumerator = (IEnumerator)attribute;
+				var enumerator = (IEnumerator)attribute;
 				num = 0;
 				while (enumerator.MoveNext())
 				{
@@ -819,7 +819,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				MethodInfo method = paramBag.prototype.GetMethod(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+				var method = paramBag.prototype.GetMethod(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
 				if (method != null)
 				{
 					return GetMethodValue(method, paramBag, ref val);
@@ -860,7 +860,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				PropertyInfo property = paramBag.prototype.GetProperty(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, Type.EmptyTypes, null);
+				var property = paramBag.prototype.GetProperty(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null, Type.EmptyTypes, null);
 				if (property != null)
 				{
 					if (property.CanRead)
@@ -913,7 +913,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			try
 			{
-				FieldInfo field = paramBag.prototype.GetField(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+				var field = paramBag.prototype.GetField(paramBag.lookupName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 				if (field != null)
 				{
 					return GetFieldValue(field, paramBag, ref val);

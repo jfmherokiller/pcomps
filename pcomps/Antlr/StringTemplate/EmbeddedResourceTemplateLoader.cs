@@ -44,15 +44,15 @@ namespace pcomps.Antlr.StringTemplate
 			StreamReader streamReader = null;
 			try
 			{
-				string name = $"{LocationRoot}.{GetLocationFromTemplateName(templateName)}";
-				Stream manifestResourceStream = assembly.GetManifestResourceStream(name);
+				var name = $"{LocationRoot}.{GetLocationFromTemplateName(templateName)}";
+				var manifestResourceStream = assembly.GetManifestResourceStream(name);
 				if (manifestResourceStream != null)
 				{
 					streamReader = new StreamReader(manifestResourceStream);
 					text = streamReader.ReadToEnd();
 					if (text != null)
 					{
-						int length = text.Length;
+						var length = text.Length;
 					}
 				}
 			}

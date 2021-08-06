@@ -26,7 +26,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002DA RID: 730 RVA: 0x000095C0 File Offset: 0x000077C0
 		public virtual void add(int el)
 		{
-			int num = wordNumber(el);
+			var num = wordNumber(el);
 			if (num >= dataBits.Length)
 			{
 				growToInclude(el);
@@ -39,7 +39,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002DB RID: 731 RVA: 0x000095FC File Offset: 0x000077FC
 		public virtual BitSet and(BitSet a)
 		{
-			BitSet bitSet = (BitSet)Clone();
+			var bitSet = (BitSet)Clone();
 			bitSet.andInPlace(a);
 			return bitSet;
 		}
@@ -47,14 +47,14 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002DC RID: 732 RVA: 0x00009620 File Offset: 0x00007820
 		public virtual void andInPlace(BitSet a)
 		{
-			int num = Math.Min(dataBits.Length, a.dataBits.Length);
-			for (int i = num - 1; i >= 0; i--)
+			var num = Math.Min(dataBits.Length, a.dataBits.Length);
+			for (var i = num - 1; i >= 0; i--)
 			{
 				long[] array;
 				IntPtr intPtr;
 				(array = dataBits)[(int)(intPtr = (IntPtr)i)] = (array[(int)intPtr] & a.dataBits[i]);
 			}
-			for (int j = num; j < dataBits.Length; j++)
+			for (var j = num; j < dataBits.Length; j++)
 			{
 				dataBits[j] = 0L;
 			}
@@ -63,14 +63,14 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002DD RID: 733 RVA: 0x00009688 File Offset: 0x00007888
 		private static long bitMask(int bitNumber)
 		{
-			int num = bitNumber & MOD_MASK;
+			var num = bitNumber & MOD_MASK;
 			return 1L << num;
 		}
 
 		// Token: 0x060002DE RID: 734 RVA: 0x000096A4 File Offset: 0x000078A4
 		public virtual void clear()
 		{
-			for (int i = dataBits.Length - 1; i >= 0; i--)
+			for (var i = dataBits.Length - 1; i >= 0; i--)
 			{
 				dataBits[i] = 0L;
 			}
@@ -79,7 +79,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002DF RID: 735 RVA: 0x000096D0 File Offset: 0x000078D0
 		public virtual void clear(int el)
 		{
-			int num = wordNumber(el);
+			var num = wordNumber(el);
 			if (num >= dataBits.Length)
 			{
 				growToInclude(el);
@@ -109,13 +109,13 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002E1 RID: 737 RVA: 0x0000976C File Offset: 0x0000796C
 		public virtual int degree()
 		{
-			int num = 0;
-			for (int i = dataBits.Length - 1; i >= 0; i--)
+			var num = 0;
+			for (var i = dataBits.Length - 1; i >= 0; i--)
 			{
-				long num2 = dataBits[i];
+				var num2 = dataBits[i];
 				if (num2 != 0L)
 				{
-					for (int j = 63; j >= 0; j--)
+					for (var j = 63; j >= 0; j--)
 					{
 						if ((num2 & 1L << j) != 0L)
 						{
@@ -138,9 +138,9 @@ namespace pcomps.Antlr.collections.impl
 		{
 			if (obj != null && obj is BitSet)
 			{
-				BitSet bitSet = (BitSet)obj;
-				int num = Math.Min(dataBits.Length, bitSet.dataBits.Length);
-				int num2 = num;
+				var bitSet = (BitSet)obj;
+				var num = Math.Min(dataBits.Length, bitSet.dataBits.Length);
+				var num2 = num;
 				while (num2-- > 0)
 				{
 					if (dataBits[num2] != bitSet.dataBits[num2])
@@ -150,7 +150,7 @@ namespace pcomps.Antlr.collections.impl
 				}
 				if (dataBits.Length > num)
 				{
-					int num3 = dataBits.Length;
+					var num3 = dataBits.Length;
 					while (num3-- > num)
 					{
 						if (dataBits[num3] != 0L)
@@ -161,7 +161,7 @@ namespace pcomps.Antlr.collections.impl
 				}
 				else if (bitSet.dataBits.Length > num)
 				{
-					int num4 = bitSet.dataBits.Length;
+					var num4 = bitSet.dataBits.Length;
 					while (num4-- > num)
 					{
 						if (bitSet.dataBits[num4] != 0L)
@@ -178,8 +178,8 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002E4 RID: 740 RVA: 0x00009894 File Offset: 0x00007A94
 		public virtual void growToInclude(int bit)
 		{
-			int num = Math.Max(dataBits.Length << 1, numWordsToHold(bit));
-			long[] destinationArray = new long[num];
+			var num = Math.Max(dataBits.Length << 1, numWordsToHold(bit));
+			var destinationArray = new long[num];
 			Array.Copy(dataBits, 0, destinationArray, 0, dataBits.Length);
 			dataBits = destinationArray;
 		}
@@ -187,14 +187,14 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002E5 RID: 741 RVA: 0x000098DC File Offset: 0x00007ADC
 		public virtual bool member(int el)
 		{
-			int num = wordNumber(el);
+			var num = wordNumber(el);
 			return num < dataBits.Length && (dataBits[num] & bitMask(el)) != 0L;
 		}
 
 		// Token: 0x060002E6 RID: 742 RVA: 0x00009914 File Offset: 0x00007B14
 		public virtual bool nil()
 		{
-			for (int i = dataBits.Length - 1; i >= 0; i--)
+			for (var i = dataBits.Length - 1; i >= 0; i--)
 			{
 				if (dataBits[i] != 0L)
 				{
@@ -207,7 +207,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002E7 RID: 743 RVA: 0x00009948 File Offset: 0x00007B48
 		public virtual BitSet not()
 		{
-			BitSet bitSet = (BitSet)Clone();
+			var bitSet = (BitSet)Clone();
 			bitSet.notInPlace();
 			return bitSet;
 		}
@@ -215,7 +215,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002E8 RID: 744 RVA: 0x00009968 File Offset: 0x00007B68
 		public virtual void notInPlace()
 		{
-			for (int i = dataBits.Length - 1; i >= 0; i--)
+			for (var i = dataBits.Length - 1; i >= 0; i--)
 			{
 				dataBits[i] = ~dataBits[i];
 			}
@@ -231,9 +231,9 @@ namespace pcomps.Antlr.collections.impl
 		public virtual void notInPlace(int minBit, int maxBit)
 		{
 			growToInclude(maxBit);
-			for (int i = minBit; i <= maxBit; i++)
+			for (var i = minBit; i <= maxBit; i++)
 			{
-				int num = wordNumber(i);
+				var num = wordNumber(i);
 				long[] array;
 				IntPtr intPtr;
 				(array = dataBits)[(int)(intPtr = (IntPtr)num)] = (array[(int)intPtr] ^ bitMask(i));
@@ -249,7 +249,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002EC RID: 748 RVA: 0x00009A08 File Offset: 0x00007C08
 		public static BitSet of(int el)
 		{
-			BitSet bitSet = new BitSet(el + 1);
+			var bitSet = new BitSet(el + 1);
 			bitSet.add(el);
 			return bitSet;
 		}
@@ -257,7 +257,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002ED RID: 749 RVA: 0x00009A28 File Offset: 0x00007C28
 		public virtual BitSet or(BitSet a)
 		{
-			BitSet bitSet = (BitSet)Clone();
+			var bitSet = (BitSet)Clone();
 			bitSet.orInPlace(a);
 			return bitSet;
 		}
@@ -269,8 +269,8 @@ namespace pcomps.Antlr.collections.impl
 			{
 				setSize(a.dataBits.Length);
 			}
-			int num = Math.Min(dataBits.Length, a.dataBits.Length);
-			for (int i = num - 1; i >= 0; i--)
+			var num = Math.Min(dataBits.Length, a.dataBits.Length);
+			for (var i = num - 1; i >= 0; i--)
 			{
 				long[] array;
 				IntPtr intPtr;
@@ -281,7 +281,7 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002EF RID: 751 RVA: 0x00009AB8 File Offset: 0x00007CB8
 		public virtual void remove(int el)
 		{
-			int num = wordNumber(el);
+			var num = wordNumber(el);
 			if (num >= dataBits.Length)
 			{
 				growToInclude(el);
@@ -294,8 +294,8 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002F0 RID: 752 RVA: 0x00009AF8 File Offset: 0x00007CF8
 		private void setSize(int nwords)
 		{
-			long[] destinationArray = new long[nwords];
-			int length = Math.Min(nwords, dataBits.Length);
+			var destinationArray = new long[nwords];
+			var length = Math.Min(nwords, dataBits.Length);
 			Array.Copy(dataBits, 0, destinationArray, 0, length);
 			dataBits = destinationArray;
 		}
@@ -325,7 +325,7 @@ namespace pcomps.Antlr.collections.impl
 			{
 				return;
 			}
-			int num = 0;
+			var num = 0;
 			while (num < dataBits.Length && num < a.dataBits.Length)
 			{
 				long[] array;
@@ -338,9 +338,9 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002F5 RID: 757 RVA: 0x00009BCC File Offset: 0x00007DCC
 		public virtual int[] toArray()
 		{
-			int[] array = new int[degree()];
-			int num = 0;
-			for (int i = 0; i < dataBits.Length << 6; i++)
+			var array = new int[degree()];
+			var num = 0;
+			for (var i = 0; i < dataBits.Length << 6; i++)
 			{
 				if (member(i))
 				{
@@ -365,8 +365,8 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002F8 RID: 760 RVA: 0x00009C3C File Offset: 0x00007E3C
 		public virtual string ToString(string separator)
 		{
-			string text = "";
-			for (int i = 0; i < dataBits.Length << 6; i++)
+			var text = "";
+			for (var i = 0; i < dataBits.Length << 6; i++)
 			{
 				if (member(i))
 				{
@@ -387,8 +387,8 @@ namespace pcomps.Antlr.collections.impl
 			{
 				return ToString(separator);
 			}
-			string text = "";
-			for (int i = 0; i < dataBits.Length << 6; i++)
+			var text = "";
+			for (var i = 0; i < dataBits.Length << 6; i++)
 			{
 				if (member(i))
 				{
@@ -430,15 +430,15 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002FA RID: 762 RVA: 0x00009D68 File Offset: 0x00007F68
 		public virtual string toStringOfHalfWords()
 		{
-			string text = new string("".ToCharArray());
-			for (int i = 0; i < dataBits.Length; i++)
+			var text = new string("".ToCharArray());
+			for (var i = 0; i < dataBits.Length; i++)
 			{
 				if (i != 0)
 				{
 					text += ", ";
 				}
-				long num = dataBits[i];
-                ulong v = unchecked((ulong)-1);
+				var num = dataBits[i];
+                var v = unchecked((ulong)-1);
                 num &= (long)v;
 				text = $"{text}{num}UL";
 				text += ", ";
@@ -452,8 +452,8 @@ namespace pcomps.Antlr.collections.impl
 		// Token: 0x060002FB RID: 763 RVA: 0x00009DFC File Offset: 0x00007FFC
 		public virtual string toStringOfWords()
 		{
-			string text = new string("".ToCharArray());
-			for (int i = 0; i < dataBits.Length; i++)
+			var text = new string("".ToCharArray());
+			for (var i = 0; i < dataBits.Length; i++)
 			{
 				if (i != 0)
 				{

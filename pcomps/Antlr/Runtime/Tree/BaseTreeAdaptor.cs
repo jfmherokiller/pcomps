@@ -37,14 +37,14 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return null;
 			}
-			object obj = DupNode(t);
+			var obj = DupNode(t);
 			SetChildIndex(obj, GetChildIndex(t));
 			SetParent(obj, parent);
-			int childCount = GetChildCount(t);
-			for (int i = 0; i < childCount; i++)
+			var childCount = GetChildCount(t);
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = GetChild(t, i);
-				object child2 = DupTree(child, t);
+				var child = GetChild(t, i);
+				var child2 = DupTree(child, t);
 				AddChild(obj, child2);
 			}
 			return obj;
@@ -62,15 +62,15 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005ED RID: 1517 RVA: 0x00011858 File Offset: 0x0000FA58
 		public virtual object BecomeRoot(object newRoot, object oldRoot)
 		{
-			ITree tree = (ITree)newRoot;
-			ITree t = (ITree)oldRoot;
+			var tree = (ITree)newRoot;
+			var t = (ITree)oldRoot;
 			if (oldRoot == null)
 			{
 				return newRoot;
 			}
 			if (tree.IsNil)
 			{
-				int childCount = tree.ChildCount;
+				var childCount = tree.ChildCount;
 				if (childCount == 1)
 				{
 					tree = tree.GetChild(0);
@@ -87,7 +87,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005EE RID: 1518 RVA: 0x000118BC File Offset: 0x0000FABC
 		public virtual object RulePostProcessing(object root)
 		{
-			ITree tree = (ITree)root;
+			var tree = (ITree)root;
 			if (tree != null && tree.IsNil)
 			{
 				if (tree.ChildCount == 0)
@@ -130,7 +130,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060005F2 RID: 1522 RVA: 0x00011988 File Offset: 0x0000FB88
 		public virtual object Create(int tokenType, string text)
 		{
-			IToken param = CreateToken(tokenType, text);
+			var param = CreateToken(tokenType, text);
 			return (ITree)Create(param);
 		}
 
@@ -207,12 +207,12 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				treeToUniqueIDMap = new Hashtable();
 			}
-			object obj = treeToUniqueIDMap[node];
+			var obj = treeToUniqueIDMap[node];
 			if (obj != null)
 			{
 				return (int)obj;
 			}
-			int num = uniqueNodeID;
+			var num = uniqueNodeID;
 			treeToUniqueIDMap[node] = num;
 			uniqueNodeID++;
 			return num;

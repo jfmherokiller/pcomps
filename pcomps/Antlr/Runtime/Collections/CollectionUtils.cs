@@ -10,7 +10,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x06000590 RID: 1424 RVA: 0x000106A4 File Offset: 0x0000E8A4
 		public static string ListToString(IList coll)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (coll != null)
 			{
 				stringBuilder.Append("[");
@@ -20,7 +20,7 @@ namespace pcomps.Antlr.Runtime.Collections
 					{
 						stringBuilder.Append(", ");
 					}
-					object obj = coll[i];
+					var obj = coll[i];
 					if (obj == null)
 					{
 						stringBuilder.Append("null");
@@ -50,7 +50,7 @@ namespace pcomps.Antlr.Runtime.Collections
 		// Token: 0x06000591 RID: 1425 RVA: 0x00010788 File Offset: 0x0000E988
 		public static string DictionaryToString(IDictionary dict)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (dict != null)
 			{
 				stringBuilder.Append('{');

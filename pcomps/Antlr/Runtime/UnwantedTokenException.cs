@@ -26,7 +26,7 @@
 		// Token: 0x0600058E RID: 1422 RVA: 0x00010630 File Offset: 0x0000E830
 		public override string ToString()
 		{
-			string str = $", expected {Expecting}";
+			var str = $", expected {Expecting}";
 			if (Expecting == 0)
 			{
 				str = string.Empty;

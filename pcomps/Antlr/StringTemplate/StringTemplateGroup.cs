@@ -198,7 +198,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FE5 RID: 4069 RVA: 0x00070A0C File Offset: 0x0006EC0C
 		public virtual void SetSuperGroup(string groupName)
 		{
-			StringTemplateGroup stringTemplateGroup = (StringTemplateGroup)nameToGroupMap[groupName];
+			var stringTemplateGroup = (StringTemplateGroup)nameToGroupMap[groupName];
 			if (stringTemplateGroup != null)
 			{
 				SuperGroup = stringTemplateGroup;
@@ -242,7 +242,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FE9 RID: 4073 RVA: 0x00070AA0 File Offset: 0x0006ECA0
 		public void ImplementInterface(string interfaceName)
 		{
-			StringTemplateGroupInterface stringTemplateGroupInterface = (StringTemplateGroupInterface)nameToInterfaceMap[interfaceName];
+			var stringTemplateGroupInterface = (StringTemplateGroupInterface)nameToInterfaceMap[interfaceName];
 			if (stringTemplateGroupInterface != null)
 			{
 				ImplementInterface(stringTemplateGroupInterface);
@@ -270,7 +270,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FEB RID: 4075 RVA: 0x00070B04 File Offset: 0x0006ED04
 		public virtual StringTemplate GetInstanceOf(StringTemplate enclosingInstance, string name)
 		{
-			StringTemplate stringTemplate = LookupTemplate(enclosingInstance, name);
+			var stringTemplate = LookupTemplate(enclosingInstance, name);
             return stringTemplate?.GetInstanceOf();
         }
 
@@ -283,7 +283,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FED RID: 4077 RVA: 0x00070B34 File Offset: 0x0006ED34
 		public StringTemplate GetInstanceOf(string name, IDictionary attributes)
 		{
-			StringTemplate instanceOf = GetInstanceOf(name);
+			var instanceOf = GetInstanceOf(name);
 			instanceOf.Attributes = attributes;
 			return instanceOf;
 		}
@@ -317,14 +317,14 @@ namespace pcomps.Antlr.StringTemplate
 					{
 						throw new StringTemplateException($"{Name} has no super group; invalid template: {name}");
 					}
-					int num = name.IndexOf('.');
+					var num = name.IndexOf('.');
 					name = name.Substring(num + 1, name.Length - (num + 1));
-					StringTemplate stringTemplate = superGroup.LookupTemplate(enclosingInstance, name);
+					var stringTemplate = superGroup.LookupTemplate(enclosingInstance, name);
 					result = stringTemplate;
 				}
 				else
 				{
-					StringTemplate stringTemplate2 = (StringTemplate)templates[name];
+					var stringTemplate2 = (StringTemplate)templates[name];
 					if (stringTemplate2 != null && stringTemplate2.NativeGroup.TemplateHasChanged(name))
 					{
 						templates.Remove(name);
@@ -347,7 +347,7 @@ namespace pcomps.Antlr.StringTemplate
 						if (stringTemplate2 == null)
 						{
 							templates[name] = NOT_FOUND_ST;
-							string str = "";
+							var str = "";
 							if (enclosingInstance != null)
 							{
 								str = $"; context is {enclosingInstance.GetEnclosingInstanceStackString()}";
@@ -382,7 +382,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF2 RID: 4082 RVA: 0x00070D28 File Offset: 0x0006EF28
 		protected virtual StringTemplate LoadTemplate(string templateName)
 		{
-			string text = templateLoader.LoadTemplate(templateName);
+			var text = templateLoader.LoadTemplate(templateName);
 			if (text != null)
 			{
 				return DefineTemplate(templateName, text);
@@ -400,7 +400,7 @@ namespace pcomps.Antlr.StringTemplate
 				{
 					throw new ArgumentException("cannot have '.' in template names", "name");
 				}
-				StringTemplate stringTemplate = CreateStringTemplate();
+				var stringTemplate = CreateStringTemplate();
 				stringTemplate.Name = name;
 				stringTemplate.Group = this;
 				stringTemplate.NativeGroup = this;
@@ -415,8 +415,8 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF4 RID: 4084 RVA: 0x00070DDC File Offset: 0x0006EFDC
 		public StringTemplate DefineRegionTemplate(string enclosingTemplateName, string regionName, string template, int type)
 		{
-			string mangledRegionName = GetMangledRegionName(enclosingTemplateName, regionName);
-			StringTemplate stringTemplate = DefineTemplate(mangledRegionName, template);
+			var mangledRegionName = GetMangledRegionName(enclosingTemplateName, regionName);
+			var stringTemplate = DefineTemplate(mangledRegionName, template);
 			stringTemplate.IsRegion = true;
 			stringTemplate.RegionDefType = type;
 			return stringTemplate;
@@ -425,7 +425,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF5 RID: 4085 RVA: 0x00070E0C File Offset: 0x0006F00C
 		public StringTemplate DefineRegionTemplate(StringTemplate enclosingTemplate, string regionName, string template, int type)
 		{
-			StringTemplate result = DefineRegionTemplate(enclosingTemplate.OutermostName, regionName, template, type);
+			var result = DefineRegionTemplate(enclosingTemplate.OutermostName, regionName, template, type);
 			enclosingTemplate.OutermostEnclosingInstance.AddRegionName(regionName);
 			return result;
 		}
@@ -454,7 +454,7 @@ namespace pcomps.Antlr.StringTemplate
 			StringTemplate result;
 			lock (this)
 			{
-				StringTemplate templateDefinition = GetTemplateDefinition(target);
+				var templateDefinition = GetTemplateDefinition(target);
 				if (templateDefinition == null)
 				{
 					Error($"cannot alias {name} to undefined template: {target}");
@@ -475,7 +475,7 @@ namespace pcomps.Antlr.StringTemplate
 			bool result;
 			lock (this)
 			{
-				StringTemplate stringTemplate = (StringTemplate)templates[name];
+				var stringTemplate = (StringTemplate)templates[name];
 				if (stringTemplate != null)
 				{
 					if (stringTemplate.IsRegion && stringTemplate.RegionDefType == 1)
@@ -541,7 +541,7 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				try
 				{
-					ConstructorInfo constructor = userSpecifiedWriter.GetConstructor(new Type[]
+					var constructor = userSpecifiedWriter.GetConstructor(new Type[]
 					{
 						typeof(TextWriter)
 					});
@@ -577,7 +577,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (attributeRenderers != null)
 			{
-				IAttributeRenderer attributeRenderer = (IAttributeRenderer)attributeRenderers[attributeClassType];
+				var attributeRenderer = (IAttributeRenderer)attributeRenderers[attributeClassType];
 				if (attributeRenderer == null && superGroup != null)
 				{
 					attributeRenderer = superGroup.GetAttributeRenderer(attributeClassType);
@@ -593,7 +593,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (maps != null)
 			{
-				IDictionary dictionary = (IDictionary)maps[name];
+				var dictionary = (IDictionary)maps[name];
 				if (dictionary == null && superGroup != null)
 				{
 					dictionary = superGroup.GetMap(name);
@@ -673,13 +673,13 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x0600100C RID: 4108 RVA: 0x0007125C File Offset: 0x0006F45C
 		public virtual string ToString(bool showTemplatePatterns)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			stringBuilder.Append($"group {Name};\n");
-			StringTemplate stringTemplate = new StringTemplate("$args;separator=\",\"$");
+			var stringTemplate = new StringTemplate("$args;separator=\",\"$");
 			foreach (var obj in new SortedList(templates))
 			{
-				string text = (string)((DictionaryEntry)obj).Key;
-				StringTemplate stringTemplate2 = (StringTemplate)templates[text];
+				var text = (string)((DictionaryEntry)obj).Key;
+				var stringTemplate2 = (StringTemplate)templates[text];
 				if (stringTemplate2 != NOT_FOUND_ST)
 				{
 					stringTemplate = stringTemplate.GetInstanceOf();
@@ -715,13 +715,13 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			try
 			{
-				GroupLexer lexer = new GroupLexer(r);
-				GroupParser groupParser = new GroupParser(lexer);
+				var lexer = new GroupLexer(r);
+				var groupParser = new GroupParser(lexer);
 				groupParser.group(this);
 			}
 			catch (Exception ex)
 			{
-				string text = "<unknown>";
+				var text = "<unknown>";
 				if (Name != null)
 				{
 					text = Name;
@@ -733,12 +733,12 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06001010 RID: 4112 RVA: 0x00071440 File Offset: 0x0006F640
 		protected void VerifyInterfaceImplementations()
 		{
-			int num = 0;
+			var num = 0;
 			while (interfaces != null && num < interfaces.Count)
 			{
-				StringTemplateGroupInterface stringTemplateGroupInterface = (StringTemplateGroupInterface)interfaces[num];
-				IList missingTemplates = stringTemplateGroupInterface.GetMissingTemplates(this);
-				IList mismatchedTemplates = stringTemplateGroupInterface.GetMismatchedTemplates(this);
+				var stringTemplateGroupInterface = (StringTemplateGroupInterface)interfaces[num];
+				var missingTemplates = stringTemplateGroupInterface.GetMissingTemplates(this);
+				var mismatchedTemplates = stringTemplateGroupInterface.GetMismatchedTemplates(this);
 				if (missingTemplates != null)
 				{
 					Error(

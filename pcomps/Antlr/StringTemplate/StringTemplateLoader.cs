@@ -33,7 +33,7 @@
 		// Token: 0x06000F3D RID: 3901 RVA: 0x0006E5A0 File Offset: 0x0006C7A0
 		public string LoadTemplate(string templateName)
 		{
-			string text = InternalLoadTemplateContents(templateName);
+			var text = InternalLoadTemplateContents(templateName);
 			if (text is { Length: > 0 })
 			{
 				return text;

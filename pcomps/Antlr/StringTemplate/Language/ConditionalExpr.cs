@@ -47,16 +47,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return 0;
 			}
-			ActionEvaluator actionEvaluator = new ActionEvaluator(self, this, output);
+			var actionEvaluator = new ActionEvaluator(self, this, output);
 			ActionParser.initializeASTFactory(actionEvaluator.getASTFactory());
-			int result = 0;
+			var result = 0;
 			try
 			{
-				AST firstChild = exprTree.getFirstChild();
-				bool flag = actionEvaluator.ifCondition(firstChild);
+				var firstChild = exprTree.getFirstChild();
+				var flag = actionEvaluator.ifCondition(firstChild);
 				if (flag)
 				{
-					StringTemplate instanceOf = subtemplate.GetInstanceOf();
+					var instanceOf = subtemplate.GetInstanceOf();
 					instanceOf.EnclosingInstance = self;
 					instanceOf.Group = self.Group;
 					instanceOf.NativeGroup = self.NativeGroup;
@@ -64,7 +64,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else if (elseSubtemplate != null)
 				{
-					StringTemplate instanceOf2 = elseSubtemplate.GetInstanceOf();
+					var instanceOf2 = elseSubtemplate.GetInstanceOf();
 					instanceOf2.EnclosingInstance = self;
 					instanceOf2.Group = self.Group;
 					instanceOf2.NativeGroup = self.NativeGroup;

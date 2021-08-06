@@ -14,12 +14,12 @@ namespace pcomps.PCompiler
 			kNonOverridableFunctions = new List<string>();
 			kNonOverridableFunctions.Add("getstate");
 			kNonOverridableFunctions.Add("gotostate");
-			Dictionary<string, ScriptFunctionType> dictionary = new Dictionary<string, ScriptFunctionType>();
+			var dictionary = new Dictionary<string, ScriptFunctionType>();
 			dictionary.Add("getstate", new ScriptFunctionType("getstate", asName, "", "")
 			{
 				kRetType = new ScriptVariableType("string")
 			});
-			ScriptFunctionType scriptFunctionType = new ScriptFunctionType("gotostate", asName, "", "");
+			var scriptFunctionType = new ScriptFunctionType("gotostate", asName, "", "");
 			scriptFunctionType.TryAddParam("newstate", new ScriptVariableType("string"));
 			dictionary.Add("gotostate", scriptFunctionType);
 			kStateFunctions.Add("", dictionary);
@@ -38,8 +38,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D51 RID: 3409 RVA: 0x0005DC6C File Offset: 0x0005BE6C
 		public bool IsChildOf(string asParentName)
 		{
-			ScriptObjectType scriptObjectType = kParent;
-			bool flag = false;
+			var scriptObjectType = kParent;
+			var flag = false;
 			while (scriptObjectType != null && !flag)
 			{
 				if (scriptObjectType.Name == asParentName.ToLowerInvariant())
@@ -54,7 +54,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D52 RID: 3410 RVA: 0x0005DCA8 File Offset: 0x0005BEA8
 		public bool TryGetVariable(string asName, out ScriptVariableType akType)
 		{
-			string text = asName.ToLowerInvariant();
+			var text = asName.ToLowerInvariant();
 			bool result;
 			if (text == "self")
 			{
@@ -71,7 +71,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D53 RID: 3411 RVA: 0x0005DCEC File Offset: 0x0005BEEC
 		public bool TrySetVariable(string asName, ScriptVariableType akType)
 		{
-			bool flag = kInstanceVariables.ContainsKey(asName.ToLowerInvariant());
+			var flag = kInstanceVariables.ContainsKey(asName.ToLowerInvariant());
 			if (!flag)
 			{
 				kInstanceVariables.Add(asName.ToLowerInvariant(), akType);
@@ -88,7 +88,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D55 RID: 3413 RVA: 0x0005DD38 File Offset: 0x0005BF38
 		public bool TrySetProperty(string asName, ScriptVariableType akType)
 		{
-			bool flag = kProperties.ContainsKey(asName.ToLowerInvariant());
+			var flag = kProperties.ContainsKey(asName.ToLowerInvariant());
 			if (!flag)
 			{
 				kProperties.Add(asName.ToLowerInvariant(), new ScriptPropertyType(akType));
@@ -107,7 +107,7 @@ namespace pcomps.PCompiler
 		{
 			akType = null;
 			Dictionary<string, ScriptFunctionType> dictionary;
-			bool flag = kStateFunctions.TryGetValue(asStateName.ToLowerInvariant(), out dictionary);
+			var flag = kStateFunctions.TryGetValue(asStateName.ToLowerInvariant(), out dictionary);
 			return flag && dictionary.TryGetValue(asName.ToLowerInvariant(), out akType);
 		}
 
@@ -120,7 +120,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D59 RID: 3417 RVA: 0x0005DDD0 File Offset: 0x0005BFD0
 		public bool TrySetFunction(string asStateName, string asName, ScriptFunctionType akType)
 		{
-			bool flag = false;
+			var flag = false;
 			Dictionary<string, ScriptFunctionType> dictionary;
 			if (kStateFunctions.TryGetValue(asStateName.ToLowerInvariant(), out dictionary))
 			{

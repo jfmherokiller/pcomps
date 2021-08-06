@@ -34,8 +34,8 @@
 			{
 				return;
 			}
-			int tokenStartIndex = 0;
-			int tokenStopIndex = 0;
+			var tokenStartIndex = 0;
+			var tokenStopIndex = 0;
 			if (startToken != null)
 			{
 				tokenStartIndex = startToken.TokenIndex;

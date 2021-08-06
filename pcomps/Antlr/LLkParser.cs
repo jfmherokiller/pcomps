@@ -29,7 +29,7 @@ namespace pcomps.Antlr
 		public LLkParser(TokenStream lexer, int k_)
 		{
 			k = k_;
-			TokenBuffer tokenBuffer = new TokenBuffer(lexer);
+			var tokenBuffer = new TokenBuffer(lexer);
 			setTokenBuffer(tokenBuffer);
 		}
 
@@ -56,27 +56,15 @@ namespace pcomps.Antlr
 		{
 			traceIndent();
 			Console.Out.Write(ee + rname + ((inputState.guessing > 0) ? "; [guessing]" : "; "));
-			for (int i = 1; i <= k; i++)
-			{
-				if (i != 1)
+			for (var i = 1; i <= k; i++)
+            {
+                if (i != 1)
 				{
 					Console.Out.Write(", ");
 				}
-				if (LT(i) != null)
-				{
-					Console.Out.Write(string.Concat(new object[]
-					{
-						"LA(",
-						i,
-						")==",
-						LT(i).getText()
-					}));
-				}
-				else
-				{
-					Console.Out.Write($"LA({i})==ull");
-				}
-			}
+
+                Console.Out.Write(LT(i) != null ? $"LA({i})=={LT(i).getText()}" : $"LA({i})==ull");
+            }
 			Console.Out.WriteLine("");
 		}
 

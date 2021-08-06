@@ -17,7 +17,7 @@ namespace pcomps.Antlr
 			{
 				return;
 			}
-			BaseAST baseAST = down;
+			var baseAST = down;
 			if (baseAST != null)
 			{
 				while (baseAST.right != null)
@@ -143,7 +143,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000086 RID: 134 RVA: 0x000037E4 File Offset: 0x000019E4
 		public virtual IEnumerator findAll(AST target)
 		{
-			ArrayList arrayList = new ArrayList(10);
+			var arrayList = new ArrayList(10);
 			if (target == null)
 			{
 				return null;
@@ -155,7 +155,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000087 RID: 135 RVA: 0x00003810 File Offset: 0x00001A10
 		public virtual IEnumerator findAllPartial(AST sub)
 		{
-			ArrayList arrayList = new ArrayList(10);
+			var arrayList = new ArrayList(10);
 			if (sub == null)
 			{
 				return null;
@@ -211,8 +211,8 @@ namespace pcomps.Antlr
 		// Token: 0x0600008F RID: 143 RVA: 0x000038B8 File Offset: 0x00001AB8
 		public int getNumberOfChildren()
 		{
-			BaseAST baseAST = down;
-			int num = 0;
+			var baseAST = down;
+			var num = 0;
 			if (baseAST != null)
 			{
 				num = 1;
@@ -273,7 +273,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000099 RID: 153 RVA: 0x00003978 File Offset: 0x00001B78
 		public override string ToString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (verboseStringConversion && string.Compare(getText(), tokenNames[Type], true) != 0 && string.Compare(getText(), StringUtils.stripFrontBack(tokenNames[Type], "\"", "\""), true) != 0)
 			{
 				stringBuilder.Append('[');
@@ -289,7 +289,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600009A RID: 154 RVA: 0x00003A28 File Offset: 0x00001C28
 		public virtual string ToStringList()
 		{
-			string text = "";
+			var text = "";
 			if (((AST)this).getFirstChild() != null)
 			{
 				text += " (";
@@ -313,7 +313,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600009B RID: 155 RVA: 0x00003AB8 File Offset: 0x00001CB8
 		public virtual string ToStringTree()
 		{
-			string text = "";
+			var text = "";
 			if (((AST)this).getFirstChild() != null)
 			{
 				text += " (";
@@ -339,7 +339,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600009D RID: 157 RVA: 0x00003B40 File Offset: 0x00001D40
 		public virtual string ToTree(string prefix)
 		{
-			StringBuilder stringBuilder = new StringBuilder(prefix);
+			var stringBuilder = new StringBuilder(prefix);
 			if (getNextSibling() == null)
 			{
 				stringBuilder.Append("+--");
@@ -371,17 +371,17 @@ namespace pcomps.Antlr
 		// Token: 0x0600009E RID: 158 RVA: 0x00003C0C File Offset: 0x00001E0C
 		public static string decode(string text)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < text.Length; i++)
+			var stringBuilder = new StringBuilder();
+			for (var i = 0; i < text.Length; i++)
 			{
-				char c = text[i];
+				var c = text[i];
 				if (c == '&')
 				{
-					char c2 = text[i + 1];
-					char c3 = text[i + 2];
-					char c4 = text[i + 3];
-					char c5 = text[i + 4];
-					char c6 = text[i + 5];
+					var c2 = text[i + 1];
+					var c3 = text[i + 2];
+					var c4 = text[i + 3];
+					var c5 = text[i + 4];
+					var c6 = text[i + 5];
 					if (c2 == 'a' && c3 == 'm' && c4 == 'p' && c5 == ';')
 					{
 						stringBuilder.Append("&");
@@ -423,10 +423,10 @@ namespace pcomps.Antlr
 		// Token: 0x0600009F RID: 159 RVA: 0x00003D7C File Offset: 0x00001F7C
 		public static string encode(string text)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			foreach (char c in text)
+			var stringBuilder = new StringBuilder();
+			foreach (var c in text)
 			{
-				char c2 = c;
+				var c2 = c;
 				if (c2 != '"')
 				{
 					switch (c2)
@@ -463,7 +463,7 @@ namespace pcomps.Antlr
 		// Token: 0x060000A0 RID: 160 RVA: 0x00003E34 File Offset: 0x00002034
 		public virtual void xmlSerializeNode(TextWriter outWriter)
 		{
-			StringBuilder stringBuilder = new StringBuilder(100);
+			var stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
 			stringBuilder.Append($"{GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]
@@ -480,7 +480,7 @@ namespace pcomps.Antlr
 		// Token: 0x060000A1 RID: 161 RVA: 0x00003EC8 File Offset: 0x000020C8
 		public virtual void xmlSerializeRootOpen(TextWriter outWriter)
 		{
-			StringBuilder stringBuilder = new StringBuilder(100);
+			var stringBuilder = new StringBuilder(100);
 			stringBuilder.Append("<");
 			stringBuilder.Append($"{GetType().FullName} ");
 			stringBuilder.Append(string.Concat(new object[]

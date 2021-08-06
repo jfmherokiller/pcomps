@@ -110,8 +110,8 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x0600089E RID: 2206 RVA: 0x00018690 File Offset: 0x00016890
 		protected internal virtual void fill(int k)
 		{
-			int lookaheadSize = LookaheadSize;
-			for (int i = 1; i <= k - lookaheadSize; i++)
+			var lookaheadSize = LookaheadSize;
+			for (var i = 1; i <= k - lookaheadSize; i++)
 			{
 				MoveNext();
 			}
@@ -124,8 +124,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			tail = (tail + 1) % lookahead.Length;
 			if (tail == head)
 			{
-				object[] destinationArray = new object[2 * lookahead.Length];
-				int num = lookahead.Length - head;
+				var destinationArray = new object[2 * lookahead.Length];
+				var num = lookahead.Length - head;
 				Array.Copy(lookahead, head, destinationArray, 0, num);
 				Array.Copy(lookahead, 0, destinationArray, num, tail);
 				lookahead = destinationArray;
@@ -179,10 +179,10 @@ namespace pcomps.Antlr.Runtime.Tree
 			treeWalkState.previousNode = previousNode;
 			treeWalkState.nodeStackSize = nodeStack.Count;
 			treeWalkState.indexStackSize = indexStack.Count;
-			int lookaheadSize = LookaheadSize;
-			int num = 0;
+			var lookaheadSize = LookaheadSize;
+			var num = 0;
 			treeWalkState.lookahead = new object[lookaheadSize];
-			int i = 1;
+			var i = 1;
 			while (i <= lookaheadSize)
 			{
 				treeWalkState.lookahead[num] = LT(i);
@@ -207,7 +207,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return;
 			}
-			TreeWalkState treeWalkState = (TreeWalkState)markers[marker];
+			var treeWalkState = (TreeWalkState)markers[marker];
 			absoluteNodeIndex = treeWalkState.absoluteNodeIndex;
 			currentChildIndex = treeWalkState.currentChildIndex;
 			currentNode = treeWalkState.currentNode;
@@ -261,7 +261,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				CommonTreeNodeStream commonTreeNodeStream = new CommonTreeNodeStream(root);
+				var commonTreeNodeStream = new CommonTreeNodeStream(root);
 				return commonTreeNodeStream.Count;
 			}
 		}
@@ -269,7 +269,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060008AA RID: 2218 RVA: 0x00018A70 File Offset: 0x00016C70
 		protected internal virtual object handleRootNode()
 		{
-			object obj = currentNode;
+			var obj = currentNode;
 			currentChildIndex = 0;
 			if (adaptor.IsNil(obj))
 			{
@@ -297,7 +297,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			currentNode = adaptor.GetChild(currentNode, child);
 			currentChildIndex = 0;
-			object obj = currentNode;
+			var obj = currentNode;
 			AddLookahead(obj);
 			WalkBackToMostRecentNodeWithUnvisitedChildren();
 			return obj;
@@ -436,8 +436,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (tokens != null)
 			{
-				int tokenStartIndex = adaptor.GetTokenStartIndex(start);
-				int stop2 = adaptor.GetTokenStopIndex(stop);
+				var tokenStartIndex = adaptor.GetTokenStartIndex(start);
+				var stop2 = adaptor.GetTokenStopIndex(stop);
 				if (stop != null && adaptor.GetNodeType(stop) == 3)
 				{
 					stop2 = adaptor.GetTokenStopIndex(start);
@@ -448,7 +448,7 @@ namespace pcomps.Antlr.Runtime.Tree
 				}
 				return tokens.ToString(tokenStartIndex, stop2);
 			}
-			StringBuilder stringBuilder = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			ToStringWork(start, stop, stringBuilder);
 			return stringBuilder.ToString();
 		}
@@ -458,7 +458,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			if (!adaptor.IsNil(p))
 			{
-				string text = adaptor.GetNodeText(p);
+				var text = adaptor.GetNodeText(p);
 				if (text == null)
 				{
 					text = $" {adaptor.GetNodeType(p)}";
@@ -469,15 +469,15 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return;
 			}
-			int childCount = adaptor.GetChildCount(p);
+			var childCount = adaptor.GetChildCount(p);
 			if (childCount > 0 && !adaptor.IsNil(p))
 			{
 				buf.Append(" ");
 				buf.Append(2);
 			}
-			for (int i = 0; i < childCount; i++)
+			for (var i = 0; i < childCount; i++)
 			{
-				object child = adaptor.GetChild(p, i);
+				var child = adaptor.GetChild(p, i);
 				ToStringWork(child, stop, buf);
 			}
 			if (childCount > 0 && !adaptor.IsNil(p))

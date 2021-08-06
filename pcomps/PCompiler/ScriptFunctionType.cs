@@ -69,10 +69,10 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EE0 RID: 3808 RVA: 0x0006D77C File Offset: 0x0006B97C
 		public bool ParamTypesMatch(ScriptFunctionType akOtherFunc)
 		{
-			bool flag = true;
+			var flag = true;
 			if (kParams.Count == akOtherFunc.kParams.Count)
 			{
-				int num = 0;
+				var num = 0;
 				while (flag)
 				{
 					if (num >= kParams.Count)
@@ -96,26 +96,26 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EE1 RID: 3809 RVA: 0x0006D7EC File Offset: 0x0006B9EC
 		public bool ParamDefaultsMatch(ScriptFunctionType akOtherFunc)
 		{
-			bool flag = true;
+			var flag = true;
 			if (kParams.Count == akOtherFunc.kParams.Count)
 			{
-				int num = 0;
+				var num = 0;
 				while (flag)
 				{
 					if (num >= kParams.Count)
 					{
 						break;
 					}
-					ScriptVariableType scriptVariableType = kParams[num];
-					ScriptVariableType scriptVariableType2 = akOtherFunc.kParams[num];
+					var scriptVariableType = kParams[num];
+					var scriptVariableType2 = akOtherFunc.kParams[num];
 					if (scriptVariableType.HasInitialValue == scriptVariableType2.HasInitialValue)
 					{
 						if (scriptVariableType.HasInitialValue)
 						{
 							if (scriptVariableType.VarType == "int")
 							{
-								int num2 = 0;
-								int num3 = 0;
+								var num2 = 0;
+								var num3 = 0;
 								if (!int.TryParse(scriptVariableType.InitialValue, out num2) || !int.TryParse(scriptVariableType2.InitialValue, out num3) || num2 != num3)
 								{
 									flag = false;
@@ -123,8 +123,8 @@ namespace pcomps.PCompiler
 							}
 							else if (scriptVariableType.VarType == "float")
 							{
-								float num4 = 0f;
-								float num5 = 0f;
+								var num4 = 0f;
+								var num5 = 0f;
 								if (!float.TryParse(scriptVariableType.InitialValue, out num4) || !float.TryParse(scriptVariableType2.InitialValue, out num5) || num4 != num5)
 								{
 									flag = false;
@@ -174,8 +174,8 @@ namespace pcomps.PCompiler
 		public bool TryGetParam(string asName, out ScriptVariableType akType)
 		{
 			sStringMatch = asName;
-			int num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
-			bool flag = num != -1;
+			var num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
+			var flag = num != -1;
 			if (flag)
 			{
 				akType = kParams[num];
@@ -191,8 +191,8 @@ namespace pcomps.PCompiler
 		public bool TryAddParam(string asName, ScriptVariableType akType)
 		{
 			sStringMatch = asName;
-			int num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
-			bool flag = num != -1;
+			var num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
+			var flag = num != -1;
 			if (!flag)
 			{
 				kParamNames.Add(asName.ToLowerInvariant());

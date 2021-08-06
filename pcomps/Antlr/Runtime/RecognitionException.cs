@@ -176,8 +176,8 @@ namespace pcomps.Antlr.Runtime
 				}
 				if (input is ITreeNodeStream)
 				{
-					ITreeNodeStream treeNodeStream = (ITreeNodeStream)input;
-					ITreeAdaptor treeAdaptor = treeNodeStream.TreeAdaptor;
+					var treeNodeStream = (ITreeNodeStream)input;
+					var treeAdaptor = treeNodeStream.TreeAdaptor;
 					return treeAdaptor.GetNodeType(node);
 				}
 				return c;
@@ -187,19 +187,19 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000574 RID: 1396 RVA: 0x00010120 File Offset: 0x0000E320
 		protected void ExtractInformationFromTreeNodeStream(IIntStream input)
 		{
-			ITreeNodeStream treeNodeStream = (ITreeNodeStream)input;
+			var treeNodeStream = (ITreeNodeStream)input;
 			node = treeNodeStream.LT(1);
-			ITreeAdaptor treeAdaptor = treeNodeStream.TreeAdaptor;
-			IToken token = treeAdaptor.GetToken(node);
+			var treeAdaptor = treeNodeStream.TreeAdaptor;
+			var token = treeAdaptor.GetToken(node);
 			if (token != null)
 			{
 				this.token = token;
 				if (token.Line <= 0)
 				{
-					int num = -1;
-					for (object treeNode = treeNodeStream.LT(num); treeNode != null; treeNode = treeNodeStream.LT(num))
+					var num = -1;
+					for (var treeNode = treeNodeStream.LT(num); treeNode != null; treeNode = treeNodeStream.LT(num))
 					{
-						IToken token2 = treeAdaptor.GetToken(treeNode);
+						var token2 = treeAdaptor.GetToken(treeNode);
 						if (token2 != null && token2.Line > 0)
 						{
 							line = token2.Line;
@@ -227,8 +227,8 @@ namespace pcomps.Antlr.Runtime
 			}
 			else
 			{
-				int nodeType = treeAdaptor.GetNodeType(node);
-				string nodeText = treeAdaptor.GetNodeText(node);
+				var nodeType = treeAdaptor.GetNodeType(node);
+				var nodeText = treeAdaptor.GetNodeText(node);
 				this.token = new CommonToken(nodeType, nodeText);
 			}
 		}

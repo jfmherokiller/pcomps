@@ -94,17 +94,17 @@ namespace pcomps.Antlr
 				heteroList_ = new FactoryEntry[NodeType + 1];
 				return;
 			}
-			int num = heteroList_.Length;
+			var num = heteroList_.Length;
 			if (NodeType >= num)
 			{
-				FactoryEntry[] destinationArray = new FactoryEntry[NodeType + 1];
+				var destinationArray = new FactoryEntry[NodeType + 1];
 				Array.Copy(heteroList_, 0, destinationArray, 0, num);
 				heteroList_ = destinationArray;
 				return;
 			}
 			if (NodeType < num)
 			{
-				FactoryEntry[] destinationArray2 = new FactoryEntry[NodeType + 1];
+				var destinationArray2 = new FactoryEntry[NodeType + 1];
 				Array.Copy(heteroList_, 0, destinationArray2, 0, NodeType + 1);
 				heteroList_ = destinationArray2;
 			}
@@ -150,7 +150,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600002A RID: 42 RVA: 0x00002DD0 File Offset: 0x00000FD0
 		public virtual AST create(int type)
 		{
-			AST ast = createFromNodeType(type);
+			var ast = createFromNodeType(type);
 			ast.initialize(type, "");
 			return ast;
 		}
@@ -158,7 +158,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600002B RID: 43 RVA: 0x00002DF4 File Offset: 0x00000FF4
 		public virtual AST create(int type, string txt)
 		{
-			AST ast = createFromNodeType(type);
+			var ast = createFromNodeType(type);
 			ast.initialize(type, txt);
 			return ast;
 		}
@@ -166,7 +166,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600002C RID: 44 RVA: 0x00002E14 File Offset: 0x00001014
 		public virtual AST create(int type, string txt, string ASTNodeTypeName)
 		{
-			AST ast = createFromNodeName(ASTNodeTypeName);
+			var ast = createFromNodeName(ASTNodeTypeName);
 			ast.initialize(type, txt);
 			return ast;
 		}
@@ -174,7 +174,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600002D RID: 45 RVA: 0x00002E34 File Offset: 0x00001034
 		public virtual AST create(IToken tok, string ASTNodeTypeName)
 		{
-			AST ast = createFromNodeName(ASTNodeTypeName);
+			var ast = createFromNodeName(ASTNodeTypeName);
 			ast.initialize(tok);
 			return ast;
 		}
@@ -218,7 +218,7 @@ namespace pcomps.Antlr
 			{
 				return null;
 			}
-			AST ast = createFromAST(t);
+			var ast = createFromAST(t);
 			ast.initialize(t);
 			return ast;
 		}
@@ -226,8 +226,8 @@ namespace pcomps.Antlr
 		// Token: 0x06000031 RID: 49 RVA: 0x00002EC8 File Offset: 0x000010C8
 		public virtual AST dupList(AST t)
 		{
-			AST ast = dupTree(t);
-			AST ast2 = ast;
+			var ast = dupTree(t);
+			var ast2 = ast;
 			while (t != null)
 			{
 				t = t.getNextSibling();
@@ -240,7 +240,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000032 RID: 50 RVA: 0x00002F04 File Offset: 0x00001104
 		public virtual AST dupTree(AST t)
 		{
-			AST ast = dup(t);
+			var ast = dup(t);
 			if (t != null)
 			{
 				ast.setFirstChild(dupList(t.getFirstChild()));
@@ -255,10 +255,10 @@ namespace pcomps.Antlr
 			{
 				return null;
 			}
-			AST ast = nodes[0];
+			var ast = nodes[0];
 			AST ast2 = null;
             ast?.setFirstChild(null);
-            for (int i = 1; i < nodes.Length; i++)
+            for (var i = 1; i < nodes.Length; i++)
 			{
 				if (nodes[i] != null)
 				{
@@ -323,10 +323,10 @@ namespace pcomps.Antlr
 		private static Type loadNodeTypeObject(string nodeTypeName)
 		{
 			Type type = null;
-			bool flag = false;
+			var flag = false;
 			if (nodeTypeName != null)
 			{
-				foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 				{
 					try
 					{
@@ -353,8 +353,8 @@ namespace pcomps.Antlr
 		// Token: 0x06000039 RID: 57 RVA: 0x000030CC File Offset: 0x000012CC
 		private AST createFromAST(AST node)
 		{
-			Type type = node.GetType();
-			ASTNodeCreator astnodeCreator = (ASTNodeCreator)typename2creator_[type.FullName];
+			var type = node.GetType();
+			var astnodeCreator = (ASTNodeCreator)typename2creator_[type.FullName];
 			AST ast;
 			if (astnodeCreator != null)
 			{
@@ -374,7 +374,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600003A RID: 58 RVA: 0x0000312C File Offset: 0x0000132C
 		private AST createFromNodeName(string nodeTypeName)
 		{
-			ASTNodeCreator astnodeCreator = (ASTNodeCreator)typename2creator_[nodeTypeName];
+			var astnodeCreator = (ASTNodeCreator)typename2creator_[nodeTypeName];
 			AST ast;
 			if (astnodeCreator != null)
 			{
@@ -394,7 +394,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600003B RID: 59 RVA: 0x00003180 File Offset: 0x00001380
 		private AST createFromNodeType(int nodeTypeIndex)
 		{
-			FactoryEntry factoryEntry = heteroList_[nodeTypeIndex];
+			var factoryEntry = heteroList_[nodeTypeIndex];
 			AST result;
 			if (factoryEntry != null && factoryEntry.Creator != null)
 			{

@@ -71,7 +71,7 @@ namespace pcomps.Antlr.Runtime
 			state.failed = false;
 			state.syntaxErrors = 0;
 			state.backtracking = 0;
-			int num = 0;
+			var num = 0;
 			while (state.ruleMemo != null && num < state.ruleMemo.Length)
 			{
 				state.ruleMemo[num] = null;
@@ -82,7 +82,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008D0 RID: 2256 RVA: 0x00019158 File Offset: 0x00017358
 		public virtual object Match(IIntStream input, int ttype, BitSet follow)
 		{
-			object currentInputSymbol = GetCurrentInputSymbol(input);
+			var currentInputSymbol = GetCurrentInputSymbol(input);
 			if (input.LA(1) == ttype)
 			{
 				input.Consume();
@@ -121,7 +121,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (follow.Member(1))
 			{
-				BitSet a = ComputeContextSensitiveRuleFOLLOW();
+				var a = ComputeContextSensitiveRuleFOLLOW();
 				follow = follow.Or(a);
 				if (state.followingStackPointer >= 0)
 				{
@@ -146,18 +146,18 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008D5 RID: 2261 RVA: 0x0001929C File Offset: 0x0001749C
 		public virtual void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorHeader = GetErrorHeader(e);
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorHeader = GetErrorHeader(e);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			EmitErrorMessage($"{errorHeader} {errorMessage}");
 		}
 
 		// Token: 0x060008D6 RID: 2262 RVA: 0x000192CC File Offset: 0x000174CC
 		public virtual string GetErrorMessage(RecognitionException e, string[] tokenNames)
 		{
-			string result = e.Message;
+			var result = e.Message;
 			if (e is UnwantedTokenException)
 			{
-				UnwantedTokenException ex = (UnwantedTokenException)e;
+				var ex = (UnwantedTokenException)e;
 				string str;
 				if (ex.Expecting == Token.EOF)
 				{
@@ -171,7 +171,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MissingTokenException)
 			{
-				MissingTokenException ex2 = (MissingTokenException)e;
+				var ex2 = (MissingTokenException)e;
 				string str2;
 				if (ex2.Expecting == Token.EOF)
 				{
@@ -185,7 +185,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedTokenException)
 			{
-				MismatchedTokenException ex3 = (MismatchedTokenException)e;
+				var ex3 = (MismatchedTokenException)e;
 				string str3;
 				if (ex3.Expecting == Token.EOF)
 				{
@@ -199,7 +199,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedTreeNodeException)
 			{
-				MismatchedTreeNodeException ex4 = (MismatchedTreeNodeException)e;
+				var ex4 = (MismatchedTreeNodeException)e;
 				string text;
 				if (ex4.expecting == Token.EOF)
 				{
@@ -227,7 +227,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedSetException)
 			{
-				MismatchedSetException ex5 = (MismatchedSetException)e;
+				var ex5 = (MismatchedSetException)e;
 				result = string.Concat(new object[]
 				{
 					"mismatched input ",
@@ -238,7 +238,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is MismatchedNotSetException)
 			{
-				MismatchedNotSetException ex6 = (MismatchedNotSetException)e;
+				var ex6 = (MismatchedNotSetException)e;
 				result = string.Concat(new object[]
 				{
 					"mismatched input ",
@@ -249,7 +249,7 @@ namespace pcomps.Antlr.Runtime
 			}
 			else if (e is FailedPredicateException)
 			{
-				FailedPredicateException ex7 = (FailedPredicateException)e;
+				var ex7 = (FailedPredicateException)e;
 				result = string.Concat(new string[]
 				{
 					"rule ",
@@ -287,7 +287,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008D9 RID: 2265 RVA: 0x00019628 File Offset: 0x00017828
 		public virtual string GetTokenErrorDisplay(IToken t)
 		{
-			string text = t.Text;
+			var text = t.Text;
 			if (text == null)
 			{
 				if (t.Type == Token.EOF)
@@ -319,7 +319,7 @@ namespace pcomps.Antlr.Runtime
 				input.Consume();
 			}
 			state.lastErrorIndex = input.Index();
-			BitSet set = ComputeErrorRecoverySet();
+			var set = ComputeErrorRecoverySet();
 			BeginResync();
 			ConsumeUntil(input, set);
 			EndResync();
@@ -346,13 +346,13 @@ namespace pcomps.Antlr.Runtime
 				input.Consume();
 				EndResync();
 				ReportError(ex);
-				object currentInputSymbol = GetCurrentInputSymbol(input);
+				var currentInputSymbol = GetCurrentInputSymbol(input);
 				input.Consume();
 				return currentInputSymbol;
 			}
 			if (MismatchIsMissingToken(input, follow))
 			{
-				object missingSymbol = GetMissingSymbol(input, ex, ttype, follow);
+				var missingSymbol = GetMissingSymbol(input, ex, ttype, follow);
 				ex = new MissingTokenException(ttype, input, missingSymbol);
 				ReportError(ex);
 				return missingSymbol;
@@ -375,7 +375,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E0 RID: 2272 RVA: 0x000197DC File Offset: 0x000179DC
 		public virtual void ConsumeUntil(IIntStream input, int tokenType)
 		{
-			int num = input.LA(1);
+			var num = input.LA(1);
 			while (num != Token.EOF && num != tokenType)
 			{
 				input.Consume();
@@ -386,7 +386,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E1 RID: 2273 RVA: 0x00019818 File Offset: 0x00017A18
 		public virtual void ConsumeUntil(IIntStream input, BitSet set)
 		{
-			int num = input.LA(1);
+			var num = input.LA(1);
 			while (num != Token.EOF && !set.Member(num))
 			{
 				input.Consume();
@@ -397,7 +397,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E2 RID: 2274 RVA: 0x00019858 File Offset: 0x00017A58
 		public virtual IList GetRuleInvocationStack()
 		{
-			string fullName = GetType().FullName;
+			var fullName = GetType().FullName;
 			return GetRuleInvocationStack(new Exception(), fullName);
 		}
 
@@ -405,10 +405,10 @@ namespace pcomps.Antlr.Runtime
 		public static IList GetRuleInvocationStack(Exception e, string recognizerClassName)
 		{
 			IList list = new ArrayList();
-			StackTrace stackTrace = new StackTrace(e);
-			for (int i = stackTrace.FrameCount - 1; i >= 0; i--)
+			var stackTrace = new StackTrace(e);
+			for (var i = stackTrace.FrameCount - 1; i >= 0; i--)
 			{
-				StackFrame frame = stackTrace.GetFrame(i);
+				var frame = stackTrace.GetFrame(i);
 				if (!frame.GetMethod().DeclaringType.FullName.StartsWith("Antlr.Runtime."))
 				{
 					if (!frame.GetMethod().Name.Equals(NEXT_TOKEN_RULE_NAME))
@@ -445,7 +445,7 @@ namespace pcomps.Antlr.Runtime
 				return null;
 			}
 			IList list = new ArrayList(tokens.Count);
-			for (int i = 0; i < tokens.Count; i++)
+			for (var i = 0; i < tokens.Count; i++)
 			{
 				list.Add(((IToken)tokens[i]).Text);
 			}
@@ -459,7 +459,7 @@ namespace pcomps.Antlr.Runtime
 			{
 				state.ruleMemo[ruleIndex] = new Hashtable();
 			}
-			object obj = state.ruleMemo[ruleIndex][ruleStartIndex];
+			var obj = state.ruleMemo[ruleIndex][ruleStartIndex];
 			if (obj == null)
 			{
 				return -1;
@@ -470,7 +470,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E8 RID: 2280 RVA: 0x000199E4 File Offset: 0x00017BE4
 		public virtual bool AlreadyParsedRule(IIntStream input, int ruleIndex)
 		{
-			int ruleMemoization = GetRuleMemoization(ruleIndex, input.Index());
+			var ruleMemoization = GetRuleMemoization(ruleIndex, input.Index());
 			if (ruleMemoization == -1)
 			{
 				return false;
@@ -489,7 +489,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008E9 RID: 2281 RVA: 0x00019A2C File Offset: 0x00017C2C
 		public virtual void Memoize(IIntStream input, int ruleIndex, int ruleStartIndex)
 		{
-			int num = (!state.failed) ? (input.Index() - 1) : -2;
+			var num = (!state.failed) ? (input.Index() - 1) : -2;
 			if (state.ruleMemo[ruleIndex] != null)
 			{
 				state.ruleMemo[ruleIndex][ruleStartIndex] = num;
@@ -499,11 +499,11 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008EA RID: 2282 RVA: 0x00019A8C File Offset: 0x00017C8C
 		public int GetRuleMemoizationCacheSize()
 		{
-			int num = 0;
-			int num2 = 0;
+			var num = 0;
+			var num2 = 0;
 			while (state.ruleMemo != null && num2 < state.ruleMemo.Length)
 			{
-				IDictionary dictionary = state.ruleMemo[num2];
+				var dictionary = state.ruleMemo[num2];
 				if (dictionary != null)
 				{
 					num += dictionary.Count;
@@ -580,11 +580,11 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008F0 RID: 2288 RVA: 0x00019C58 File Offset: 0x00017E58
 		protected internal virtual BitSet CombineFollows(bool exact)
 		{
-			int followingStackPointer = state.followingStackPointer;
-			BitSet bitSet = new BitSet();
-			for (int i = followingStackPointer; i >= 0; i--)
+			var followingStackPointer = state.followingStackPointer;
+			var bitSet = new BitSet();
+			for (var i = followingStackPointer; i >= 0; i--)
 			{
-				BitSet bitSet2 = state.following[i];
+				var bitSet2 = state.following[i];
 				bitSet.OrInPlace(bitSet2);
 				if (exact)
 				{
@@ -618,7 +618,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (state.followingStackPointer + 1 >= state.following.Length)
 			{
-				BitSet[] array = new BitSet[state.following.Length * 2];
+				var array = new BitSet[state.following.Length * 2];
 				Array.Copy(state.following, 0, array, 0, state.following.Length);
 				state.following = array;
 			}

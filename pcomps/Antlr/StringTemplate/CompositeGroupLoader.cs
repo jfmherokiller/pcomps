@@ -36,10 +36,10 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F1F RID: 3871 RVA: 0x0006E1DC File Offset: 0x0006C3DC
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup, Type lexer)
 		{
-			foreach (object obj in loaders)
+			foreach (var obj in loaders)
 			{
-				IStringTemplateGroupLoader stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
-				StringTemplateGroup stringTemplateGroup = stringTemplateGroupLoader.LoadGroup(groupName, superGroup, lexer);
+				var stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
+				var stringTemplateGroup = stringTemplateGroupLoader.LoadGroup(groupName, superGroup, lexer);
 				if (stringTemplateGroup != null)
 				{
 					return stringTemplateGroup;
@@ -51,10 +51,10 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000F20 RID: 3872 RVA: 0x0006E248 File Offset: 0x0006C448
 		public StringTemplateGroupInterface LoadInterface(string interfaceName)
 		{
-			foreach (object obj in loaders)
+			foreach (var obj in loaders)
 			{
-				IStringTemplateGroupLoader stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
-				StringTemplateGroupInterface stringTemplateGroupInterface = stringTemplateGroupLoader.LoadInterface(interfaceName);
+				var stringTemplateGroupLoader = (IStringTemplateGroupLoader)obj;
+				var stringTemplateGroupInterface = stringTemplateGroupLoader.LoadInterface(interfaceName);
 				if (stringTemplateGroupInterface != null)
 				{
 					return stringTemplateGroupInterface;

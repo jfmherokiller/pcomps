@@ -9,8 +9,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ABF RID: 2751 RVA: 0x00032500 File Offset: 0x00030700
 		public CaseInsensitiveFileStream(string asFileName)
 		{
-			ANTLRFileStream antlrfileStream = new ANTLRFileStream(asFileName);
-			string text = antlrfileStream.Substring(0, antlrfileStream.Count - 1);
+			var antlrfileStream = new ANTLRFileStream(asFileName);
+			var text = antlrfileStream.Substring(0, antlrfileStream.Count - 1);
 			text += '\n';
 			kStringStream = new ANTLRStringStream(text);
 		}
@@ -18,8 +18,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AC0 RID: 2752 RVA: 0x00032544 File Offset: 0x00030744
 		public CaseInsensitiveFileStream(string asFileName, Encoding akEncoding)
 		{
-			ANTLRFileStream antlrfileStream = new ANTLRFileStream(asFileName, akEncoding);
-			string text = antlrfileStream.Substring(0, antlrfileStream.Count - 1);
+			var antlrfileStream = new ANTLRFileStream(asFileName, akEncoding);
+			var text = antlrfileStream.Substring(0, antlrfileStream.Count - 1);
 			text += '\n';
 			kStringStream = new ANTLRStringStream(text);
 		}
@@ -91,7 +91,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000ACA RID: 2762 RVA: 0x0003261C File Offset: 0x0003081C
 		public int LA(int iOffset)
 		{
-			int num = kStringStream.LA(iOffset);
+			var num = kStringStream.LA(iOffset);
 			if (num == -1)
 			{
 				return num;
