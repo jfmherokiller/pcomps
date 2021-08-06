@@ -1,0 +1,56 @@
+2021-08-06 12:02:28.985 -05:00 [INF] Loaded 5 extensions
+2021-08-06 12:02:30.805 -05:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.302\
+2021-08-06 12:02:31.442 -05:00 [INF] Found Visual Studio v16.10.31515.178 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community]
+2021-08-06 12:02:31.457 -05:00 [INF] Found Visual Studio v15.9.28307.1585 [C:\Program Files (x86)\Microsoft Visual Studio\2017\Community]
+2021-08-06 12:02:34.247 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:02:37.298 -05:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.2.237901) needs added
+2021-08-06 12:03:28.925 -05:00 [INF] Loaded 5 extensions
+2021-08-06 12:03:29.901 -05:00 [INF] MSBuild registered from C:\Program Files\dotnet\sdk\5.0.302\
+2021-08-06 12:03:31.395 -05:00 [INF] Found Visual Studio v16.10.31515.178 [C:\Program Files (x86)\Microsoft Visual Studio\2019\Community]
+2021-08-06 12:03:31.400 -05:00 [INF] Found Visual Studio v15.9.28307.1585 [C:\Program Files (x86)\Microsoft Visual Studio\2017\Community]
+2021-08-06 12:03:32.654 -05:00 [INF] Initializing upgrade step Select an entrypoint
+2021-08-06 12:03:32.658 -05:00 [INF] Setting entrypoint to only project in solution: D:\SteamLibrary\steamapps\common\Skyrim Special Edition\Papyrus Compiler\out\pcomps\pcomps.csproj
+2021-08-06 12:03:32.664 -05:00 [INF] Initializing upgrade step Select project to upgrade
+2021-08-06 12:03:32.685 -05:00 [INF] Initializing upgrade step Back up project
+2021-08-06 12:04:07.456 -05:00 [INF] Applying upgrade step Back up project
+2021-08-06 12:04:13.377 -05:00 [INF] Backing up D:\SteamLibrary\steamapps\common\Skyrim Special Edition\Papyrus Compiler\out\pcomps to D:\SteamLibrary\steamapps\common\Skyrim Special Edition\Papyrus Compiler\out.backup\pcomps
+2021-08-06 12:04:14.132 -05:00 [INF] Project backed up to D:\SteamLibrary\steamapps\common\Skyrim Special Edition\Papyrus Compiler\out.backup\pcomps
+2021-08-06 12:04:14.147 -05:00 [INF] Upgrade step Back up project applied successfully
+2021-08-06 12:04:17.271 -05:00 [INF] Initializing upgrade step Convert project file to SDK style
+2021-08-06 12:04:24.526 -05:00 [INF] Applying upgrade step Convert project file to SDK style
+2021-08-06 12:04:24.529 -05:00 [INF] Converting project file format with try-convert, version 0.9.232202
+2021-08-06 12:04:28.471 -05:00 [INF] [dotnet] Conversion complete!
+2021-08-06 12:04:29.517 -05:00 [INF] Project file converted successfully! The project may require additional changes to build successfully against the new .NET target.
+2021-08-06 12:04:31.223 -05:00 [INF] Upgrade step Convert project file to SDK style applied successfully
+2021-08-06 12:04:35.329 -05:00 [INF] Initializing upgrade step Clean up NuGet package references
+2021-08-06 12:04:38.321 -05:00 [INF] Reference to .NET Upgrade Assistant analyzer package (Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, version 0.2.237901) needs added
+2021-08-06 12:04:38.330 -05:00 [INF] Packages to be added: Operation { Item = Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.2.237901, OperationDetails = OperationDetails { Risk = None, Details = System.Linq.EmptyPartition`1[System.String] } }
+2021-08-06 12:04:43.047 -05:00 [INF] Applying upgrade step Clean up NuGet package references
+2021-08-06 12:04:43.054 -05:00 [INF] Adding package reference: Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers, Version=0.2.237901
+2021-08-06 12:04:46.050 -05:00 [INF] Upgrade step Clean up NuGet package references applied successfully
+2021-08-06 12:04:50.484 -05:00 [INF] Initializing upgrade step Update TFM
+2021-08-06 12:04:50.492 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:04:50.502 -05:00 [INF] TFM needs updated to net5.0
+2021-08-06 12:04:53.854 -05:00 [INF] Applying upgrade step Update TFM
+2021-08-06 12:04:53.857 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:04:59.253 -05:00 [INF] Updated TFM to net5.0
+2021-08-06 12:04:59.254 -05:00 [INF] Upgrade step Update TFM applied successfully
+2021-08-06 12:05:01.268 -05:00 [INF] Initializing upgrade step Update NuGet Packages
+2021-08-06 12:05:02.976 -05:00 [INF] No package updates needed
+2021-08-06 12:05:02.978 -05:00 [INF] Initializing upgrade step Add template files
+2021-08-06 12:05:02.995 -05:00 [INF] 0 expected template items needed
+2021-08-06 12:05:02.996 -05:00 [INF] Initializing upgrade step Upgrade app config files
+2021-08-06 12:05:03.028 -05:00 [INF] Found 0 app settings for upgrade: 
+2021-08-06 12:05:03.032 -05:00 [INF] Found 0 connection strings for upgrade: 
+2021-08-06 12:05:03.039 -05:00 [INF] Initializing upgrade step Update source code
+2021-08-06 12:05:24.594 -05:00 [INF] Initializing upgrade step Move to next project
+2021-08-06 12:05:29.246 -05:00 [INF] Applying upgrade step Move to next project
+2021-08-06 12:05:29.246 -05:00 [INF] Upgrade step Move to next project applied successfully
+2021-08-06 12:05:31.533 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:05:31.535 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:05:31.537 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:05:31.540 -05:00 [INF] Initializing upgrade step Finalize upgrade
+2021-08-06 12:05:31.547 -05:00 [INF] Recommending executable TFM net5.0 because the project builds to an executable
+2021-08-06 12:05:37.349 -05:00 [INF] Applying upgrade step Finalize upgrade
+2021-08-06 12:05:37.351 -05:00 [INF] Upgrade step Finalize upgrade applied successfully
+2021-08-06 12:05:40.593 -05:00 [INF] Upgrade has completed. Please review any changes.

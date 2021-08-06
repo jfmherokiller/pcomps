@@ -1,0 +1,52 @@
+﻿using System;
+using System.IO;
+
+namespace pcomps.Antlr
+{
+	// Token: 0x02000010 RID: 16
+	public class ByteBuffer : InputBuffer
+	{
+		// Token: 0x060000B4 RID: 180 RVA: 0x00004268 File Offset: 0x00002468
+		public ByteBuffer(Stream input_)
+		{
+			this.input = input_;
+		}
+
+		// Token: 0x060000B5 RID: 181 RVA: 0x00004290 File Offset: 0x00002490
+		public override void fill(int amount)
+		{
+			this.syncConsume();
+			int num;
+			for (int i = amount + this.markerOffset - this.queue.Count; i > 0; i -= num)
+			{
+				num = this.input.Read(this.buf, 0, 16);
+				for (int j = 0; j < num; j++)
+				{
+					this.queue.Add((char)this.buf[j]);
+				}
+				if (num < 16)
+				{
+					while (i-- > 0)
+					{
+						if (this.queue.Count >= 16)
+						{
+							return;
+						}
+						this.queue.Add(CharScanner.EOF_CHAR);
+					}
+					break;
+				}
+			}
+		}
+
+		// Token: 0x04000028 RID: 40
+		private const int BUF_SIZE = 16;
+
+		// Token: 0x04000029 RID: 41
+		[NonSerialized]
+		internal Stream input;
+
+		// Token: 0x0400002A RID: 42
+		private byte[] buf = new byte[16];
+	}
+}

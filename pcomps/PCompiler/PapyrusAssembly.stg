@@ -1,0 +1,323 @@
+// String templates that to use with the Papyrus generator tree walker and output Papyrus assembly code
+group PapyrusAssembly;
+
+stateBlock(name, funcs) ::= <<
+.state <name>
+  <funcs>
+.endState
+>>
+
+stateConcatinate(prevText, funcs) ::= <<
+<prevText>
+<funcs; separator="\r\n">
+>>
+
+flagRef(name, index) ::= ".flag <name> <index>"
+
+object(objName, parent, variableDefs, variableInits, properties, initialState, emptyStateFuncs, stateFuncs, modTimeUnix,
+  compileTimeUnix, userName, computerName, userFlags, userFlagsRef, docString) ::= <<
+.info
+  .source "<objName>.psc"
+  .modifyTime <modTimeUnix>
+  .compileTime <compileTimeUnix>
+  .user "<userName>"
+  .computer "<computerName>"
+.endInfo
+.userFlagsRef
+  <userFlagsRef.keys:{k|<flagRef(name={<k>}, index={<userFlagsRef.(k)>})>}; separator="\r\n">
+.endUserFlagsRef
+.objectTable
+  .object <objName> <parent>
+    .userFlags <userFlags>
+    .docString "<docString>"
+    .autoState <initialState>
+    .variableTable
+      <variableDefs; separator="\r\n">
+    .endVariableTable
+    .propertyTable
+	  <properties; separator="\r\n">
+    .endPropertyTable
+    .stateTable
+      .state
+        .function GetState
+          .userFlags 0
+          .docString "Function that returns the current state"
+          .return String
+          .paramTable
+          .endParamTable
+          .localTable
+          .endLocalTable
+          .code
+            RETURN ::state
+          .endCode
+        .endFunction
+        .function GotoState
+          .userFlags 0
+          .docString "Function that switches this object to the specified state"
+          .return None
+          .paramTable
+            .param newState String
+          .endParamTable
+          .localTable
+            .local ::NoneVar None
+          .endLocalTable
+          .code
+            CALLMETHOD onEndState self ::NoneVar
+            ASSIGN ::state newState
+            CALLMETHOD onBeginState self ::NoneVar
+          .endCode
+        .endFunction
+        <emptyStateFuncs; separator="\r\n">
+      .endState
+      <stateFuncs.keys:{k|<stateBlock(name={<k>}, funcs={<stateFuncs.(k)>})>}; separator="\r\n">
+    .endStateTable
+  .endObject
+.endObjectTable
+>>
+
+emptyBeginStateEvent() ::= <<
+.function onBeginState
+  .userFlags 0
+  .docString "Event received when this state is switched to"
+  .return None
+  .paramTable
+  .endParamTable
+  .localTable
+  .endLocalTable
+  .code
+  .endCode
+.endFunction
+>>
+
+emptyEndStateEvent() ::= <<
+.function onEndState
+  .userFlags 0
+  .docString "Event received when this state is switched away from"
+  .return None
+  .paramTable
+  .endParamTable
+  .localTable
+  .endLocalTable
+  .code
+  .endCode
+.endFunction
+>>
+
+functionDef(funcName, returnType, isNative, isGlobal, funcParams, funcVars, userFlags, body, docString) ::= <<
+.function <funcName> <if(isNative)>native <endif><if(isGlobal)>static<endif>
+  .userFlags <userFlags>
+  .docString "<docString>"
+  .return <returnType>
+  .paramTable
+    <funcParams; separator="\r\n">
+  .endParamTable
+ <if(!isNative)>
+  .localTable
+    <funcVars; separator="\r\n">
+  .endLocalTable
+  .code
+    <body; separator="\r\n">
+  .endCode
+ <endif>
+.endFunction
+>>
+
+variableDef(type, name, userFlags, initialValue) ::= <<
+.variable <name> <type>
+  .userFlags <userFlags>
+  .initialValue <initialValue>
+.endVariable
+>>
+
+localDef(type, name) ::= ".local <name> <type>"
+funcParam(type, name) ::= ".param <name> <type>"
+
+readOnlyProp(name, type, get, userFlags, docString) ::= <<
+.property <name> <type> readOnly
+  .userFlags <userFlags>
+  .docString "<docString>"
+  .get <get>
+.endProperty
+>>
+
+writeOnlyProp(name, type, set, userFlags, docString) ::= <<
+.property <name> <type> writeOnly
+  .userFlags <userFlags>
+  .docString "<docString>"
+  .set <set>
+.endProperty
+>>
+
+fullProp(name, type, get, set, userFlags, docString) ::= <<
+.property <name> <type>
+  .userFlags <userFlags>
+  .docString "<docString>"
+  <get>
+  <set>
+.endProperty
+>>
+
+autoProp(name, type, var, userFlags, docString) ::= <<
+.property <name> <type> auto
+  .userFlags <userFlags>
+  .docString "<docString>"
+  .autoVar <var>
+.endProperty
+>>
+
+assign(target, targetExpressions, source, sourceExpressions, autoCast, lineNo) ::= <<
+<sourceExpressions; separator="\r\n">
+<autoCast>
+ASSIGN <target> <source> <if(lineNo)>;@line <lineNo><endif><if(targetExpressions)><\r><\n><targetExpressions; separator="\r\n"><endif>
+>>
+
+singleOpCommand(command, target, source, autoCast, extraExpressions, lineNo) ::= <<
+<extraExpressions; separator="\r\n">
+<autoCast>
+<command> <target> <source> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+twoOpCommand(command, target, arg1, arg2, autoCast1, autoCast2, extraExpressions1, extraExpressions2, lineNo) ::= <<
+<extraExpressions1; separator="\r\n">
+<extraExpressions2; separator="\r\n">
+<autoCast1>
+<autoCast2>
+<command> <target> <arg1> <arg2> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+notEqual(target, arg1, arg2, autoCast1, autoCast2, extraExpressions1, extraExpressions2, lineNo) ::= <<
+<extraExpressions1; separator="\r\n">
+<extraExpressions2; separator="\r\n">
+<autoCast1>
+<autoCast2>
+COMPAREEQ <target> <arg1> <arg2> <if(lineNo)>;@line <lineNo><endif>
+NOT <target> <target> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+orExpression(target, arg1, arg2, extraExpressions1, extraExpressions2, endLabel, lineNo) ::= <<
+<extraExpressions1; separator="\r\n">
+CAST <target> <arg1> <if(lineNo)>;@line <lineNo><endif>
+JUMPT <target> <endLabel> <if(lineNo)>;@line <lineNo><endif>
+<extraExpressions2; separator="\r\n">
+CAST <target> <arg2> <if(lineNo)>;@line <lineNo><endif>
+<endLabel>:
+>>
+
+andExpression(target, arg1, arg2, extraExpressions1, extraExpressions2, endLabel, lineNo) ::= <<
+<extraExpressions1; separator="\r\n">
+CAST <target> <arg1> <if(lineNo)>;@line <lineNo><endif>
+JUMPF <target> <endLabel> <if(lineNo)>;@line <lineNo><endif>
+<extraExpressions2; separator="\r\n">
+CAST <target> <arg2> <if(lineNo)>;@line <lineNo><endif>
+<endLabel>:
+>>
+
+return(retVal, autoCast, extraExpressions, lineNo) ::= <<
+<extraExpressions; separator="\r\n">
+<autoCast>
+RETURN <retVal> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+cast(target, source, extraExpressions, lineNo) ::= <<
+<extraExpressions; separator="\r\n">
+CAST <target> <source> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+dot(aTemplate, bTemplate) ::= <<
+<aTemplate>
+<bTemplate>
+>>
+
+propGet(selfName, name, retValue, lineNo) ::= <<
+PROPGET <name> <selfName> <retValue> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+propSet(selfName, name, param, lineNo) ::= <<
+PROPSET <name> <selfName> <param> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+newArray(dest, size, lineNo) ::= <<
+ARRAYCREATE <dest> <size> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+arrayLength(selfName, retValue, lineNo) ::= <<
+ARRAYLENGTH <retValue> <selfName> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+arrayGet(retValue, selfName, index, autoCast, arrayExpressions, indexExpressions, lineNo) ::= <<
+<arrayExpressions; separator="\r\n">
+<indexExpressions; separator="\r\n">
+<autoCast; separator="\r\n">
+ARRAYGETELEMENT <retValue> <selfName> <index> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+arraySet(sourceName, selfName, index, autoCast, arrayExpressions, indexExpressions, lineNo) ::= <<
+<arrayExpressions; separator="\r\n">
+<indexExpressions; separator="\r\n">
+<autoCast; separator="\r\n">
+ARRAYSETELEMENT <selfName> <index> <sourceName> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+callGlobal(objType, name, retValue, args, autoCast, paramExpressions, lineNo) ::= <<
+<paramExpressions>
+<autoCast; separator="\r\n">
+CALLSTATIC <objType> <name> <retValue> <args; separator=" "> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+callLocal(selfName, name, retValue, args, autoCast, paramExpressions, lineNo) ::= <<
+<paramExpressions>
+<autoCast; separator="\r\n">
+CALLMETHOD <name> <selfName> <retValue> <args; separator=" "> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+callParent(name, retValue, args, autoCast, paramExpressions, lineNo) ::= <<
+<paramExpressions>
+<autoCast; separator="\r\n">
+CALLPARENT <name> <retValue> <args; separator=" "> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+arrayFind(selfName, retValue, args, autoCast, paramExpressions, lineNo) ::= <<
+<paramExpressions>
+<autoCast; separator="\r\n">
+ARRAYFINDELEMENT <selfName> <retValue> <args; separator=" "> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+arrayRFind(selfName, retValue, args, autoCast, paramExpressions, lineNo) ::= <<
+<paramExpressions>
+<autoCast; separator="\r\n">
+ARRAYRFINDELEMENT <selfName> <retValue> <args; separator=" "> <if(lineNo)>;@line <lineNo><endif>
+>>
+
+parameterExpressions(expressions) ::= "<expressions; separator=\"\r\n\">"
+
+ifBlock(condition, condExpressions, blockStatements, elifBlocks, elseBlock, elseLabel, endLabel, lineNo) ::= <<
+<condExpressions; separator="\r\n">
+JUMPF <condition> <elseLabel> <if(lineNo)>;@line <lineNo><endif>
+<blockStatements; separator="\r\n">
+JUMP <endLabel>
+<elseLabel>:
+<elifBlocks; separator="\r\n">
+<elseBlock>
+<endLabel>:
+>>
+
+elseIfBlock(condition, condExpressions, blockStatements, elseLabel, endLabel, lineNo) ::= <<
+<condExpressions; separator="\r\n">
+JUMPF <condition> <elseLabel> <if(lineNo)>;@line <lineNo><endif>
+<blockStatements; separator="\r\n">
+JUMP <endLabel>
+<elseLabel>:
+>>
+
+elseBlock(blockStatements) ::= <<
+<blockStatements; separator="\r\n">
+>>
+
+whileBlock(condition, condExpressions, blockStatements, startLabel, endLabel, lineNo) ::= <<
+<startLabel>:
+<condExpressions; separator="\r\n">
+JUMPF <condition> <endLabel> <if(lineNo)>;@line <lineNo><endif>
+<blockStatements; separator="\r\n">
+JUMP <startLabel>
+<endLabel>:
+>>
