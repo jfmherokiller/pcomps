@@ -327,7 +327,7 @@ namespace pcomps.PCompiler
 		private string GenerateCode(ScriptObjectType akObj)
 		{
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
-			Stream manifestResourceStream = executingAssembly.GetManifestResourceStream("PCompiler.PapyrusAssembly.stg");
+			Stream manifestResourceStream = executingAssembly.GetManifestResourceStream("pcomps.PCompiler.PapyrusAssembly.stg");
 			string asSourceFilename;
 			this.GetFilename(akObj.Name, out asSourceFilename);
 			PapyrusGen papyrusGen = new PapyrusGen(new CommonTreeNodeStream(akObj.kAST)

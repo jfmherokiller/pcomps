@@ -57,13 +57,16 @@ namespace pcomps.PapyrusCompiler
 			while ((num = Interlocked.Increment(ref Program.iLastFileNumber)) < Program.FilenamesA.Length)
 			{
 				string text = Program.FilenamesA[num];
+                string FileDirectory = Path.GetDirectoryName(text);
+                compiler.ImportFolders.Add(FileDirectory);
+                compiler.ImportFolders = compiler.ImportFolders;
                 if (Path.GetExtension(text).ToLowerInvariant() == ".psc")
 				{
 					text = Path.GetFileNameWithoutExtension(text);
 				}
 				if (!Program.kArgs.Quiet)
 				{
-					Console.Write("Compiling \"{0}\"...\n", text);
+					Console.Write($"Compiling \"{text}\"...\n");
 				}
 				if (compiler.Compile(text, Program.kArgs.FlagsFile, Program.kArgs.Optimize))
 				{
@@ -75,7 +78,7 @@ namespace pcomps.PapyrusCompiler
 				}
 				else
 				{
-					Console.Write("No output generated for {0}, compilation failed.\n", Program.FilenamesA[num]);
+					Console.Write($"No output generated for {Program.FilenamesA[num]}, compilation failed.\n");
 					Program.FailureMutex.WaitOne();
 					Program.FailedCompiles.Add(Program.FilenamesA[num]);
 					Program.FailureMutex.ReleaseMutex();
