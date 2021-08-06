@@ -445,7 +445,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF8 RID: 4088 RVA: 0x00070E5C File Offset: 0x0006F05C
 		public string GetUnMangledTemplateName(string mangledName)
 		{
-			return mangledName.Substring("region__".Length, mangledName.LastIndexOf("__") - "region__".Length);
+			return mangledName.Substring("region__".Length, mangledName.LastIndexOf("__", StringComparison.Ordinal) - "region__".Length);
 		}
 
 		// Token: 0x06000FF9 RID: 4089 RVA: 0x00070E84 File Offset: 0x0006F084
@@ -641,13 +641,10 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06001008 RID: 4104 RVA: 0x000711B4 File Offset: 0x0006F3B4
 		public virtual void DoNotEmitDebugStringsForTemplate(string templateName)
-		{
-			if (noDebugStartStopStrings == null)
-			{
-				noDebugStartStopStrings = new Hashtable();
-			}
-			noDebugStartStopStrings[templateName] = templateName;
-		}
+        {
+            noDebugStartStopStrings ??= new Hashtable();
+            noDebugStartStopStrings[templateName] = templateName;
+        }
 
 		// Token: 0x06001009 RID: 4105 RVA: 0x000711D8 File Offset: 0x0006F3D8
 		public virtual void EmitTemplateStartDebugString(StringTemplate st, IStringTemplateWriter writer)
@@ -679,26 +676,20 @@ namespace pcomps.Antlr.StringTemplate
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append($"group {Name};\n");
 			StringTemplate stringTemplate = new StringTemplate("$args;separator=\",\"$");
-			foreach (object obj in new SortedList(templates))
+			foreach (var obj in new SortedList(templates))
 			{
 				string text = (string)((DictionaryEntry)obj).Key;
 				StringTemplate stringTemplate2 = (StringTemplate)templates[text];
 				if (stringTemplate2 != NOT_FOUND_ST)
 				{
 					stringTemplate = stringTemplate.GetInstanceOf();
-					stringTemplate.SetAttribute("args", stringTemplate2.FormalArguments);
-					stringBuilder.Append(string.Concat(new object[]
-					{
-						text,
-						"(",
-						stringTemplate,
-						")"
-					}));
+					stringTemplate.SetAttribute("args", stringTemplate2?.FormalArguments);
+					stringBuilder.Append(string.Concat(text, "(", stringTemplate, ")"));
 					if (showTemplatePatterns)
 					{
 						stringBuilder.Append(" ::= ");
 						stringBuilder.Append("<<");
-						stringBuilder.Append(stringTemplate2.Template);
+						stringBuilder.Append(stringTemplate2?.Template);
 						stringBuilder.Append(">>\n");
 					}
 					else
@@ -715,15 +706,9 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x0600100E RID: 4110 RVA: 0x000713B4 File Offset: 0x0006F5B4
 		public IAttributeStrategy AttributeStrategy
 		{
-			get
-			{
-				return attributeStrategy;
-			}
-			set
-			{
-				attributeStrategy = value;
-			}
-		}
+			get => attributeStrategy;
+            set => attributeStrategy = value;
+        }
 
 		// Token: 0x0600100F RID: 4111 RVA: 0x000713C0 File Offset: 0x0006F5C0
 		protected internal virtual void ParseGroup(TextReader r)
@@ -741,13 +726,7 @@ namespace pcomps.Antlr.StringTemplate
 				{
 					text = Name;
 				}
-				Error(string.Concat(new object[]
-				{
-					"problem parsing group '",
-					text,
-					"': ",
-					ex
-				}), ex);
+				Error($"problem parsing group '{text}': {ex}", ex);
 			}
 		}
 
@@ -762,27 +741,13 @@ namespace pcomps.Antlr.StringTemplate
 				IList mismatchedTemplates = stringTemplateGroupInterface.GetMismatchedTemplates(this);
 				if (missingTemplates != null)
 				{
-					Error(string.Concat(new string[]
-					{
-						"group '",
-						Name,
-						"' does not satisfy interface '",
-						stringTemplateGroupInterface.Name,
-						"': missing templates ",
-						CollectionUtils.ListToString(missingTemplates)
-					}));
+					Error(
+                        $"group '{Name}' does not satisfy interface '{stringTemplateGroupInterface.Name}': missing templates {CollectionUtils.ListToString(missingTemplates)}");
 				}
 				if (mismatchedTemplates != null)
 				{
-					Error(string.Concat(new string[]
-					{
-						"group '",
-						Name,
-						"' does not satisfy interface '",
-						stringTemplateGroupInterface.Name,
-						"': mismatched arguments on these templates ",
-						CollectionUtils.ListToString(mismatchedTemplates)
-					}));
+					Error(
+                        $"group '{Name}' does not satisfy interface '{stringTemplateGroupInterface.Name}': mismatched arguments on these templates {CollectionUtils.ListToString(mismatchedTemplates)}");
 				}
 				num++;
 			}

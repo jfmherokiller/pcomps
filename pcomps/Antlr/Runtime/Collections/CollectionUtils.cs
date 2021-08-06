@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Text;
 
 namespace pcomps.Antlr.Runtime.Collections
@@ -13,7 +14,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			if (coll != null)
 			{
 				stringBuilder.Append("[");
-				for (int i = 0; i < coll.Count; i++)
+				for (var i = 0; i < coll.Count; i++)
 				{
 					if (i > 0)
 					{
@@ -34,7 +35,7 @@ namespace pcomps.Antlr.Runtime.Collections
 					}
 					else
 					{
-						stringBuilder.Append(obj.ToString());
+						stringBuilder.Append(obj);
 					}
 				}
 				stringBuilder.Append("]");
@@ -52,30 +53,29 @@ namespace pcomps.Antlr.Runtime.Collections
 			StringBuilder stringBuilder = new StringBuilder();
 			if (dict != null)
 			{
-				stringBuilder.Append("{");
-				int num = 0;
-				foreach (object obj in dict)
-				{
-					DictionaryEntry dictionaryEntry = (DictionaryEntry)obj;
-					if (num > 0)
-					{
-						stringBuilder.Append(", ");
-					}
-					if (dictionaryEntry.Value is IDictionary)
-					{
-						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), DictionaryToString((IDictionary)dictionaryEntry.Value));
-					}
-					else if (dictionaryEntry.Value is IList)
-					{
-						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), ListToString((IList)dictionaryEntry.Value));
-					}
-					else
-					{
-						stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), dictionaryEntry.Value.ToString());
-					}
-					num++;
-				}
-				stringBuilder.Append("}");
+				stringBuilder.Append('{');
+				var num = 0;
+				foreach (var dictionaryEntry in dict.Cast<DictionaryEntry>())
+                {
+                    if (num > 0)
+                    {
+                        stringBuilder.Append(", ");
+                    }
+                    switch (dictionaryEntry.Value)
+                    {
+                        case IDictionary dictionary:
+                            stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key, DictionaryToString(dictionary));
+                            break;
+                        case IList list:
+                            stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key, ListToString(list));
+                            break;
+                        default:
+                            stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key, dictionaryEntry.Value);
+                            break;
+                    }
+                    num++;
+                }
+				stringBuilder.Append('}');
 			}
 			else
 			{

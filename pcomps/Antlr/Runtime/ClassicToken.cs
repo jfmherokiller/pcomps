@@ -132,11 +132,8 @@ namespace pcomps.Antlr.Runtime
 		// (set) Token: 0x06000500 RID: 1280 RVA: 0x0000F294 File Offset: 0x0000D494
 		public virtual ICharStream InputStream
 		{
-			get
-			{
-				return null;
-			}
-			set
+			get => null;
+            set
 			{
 			}
 		}

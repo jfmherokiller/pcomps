@@ -90,14 +90,7 @@
 		// Token: 0x0600017F RID: 383 RVA: 0x00005C38 File Offset: 0x00003E38
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"[\"",
-				getText(),
-				"\",<",
-				type_,
-				">]"
-			});
+			return $"[\"{getText()}\",<{type_}>]";
 		}
 
 		// Token: 0x0400005C RID: 92
@@ -119,6 +112,6 @@
 		protected int type_;
 
 		// Token: 0x04000062 RID: 98
-		public static Token badToken = new Token(0, "<no text>");
+		public static Token badToken = new(0, "<no text>");
 	}
 }

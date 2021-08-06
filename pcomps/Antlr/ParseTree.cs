@@ -23,12 +23,12 @@ namespace pcomps.Antlr
 		{
 			StringBuilder stringBuilder = new StringBuilder(2000);
 			stringBuilder.Append($"    {this}");
-			stringBuilder.Append("\n");
-			for (int i = 1; i < maxSteps; i++)
+			stringBuilder.Append('\n');
+			for (var i = 1; i < maxSteps; i++)
 			{
 				stringBuilder.Append(" =>");
 				stringBuilder.Append(getLeftmostDerivationStep(i));
-				stringBuilder.Append("\n");
+				stringBuilder.Append('\n');
 			}
 			return stringBuilder.ToString();
 		}

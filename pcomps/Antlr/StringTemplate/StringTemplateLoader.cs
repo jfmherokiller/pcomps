@@ -34,7 +34,7 @@
 		public string LoadTemplate(string templateName)
 		{
 			string text = InternalLoadTemplateContents(templateName);
-			if (text != null && text.Length > 0)
+			if (text is { Length: > 0 })
 			{
 				return text;
 			}

@@ -164,44 +164,30 @@ namespace pcomps.PapyrusCompiler
 
 		// Token: 0x1700000C RID: 12
 		// (get) Token: 0x0600000E RID: 14 RVA: 0x000021D4 File Offset: 0x000003D4
-		public bool Quiet
-		{
-			get
-			{
-				return bQuiet;
-			}
-		}
+		public bool Quiet => bQuiet;
 
-		// Token: 0x0600000F RID: 15 RVA: 0x000021DC File Offset: 0x000003DC
-		public CommandLineArgs(string[] args)
+        // Token: 0x0600000F RID: 15 RVA: 0x000021DC File Offset: 0x000003DC
+		public CommandLineArgs(IReadOnlyList<string> args)
 		{
 			BuildCommandLineStructures();
-			if (args.Length > 0)
+			if (args.Count > 0)
 			{
 				sObjectName = args[0];
 				if (sObjectName != "-?" && sObjectName != "/?")
 				{
 					bValid = true;
 				}
-				if (bValid && args.Length > 1)
+				if (bValid && args.Count > 1)
 				{
-					int num = 1;
+					var num = 1;
 					while (bValid)
 					{
-						if (num >= args.Length)
+						if (num >= args.Count)
 						{
 							break;
 						}
-						string asFlag = "";
-						string asValue = "";
-						if (ParseArgument(args[num], out asFlag, out asValue))
-						{
-							bValid = HandleArgument(asFlag, asValue);
-						}
-						else
-						{
-							bValid = false;
-						}
+
+                        bValid = ParseArgument(args[num], out var asFlag, out var asValue) && HandleArgument(asFlag, asValue);
 						num++;
 					}
 				}
@@ -217,7 +203,7 @@ namespace pcomps.PapyrusCompiler
 		}
 
 		// Token: 0x06000010 RID: 16 RVA: 0x000022DC File Offset: 0x000004DC
-		private void PrintUsage()
+		private static void PrintUsage()
 		{
 			Console.Write("Usage:\n");
 			Console.Write("PapyrusCompiler <object or folder> [<arguments>]\n");
@@ -225,11 +211,11 @@ namespace pcomps.PapyrusCompiler
 			Console.Write("  object     Specifies the object to compile. (-all is not specified)\n");
 			Console.Write("  folder     Specifies the folder to compile. (-all is specified)\n");
 			Console.Write("  arguments  One or more of the following:\n");
-			foreach (CommandLineFlag commandLineFlag in kCommandLineFlagInfo.Keys)
+			foreach (var commandLineFlag in kCommandLineFlagInfo.Keys)
 			{
 				Console.Write("   -");
 				bool flag = true;
-				foreach (string text in commandLineFlag.sFlags)
+				foreach (var text in commandLineFlag.sFlags)
 				{
 					if (flag)
 					{
@@ -258,8 +244,7 @@ namespace pcomps.PapyrusCompiler
 		private bool HandleArgument(string asFlag, string asValue)
 		{
 			bool result = true;
-			FieldInfo fieldInfo;
-			if (kCommandLineFields.TryGetValue(asFlag, out fieldInfo))
+            if (kCommandLineFields.TryGetValue(asFlag, out var fieldInfo))
 			{
 				Type fieldType = fieldInfo.FieldType;
 				if (fieldType == typeof(bool))
@@ -280,13 +265,13 @@ namespace pcomps.PapyrusCompiler
 				}
 				else
 				{
-					Console.Error.Write("Internal Error: Cannot handle command line argument type {0} for flag {1}.\n", fieldInfo.GetType().ToString(), asFlag);
+					Console.Error.Write($"Internal Error: Cannot handle command line argument type {{0}} for flag {{1}}.\n", fieldInfo.GetType().ToString(), asFlag);
 					result = false;
 				}
 			}
 			else
 			{
-				Console.Error.Write("Unknown command line argument: {0}\n", asFlag);
+				Console.Error.Write($"Unknown command line argument: {{0}}\n", asFlag);
 				result = false;
 			}
 			return result;
@@ -299,11 +284,11 @@ namespace pcomps.PapyrusCompiler
 			string text;
 			asValue = (text = "");
 			asFlag = text;
-			string[] array = asArg.Split(new char[]
+			var array = asArg.Split(new[]
 			{
 				'='
 			});
-			if (array.Length < 1 || array.Length > 2)
+			if (array.Length is < 1 or > 2)
 			{
 				Console.Error.Write("Improperly formed command line argument: {0}\n", asArg);
 				result = false;
@@ -331,30 +316,25 @@ namespace pcomps.PapyrusCompiler
 
 		// Token: 0x06000013 RID: 19 RVA: 0x00002558 File Offset: 0x00000758
 		private static void BuildCommandLineStructures()
-		{
-			if (kCommandLineFields == null)
-			{
-				FieldInfo[] fields = typeof(CommandLineArgs).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-				kCommandLineFields = new Dictionary<string, FieldInfo>();
-				kCommandLineFlagInfo = new Dictionary<CommandLineFlag, FieldInfo>();
-				foreach (FieldInfo fieldInfo in fields)
-				{
-					object[] customAttributes = fieldInfo.GetCustomAttributes(false);
-					foreach (object obj in customAttributes)
-					{
-						CommandLineFlag commandLineFlag = (CommandLineFlag)obj;
-						if (commandLineFlag != null)
-						{
-							foreach (string text in commandLineFlag.sFlags)
-							{
-								kCommandLineFields.Add(text.ToLowerInvariant(), fieldInfo);
-							}
-							kCommandLineFlagInfo.Add(commandLineFlag, fieldInfo);
-						}
-					}
-				}
-			}
-		}
+        {
+            if (kCommandLineFields != null) return;
+            var fields = typeof(CommandLineArgs).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            kCommandLineFields = new Dictionary<string, FieldInfo>();
+            kCommandLineFlagInfo = new Dictionary<CommandLineFlag, FieldInfo>();
+            foreach (var fieldInfo in fields)
+            {
+                var customAttributes = fieldInfo.GetCustomAttributes(false);
+                foreach (var obj in customAttributes)
+                {
+                    CommandLineFlag commandLineFlag = (CommandLineFlag)obj;
+                    foreach (var text in commandLineFlag.sFlags)
+                    {
+                        kCommandLineFields.Add(text.ToLowerInvariant(), fieldInfo);
+                    }
+                    kCommandLineFlagInfo.Add(commandLineFlag, fieldInfo);
+                }
+            }
+        }
 
 		// Token: 0x04000003 RID: 3
 		private readonly bool bValid;
@@ -363,7 +343,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly string sObjectName = "";
 
 		// Token: 0x04000005 RID: 5
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"debug",
 			"d"
@@ -371,7 +351,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly bool bDebug;
 
 		// Token: 0x04000006 RID: 6
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"optimize",
 			"op"
@@ -379,7 +359,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly bool bOptimize;
 
 		// Token: 0x04000007 RID: 7
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"output",
 			"o"
@@ -387,7 +367,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly string sOutputFolder = "";
 
 		// Token: 0x04000008 RID: 8
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"import",
 			"i"
@@ -395,7 +375,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly string sImportFolders = "";
 
 		// Token: 0x04000009 RID: 9
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"flags",
 			"f"
@@ -403,7 +383,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly string sFlagsFile = "";
 
 		// Token: 0x0400000A RID: 10
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"all",
 			"a"
@@ -411,7 +391,7 @@ namespace pcomps.PapyrusCompiler
 		private readonly bool bAll;
 
 		// Token: 0x0400000B RID: 11
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"quiet",
 			"q"
@@ -419,28 +399,28 @@ namespace pcomps.PapyrusCompiler
 		private readonly bool bQuiet;
 
 		// Token: 0x0400000C RID: 12
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"noasm"
 		}, "Does not generate an assembly file and does not run the assembler.")]
 		private readonly bool bNoAsm;
 
 		// Token: 0x0400000D RID: 13
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"keepasm"
 		}, "Keeps the assembly file after running the assembler.")]
 		private readonly bool bKeepAsm;
 
 		// Token: 0x0400000E RID: 14
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"asmonly"
 		}, "Generates an assembly file but does not run the assembler.")]
 		private readonly bool bAsmOnly;
 
 		// Token: 0x0400000F RID: 15
-		[CommandLineFlag(new string[]
+		[CommandLineFlag(new[]
 		{
 			"?"
 		}, "Prints usage information.")]

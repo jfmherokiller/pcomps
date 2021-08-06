@@ -628,14 +628,8 @@ namespace pcomps.Antlr
 		public virtual void traceOut(string rname)
 		{
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new string[]
-			{
-				"< ",
-				rname,
-				"; LA(1)==",
-				LT(1).getText(),
-				(inputState.guessing > 0) ? " [guessing]" : ""
-			}));
+			Console.Out.WriteLine(
+                $"< {rname}; LA(1)=={LT(1).getText()}{((inputState.guessing > 0) ? " [guessing]" : "")}");
 			traceDepth--;
 		}
 

@@ -56,10 +56,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
+				_t ??= ASTNULL;
 				int type = _t.Type;
 				if (type <= 18)
 				{
@@ -181,12 +178,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 			ArrayList arrayList = new ArrayList();
 			ArrayList arrayList2 = new ArrayList();
 			try
-			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
-				switch (_t.Type)
+            {
+                _t ??= ASTNULL;
+                switch (_t.Type)
 				{
 				case 4:
 				{
@@ -202,10 +196,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					int num = 0;
 					for (;;)
 					{
-						if (_t == null)
-						{
-							_t = ASTNULL;
-						}
+						_t ??= ASTNULL;
 						if (_t.Type != 10)
 						{
 							break;
@@ -235,10 +226,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					int num2 = 0;
 					for (;;)
 					{
-						if (_t == null)
-						{
-							_t = ASTNULL;
-						}
+						_t ??= ASTNULL;
 						if (!tokenSet_0_.member(_t.Type))
 						{
 							break;
@@ -271,7 +259,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				default:
 					throw new NoViableAltException(_t);
 				}
-			}
+            }
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
@@ -289,10 +277,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			string propertyName = null;
 			try
 			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
+				_t ??= ASTNULL;
 				int type = _t.Type;
 				if (type != 18)
 				{
@@ -660,12 +645,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					StringTemplateAST stringTemplateAST2 = (StringTemplateAST)_t;
 				}
 				match(_t, 10);
-				_t = _t.getFirstChild();
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
-				int type = _t.Type;
+				_t = _t.getFirstChild() ?? ASTNULL;
+                int type = _t.Type;
 				if (type != 9)
 				{
 					if (type != 18)
@@ -779,10 +760,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
+				_t ??= ASTNULL;
 				int type = _t.Type;
 				object a;
 				switch (type)
@@ -862,17 +840,10 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			IDictionary dictionary = null;
 			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
-			dictionary = initialContext;
-			if (dictionary == null)
+			dictionary = initialContext ?? new Hashtable();
+            try
 			{
-				dictionary = new Hashtable();
-			}
-			try
-			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
+				_t ??= ASTNULL;
 				int type = _t.Type;
 				if (type != 6)
 				{
@@ -894,10 +865,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					_t = _t.getFirstChild();
 					for (;;)
 					{
-						if (_t == null)
-						{
-							_t = ASTNULL;
-						}
+						_t ??= ASTNULL;
 						if (_t.Type != 19 && _t.Type != 36)
 						{
 							break;
@@ -924,10 +892,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			StringTemplateAST stringTemplateAST = (StringTemplateAST)_t;
 			try
 			{
-				if (_t == null)
-				{
-					_t = ASTNULL;
-				}
+				_t ??= ASTNULL;
 				int type = _t.Type;
 				if (type != 19)
 				{
