@@ -89,11 +89,8 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				finally
 				{
-					if (streamReader != null)
-					{
-						((IDisposable)streamReader).Dispose();
-					}
-					streamReader = null;
+                    ((IDisposable)streamReader)?.Dispose();
+                    streamReader = null;
 				}
 			}
 			catch (ArgumentException innerException2)

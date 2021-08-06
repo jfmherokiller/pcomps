@@ -6,11 +6,7 @@
 		// Token: 0x0600061E RID: 1566 RVA: 0x00011E00 File Offset: 0x00010000
 		public override object DupNode(object t)
 		{
-			if (t == null)
-			{
-				return null;
-			}
-			return ((ITree)t).DupNode();
+            return ((ITree)t)?.DupNode();
 		}
 
 		// Token: 0x0600061F RID: 1567 RVA: 0x00011E18 File Offset: 0x00010018
@@ -75,11 +71,7 @@
 		// Token: 0x06000625 RID: 1573 RVA: 0x00011EB0 File Offset: 0x000100B0
 		public override string GetNodeText(object t)
 		{
-			if (t == null)
-			{
-				return null;
-			}
-			return ((ITree)t).Text;
+            return ((ITree)t)?.Text;
 		}
 
 		// Token: 0x06000626 RID: 1574 RVA: 0x00011EC8 File Offset: 0x000100C8
@@ -95,21 +87,13 @@
 		// Token: 0x06000627 RID: 1575 RVA: 0x00011EE0 File Offset: 0x000100E0
 		public override IToken GetToken(object treeNode)
 		{
-			if (treeNode is CommonTree)
-			{
-				return ((CommonTree)treeNode).Token;
-			}
-			return null;
-		}
+            return (treeNode as CommonTree)?.Token;
+        }
 
 		// Token: 0x06000628 RID: 1576 RVA: 0x00011EFC File Offset: 0x000100FC
 		public override object GetChild(object t, int i)
 		{
-			if (t == null)
-			{
-				return null;
-			}
-			return ((ITree)t).GetChild(i);
+            return ((ITree)t)?.GetChild(i);
 		}
 
 		// Token: 0x06000629 RID: 1577 RVA: 0x00011F14 File Offset: 0x00010114
@@ -125,11 +109,7 @@
 		// Token: 0x0600062A RID: 1578 RVA: 0x00011F2C File Offset: 0x0001012C
 		public override object GetParent(object t)
 		{
-			if (t == null)
-			{
-				return null;
-			}
-			return ((ITree)t).Parent;
+            return ((ITree)t)?.Parent;
 		}
 
 		// Token: 0x0600062B RID: 1579 RVA: 0x00011F44 File Offset: 0x00010144
@@ -162,11 +142,8 @@
 
 		// Token: 0x0600062E RID: 1582 RVA: 0x00011F8C File Offset: 0x0001018C
 		public override void ReplaceChildren(object parent, int startChildIndex, int stopChildIndex, object t)
-		{
-			if (parent != null)
-			{
-				((ITree)parent).ReplaceChildren(startChildIndex, stopChildIndex, t);
-			}
-		}
+        {
+            ((ITree)parent)?.ReplaceChildren(startChildIndex, stopChildIndex, t);
+        }
 	}
 }

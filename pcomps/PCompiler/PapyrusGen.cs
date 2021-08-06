@@ -66,12 +66,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x06000D76 RID: 3446 RVA: 0x0005E1F0 File Offset: 0x0005C3F0
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
-		{
-			if (ErrorHandler != null)
-			{
-				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
-			}
-		}
+        {
+            ErrorHandler?.Invoke(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+        }
 
 		// Token: 0x06000D77 RID: 3447 RVA: 0x0005E210 File Offset: 0x0005C410
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
@@ -6814,12 +6811,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DB9 RID: 3513 RVA: 0x0006B64C File Offset: 0x0006984C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BDC RID: 3036
 			private StringTemplate st;
@@ -6856,12 +6849,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DBE RID: 3518 RVA: 0x0006B688 File Offset: 0x00069888
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BDD RID: 3037
 			private StringTemplate st;
@@ -6898,12 +6887,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DC3 RID: 3523 RVA: 0x0006B6C4 File Offset: 0x000698C4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BDE RID: 3038
 			private StringTemplate st;
@@ -6947,12 +6932,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DC9 RID: 3529 RVA: 0x0006B708 File Offset: 0x00069908
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BE0 RID: 3040
 			private StringTemplate st;
@@ -7029,12 +7010,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DCF RID: 3535 RVA: 0x0006B74C File Offset: 0x0006994C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BED RID: 3053
 			public string sName;
@@ -7074,12 +7051,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DD4 RID: 3540 RVA: 0x0006B788 File Offset: 0x00069988
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BEF RID: 3055
 			private StringTemplate st;
@@ -7116,12 +7089,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DD9 RID: 3545 RVA: 0x0006B7C4 File Offset: 0x000699C4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BF0 RID: 3056
 			private StringTemplate st;
@@ -7195,12 +7164,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DDF RID: 3551 RVA: 0x0006B808 File Offset: 0x00069A08
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BFC RID: 3068
 			public string sName;
@@ -7240,12 +7205,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DE4 RID: 3556 RVA: 0x0006B844 File Offset: 0x00069A44
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BFE RID: 3070
 			private StringTemplate st;
@@ -7282,12 +7243,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DE9 RID: 3561 RVA: 0x0006B880 File Offset: 0x00069A80
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000BFF RID: 3071
 			public IList kParams;
@@ -7327,12 +7284,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DEE RID: 3566 RVA: 0x0006B8BC File Offset: 0x00069ABC
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C01 RID: 3073
 			private StringTemplate st;
@@ -7369,12 +7322,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DF3 RID: 3571 RVA: 0x0006B8F8 File Offset: 0x00069AF8
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C02 RID: 3074
 			private StringTemplate st;
@@ -7411,12 +7360,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DF8 RID: 3576 RVA: 0x0006B934 File Offset: 0x00069B34
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C03 RID: 3075
 			private StringTemplate st;
@@ -7469,12 +7414,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000DFE RID: 3582 RVA: 0x0006B978 File Offset: 0x00069B78
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C08 RID: 3080
 			private StringTemplate st;
@@ -7511,12 +7452,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E03 RID: 3587 RVA: 0x0006B9B4 File Offset: 0x00069BB4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C09 RID: 3081
 			private StringTemplate st;
@@ -7553,12 +7490,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E08 RID: 3592 RVA: 0x0006B9F0 File Offset: 0x00069BF0
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C0A RID: 3082
 			private StringTemplate st;
@@ -7608,12 +7541,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E0E RID: 3598 RVA: 0x0006BA34 File Offset: 0x00069C34
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C0E RID: 3086
 			private StringTemplate st;
@@ -7657,12 +7586,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E14 RID: 3604 RVA: 0x0006BA78 File Offset: 0x00069C78
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C10 RID: 3088
 			private StringTemplate st;
@@ -7699,12 +7624,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E19 RID: 3609 RVA: 0x0006BAB4 File Offset: 0x00069CB4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C11 RID: 3089
 			public string sVarName;
@@ -7766,12 +7687,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E1F RID: 3615 RVA: 0x0006BAF8 File Offset: 0x00069CF8
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C19 RID: 3097
 			private StringTemplate st;
@@ -7818,12 +7735,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E25 RID: 3621 RVA: 0x0006BB3C File Offset: 0x00069D3C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C1C RID: 3100
 			private StringTemplate st;
@@ -7860,12 +7773,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E2A RID: 3626 RVA: 0x0006BB78 File Offset: 0x00069D78
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C1D RID: 3101
 			public string sRetValue;
@@ -7905,12 +7814,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E2F RID: 3631 RVA: 0x0006BBB4 File Offset: 0x00069DB4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C1F RID: 3103
 			public string sRetValue;
@@ -7950,12 +7855,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E34 RID: 3636 RVA: 0x0006BBF0 File Offset: 0x00069DF0
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C21 RID: 3105
 			public string sRetValue;
@@ -7995,12 +7896,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E39 RID: 3641 RVA: 0x0006BC2C File Offset: 0x00069E2C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C23 RID: 3107
 			public string sRetValue;
@@ -8040,12 +7937,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E3E RID: 3646 RVA: 0x0006BC68 File Offset: 0x00069E68
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C25 RID: 3109
 			public string sRetValue;
@@ -8085,12 +7978,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E43 RID: 3651 RVA: 0x0006BCA4 File Offset: 0x00069EA4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C27 RID: 3111
 			public string sRetValue;
@@ -8130,12 +8019,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E48 RID: 3656 RVA: 0x0006BCE0 File Offset: 0x00069EE0
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C29 RID: 3113
 			public string sRetValue;
@@ -8175,12 +8060,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E4D RID: 3661 RVA: 0x0006BD1C File Offset: 0x00069F1C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C2B RID: 3115
 			public string sRetValue;
@@ -8227,12 +8108,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E53 RID: 3667 RVA: 0x0006BD60 File Offset: 0x00069F60
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C2E RID: 3118
 			public string sRetValue;
@@ -8272,12 +8149,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E58 RID: 3672 RVA: 0x0006BD9C File Offset: 0x00069F9C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C30 RID: 3120
 			public string sRetValue;
@@ -8324,12 +8197,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E5E RID: 3678 RVA: 0x0006BDE0 File Offset: 0x00069FE0
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C33 RID: 3123
 			public string sRetValue;
@@ -8376,12 +8245,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E64 RID: 3684 RVA: 0x0006BE24 File Offset: 0x0006A024
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C36 RID: 3126
 			public string sRetValue;
@@ -8431,12 +8296,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E6A RID: 3690 RVA: 0x0006BE68 File Offset: 0x0006A068
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C3A RID: 3130
 			private StringTemplate st;
@@ -8473,12 +8334,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E6F RID: 3695 RVA: 0x0006BEA4 File Offset: 0x0006A0A4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C3B RID: 3131
 			private StringTemplate st;
@@ -8528,12 +8385,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E75 RID: 3701 RVA: 0x0006BEE8 File Offset: 0x0006A0E8
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C3F RID: 3135
 			private StringTemplate st;
@@ -8580,12 +8433,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E7B RID: 3707 RVA: 0x0006BF2C File Offset: 0x0006A12C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C42 RID: 3138
 			private StringTemplate st;
@@ -8632,12 +8481,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E81 RID: 3713 RVA: 0x0006BF70 File Offset: 0x0006A170
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C45 RID: 3141
 			private StringTemplate st;
@@ -8690,12 +8535,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E87 RID: 3719 RVA: 0x0006BFB4 File Offset: 0x0006A1B4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C4A RID: 3146
 			private StringTemplate st;
@@ -8739,12 +8580,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E8D RID: 3725 RVA: 0x0006BFF8 File Offset: 0x0006A1F8
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C4C RID: 3148
 			public string sRetValue;
@@ -8784,12 +8621,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E92 RID: 3730 RVA: 0x0006C034 File Offset: 0x0006A234
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C4E RID: 3150
 			public IList sParamVars;
@@ -8832,12 +8665,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E97 RID: 3735 RVA: 0x0006C070 File Offset: 0x0006A270
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C51 RID: 3153
 			public string sVarName;
@@ -8887,12 +8716,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000E9D RID: 3741 RVA: 0x0006C0B4 File Offset: 0x0006A2B4
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C55 RID: 3157
 			public string sRetValue;
@@ -8932,12 +8757,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000EA2 RID: 3746 RVA: 0x0006C0F0 File Offset: 0x0006A2F0
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C57 RID: 3159
 			private StringTemplate st;
@@ -8974,12 +8795,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000EA7 RID: 3751 RVA: 0x0006C12C File Offset: 0x0006A32C
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C58 RID: 3160
 			private StringTemplate st;
@@ -9016,12 +8833,8 @@ namespace pcomps.PCompiler
 			// Token: 0x06000EAC RID: 3756 RVA: 0x0006C168 File Offset: 0x0006A368
 			public override string ToString()
 			{
-				if (st != null)
-				{
-					return st.ToString();
-				}
-				return null;
-			}
+                return st?.ToString();
+            }
 
 			// Token: 0x04000C59 RID: 3161
 			public string sTypeString;

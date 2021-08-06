@@ -65,11 +65,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				if (token == null)
-				{
-					return null;
-				}
-				return token.Text;
+                return token?.Text;
 			}
 		}
 
@@ -222,11 +218,8 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				return "<errornode>";
 			}
-			if (token == null)
-			{
-				return null;
-			}
-			return token.Text;
+
+            return token?.Text;
 		}
 
 		// Token: 0x040001A1 RID: 417

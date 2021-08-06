@@ -59,11 +59,8 @@ namespace pcomps.Antlr.Runtime.Tree
 		public override void Reset()
 		{
 			base.Reset();
-			if (input != null)
-			{
-				input.Seek(0);
-			}
-		}
+            input?.Seek(0);
+        }
 
 		// Token: 0x060006B1 RID: 1713 RVA: 0x00012AF0 File Offset: 0x00010CF0
 		public override void MatchAny(IIntStream ignore)

@@ -57,12 +57,9 @@ namespace pcomps.Antlr.Runtime
 				n = streamReader.Read(data, 0, data.Length);
 			}
 			finally
-			{
-				if (streamReader != null)
-				{
-					streamReader.Close();
-				}
-			}
+            {
+                streamReader?.Close();
+            }
 		}
 
 		// Token: 0x060004B3 RID: 1203 RVA: 0x0000E810 File Offset: 0x0000CA10

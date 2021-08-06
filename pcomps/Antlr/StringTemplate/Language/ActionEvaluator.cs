@@ -43,11 +43,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -170,11 +167,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -281,11 +275,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -406,11 +397,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -489,11 +477,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -605,11 +590,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -660,11 +642,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -760,11 +739,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 		}
 
@@ -790,11 +766,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -878,11 +851,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return result;
 		}
@@ -942,11 +912,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 			return dictionary;
 		}
@@ -1001,11 +968,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 		}
 
@@ -1063,11 +1027,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			catch (RecognitionException ex)
 			{
 				reportError(ex);
-				if (_t != null)
-				{
-					_t = _t.getNextSibling();
-				}
-			}
+                _t = _t?.getNextSibling();
+            }
 			retTree_ = _t;
 		}
 

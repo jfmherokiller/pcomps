@@ -257,11 +257,8 @@ namespace pcomps.Antlr
 			}
 			AST ast = nodes[0];
 			AST ast2 = null;
-			if (ast != null)
-			{
-				ast.setFirstChild(null);
-			}
-			for (int i = 1; i < nodes.Length; i++)
+            ast?.setFirstChild(null);
+            for (int i = 1; i < nodes.Length; i++)
 			{
 				if (nodes[i] != null)
 				{

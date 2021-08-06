@@ -82,21 +82,15 @@ namespace pcomps.Antlr
 		public virtual void select(TokenStream stream)
 		{
 			input = stream;
-			if (input is CharScanner)
-			{
-				((CharScanner)input).refresh();
-			}
-		}
+            (input as CharScanner)?.refresh();
+        }
 
 		// Token: 0x060002B9 RID: 697 RVA: 0x0000905C File Offset: 0x0000725C
 		public virtual void select(string sname)
 		{
 			input = getStream(sname);
-			if (input is CharScanner)
-			{
-				((CharScanner)input).refresh();
-			}
-		}
+            (input as CharScanner)?.refresh();
+        }
 
 		// Token: 0x040000D2 RID: 210
 		protected internal Hashtable inputStreamNames;

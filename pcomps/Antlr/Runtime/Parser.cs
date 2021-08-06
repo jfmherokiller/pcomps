@@ -19,11 +19,8 @@
 		public override void Reset()
 		{
 			base.Reset();
-			if (input != null)
-			{
-				input.Seek(0);
-			}
-		}
+            input?.Seek(0);
+        }
 
 		// Token: 0x06000552 RID: 1362 RVA: 0x0000FDEC File Offset: 0x0000DFEC
 		protected override object GetCurrentInputSymbol(IIntStream input)

@@ -49,11 +49,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x06000841 RID: 2113 RVA: 0x00017440 File Offset: 0x00015640
 		public int GetTokenType(string tokenName)
 		{
-			if (tokenNameToTypeMap == null)
-			{
-				return 0;
-			}
-			object obj = tokenNameToTypeMap[tokenName];
+            object obj = tokenNameToTypeMap?[tokenName];
 			if (obj != null)
 			{
 				return (int)obj;

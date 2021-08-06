@@ -551,12 +551,9 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000F96 RID: 3990 RVA: 0x0006F2EC File Offset: 0x0006D4EC
 		public virtual void RemoveAttribute(string name)
-		{
-			if (attributes != null)
-			{
-				attributes.Remove(name);
-			}
-		}
+        {
+            attributes?.Remove(name);
+        }
 
 		// Token: 0x06000F97 RID: 3991 RVA: 0x0006F304 File Offset: 0x0006D504
 		public virtual void SetAttribute(string name, object val)

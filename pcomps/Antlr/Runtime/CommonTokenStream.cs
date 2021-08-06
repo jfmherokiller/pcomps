@@ -214,15 +214,12 @@ namespace pcomps.Antlr.Runtime
 			while (token != null && token.Type != -1)
 			{
 				bool flag = false;
-				if (channelOverrideMap != null)
-				{
-					object obj = channelOverrideMap[token.Type];
-					if (obj != null)
-					{
-						token.Channel = (int)obj;
-					}
-				}
-				if (discardSet != null && discardSet.Contains(token.Type.ToString()))
+                object obj = channelOverrideMap?[token.Type];
+                if (obj != null)
+                {
+                    token.Channel = (int)obj;
+                }
+                if (discardSet != null && discardSet.Contains(token.Type.ToString()))
 				{
 					flag = true;
 				}

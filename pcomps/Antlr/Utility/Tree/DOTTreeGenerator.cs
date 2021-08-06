@@ -88,11 +88,8 @@ namespace pcomps.Antlr.Utility.Tree
 			StringTemplate.StringTemplate instanceOf = _nodeST.GetInstanceOf();
 			string val = $"n{GetNodeNumber(t)}";
 			instanceOf.SetAttribute("name", val);
-			if (text != null)
-			{
-				text = text.Replace("\"", "\\\\\"");
-			}
-			instanceOf.SetAttribute("text", text);
+            text = text?.Replace("\"", "\\\\\"");
+            instanceOf.SetAttribute("text", text);
 			return instanceOf;
 		}
 

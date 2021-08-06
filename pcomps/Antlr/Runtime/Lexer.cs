@@ -112,11 +112,8 @@ namespace pcomps.Antlr.Runtime
 		public override void Reset()
 		{
 			base.Reset();
-			if (input != null)
-			{
-				input.Seek(0);
-			}
-			if (state == null)
+            input?.Seek(0);
+            if (state == null)
 			{
 				return;
 			}

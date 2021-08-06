@@ -332,88 +332,82 @@ namespace pcomps.Antlr.Runtime
 			for (int i = 0; i < rewrites.Count; i++)
 			{
 				RewriteOperation rewriteOperation = (RewriteOperation)rewrites[i];
-				if (rewriteOperation != null)
-				{
-					if (rewriteOperation is ReplaceOp)
-					{
-						ReplaceOp replaceOp = (ReplaceOp)rewrites[i];
-						IList kindOfOps = GetKindOfOps(rewrites, typeof(InsertBeforeOp), i);
-						for (int j = 0; j < kindOfOps.Count; j++)
-						{
-							InsertBeforeOp insertBeforeOp = (InsertBeforeOp)kindOfOps[j];
-							if (insertBeforeOp.index >= replaceOp.index && insertBeforeOp.index <= replaceOp.lastIndex)
-							{
-								rewrites[insertBeforeOp.instructionIndex] = null;
-							}
-						}
-						IList kindOfOps2 = GetKindOfOps(rewrites, typeof(ReplaceOp), i);
-						for (int k = 0; k < kindOfOps2.Count; k++)
-						{
-							ReplaceOp replaceOp2 = (ReplaceOp)kindOfOps2[k];
-							if (replaceOp2.index >= replaceOp.index && replaceOp2.lastIndex <= replaceOp.lastIndex)
-							{
-								rewrites[replaceOp2.instructionIndex] = null;
-							}
-							else
-							{
-								bool flag = replaceOp2.lastIndex < replaceOp.index || replaceOp2.index > replaceOp.lastIndex;
-								bool flag2 = replaceOp2.index == replaceOp.index && replaceOp2.lastIndex == replaceOp.lastIndex;
-								if (!flag && !flag2)
-								{
-									throw new ArgumentOutOfRangeException(string.Concat(new object[]
-									{
-										"replace op boundaries of ",
-										replaceOp,
-										" overlap with previous ",
-										replaceOp2
-									}));
-								}
-							}
-						}
-					}
-				}
-			}
+                if (rewriteOperation is ReplaceOp)
+                {
+                    ReplaceOp replaceOp = (ReplaceOp)rewrites[i];
+                    IList kindOfOps = GetKindOfOps(rewrites, typeof(InsertBeforeOp), i);
+                    for (int j = 0; j < kindOfOps.Count; j++)
+                    {
+                        InsertBeforeOp insertBeforeOp = (InsertBeforeOp)kindOfOps[j];
+                        if (insertBeforeOp.index >= replaceOp.index && insertBeforeOp.index <= replaceOp.lastIndex)
+                        {
+                            rewrites[insertBeforeOp.instructionIndex] = null;
+                        }
+                    }
+                    IList kindOfOps2 = GetKindOfOps(rewrites, typeof(ReplaceOp), i);
+                    for (int k = 0; k < kindOfOps2.Count; k++)
+                    {
+                        ReplaceOp replaceOp2 = (ReplaceOp)kindOfOps2[k];
+                        if (replaceOp2.index >= replaceOp.index && replaceOp2.lastIndex <= replaceOp.lastIndex)
+                        {
+                            rewrites[replaceOp2.instructionIndex] = null;
+                        }
+                        else
+                        {
+                            bool flag = replaceOp2.lastIndex < replaceOp.index || replaceOp2.index > replaceOp.lastIndex;
+                            bool flag2 = replaceOp2.index == replaceOp.index && replaceOp2.lastIndex == replaceOp.lastIndex;
+                            if (!flag && !flag2)
+                            {
+                                throw new ArgumentOutOfRangeException(string.Concat(new object[]
+                                {
+                                    "replace op boundaries of ",
+                                    replaceOp,
+                                    " overlap with previous ",
+                                    replaceOp2
+                                }));
+                            }
+                        }
+                    }
+                }
+            }
 			for (int l = 0; l < rewrites.Count; l++)
 			{
 				RewriteOperation rewriteOperation2 = (RewriteOperation)rewrites[l];
-				if (rewriteOperation2 != null)
-				{
-					if (rewriteOperation2 is InsertBeforeOp)
-					{
-						InsertBeforeOp insertBeforeOp2 = (InsertBeforeOp)rewrites[l];
-						IList kindOfOps3 = GetKindOfOps(rewrites, typeof(InsertBeforeOp), l);
-						for (int m = 0; m < kindOfOps3.Count; m++)
-						{
-							InsertBeforeOp insertBeforeOp3 = (InsertBeforeOp)kindOfOps3[m];
-							if (insertBeforeOp3.index == insertBeforeOp2.index)
-							{
-								insertBeforeOp2.text = CatOpText(insertBeforeOp2.text, insertBeforeOp3.text);
-								rewrites[insertBeforeOp3.instructionIndex] = null;
-							}
-						}
-						IList kindOfOps4 = GetKindOfOps(rewrites, typeof(ReplaceOp), l);
-						for (int n = 0; n < kindOfOps4.Count; n++)
-						{
-							ReplaceOp replaceOp3 = (ReplaceOp)kindOfOps4[n];
-							if (insertBeforeOp2.index == replaceOp3.index)
-							{
-								replaceOp3.text = CatOpText(insertBeforeOp2.text, replaceOp3.text);
-								rewrites[l] = null;
-							}
-							else if (insertBeforeOp2.index >= replaceOp3.index && insertBeforeOp2.index <= replaceOp3.lastIndex)
-							{
-								throw new ArgumentOutOfRangeException(string.Concat(new object[]
-								{
-									"insert op ",
-									insertBeforeOp2,
-									" within boundaries of previous ",
-									replaceOp3
-								}));
-							}
-						}
-					}
-				}
-			}
+                if (rewriteOperation2 is InsertBeforeOp)
+                {
+                    InsertBeforeOp insertBeforeOp2 = (InsertBeforeOp)rewrites[l];
+                    IList kindOfOps3 = GetKindOfOps(rewrites, typeof(InsertBeforeOp), l);
+                    for (int m = 0; m < kindOfOps3.Count; m++)
+                    {
+                        InsertBeforeOp insertBeforeOp3 = (InsertBeforeOp)kindOfOps3[m];
+                        if (insertBeforeOp3.index == insertBeforeOp2.index)
+                        {
+                            insertBeforeOp2.text = CatOpText(insertBeforeOp2.text, insertBeforeOp3.text);
+                            rewrites[insertBeforeOp3.instructionIndex] = null;
+                        }
+                    }
+                    IList kindOfOps4 = GetKindOfOps(rewrites, typeof(ReplaceOp), l);
+                    for (int n = 0; n < kindOfOps4.Count; n++)
+                    {
+                        ReplaceOp replaceOp3 = (ReplaceOp)kindOfOps4[n];
+                        if (insertBeforeOp2.index == replaceOp3.index)
+                        {
+                            replaceOp3.text = CatOpText(insertBeforeOp2.text, replaceOp3.text);
+                            rewrites[l] = null;
+                        }
+                        else if (insertBeforeOp2.index >= replaceOp3.index && insertBeforeOp2.index <= replaceOp3.lastIndex)
+                        {
+                            throw new ArgumentOutOfRangeException(string.Concat(new object[]
+                            {
+                                "insert op ",
+                                insertBeforeOp2,
+                                " within boundaries of previous ",
+                                replaceOp3
+                            }));
+                        }
+                    }
+                }
+            }
 			IDictionary dictionary = new Hashtable();
 			for (int num = 0; num < rewrites.Count; num++)
 			{

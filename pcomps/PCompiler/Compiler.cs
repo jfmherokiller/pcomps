@@ -482,12 +482,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x06000D44 RID: 3396 RVA: 0x0005D834 File Offset: 0x0005BA34
 		private void OnCompilerNotify(string asMessage)
-		{
-			if (CompilerNotifyHandler != null)
-			{
-				CompilerNotifyHandler(this, new CompilerNotifyEventArgs(asMessage));
-			}
-		}
+        {
+            CompilerNotifyHandler?.Invoke(this, new CompilerNotifyEventArgs(asMessage));
+        }
 
 		// Token: 0x06000D45 RID: 3397 RVA: 0x0005D850 File Offset: 0x0005BA50
 		private void StartImportFile(string asFilename)

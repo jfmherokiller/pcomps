@@ -18,12 +18,8 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			get
 			{
-				if (elementDescription != null)
-				{
-					return elementDescription;
-				}
-				return null;
-			}
+                return elementDescription;
+            }
 		}
 
 		// Token: 0x0400023A RID: 570

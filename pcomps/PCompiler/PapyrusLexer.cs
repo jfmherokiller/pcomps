@@ -15,12 +15,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x06000BC2 RID: 3010 RVA: 0x00046450 File Offset: 0x00044650
 		private void OnError(string asError, int aiLineNumber, int aiColumnNumber)
-		{
-			if (ErrorHandler != null)
-			{
-				ErrorHandler(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
-			}
-		}
+        {
+            ErrorHandler?.Invoke(this, new InternalErrorEventArgs(asError, aiLineNumber, aiColumnNumber));
+        }
 
 		// Token: 0x06000BC3 RID: 3011 RVA: 0x00046470 File Offset: 0x00044670
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)

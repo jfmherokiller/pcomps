@@ -259,11 +259,8 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			p = -1;
 			lastMarker = 0;
-			if (calls != null)
-			{
-				calls.Clear();
-			}
-		}
+            calls?.Clear();
+        }
 
 		// Token: 0x06000646 RID: 1606 RVA: 0x00012374 File Offset: 0x00010574
 		public void ReplaceChildren(object parent, int startChildIndex, int stopChildIndex, object t)

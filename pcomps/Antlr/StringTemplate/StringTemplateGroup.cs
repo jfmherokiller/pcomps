@@ -132,22 +132,14 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FDD RID: 4061 RVA: 0x00070990 File Offset: 0x0006EB90
 		public static StringTemplateGroup LoadGroup(string name, StringTemplateGroup superGroup)
 		{
-			if (groupLoader != null)
-			{
-				return groupLoader.LoadGroup(name, superGroup);
-			}
-			return null;
-		}
+            return groupLoader?.LoadGroup(name, superGroup);
+        }
 
 		// Token: 0x06000FDE RID: 4062 RVA: 0x000709A8 File Offset: 0x0006EBA8
 		public static StringTemplateGroupInterface LoadInterface(string name)
 		{
-			if (groupLoader != null)
-			{
-				return groupLoader.LoadInterface(name);
-			}
-			return null;
-		}
+            return groupLoader?.LoadInterface(name);
+        }
 
 		// Token: 0x17000244 RID: 580
 		// (get) Token: 0x06000FDF RID: 4063 RVA: 0x000709C0 File Offset: 0x0006EBC0
@@ -282,12 +274,8 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual StringTemplate GetInstanceOf(StringTemplate enclosingInstance, string name)
 		{
 			StringTemplate stringTemplate = LookupTemplate(enclosingInstance, name);
-			if (stringTemplate != null)
-			{
-				return stringTemplate.GetInstanceOf();
-			}
-			return null;
-		}
+            return stringTemplate?.GetInstanceOf();
+        }
 
 		// Token: 0x06000FEC RID: 4076 RVA: 0x00070B28 File Offset: 0x0006ED28
 		public virtual StringTemplate GetInstanceOf(string name)
@@ -599,11 +587,8 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				return attributeRenderer;
 			}
-			if (superGroup == null)
-			{
-				return null;
-			}
-			return superGroup.GetAttributeRenderer(attributeClassType);
+
+            return superGroup?.GetAttributeRenderer(attributeClassType);
 		}
 
 		// Token: 0x06001002 RID: 4098 RVA: 0x000710E4 File Offset: 0x0006F2E4
@@ -618,11 +603,8 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				return dictionary;
 			}
-			if (superGroup == null)
-			{
-				return null;
-			}
-			return superGroup.GetMap(name);
+
+            return superGroup?.GetMap(name);
 		}
 
 		// Token: 0x06001003 RID: 4099 RVA: 0x0007113C File Offset: 0x0006F33C
