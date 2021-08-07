@@ -11,15 +11,9 @@ namespace pcomps.Antlr
 	{
 		// Token: 0x1700001B RID: 27
 		// (get) Token: 0x060001BC RID: 444 RVA: 0x00006280 File Offset: 0x00004480
-		protected internal EventHandlerList Events
-		{
-			get
-			{
-				return events_;
-			}
-		}
+		protected internal EventHandlerList Events => events_;
 
-		// Token: 0x060001BD RID: 445 RVA: 0x00006294 File Offset: 0x00004494
+        // Token: 0x060001BD RID: 445 RVA: 0x00006294 File Offset: 0x00004494
 		public Parser()
 		{
 			inputState = new ParserSharedInputState();
@@ -36,225 +30,135 @@ namespace pcomps.Antlr
 		// (remove) Token: 0x060001C0 RID: 448 RVA: 0x00006338 File Offset: 0x00004538
 		public event TraceEventHandler EnterRule
 		{
-			add
-			{
-				Events.AddHandler(EnterRuleEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(EnterRuleEventKey, value);
-			}
-		}
+			add => Events.AddHandler(EnterRuleEventKey, value);
+            remove => Events.RemoveHandler(EnterRuleEventKey, value);
+        }
 
 		// Token: 0x14000028 RID: 40
 		// (add) Token: 0x060001C1 RID: 449 RVA: 0x00006358 File Offset: 0x00004558
 		// (remove) Token: 0x060001C2 RID: 450 RVA: 0x00006378 File Offset: 0x00004578
 		public event TraceEventHandler ExitRule
 		{
-			add
-			{
-				Events.AddHandler(ExitRuleEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ExitRuleEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ExitRuleEventKey, value);
+            remove => Events.RemoveHandler(ExitRuleEventKey, value);
+        }
 
 		// Token: 0x14000029 RID: 41
 		// (add) Token: 0x060001C3 RID: 451 RVA: 0x00006398 File Offset: 0x00004598
 		// (remove) Token: 0x060001C4 RID: 452 RVA: 0x000063B8 File Offset: 0x000045B8
 		public event TraceEventHandler Done
 		{
-			add
-			{
-				Events.AddHandler(DoneEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(DoneEventKey, value);
-			}
-		}
+			add => Events.AddHandler(DoneEventKey, value);
+            remove => Events.RemoveHandler(DoneEventKey, value);
+        }
 
 		// Token: 0x1400002A RID: 42
 		// (add) Token: 0x060001C5 RID: 453 RVA: 0x000063D8 File Offset: 0x000045D8
 		// (remove) Token: 0x060001C6 RID: 454 RVA: 0x000063F8 File Offset: 0x000045F8
 		public event MessageEventHandler ErrorReported
 		{
-			add
-			{
-				Events.AddHandler(ReportErrorEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ReportErrorEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ReportErrorEventKey, value);
+            remove => Events.RemoveHandler(ReportErrorEventKey, value);
+        }
 
 		// Token: 0x1400002B RID: 43
 		// (add) Token: 0x060001C7 RID: 455 RVA: 0x00006418 File Offset: 0x00004618
 		// (remove) Token: 0x060001C8 RID: 456 RVA: 0x00006438 File Offset: 0x00004638
 		public event MessageEventHandler WarningReported
 		{
-			add
-			{
-				Events.AddHandler(ReportWarningEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ReportWarningEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ReportWarningEventKey, value);
+            remove => Events.RemoveHandler(ReportWarningEventKey, value);
+        }
 
 		// Token: 0x1400002C RID: 44
 		// (add) Token: 0x060001C9 RID: 457 RVA: 0x00006458 File Offset: 0x00004658
 		// (remove) Token: 0x060001CA RID: 458 RVA: 0x00006478 File Offset: 0x00004678
 		public event MatchEventHandler MatchedToken
 		{
-			add
-			{
-				Events.AddHandler(MatchEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MatchEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MatchEventKey, value);
+            remove => Events.RemoveHandler(MatchEventKey, value);
+        }
 
 		// Token: 0x1400002D RID: 45
 		// (add) Token: 0x060001CB RID: 459 RVA: 0x00006498 File Offset: 0x00004698
 		// (remove) Token: 0x060001CC RID: 460 RVA: 0x000064B8 File Offset: 0x000046B8
 		public event MatchEventHandler MatchedNotToken
 		{
-			add
-			{
-				Events.AddHandler(MatchNotEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MatchNotEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MatchNotEventKey, value);
+            remove => Events.RemoveHandler(MatchNotEventKey, value);
+        }
 
 		// Token: 0x1400002E RID: 46
 		// (add) Token: 0x060001CD RID: 461 RVA: 0x000064D8 File Offset: 0x000046D8
 		// (remove) Token: 0x060001CE RID: 462 RVA: 0x000064F8 File Offset: 0x000046F8
 		public event MatchEventHandler MisMatchedToken
 		{
-			add
-			{
-				Events.AddHandler(MisMatchEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MisMatchEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MisMatchEventKey, value);
+            remove => Events.RemoveHandler(MisMatchEventKey, value);
+        }
 
 		// Token: 0x1400002F RID: 47
 		// (add) Token: 0x060001CF RID: 463 RVA: 0x00006518 File Offset: 0x00004718
 		// (remove) Token: 0x060001D0 RID: 464 RVA: 0x00006538 File Offset: 0x00004738
 		public event MatchEventHandler MisMatchedNotToken
 		{
-			add
-			{
-				Events.AddHandler(MisMatchNotEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MisMatchNotEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MisMatchNotEventKey, value);
+            remove => Events.RemoveHandler(MisMatchNotEventKey, value);
+        }
 
 		// Token: 0x14000030 RID: 48
 		// (add) Token: 0x060001D1 RID: 465 RVA: 0x00006558 File Offset: 0x00004758
 		// (remove) Token: 0x060001D2 RID: 466 RVA: 0x00006578 File Offset: 0x00004778
 		public event TokenEventHandler ConsumedToken
 		{
-			add
-			{
-				Events.AddHandler(ConsumeEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ConsumeEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ConsumeEventKey, value);
+            remove => Events.RemoveHandler(ConsumeEventKey, value);
+        }
 
 		// Token: 0x14000031 RID: 49
 		// (add) Token: 0x060001D3 RID: 467 RVA: 0x00006598 File Offset: 0x00004798
 		// (remove) Token: 0x060001D4 RID: 468 RVA: 0x000065B8 File Offset: 0x000047B8
 		public event TokenEventHandler TokenLA
 		{
-			add
-			{
-				Events.AddHandler(LAEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(LAEventKey, value);
-			}
-		}
+			add => Events.AddHandler(LAEventKey, value);
+            remove => Events.RemoveHandler(LAEventKey, value);
+        }
 
 		// Token: 0x14000032 RID: 50
 		// (add) Token: 0x060001D5 RID: 469 RVA: 0x000065D8 File Offset: 0x000047D8
 		// (remove) Token: 0x060001D6 RID: 470 RVA: 0x000065F8 File Offset: 0x000047F8
 		public event SemanticPredicateEventHandler SemPredEvaluated
 		{
-			add
-			{
-				Events.AddHandler(SemPredEvaluatedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SemPredEvaluatedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SemPredEvaluatedEventKey, value);
+            remove => Events.RemoveHandler(SemPredEvaluatedEventKey, value);
+        }
 
 		// Token: 0x14000033 RID: 51
 		// (add) Token: 0x060001D7 RID: 471 RVA: 0x00006618 File Offset: 0x00004818
 		// (remove) Token: 0x060001D8 RID: 472 RVA: 0x00006638 File Offset: 0x00004838
 		public event SyntacticPredicateEventHandler SynPredStarted
 		{
-			add
-			{
-				Events.AddHandler(SynPredStartedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredStartedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredStartedEventKey, value);
+            remove => Events.RemoveHandler(SynPredStartedEventKey, value);
+        }
 
 		// Token: 0x14000034 RID: 52
 		// (add) Token: 0x060001D9 RID: 473 RVA: 0x00006658 File Offset: 0x00004858
 		// (remove) Token: 0x060001DA RID: 474 RVA: 0x00006678 File Offset: 0x00004878
 		public event SyntacticPredicateEventHandler SynPredFailed
 		{
-			add
-			{
-				Events.AddHandler(SynPredFailedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredFailedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredFailedEventKey, value);
+            remove => Events.RemoveHandler(SynPredFailedEventKey, value);
+        }
 
 		// Token: 0x14000035 RID: 53
 		// (add) Token: 0x060001DB RID: 475 RVA: 0x00006698 File Offset: 0x00004898
 		// (remove) Token: 0x060001DC RID: 476 RVA: 0x000066B8 File Offset: 0x000048B8
 		public event SyntacticPredicateEventHandler SynPredSucceeded
 		{
-			add
-			{
-				Events.AddHandler(SynPredSucceededEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredSucceededEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredSucceededEventKey, value);
+            remove => Events.RemoveHandler(SynPredSucceededEventKey, value);
+        }
 
 		// Token: 0x060001DD RID: 477 RVA: 0x000066D8 File Offset: 0x000048D8
 		public virtual void addMessageListener(MessageListener l)

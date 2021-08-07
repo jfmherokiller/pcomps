@@ -49,7 +49,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002C5 RID: 709 RVA: 0x0000922C File Offset: 0x0000742C
 		protected internal virtual void match(AST t, int ttype)
 		{
-			if (t == null || t == ASTNULL || t.Type != ttype)
+			if (t == null || t.Equals(ASTNULL) || t.Type != ttype)
 			{
 				throw new MismatchedTokenException(getTokenNames(), t, ttype, false);
 			}
@@ -58,7 +58,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002C6 RID: 710 RVA: 0x0000925C File Offset: 0x0000745C
 		public virtual void match(AST t, BitSet b)
 		{
-			if (t == null || t == ASTNULL || !b.member(t.Type))
+			if (t == null || t.Equals(ASTNULL) || !b.member(t.Type))
 			{
 				throw new MismatchedTokenException(getTokenNames(), t, b, false);
 			}
@@ -67,7 +67,7 @@ namespace pcomps.Antlr
 		// Token: 0x060002C7 RID: 711 RVA: 0x00009294 File Offset: 0x00007494
 		protected internal virtual void matchNot(AST t, int ttype)
 		{
-			if (t == null || t == ASTNULL || t.Type == ttype)
+			if (t == null || t.Equals(ASTNULL) || t.Type == ttype)
 			{
 				throw new MismatchedTokenException(getTokenNames(), t, ttype, true);
 			}
@@ -136,7 +136,7 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x040000D6 RID: 214
-		public static ASTNULLType ASTNULL = new ASTNULLType();
+		public static ASTNULLType ASTNULL = new();
 
 		// Token: 0x040000D7 RID: 215
 		protected internal AST retTree_;
@@ -151,7 +151,7 @@ namespace pcomps.Antlr
 		protected internal AST returnAST;
 
 		// Token: 0x040000DB RID: 219
-		protected internal ASTFactory astFactory = new ASTFactory();
+		protected internal ASTFactory astFactory = new();
 
 		// Token: 0x040000DC RID: 220
 		protected internal int traceDepth = 0;

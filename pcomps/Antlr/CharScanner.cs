@@ -3,7 +3,6 @@ using System.Collections;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using pcomps.Antlr.collections.impl;
 using pcomps.Antlr.debug;
@@ -15,15 +14,9 @@ namespace pcomps.Antlr
 	{
 		// Token: 0x17000011 RID: 17
 		// (get) Token: 0x060000E0 RID: 224 RVA: 0x000045A8 File Offset: 0x000027A8
-		protected internal EventHandlerList Events
-		{
-			get
-			{
-				return events_;
-			}
-		}
+		protected internal EventHandlerList Events => events_;
 
-		// Token: 0x060000E1 RID: 225 RVA: 0x000045BC File Offset: 0x000027BC
+        // Token: 0x060000E1 RID: 225 RVA: 0x000045BC File Offset: 0x000027BC
 		public CharScanner()
 		{
 			text = new StringBuilder();
@@ -54,240 +47,144 @@ namespace pcomps.Antlr
 		// (remove) Token: 0x060000E5 RID: 229 RVA: 0x000046E4 File Offset: 0x000028E4
 		public event TraceEventHandler EnterRule
 		{
-			add
-			{
-				Events.AddHandler(EnterRuleEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(EnterRuleEventKey, value);
-			}
-		}
+			add => Events.AddHandler(EnterRuleEventKey, value);
+            remove => Events.RemoveHandler(EnterRuleEventKey, value);
+        }
 
 		// Token: 0x14000012 RID: 18
 		// (add) Token: 0x060000E6 RID: 230 RVA: 0x00004704 File Offset: 0x00002904
 		// (remove) Token: 0x060000E7 RID: 231 RVA: 0x00004724 File Offset: 0x00002924
 		public event TraceEventHandler ExitRule
 		{
-			add
-			{
-				Events.AddHandler(ExitRuleEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ExitRuleEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ExitRuleEventKey, value);
+            remove => Events.RemoveHandler(ExitRuleEventKey, value);
+        }
 
 		// Token: 0x14000013 RID: 19
 		// (add) Token: 0x060000E8 RID: 232 RVA: 0x00004744 File Offset: 0x00002944
 		// (remove) Token: 0x060000E9 RID: 233 RVA: 0x00004764 File Offset: 0x00002964
 		public event TraceEventHandler Done
 		{
-			add
-			{
-				Events.AddHandler(DoneEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(DoneEventKey, value);
-			}
-		}
+			add => Events.AddHandler(DoneEventKey, value);
+            remove => Events.RemoveHandler(DoneEventKey, value);
+        }
 
 		// Token: 0x14000014 RID: 20
 		// (add) Token: 0x060000EA RID: 234 RVA: 0x00004784 File Offset: 0x00002984
 		// (remove) Token: 0x060000EB RID: 235 RVA: 0x000047A4 File Offset: 0x000029A4
 		public event MessageEventHandler ErrorReported
 		{
-			add
-			{
-				Events.AddHandler(ReportErrorEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ReportErrorEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ReportErrorEventKey, value);
+            remove => Events.RemoveHandler(ReportErrorEventKey, value);
+        }
 
 		// Token: 0x14000015 RID: 21
 		// (add) Token: 0x060000EC RID: 236 RVA: 0x000047C4 File Offset: 0x000029C4
 		// (remove) Token: 0x060000ED RID: 237 RVA: 0x000047E4 File Offset: 0x000029E4
 		public event MessageEventHandler WarningReported
 		{
-			add
-			{
-				Events.AddHandler(ReportWarningEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ReportWarningEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ReportWarningEventKey, value);
+            remove => Events.RemoveHandler(ReportWarningEventKey, value);
+        }
 
 		// Token: 0x14000016 RID: 22
 		// (add) Token: 0x060000EE RID: 238 RVA: 0x00004804 File Offset: 0x00002A04
 		// (remove) Token: 0x060000EF RID: 239 RVA: 0x00004824 File Offset: 0x00002A24
 		public event NewLineEventHandler HitNewLine
 		{
-			add
-			{
-				Events.AddHandler(NewLineEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(NewLineEventKey, value);
-			}
-		}
+			add => Events.AddHandler(NewLineEventKey, value);
+            remove => Events.RemoveHandler(NewLineEventKey, value);
+        }
 
 		// Token: 0x14000017 RID: 23
 		// (add) Token: 0x060000F0 RID: 240 RVA: 0x00004844 File Offset: 0x00002A44
 		// (remove) Token: 0x060000F1 RID: 241 RVA: 0x00004864 File Offset: 0x00002A64
 		public event MatchEventHandler MatchedChar
 		{
-			add
-			{
-				Events.AddHandler(MatchEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MatchEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MatchEventKey, value);
+            remove => Events.RemoveHandler(MatchEventKey, value);
+        }
 
 		// Token: 0x14000018 RID: 24
 		// (add) Token: 0x060000F2 RID: 242 RVA: 0x00004884 File Offset: 0x00002A84
 		// (remove) Token: 0x060000F3 RID: 243 RVA: 0x000048A4 File Offset: 0x00002AA4
 		public event MatchEventHandler MatchedNotChar
 		{
-			add
-			{
-				Events.AddHandler(MatchNotEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MatchNotEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MatchNotEventKey, value);
+            remove => Events.RemoveHandler(MatchNotEventKey, value);
+        }
 
 		// Token: 0x14000019 RID: 25
 		// (add) Token: 0x060000F4 RID: 244 RVA: 0x000048C4 File Offset: 0x00002AC4
 		// (remove) Token: 0x060000F5 RID: 245 RVA: 0x000048E4 File Offset: 0x00002AE4
 		public event MatchEventHandler MisMatchedChar
 		{
-			add
-			{
-				Events.AddHandler(MisMatchEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MisMatchEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MisMatchEventKey, value);
+            remove => Events.RemoveHandler(MisMatchEventKey, value);
+        }
 
 		// Token: 0x1400001A RID: 26
 		// (add) Token: 0x060000F6 RID: 246 RVA: 0x00004904 File Offset: 0x00002B04
 		// (remove) Token: 0x060000F7 RID: 247 RVA: 0x00004924 File Offset: 0x00002B24
 		public event MatchEventHandler MisMatchedNotChar
 		{
-			add
-			{
-				Events.AddHandler(MisMatchNotEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(MisMatchNotEventKey, value);
-			}
-		}
+			add => Events.AddHandler(MisMatchNotEventKey, value);
+            remove => Events.RemoveHandler(MisMatchNotEventKey, value);
+        }
 
 		// Token: 0x1400001B RID: 27
 		// (add) Token: 0x060000F8 RID: 248 RVA: 0x00004944 File Offset: 0x00002B44
 		// (remove) Token: 0x060000F9 RID: 249 RVA: 0x00004964 File Offset: 0x00002B64
 		public event TokenEventHandler ConsumedChar
 		{
-			add
-			{
-				Events.AddHandler(ConsumeEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(ConsumeEventKey, value);
-			}
-		}
+			add => Events.AddHandler(ConsumeEventKey, value);
+            remove => Events.RemoveHandler(ConsumeEventKey, value);
+        }
 
 		// Token: 0x1400001C RID: 28
 		// (add) Token: 0x060000FA RID: 250 RVA: 0x00004984 File Offset: 0x00002B84
 		// (remove) Token: 0x060000FB RID: 251 RVA: 0x000049A4 File Offset: 0x00002BA4
 		public event TokenEventHandler CharLA
 		{
-			add
-			{
-				Events.AddHandler(LAEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(LAEventKey, value);
-			}
-		}
+			add => Events.AddHandler(LAEventKey, value);
+            remove => Events.RemoveHandler(LAEventKey, value);
+        }
 
 		// Token: 0x1400001D RID: 29
 		// (add) Token: 0x060000FC RID: 252 RVA: 0x000049C4 File Offset: 0x00002BC4
 		// (remove) Token: 0x060000FD RID: 253 RVA: 0x000049E4 File Offset: 0x00002BE4
 		public event SemanticPredicateEventHandler SemPredEvaluated
 		{
-			add
-			{
-				Events.AddHandler(SemPredEvaluatedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SemPredEvaluatedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SemPredEvaluatedEventKey, value);
+            remove => Events.RemoveHandler(SemPredEvaluatedEventKey, value);
+        }
 
 		// Token: 0x1400001E RID: 30
 		// (add) Token: 0x060000FE RID: 254 RVA: 0x00004A04 File Offset: 0x00002C04
 		// (remove) Token: 0x060000FF RID: 255 RVA: 0x00004A24 File Offset: 0x00002C24
 		public event SyntacticPredicateEventHandler SynPredStarted
 		{
-			add
-			{
-				Events.AddHandler(SynPredStartedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredStartedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredStartedEventKey, value);
+            remove => Events.RemoveHandler(SynPredStartedEventKey, value);
+        }
 
 		// Token: 0x1400001F RID: 31
 		// (add) Token: 0x06000100 RID: 256 RVA: 0x00004A44 File Offset: 0x00002C44
 		// (remove) Token: 0x06000101 RID: 257 RVA: 0x00004A64 File Offset: 0x00002C64
 		public event SyntacticPredicateEventHandler SynPredFailed
 		{
-			add
-			{
-				Events.AddHandler(SynPredFailedEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredFailedEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredFailedEventKey, value);
+            remove => Events.RemoveHandler(SynPredFailedEventKey, value);
+        }
 
 		// Token: 0x14000020 RID: 32
 		// (add) Token: 0x06000102 RID: 258 RVA: 0x00004A84 File Offset: 0x00002C84
 		// (remove) Token: 0x06000103 RID: 259 RVA: 0x00004AA4 File Offset: 0x00002CA4
 		public event SyntacticPredicateEventHandler SynPredSucceeded
 		{
-			add
-			{
-				Events.AddHandler(SynPredSucceededEventKey, value);
-			}
-			remove
-			{
-				Events.RemoveHandler(SynPredSucceededEventKey, value);
-			}
-		}
+			add => Events.AddHandler(SynPredSucceededEventKey, value);
+            remove => Events.RemoveHandler(SynPredSucceededEventKey, value);
+        }
 
 		// Token: 0x06000104 RID: 260 RVA: 0x00004AC4 File Offset: 0x00002CC4
 		public virtual IToken nextToken()
@@ -330,16 +227,9 @@ namespace pcomps.Antlr
 		public virtual void consume()
 		{
 			if (inputState.guessing == 0)
-			{
-				if (caseSensitive)
-				{
-					append(cached_LA1);
-				}
-				else
-				{
-					append(inputState.input.LA(1));
-				}
-				if (cached_LA1 == '\t')
+            {
+                append(caseSensitive ? cached_LA1 : inputState.input.LA(1));
+                if (cached_LA1 == '\t')
 				{
 					tab();
 				}
@@ -347,7 +237,7 @@ namespace pcomps.Antlr
 				{
 					inputState.column++;
 				}
-			}
+            }
 			if (caseSensitive)
 			{
 				cached_LA1 = inputState.input.consume();
@@ -450,21 +340,14 @@ namespace pcomps.Antlr
 
 		// Token: 0x06000118 RID: 280 RVA: 0x00004D9C File Offset: 0x00002F9C
 		public virtual char LA(int i)
-		{
-			if (i == 1)
-			{
-				return cached_LA1;
-			}
-			if (i == 2)
-			{
-				return cached_LA2;
-			}
-			if (caseSensitive)
-			{
-				return inputState.input.LA(i);
-			}
-			return toLower(inputState.input.LA(i));
-		}
+        {
+            return i switch
+            {
+                1 => cached_LA1,
+                2 => cached_LA2,
+                _ => caseSensitive ? inputState.input.LA(i) : toLower(inputState.input.LA(i))
+            };
+        }
 
 		// Token: 0x06000119 RID: 281 RVA: 0x00004DF0 File Offset: 0x00002FF0
 		protected internal virtual IToken makeToken(int t)
@@ -487,12 +370,11 @@ namespace pcomps.Antlr
 			{
 				flag = false;
 			}
-			if (!flag)
-			{
-				panic($"Can't create Token object '{tokenCreator.TokenTypeName}'");
-				token = Token.badToken;
-			}
-			return token;
+
+            if (flag) return token;
+            panic($"Can't create Token object '{tokenCreator.TokenTypeName}'");
+            token = Token.badToken;
+            return token;
 		}
 
 		// Token: 0x0600011A RID: 282 RVA: 0x00004E8C File Offset: 0x0000308C
@@ -751,7 +633,7 @@ namespace pcomps.Antlr
 		public virtual int testLiteralsTable(int ttype)
 		{
 			var text = this.text.ToString();
-			if (text == null || text == string.Empty)
+			if (string.IsNullOrEmpty(text))
 			{
 				return ttype;
 			}
@@ -766,7 +648,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600013A RID: 314 RVA: 0x0000549C File Offset: 0x0000369C
 		public virtual int testLiteralsTable(string someText, int ttype)
 		{
-			if (someText == null || someText == string.Empty)
+			if (string.IsNullOrEmpty(someText))
 			{
 				return ttype;
 			}
@@ -798,14 +680,14 @@ namespace pcomps.Antlr
 		{
 			traceDepth++;
 			traceIndent();
-			Console.Out.WriteLine(string.Concat("> lexer ", rname, "; c==", LA(1)));
+			Console.Out.WriteLine($"> lexer {rname}; c=={LA(1)}");
 		}
 
 		// Token: 0x0600013E RID: 318 RVA: 0x00005580 File Offset: 0x00003780
 		public virtual void traceOut(string rname)
 		{
 			traceIndent();
-			Console.Out.WriteLine(string.Concat("< lexer ", rname, "; c==", LA(1)));
+			Console.Out.WriteLine($"< lexer {rname}; c=={LA(1)}");
 			traceDepth--;
 		}
 
@@ -952,15 +834,9 @@ namespace pcomps.Antlr
 
 			// Token: 0x17000012 RID: 18
 			// (get) Token: 0x06000144 RID: 324 RVA: 0x0000576C File Offset: 0x0000396C
-			public override string TokenTypeName
-			{
-				get
-				{
-					return tokenTypeName;
-				}
-			}
+			public override string TokenTypeName => tokenTypeName;
 
-			// Token: 0x06000145 RID: 325 RVA: 0x00005780 File Offset: 0x00003980
+            // Token: 0x06000145 RID: 325 RVA: 0x00005780 File Offset: 0x00003980
 			public override IToken Create()
 			{
 				IToken result = null;

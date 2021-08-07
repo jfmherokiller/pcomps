@@ -84,8 +84,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_0_);
 			}
@@ -163,8 +163,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_0_);
 			}
@@ -273,8 +273,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_1_);
 			}
@@ -301,8 +301,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_0_);
 			}
@@ -361,8 +361,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_2_);
 			}
@@ -427,8 +427,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_3_);
 			}
@@ -465,8 +465,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_4_);
 			}
@@ -500,8 +500,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_5_);
 			}
@@ -569,8 +569,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_5_);
 			}
@@ -768,8 +768,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -877,8 +877,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -938,8 +938,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_7_);
 			}
@@ -975,8 +975,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_7_);
 			}
@@ -1064,8 +1064,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -1110,8 +1110,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -1162,8 +1162,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -1205,8 +1205,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_10_);
 			}
@@ -1249,8 +1249,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_9_);
 			}
@@ -1318,8 +1318,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_5_);
 			}
@@ -1366,8 +1366,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				if (inputState.guessing != 0)
 				{
-					throw ex;
-				}
+                    throw;
+                }
 				reportError(ex);
 				recover(ex, tokenSet_10_);
 			}

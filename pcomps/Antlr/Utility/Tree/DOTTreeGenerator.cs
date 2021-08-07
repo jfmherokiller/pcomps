@@ -107,13 +107,13 @@ namespace pcomps.Antlr.Utility.Tree
 		}
 
 		// Token: 0x0400028A RID: 650
-		public static StringTemplate.StringTemplate _treeST = new StringTemplate.StringTemplate("digraph {\n  ordering=out;\n  ranksep=.4;\n  node [shape=plaintext, fixedsize=true, fontsize=11, fontname=\"Courier\",\n        width=.25, height=.25];\n  edge [arrowsize=.5]\n  $nodes$\n  $edges$\n}\n");
+		public static StringTemplate.StringTemplate _treeST = new("digraph {\n  ordering=out;\n  ranksep=.4;\n  node [shape=plaintext, fixedsize=true, fontsize=11, fontname=\"Courier\",\n        width=.25, height=.25];\n  edge [arrowsize=.5]\n  $nodes$\n  $edges$\n}\n");
 
 		// Token: 0x0400028B RID: 651
-		public static StringTemplate.StringTemplate _nodeST = new StringTemplate.StringTemplate("$name$ [label=\"$text$\"];\n");
+		public static StringTemplate.StringTemplate _nodeST = new("$name$ [label=\"$text$\"];\n");
 
 		// Token: 0x0400028C RID: 652
-		public static StringTemplate.StringTemplate _edgeST = new StringTemplate.StringTemplate("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
+		public static StringTemplate.StringTemplate _edgeST = new("$parent$ -> $child$ // \"$parentText$\" -> \"$childText$\"\n");
 
 		// Token: 0x0400028D RID: 653
 		private IDictionary nodeToNumberMap = new Hashtable();

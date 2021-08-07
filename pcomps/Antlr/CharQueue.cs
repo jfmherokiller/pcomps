@@ -1,7 +1,7 @@
 ﻿namespace pcomps.Antlr
 {
 	// Token: 0x02000012 RID: 18
-	public class CharQueue
+	public record CharQueue
 	{
 		// Token: 0x060000B8 RID: 184 RVA: 0x00004418 File Offset: 0x00002618
 		public CharQueue(int minSize)

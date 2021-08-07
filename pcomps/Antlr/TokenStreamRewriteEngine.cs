@@ -17,9 +17,11 @@ namespace pcomps.Antlr
 		{
 			stream = upstream;
 			tokens = new ArrayList(initialSize);
-			programs = new Hashtable();
-			programs["default"] = new ArrayList(100);
-			lastRewriteTokenIndexes = new Hashtable();
+            programs = new Hashtable
+            {
+                ["default"] = new ArrayList(100)
+            };
+            lastRewriteTokenIndexes = new Hashtable();
 		}
 
 		// Token: 0x0600027A RID: 634 RVA: 0x000086F0 File Offset: 0x000068F0
@@ -29,16 +31,14 @@ namespace pcomps.Antlr
 			do
 			{
 				tokenWithIndex = (TokenWithIndex)stream.nextToken();
-				if (tokenWithIndex != null)
-				{
-					tokenWithIndex.setIndex(index);
-					if (tokenWithIndex.Type != 1)
-					{
-						tokens.Add(tokenWithIndex);
-					}
-					index++;
-				}
-			}
+                if (tokenWithIndex == null) continue;
+                tokenWithIndex.setIndex(index);
+                if (tokenWithIndex.Type != 1)
+                {
+                    tokens.Add(tokenWithIndex);
+                }
+                index++;
+            }
 			while (tokenWithIndex != null && discardMask.member(tokenWithIndex.Type));
 			return tokenWithIndex;
 		}
@@ -60,13 +60,9 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x0600027D RID: 637 RVA: 0x000087AC File Offset: 0x000069AC
-		public void deleteProgram()
-		{
-			deleteProgram("default");
-		}
 
-		// Token: 0x0600027E RID: 638 RVA: 0x000087C4 File Offset: 0x000069C4
-		public void deleteProgram(string programName)
+        // Token: 0x0600027E RID: 638 RVA: 0x000087C4 File Offset: 0x000069C4
+		public void deleteProgram(string programName = "default")
 		{
 			rollback(programName, 0);
 		}
@@ -304,7 +300,7 @@ namespace pcomps.Antlr
 			for (var i = num; i < list.Count; i++)
 			{
 				var rewriteOperation2 = (RewriteOperation)list[i];
-				rewriteOperation2.execute(stringBuilder);
+				rewriteOperation2?.execute(stringBuilder);
 			}
 			return stringBuilder.ToString();
 		}
@@ -336,14 +332,10 @@ namespace pcomps.Antlr
 
 		// Token: 0x060002A1 RID: 673 RVA: 0x00008D04 File Offset: 0x00006F04
 		protected int getLastRewriteTokenIndex(string programName)
-		{
-			var obj = lastRewriteTokenIndexes[programName];
-			if (obj == null)
-			{
-				return -1;
-			}
-			return (int)obj;
-		}
+        {
+            var obj = lastRewriteTokenIndexes[programName];
+            return obj == null ? -1 : (int)obj;
+        }
 
 		// Token: 0x060002A2 RID: 674 RVA: 0x00008D2C File Offset: 0x00006F2C
 		protected void setLastRewriteTokenIndex(string programName, int i)
@@ -354,12 +346,8 @@ namespace pcomps.Antlr
 		// Token: 0x060002A3 RID: 675 RVA: 0x00008D4C File Offset: 0x00006F4C
 		protected IList getProgram(string name)
 		{
-			var list = (IList)programs[name];
-			if (list == null)
-			{
-				list = initializeProgram(name);
-			}
-			return list;
+			var list = (IList)programs[name] ?? initializeProgram(name);
+            return list;
 		}
 
 		// Token: 0x060002A4 RID: 676 RVA: 0x00008D78 File Offset: 0x00006F78
@@ -395,7 +383,7 @@ namespace pcomps.Antlr
 		protected TokenStream stream;
 
 		// Token: 0x040000CD RID: 205
-		protected BitSet discardMask = new BitSet();
+		protected BitSet discardMask = new();
 
 		// Token: 0x02000043 RID: 67
 		protected class RewriteOperation
@@ -469,7 +457,7 @@ namespace pcomps.Antlr
 		}
 
 		// Token: 0x02000047 RID: 71
-		public class RewriteOperationComparer : IComparer
+		public record RewriteOperationComparer : IComparer
 		{
 			// Token: 0x060002AC RID: 684 RVA: 0x00008E6C File Offset: 0x0000706C
 			public virtual int Compare(object o1, object o2)
@@ -488,7 +476,7 @@ namespace pcomps.Antlr
 			}
 
 			// Token: 0x040000D1 RID: 209
-			public static readonly RewriteOperationComparer Default = new RewriteOperationComparer();
+			public static readonly RewriteOperationComparer Default = new();
 		}
 	}
 }

@@ -88,20 +88,18 @@ namespace pcomps.Antlr
 
 		// Token: 0x060000B3 RID: 179 RVA: 0x00004218 File Offset: 0x00002418
 		protected internal virtual void syncConsume()
-		{
-			if (numToConsume > 0)
-			{
-				if (nMarkers > 0)
-				{
-					markerOffset += numToConsume;
-				}
-				else
-				{
-					queue.RemoveRange(0, numToConsume);
-				}
-				numToConsume = 0;
-			}
-		}
+        {
+            if (numToConsume <= 0) return;
+            if (nMarkers > 0)
+            {
+                markerOffset += numToConsume;
+            }
+            else
+            {
+                queue.RemoveRange(0, numToConsume);
+            }
+            numToConsume = 0;
+        }
 
 		// Token: 0x04000024 RID: 36
 		protected internal int nMarkers = 0;

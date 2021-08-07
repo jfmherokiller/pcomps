@@ -26,19 +26,18 @@ namespace pcomps.Antlr
 					{
 						queue.Add(buf[j]);
 					}
-					if (num < 16)
-					{
-						while (i-- > 0)
-						{
-							if (queue.Count >= 16)
-							{
-								break;
-							}
-							queue.Add(CharScanner.EOF_CHAR);
-						}
-						break;
-					}
-				}
+
+                    if (num >= 16) continue;
+                    while (i-- > 0)
+                    {
+                        if (queue.Count >= 16)
+                        {
+                            break;
+                        }
+                        queue.Add(CharScanner.EOF_CHAR);
+                    }
+                    break;
+                }
 			}
 			catch (IOException io)
 			{

@@ -74,15 +74,9 @@ namespace pcomps.Antlr
 		{
 			// Token: 0x17000016 RID: 22
 			// (get) Token: 0x06000165 RID: 357 RVA: 0x00005AEC File Offset: 0x00003CEC
-			public override string ASTNodeTypeName
-			{
-				get
-				{
-					return typeof(CommonASTWithHiddenTokens).FullName;
-				}
-			}
+			public override string ASTNodeTypeName => typeof(CommonASTWithHiddenTokens).FullName;
 
-			// Token: 0x06000166 RID: 358 RVA: 0x00005B08 File Offset: 0x00003D08
+            // Token: 0x06000166 RID: 358 RVA: 0x00005B08 File Offset: 0x00003D08
 			public override AST Create()
 			{
 				return new CommonASTWithHiddenTokens();

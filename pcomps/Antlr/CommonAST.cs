@@ -25,15 +25,9 @@ namespace pcomps.Antlr
 		// (set) Token: 0x0600014E RID: 334 RVA: 0x0000586C File Offset: 0x00003A6C
 		public override int Type
 		{
-			get
-			{
-				return ttype;
-			}
-			set
-			{
-				ttype = value;
-			}
-		}
+			get => ttype;
+            set => ttype = value;
+        }
 
 		// Token: 0x0600014F RID: 335 RVA: 0x00005880 File Offset: 0x00003A80
 		public override void initialize(int t, string txt)
@@ -100,15 +94,9 @@ namespace pcomps.Antlr
 		{
 			// Token: 0x17000015 RID: 21
 			// (get) Token: 0x06000159 RID: 345 RVA: 0x00005994 File Offset: 0x00003B94
-			public override string ASTNodeTypeName
-			{
-				get
-				{
-					return typeof(CommonAST).FullName;
-				}
-			}
+			public override string ASTNodeTypeName => typeof(CommonAST).FullName;
 
-			// Token: 0x0600015A RID: 346 RVA: 0x000059B0 File Offset: 0x00003BB0
+            // Token: 0x0600015A RID: 346 RVA: 0x000059B0 File Offset: 0x00003BB0
 			public override AST Create()
 			{
 				return new CommonAST();

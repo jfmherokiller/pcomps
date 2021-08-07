@@ -43,7 +43,7 @@
 		}
 
 		// Token: 0x04000067 RID: 103
-		public new static readonly CommonHiddenStreamTokenCreator Creator = new CommonHiddenStreamTokenCreator();
+		public new static readonly CommonHiddenStreamTokenCreator Creator = new();
 
 		// Token: 0x04000068 RID: 104
 		protected internal IHiddenStreamToken hiddenBefore;
@@ -56,15 +56,9 @@
 		{
 			// Token: 0x1700001A RID: 26
 			// (get) Token: 0x0600019C RID: 412 RVA: 0x00005F18 File Offset: 0x00004118
-			public override string TokenTypeName
-			{
-				get
-				{
-					return typeof(CommonHiddenStreamToken).FullName;
-				}
-			}
+			public override string TokenTypeName => typeof(CommonHiddenStreamToken).FullName;
 
-			// Token: 0x0600019D RID: 413 RVA: 0x00005F34 File Offset: 0x00004134
+            // Token: 0x0600019D RID: 413 RVA: 0x00005F34 File Offset: 0x00004134
 			public override IToken Create()
 			{
 				return new CommonHiddenStreamToken();
