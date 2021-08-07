@@ -63,9 +63,11 @@ namespace pcomps.PCompiler
 		public script_return script(string asSourceFilename, ScriptObjectType akObj)
 		{
 			script_stack.Push(new script_scope());
-			script_return script_return = new script_return();
-			script_return.Start = input.LT(1);
-			((script_scope)script_stack.Peek()).sobjName = "";
+			var script_return = new script_return
+            {
+                Start = input.LT(1)
+            };
+            ((script_scope)script_stack.Peek()).sobjName = "";
 			((script_scope)script_stack.Peek()).sparentName = "";
 			((script_scope)script_stack.Peek()).kobjVarDefinitions = new ArrayList();
 			((script_scope)script_stack.Peek()).kobjPropDefinitions = new ArrayList();
@@ -90,13 +92,13 @@ namespace pcomps.PCompiler
 				state.followingStackPointer--;
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 is >= 5 and <= 7 or 19 or 51 or 54)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						break;
@@ -139,33 +141,33 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D79 RID: 3449 RVA: 0x0005E7F8 File Offset: 0x0005C9F8
 		public header_return header()
 		{
-			header_return header_return = new header_return();
+			var header_return = new header_return();
 			header_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
 			try
 			{
-				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header224);
+				var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header224);
 				Match(input, 2, null);
-				CommonTree commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header226);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header226);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 38)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_header230);
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 40)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_header233);
@@ -193,13 +195,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D7A RID: 3450 RVA: 0x0005E99C File Offset: 0x0005CB9C
 		public definitionOrBlock_return definitionOrBlock()
 		{
-            definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return
+            var definitionOrBlock_return = new definitionOrBlock_return
             {
                 Start = input.LT(1)
             };
             try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 19)
 				{
@@ -237,7 +239,7 @@ namespace pcomps.PCompiler
 				num2 = 5;
 				goto IL_93;
 				IL_7C:
-				NoViableAltException ex = new NoViableAltException("", 4, 0, input);
+				var ex = new NoViableAltException("", 4, 0, input);
 				throw ex;
 				IL_93:
 				switch (num2)
@@ -245,7 +247,7 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					PushFollow(FOLLOW_fieldDefinition_in_definitionOrBlock253);
-					fieldDefinition_return fieldDefinition_return = fieldDefinition();
+					var fieldDefinition_return = fieldDefinition();
 					state.followingStackPointer--;
 					((script_scope)script_stack.Peek()).kobjVarDefinitions.Add(fieldDefinition_return?.ST);
 					break;
@@ -253,33 +255,33 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					PushFollow(FOLLOW_function_in_definitionOrBlock264);
-					function_return function_return = function("", "");
+					var function_return = function("", "");
 					state.followingStackPointer--;
-					if (((function_return != null) ? function_return.sName : null).ToLowerInvariant() == "onbeginstate")
+					if ((function_return?.sName)?.ToLowerInvariant() == "onbeginstate")
 					{
 						((script_scope)script_stack.Peek()).bhasBeginStateEvent = true;
 					}
-					else if (((function_return != null) ? function_return.sName : null).ToLowerInvariant() == "onendstate")
+					else if ((function_return?.sName)?.ToLowerInvariant() == "onendstate")
 					{
 						((script_scope)script_stack.Peek()).bhasEndStateEvent = true;
 					}
-					((script_scope)script_stack.Peek()).kobjEmptyState.Add((function_return != null) ? function_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjEmptyState.Add(function_return?.ST);
 					break;
 				}
 				case 3:
 				{
 					PushFollow(FOLLOW_eventFunc_in_definitionOrBlock277);
-					eventFunc_return eventFunc_return = eventFunc("");
+					var eventFunc_return = eventFunc("");
 					state.followingStackPointer--;
-					if (((eventFunc_return != null) ? eventFunc_return.sName : null).ToLowerInvariant() == "onbeginstate")
+					if ((eventFunc_return?.sName)?.ToLowerInvariant() == "onbeginstate")
 					{
 						((script_scope)script_stack.Peek()).bhasBeginStateEvent = true;
 					}
-					else if (((eventFunc_return != null) ? eventFunc_return.sName : null).ToLowerInvariant() == "onendstate")
+					else if ((eventFunc_return?.sName)?.ToLowerInvariant() == "onendstate")
 					{
 						((script_scope)script_stack.Peek()).bhasEndStateEvent = true;
 					}
-					((script_scope)script_stack.Peek()).kobjEmptyState.Add((eventFunc_return != null) ? eventFunc_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjEmptyState.Add(eventFunc_return?.ST);
 					break;
 				}
 				case 4:
@@ -290,9 +292,9 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					PushFollow(FOLLOW_propertyBlock_in_definitionOrBlock295);
-					propertyBlock_return propertyBlock_return = propertyBlock();
+					var propertyBlock_return = propertyBlock();
 					state.followingStackPointer--;
-					((script_scope)script_stack.Peek()).kobjPropDefinitions.Add((propertyBlock_return != null) ? propertyBlock_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjPropDefinitions.Add(propertyBlock_return?.ST);
 					break;
 				}
 				}
@@ -309,7 +311,7 @@ namespace pcomps.PCompiler
 		public fieldDefinition_return fieldDefinition()
 		{
 			fieldDefinition_stack.Push(new fieldDefinition_scope());
-			fieldDefinition_return fieldDefinition_return = new fieldDefinition_return();
+			var fieldDefinition_return = new fieldDefinition_return();
 			fieldDefinition_return.Start = input.LT(1);
 			constant_return constant_return = null;
 			((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue = "None";
@@ -318,17 +320,17 @@ namespace pcomps.PCompiler
 				Match(input, 5, FOLLOW_VAR_in_fieldDefinition323);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_type_in_fieldDefinition325);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition329);
-				CommonTree commonTree2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition331);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition329);
+				var commonTree2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition331);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_constant_in_fieldDefinition333);
@@ -336,11 +338,11 @@ namespace pcomps.PCompiler
 					state.followingStackPointer--;
 				}
 				Match(input, 3, null);
-				if (((constant_return != null) ? ((CommonTree)constant_return.Start) : null) != null)
+				if ((CommonTree)constant_return?.Start != null)
 				{
-					((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue = ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text;
+					((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue = ((CommonTree)constant_return?.Start).Text;
 				}
-				fieldDefinition_return.ST = templateLib.GetInstanceOf("variableDef", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text).Add("userFlags", commonTree2.Text).Add("initialValue", ((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue));
+				fieldDefinition_return.ST = templateLib.GetInstanceOf("variableDef", new STAttrMap().Add("type", type_return?.sTypeString).Add("name", commonTree.Text).Add("userFlags", commonTree2.Text).Add("initialValue", ((fieldDefinition_scope)fieldDefinition_stack.Peek()).sinitialValue));
 			}
 			catch (RecognitionException ex)
 			{
@@ -358,7 +360,7 @@ namespace pcomps.PCompiler
 		public function_return function(string asState, string asPropertyName)
 		{
 			function_stack.Push(new function_scope());
-			function_return function_return = new function_return();
+			var function_return = new function_return();
 			function_return.Start = input.LT(1);
 			((function_scope)function_stack.Peek()).sstate = asState;
 			((function_scope)function_stack.Peek()).sfuncName = "";
@@ -378,13 +380,13 @@ namespace pcomps.PCompiler
 				PushFollow(FOLLOW_functionHeader_in_function410);
 				functionHeader();
 				state.followingStackPointer--;
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_codeBlock_in_function412);
@@ -410,7 +412,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D7D RID: 3453 RVA: 0x0005F2FC File Offset: 0x0005D4FC
 		public functionHeader_return functionHeader()
 		{
-			functionHeader_return functionHeader_return = new functionHeader_return();
+			var functionHeader_return = new functionHeader_return();
 			functionHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
@@ -420,7 +422,7 @@ namespace pcomps.PCompiler
 			{
 				Match(input, 8, FOLLOW_HEADER_in_functionHeader504);
 				Match(input, 2, null);
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num is 38 or 55)
 				{
@@ -430,7 +432,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 92)
 					{
-						NoViableAltException ex = new NoViableAltException("", 7, 0, input);
+						var ex = new NoViableAltException("", 7, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -446,15 +448,15 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)Match(input, 92, FOLLOW_NONE_in_functionHeader511);
 					break;
 				}
-				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader516);
-				CommonTree commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader518);
-				int num3 = 2;
-				int num4 = input.LA(1);
+				var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader516);
+				var commonTree4 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader518);
+				var num3 = 2;
+				var num4 = input.LA(1);
 				if (num4 == 9)
 				{
 					num3 = 1;
 				}
-				int num5 = num3;
+				var num5 = num3;
 				if (num5 == 1)
 				{
 					PushFollow(FOLLOW_callParameters_in_functionHeader520);
@@ -463,13 +465,13 @@ namespace pcomps.PCompiler
 				}
 				for (;;)
 				{
-					int num6 = 2;
-					int num7 = input.LA(1);
+					var num6 = 2;
+					var num7 = input.LA(1);
 					if (num7 is >= 46 and <= 47)
 					{
 						num6 = 1;
 					}
-					int num8 = num6;
+					var num8 = num6;
 					if (num8 != 1)
 					{
 						break;
@@ -478,20 +480,20 @@ namespace pcomps.PCompiler
 					functionModifier();
 					state.followingStackPointer--;
 				}
-				int num9 = 2;
-				int num10 = input.LA(1);
+				var num9 = 2;
+				var num10 = input.LA(1);
 				if (num10 == 40)
 				{
 					num9 = 1;
 				}
-				int num11 = num9;
+				var num11 = num9;
 				if (num11 == 1)
 				{
 					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_functionHeader526);
 				}
 				Match(input, 3, null);
-				((function_scope)function_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
-				((function_scope)function_stack.Peek()).sreturnType = ((((type_return != null) ? ((CommonTree)type_return.Start) : null) != null) ? ((type_return != null) ? type_return.sTypeString : null) : commonTree.Text);
+				((function_scope)function_stack.Peek()).kfuncParams = callParameters_return?.kParams;
+				((function_scope)function_stack.Peek()).sreturnType = (((CommonTree)type_return?.Start != null) ? type_return?.sTypeString : commonTree.Text);
 				((function_scope)function_stack.Peek()).sfuncName = commonTree3.Text;
 				((function_scope)function_stack.Peek()).suserFlags = commonTree4.Text;
 				if (commonTree2 != null)
@@ -506,7 +508,7 @@ namespace pcomps.PCompiler
 				{
 					ScriptPropertyType scriptPropertyType;
 					kObjType.TryGetProperty(((function_scope)function_stack.Peek()).spropertyName, out scriptPropertyType);
-					string a = ((function_scope)function_stack.Peek()).sfuncName.ToLowerInvariant();
+					var a = ((function_scope)function_stack.Peek()).sfuncName.ToLowerInvariant();
 					if (a == "get")
 					{
 						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
@@ -529,13 +531,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D7E RID: 3454 RVA: 0x0005F70C File Offset: 0x0005D90C
 		public functionModifier_return functionModifier()
 		{
-			functionModifier_return functionModifier_return = new functionModifier_return
+			var functionModifier_return = new functionModifier_return
             {
                 Start = input.LT(1)
             };
             try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 47)
 				{
@@ -545,7 +547,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 46)
 					{
-						NoViableAltException ex = new NoViableAltException("", 11, 0, input);
+						var ex = new NoViableAltException("", 11, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -574,7 +576,7 @@ namespace pcomps.PCompiler
 		public eventFunc_return eventFunc(string asState)
 		{
 			eventFunc_stack.Push(new eventFunc_scope());
-			eventFunc_return eventFunc_return = new eventFunc_return();
+			var eventFunc_return = new eventFunc_return();
 			eventFunc_return.Start = input.LT(1);
 			((eventFunc_scope)eventFunc_stack.Peek()).sstate = asState;
 			((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = "";
@@ -593,13 +595,13 @@ namespace pcomps.PCompiler
 				PushFollow(FOLLOW_eventHeader_in_eventFunc590);
 				eventHeader();
 				state.followingStackPointer--;
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_codeBlock_in_eventFunc592);
@@ -625,7 +627,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D80 RID: 3456 RVA: 0x0005FBC4 File Offset: 0x0005DDC4
 		public eventHeader_return eventHeader()
 		{
-			eventHeader_return eventHeader_return = new eventHeader_return();
+			var eventHeader_return = new eventHeader_return();
 			eventHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			CommonTree commonTree2 = null;
@@ -634,46 +636,46 @@ namespace pcomps.PCompiler
 			{
 				Match(input, 8, FOLLOW_HEADER_in_eventHeader684);
 				Match(input, 2, null);
-				CommonTree commonTree3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader686);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader688);
-				CommonTree commonTree5 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader690);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader686);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader688);
+				var commonTree5 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader690);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 9)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_callParameters_in_eventHeader692);
 					callParameters_return = callParameters();
 					state.followingStackPointer--;
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 47)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					commonTree = (CommonTree)Match(input, 47, FOLLOW_NATIVE_in_eventHeader695);
 				}
-				int num7 = 2;
-				int num8 = input.LA(1);
+				var num7 = 2;
+				var num8 = input.LA(1);
 				if (num8 == 40)
 				{
 					num7 = 1;
 				}
-				int num9 = num7;
+				var num9 = num7;
 				if (num9 == 1)
 				{
 					commonTree2 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_eventHeader698);
 				}
 				Match(input, 3, null);
-				((eventFunc_scope)eventFunc_stack.Peek()).kfuncParams = ((callParameters_return != null) ? callParameters_return.kParams : null);
+				((eventFunc_scope)eventFunc_stack.Peek()).kfuncParams = callParameters_return?.kParams;
 				((eventFunc_scope)eventFunc_stack.Peek()).sreturnType = commonTree3.Text;
 				((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = commonTree4.Text;
 				if (commonTree != null)
@@ -699,27 +701,27 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D81 RID: 3457 RVA: 0x0005FE84 File Offset: 0x0005E084
 		public callParameters_return callParameters()
 		{
-			callParameters_return callParameters_return = new callParameters_return();
+			var callParameters_return = new callParameters_return();
 			callParameters_return.Start = input.LT(1);
 			IList list = null;
 			try
 			{
-				int num = 0;
+				var num = 0;
 				for (;;)
 				{
-					int num2 = 2;
-					int num3 = input.LA(1);
+					var num2 = 2;
+					var num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
 					}
-					int num4 = num2;
+					var num4 = num2;
 					if (num4 != 1)
 					{
 						break;
 					}
 					PushFollow(FOLLOW_callParameter_in_callParameters725);
-					callParameter_return callParameter_return = callParameter();
+					var callParameter_return = callParameter();
 					state.followingStackPointer--;
 					if (list == null)
 					{
@@ -730,7 +732,7 @@ namespace pcomps.PCompiler
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(16, input);
+					var ex = new EarlyExitException(16, input);
 					throw ex;
 				}
 				callParameters_return.kParams = list;
@@ -746,23 +748,23 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D82 RID: 3458 RVA: 0x0005FF64 File Offset: 0x0005E164
 		public callParameter_return callParameter()
 		{
-			callParameter_return callParameter_return = new callParameter_return();
+			var callParameter_return = new callParameter_return();
 			callParameter_return.Start = input.LT(1);
 			try
 			{
 				Match(input, 9, FOLLOW_PARAM_in_callParameter742);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_type_in_callParameter744);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter748);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter748);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_constant_in_callParameter750);
@@ -770,7 +772,7 @@ namespace pcomps.PCompiler
 					state.followingStackPointer--;
 				}
 				Match(input, 3, null);
-				callParameter_return.ST = templateLib.GetInstanceOf("funcParam", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", commonTree.Text));
+				callParameter_return.ST = templateLib.GetInstanceOf("funcParam", new STAttrMap().Add("type", type_return?.sTypeString).Add("name", commonTree.Text));
 			}
 			catch (RecognitionException ex)
 			{
@@ -783,7 +785,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D83 RID: 3459 RVA: 0x000600C8 File Offset: 0x0005E2C8
 		public stateBlock_return stateBlock()
 		{
-			stateBlock_return stateBlock_return = new stateBlock_return();
+			var stateBlock_return = new stateBlock_return();
 			stateBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			IList list = null;
@@ -791,49 +793,46 @@ namespace pcomps.PCompiler
 			{
 				Match(input, 51, FOLLOW_STATE_in_stateBlock787);
 				Match(input, 2, null);
-				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock789);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock789);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 50)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree = (CommonTree)Match(input, 50, FOLLOW_AUTO_in_stateBlock791);
 				}
 				for (;;)
 				{
-					int num4 = 2;
-					int num5 = input.LA(1);
+					var num4 = 2;
+					var num5 = input.LA(1);
 					if (num5 is >= 6 and <= 7)
 					{
 						num4 = 1;
 					}
-					int num6 = num4;
+					var num6 = num4;
 					if (num6 != 1)
 					{
 						break;
 					}
 					PushFollow(FOLLOW_stateFuncOrEvent_in_stateBlock797);
-					stateFuncOrEvent_return stateFuncOrEvent_return = stateFuncOrEvent(commonTree2.Text);
+					var stateFuncOrEvent_return = stateFuncOrEvent(commonTree2.Text);
 					state.followingStackPointer--;
-					if (list == null)
-					{
-						list = new ArrayList();
-					}
+					list ??= new ArrayList();
 					list.Add(stateFuncOrEvent_return.Template);
 				}
 				Match(input, 3, null);
-				string key = commonTree2.Text.ToLowerInvariant();
-				object obj = ((script_scope)script_stack.Peek()).kstates[key];
-				string val = "";
+				var key = commonTree2.Text.ToLowerInvariant();
+				var obj = ((script_scope)script_stack.Peek()).kstates[key];
+				var val = "";
 				if (obj != null)
 				{
 					val = obj.ToString();
 				}
-				StringTemplate instanceOf = TemplateLib.GetInstanceOf("stateConcatinate");
+				var instanceOf = TemplateLib.GetInstanceOf("stateConcatinate");
 				instanceOf.SetAttribute("prevText", val);
 				instanceOf.SetAttribute("funcs", list);
 				((script_scope)script_stack.Peek()).kstates[key] = instanceOf.ToString();
@@ -853,11 +852,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D84 RID: 3460 RVA: 0x000602D4 File Offset: 0x0005E4D4
 		public stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
 		{
-			stateFuncOrEvent_return stateFuncOrEvent_return = new stateFuncOrEvent_return();
+			var stateFuncOrEvent_return = new stateFuncOrEvent_return();
 			stateFuncOrEvent_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 6)
 				{
@@ -867,7 +866,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 7)
 					{
-						NoViableAltException ex = new NoViableAltException("", 20, 0, input);
+						var ex = new NoViableAltException("", 20, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -877,15 +876,15 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					PushFollow(FOLLOW_function_in_stateFuncOrEvent819);
-					function_return function_return = function(asStateName, "");
+					var function_return = function(asStateName, "");
 					state.followingStackPointer--;
-					stateFuncOrEvent_return.ST = ((function_return != null) ? function_return.ST : null);
+					stateFuncOrEvent_return.ST = function_return?.ST;
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_eventFunc_in_stateFuncOrEvent832);
-					eventFunc_return eventFunc_return = eventFunc(asStateName);
+					var eventFunc_return = eventFunc(asStateName);
 					state.followingStackPointer--;
 					stateFuncOrEvent_return.ST = eventFunc_return?.ST;
 					break;
@@ -904,7 +903,7 @@ namespace pcomps.PCompiler
 		public propertyBlock_return propertyBlock()
 		{
 			propertyBlock_stack.Push(new propertyBlock_scope());
-			propertyBlock_return propertyBlock_return = new propertyBlock_return();
+			var propertyBlock_return = new propertyBlock_return();
 			propertyBlock_return.Start = input.LT(1);
 			((propertyBlock_scope)propertyBlock_stack.Peek()).spropName = "";
 			((propertyBlock_scope)propertyBlock_stack.Peek()).spropType = "";
@@ -912,7 +911,7 @@ namespace pcomps.PCompiler
 			((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString = "";
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 54)
 				{
@@ -922,7 +921,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 19)
 					{
-						NoViableAltException ex = new NoViableAltException("", 21, 0, input);
+						var ex = new NoViableAltException("", 21, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -937,13 +936,13 @@ namespace pcomps.PCompiler
 					propertyHeader();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_propertyFunc_in_propertyBlock867);
-					propertyFunc_return propertyFunc_return = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
+					var propertyFunc_return = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_propertyFunc_in_propertyBlock872);
-					propertyFunc_return propertyFunc_return2 = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
+					var propertyFunc_return2 = propertyFunc(((propertyBlock_scope)propertyBlock_stack.Peek()).spropName);
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					propertyBlock_return.ST = templateLib.GetInstanceOf("fullProp", new STAttrMap().Add("name", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropName).Add("type", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropType).Add("get", (propertyFunc_return != null) ? propertyFunc_return.ST : null).Add("set", (propertyFunc_return2 != null) ? propertyFunc_return2.ST : null).Add("userFlags", ((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags).Add("docString", ((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString));
+					propertyBlock_return.ST = templateLib.GetInstanceOf("fullProp", new STAttrMap().Add("name", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropName).Add("type", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropType).Add("get", propertyFunc_return?.ST).Add("set", propertyFunc_return2?.ST).Add("userFlags", ((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags).Add("docString", ((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString));
 					break;
 				}
 				case 2:
@@ -953,7 +952,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_propertyHeader_in_propertyBlock924);
 					propertyHeader();
 					state.followingStackPointer--;
-					CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock928);
+					var commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock928);
 					Match(input, 3, null);
 					propertyBlock_return.ST = templateLib.GetInstanceOf("autoProp", new STAttrMap().Add("name", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropName).Add("type", ((propertyBlock_scope)propertyBlock_stack.Peek()).spropType).Add("var", commonTree.Text).Add("userFlags", ((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags).Add("docString", ((propertyBlock_scope)propertyBlock_stack.Peek()).sdocString));
 					break;
@@ -975,7 +974,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D86 RID: 3462 RVA: 0x000607FC File Offset: 0x0005E9FC
 		public propertyHeader_return propertyHeader()
 		{
-			propertyHeader_return propertyHeader_return = new propertyHeader_return();
+			var propertyHeader_return = new propertyHeader_return();
 			propertyHeader_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
@@ -983,24 +982,24 @@ namespace pcomps.PCompiler
 				Match(input, 8, FOLLOW_HEADER_in_propertyHeader978);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_type_in_propertyHeader980);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
-				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader984);
-				CommonTree commonTree3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader986);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader984);
+				var commonTree3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader986);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 40)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_propertyHeader988);
 				}
 				Match(input, 3, null);
 				((propertyBlock_scope)propertyBlock_stack.Peek()).spropName = commonTree2.Text;
-				((propertyBlock_scope)propertyBlock_stack.Peek()).spropType = ((type_return != null) ? type_return.sTypeString : null);
+				((propertyBlock_scope)propertyBlock_stack.Peek()).spropType = type_return?.sTypeString;
 				((propertyBlock_scope)propertyBlock_stack.Peek()).suserFlags = commonTree3.Text;
 				if (commonTree != null)
 				{
@@ -1018,17 +1017,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D87 RID: 3463 RVA: 0x000609A0 File Offset: 0x0005EBA0
 		public propertyFunc_return propertyFunc(string asPropName)
 		{
-			propertyFunc_return propertyFunc_return = new propertyFunc_return();
+			var propertyFunc_return = new propertyFunc_return();
 			propertyFunc_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				if (num != 17)
 				{
-					NoViableAltException ex = new NoViableAltException("", 23, 0, input);
+					var ex = new NoViableAltException("", 23, 0, input);
 					throw ex;
 				}
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -1036,9 +1035,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num2 != 3 && num2 != 17)
+					if (num2 is not 3 and not 17)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 23, 1, input);
+						var ex2 = new NoViableAltException("", 23, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -1050,10 +1049,10 @@ namespace pcomps.PCompiler
 					Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc1009);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_function_in_propertyFunc1011);
-					function_return function_return = function("", asPropName);
+					var function_return = function("", asPropName);
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					propertyFunc_return.ST = ((function_return != null) ? function_return.ST : null);
+					propertyFunc_return.ST = function_return?.ST;
 					break;
 				}
 				case 2:
@@ -1073,7 +1072,7 @@ namespace pcomps.PCompiler
 		public codeBlock_return codeBlock(IList akStatements, IList akVarDefinitions, ScriptScope akCurrentScope)
 		{
 			codeBlock_stack.Push(new codeBlock_scope());
-			codeBlock_return codeBlock_return = new codeBlock_return();
+			var codeBlock_return = new codeBlock_return();
 			codeBlock_return.Start = input.LT(1);
 			((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs = akVarDefinitions;
 			((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
@@ -1086,23 +1085,23 @@ namespace pcomps.PCompiler
 					Match(input, 2, null);
 					for (;;)
 					{
-						int num = 2;
-						int num2 = input.LA(1);
+						var num = 2;
+						var num2 = input.LA(1);
 						if (num2 is 5 or >= 11 and <= 13 or 15 or 20 or 22 or >= 24 and <= 36 or 38 or 41 or 62 or >= 65 and <= 72 or >= 77 and <= 84 or 88 or >= 90 and <= 93)
 						{
 							num = 1;
 						}
-						int num3 = num;
+						var num3 = num;
 						if (num3 != 1)
 						{
 							break;
 						}
 						PushFollow(FOLLOW_statement_in_codeBlock1057);
-						statement_return statement_return = statement();
+						var statement_return = statement();
 						state.followingStackPointer--;
-						if (((statement_return != null) ? statement_return.ST : null) != null)
+						if (statement_return?.ST != null)
 						{
-							akStatements.Add((statement_return != null) ? statement_return.ST : null);
+							akStatements.Add(statement_return?.ST);
 						}
 					}
 					Match(input, 3, null);
@@ -1124,11 +1123,11 @@ namespace pcomps.PCompiler
 		public statement_return statement()
 		{
 			statement_stack.Push(new statement_scope());
-			statement_return statement_return = new statement_return();
+			var statement_return = new statement_return();
 			statement_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1226,7 +1225,7 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_1B3;
 				IL_19B:
-				NoViableAltException ex = new NoViableAltException("", 25, 0, input);
+				var ex = new NoViableAltException("", 25, 0, input);
 				throw ex;
 				IL_1B3:
 				switch (num2)
@@ -1234,35 +1233,35 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					PushFollow(FOLLOW_localDefinition_in_statement1086);
-					localDefinition_return localDefinition_return = localDefinition();
+					var localDefinition_return = localDefinition();
 					state.followingStackPointer--;
-					((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs.Add((localDefinition_return != null) ? localDefinition_return.ST : null);
-					statement_return.ST = localDefinition_return?.sExprVar != "" ? templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "ASSIGN").Add("target", (localDefinition_return != null) ? localDefinition_return.sVarName : null).Add("source", (localDefinition_return != null) ? localDefinition_return.sExprVar : null).Add("autoCast", (localDefinition_return != null) ? localDefinition_return.kAutoCastST : null).Add("extraExpressions", (localDefinition_return != null) ? localDefinition_return.kExprST : null).Add("lineNo", (localDefinition_return != null) ? localDefinition_return.iLineNo : 0)) : null;
+					((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs.Add(localDefinition_return?.ST);
+					statement_return.ST = localDefinition_return?.sExprVar != "" ? templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "ASSIGN").Add("target", localDefinition_return?.sVarName).Add("source", localDefinition_return?.sExprVar).Add("autoCast", localDefinition_return?.kAutoCastST).Add("extraExpressions", localDefinition_return?.kExprST).Add("lineNo", localDefinition_return?.iLineNo ?? 0)) : null;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement1147);
+					var commonTree = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement1147);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement1149);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement1149);
 					PushFollow(FOLLOW_autoCast_in_statement1151);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_l_value_in_statement1153);
-					l_value_return l_value_return = l_value();
+					var l_value_return = l_value();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_expression_in_statement1155);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					((statement_scope)statement_stack.Peek()).smangledName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					statement_return.ST = templateLib.GetInstanceOf("assign", new STAttrMap().Add("target", ((statement_scope)statement_stack.Peek()).smangledName).Add("targetExpressions", (l_value_return != null) ? l_value_return.ST : null).Add("source", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("sourceExpressions", (expression_return != null) ? expression_return.ST : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("lineNo", commonTree.Line));
+					statement_return.ST = templateLib.GetInstanceOf("assign", new STAttrMap().Add("target", ((statement_scope)statement_stack.Peek()).smangledName).Add("targetExpressions", l_value_return?.ST).Add("source", autoCast_return?.sRetValue).Add("sourceExpressions", expression_return?.ST).Add("autoCast", autoCast_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
 					PushFollow(FOLLOW_expression_in_statement1204);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					statement_return.ST = expression_return2?.ST;
 					break;
@@ -1270,7 +1269,7 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					PushFollow(FOLLOW_return_stat_in_statement1215);
-					return_stat_return return_stat_return = return_stat();
+					var return_stat_return = return_stat();
 					state.followingStackPointer--;
 					statement_return.ST = return_stat_return?.ST;
 					break;
@@ -1278,7 +1277,7 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					PushFollow(FOLLOW_ifBlock_in_statement1226);
-					ifBlock_return ifBlock_return = ifBlock();
+					var ifBlock_return = ifBlock();
 					state.followingStackPointer--;
 					statement_return.ST = ifBlock_return?.ST;
 					break;
@@ -1286,7 +1285,7 @@ namespace pcomps.PCompiler
 				case 6:
 				{
 					PushFollow(FOLLOW_whileBlock_in_statement1237);
-					whileBlock_return whileBlock_return = whileBlock();
+					var whileBlock_return = whileBlock();
 					state.followingStackPointer--;
 					statement_return.ST = whileBlock_return?.ST;
 					break;
@@ -1308,7 +1307,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D8A RID: 3466 RVA: 0x000612DC File Offset: 0x0005F4DC
 		public localDefinition_return localDefinition()
 		{
-			localDefinition_return localDefinition_return = new localDefinition_return();
+			var localDefinition_return = new localDefinition_return();
 			localDefinition_return.Start = input.LT(1);
 			expression_return expression_return = null;
 			autoCast_return autoCast_return = null;
@@ -1317,16 +1316,16 @@ namespace pcomps.PCompiler
 				Match(input, 5, FOLLOW_VAR_in_localDefinition1260);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_type_in_localDefinition1262);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
-				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition1266);
-				int num = 2;
-				int num2 = input.LA(1);
+				var commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition1266);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 is 38 or 79 or 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					PushFollow(FOLLOW_autoCast_in_localDefinition1269);
@@ -1338,11 +1337,11 @@ namespace pcomps.PCompiler
 				}
 				Match(input, 3, null);
 				localDefinition_return.sVarName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree.Text);
-				if (((expression_return != null) ? ((CommonTree)expression_return.Start) : null) != null)
+				if ((CommonTree)expression_return?.Start != null)
 				{
-					localDefinition_return.sExprVar = ((autoCast_return != null) ? autoCast_return.sRetValue : null);
-					localDefinition_return.kAutoCastST = ((autoCast_return != null) ? autoCast_return.ST : null);
-					localDefinition_return.kExprST = ((expression_return != null) ? expression_return.ST : null);
+					localDefinition_return.sExprVar = autoCast_return?.sRetValue;
+					localDefinition_return.kAutoCastST = autoCast_return?.ST;
+					localDefinition_return.kExprST = expression_return?.ST;
 					localDefinition_return.iLineNo = commonTree.Line;
 				}
 				else
@@ -1352,7 +1351,7 @@ namespace pcomps.PCompiler
 					localDefinition_return.kExprST = null;
 					localDefinition_return.iLineNo = commonTree.Line;
 				}
-				localDefinition_return.ST = templateLib.GetInstanceOf("localDef", new STAttrMap().Add("type", (type_return != null) ? type_return.sTypeString : null).Add("name", localDefinition_return.sVarName));
+				localDefinition_return.ST = templateLib.GetInstanceOf("localDef", new STAttrMap().Add("type", type_return?.sTypeString).Add("name", localDefinition_return.sVarName));
 			}
 			catch (RecognitionException ex)
 			{
@@ -1366,7 +1365,7 @@ namespace pcomps.PCompiler
 		public l_value_return l_value()
 		{
 			l_value_stack.Push(new l_value_scope());
-			l_value_return l_value_return = new l_value_return();
+			var l_value_return = new l_value_return();
 			l_value_return.Start = input.LT(1);
 			try
 			{
@@ -1379,46 +1378,46 @@ namespace pcomps.PCompiler
 					Match(input, 15, FOLLOW_PAREXPR_in_l_value1321);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_expression_in_l_value1325);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					PushFollow(FOLLOW_property_set_in_l_value1330);
-					property_set_return property_set_return = property_set();
+					var property_set_return = property_set();
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (expression_return != null) ? expression_return.ST : null).Add("bTemplate", (property_set_return != null) ? property_set_return.ST : null));
+					l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", expression_return?.ST).Add("bTemplate", property_set_return?.ST));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value1355);
+					var commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value1355);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1359);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1363);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1359);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value1363);
 					PushFollow(FOLLOW_autoCast_in_l_value1365);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					Match(input, 15, FOLLOW_PAREXPR_in_l_value1368);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_expression_in_l_value1372);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					PushFollow(FOLLOW_expression_in_l_value1377);
-					expression_return expression_return3 = expression();
+					var expression_return3 = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					((l_value_scope)l_value_stack.Peek()).ssourceName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					((l_value_scope)l_value_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((l_value_scope)l_value_stack.Peek()).ssourceName).Add("selfName", ((l_value_scope)l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (expression_return2 != null) ? expression_return2.ST : null).Add("indexExpressions", (expression_return3 != null) ? expression_return3.ST : null).Add("lineNo", commonTree.Line));
+					l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((l_value_scope)l_value_stack.Peek()).ssourceName).Add("selfName", ((l_value_scope)l_value_stack.Peek()).sselfName).Add("index", autoCast_return?.sRetValue).Add("autoCast", autoCast_return?.ST).Add("arrayExpressions", expression_return2?.ST).Add("indexExpressions", expression_return3?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 3:
 				{
 					PushFollow(FOLLOW_basic_l_value_in_l_value1431);
-					basic_l_value_return basic_l_value_return = basic_l_value();
+					var basic_l_value_return = basic_l_value();
 					state.followingStackPointer--;
-					l_value_return.ST = ((basic_l_value_return != null) ? basic_l_value_return.ST : null);
+					l_value_return.ST = basic_l_value_return?.ST;
 					break;
 				}
 				}
@@ -1439,11 +1438,11 @@ namespace pcomps.PCompiler
 		public basic_l_value_return basic_l_value()
 		{
 			basic_l_value_stack.Push(new basic_l_value_scope());
-			basic_l_value_return basic_l_value_return = new basic_l_value_return();
+			var basic_l_value_return = new basic_l_value_return();
 			basic_l_value_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 25)
 				{
@@ -1486,7 +1485,7 @@ namespace pcomps.PCompiler
 					goto IL_CD;
 				}
 				IL_B5:
-				NoViableAltException ex = new NoViableAltException("", 28, 0, input);
+				var ex = new NoViableAltException("", 28, 0, input);
 				throw ex;
 				IL_CD:
 				switch (num2)
@@ -1496,50 +1495,50 @@ namespace pcomps.PCompiler
 					Match(input, 62, FOLLOW_DOT_in_basic_l_value1454);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_array_func_or_id_in_basic_l_value1458);
-					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					var array_func_or_id_return = array_func_or_id();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_basic_l_value_in_basic_l_value1462);
-					basic_l_value_return basic_l_value_return2 = basic_l_value();
+					var basic_l_value_return2 = basic_l_value();
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					basic_l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null).Add("bTemplate", (basic_l_value_return2 != null) ? basic_l_value_return2.ST : null));
+					basic_l_value_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", array_func_or_id_return?.ST).Add("bTemplate", basic_l_value_return2?.ST));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_function_call_in_basic_l_value1486);
-					function_call_return function_call_return = function_call();
+					var function_call_return = function_call();
 					state.followingStackPointer--;
-					basic_l_value_return.ST = ((function_call_return != null) ? function_call_return.ST : null);
+					basic_l_value_return.ST = function_call_return?.ST;
 					break;
 				}
 				case 3:
 				{
 					PushFollow(FOLLOW_property_set_in_basic_l_value1497);
-					property_set_return property_set_return = property_set();
+					var property_set_return = property_set();
 					state.followingStackPointer--;
-					basic_l_value_return.ST = ((property_set_return != null) ? property_set_return.ST : null);
+					basic_l_value_return.ST = property_set_return?.ST;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value1509);
+					var commonTree = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value1509);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1513);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1517);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1513);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value1517);
 					PushFollow(FOLLOW_autoCast_in_basic_l_value1519);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_func_or_id_in_basic_l_value1521);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_expression_in_basic_l_value1523);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					((basic_l_value_scope)basic_l_value_stack.Peek()).ssourceName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					((basic_l_value_scope)basic_l_value_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					basic_l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((basic_l_value_scope)basic_l_value_stack.Peek()).ssourceName).Add("selfName", ((basic_l_value_scope)basic_l_value_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					basic_l_value_return.ST = templateLib.GetInstanceOf("arraySet", new STAttrMap().Add("sourceName", ((basic_l_value_scope)basic_l_value_stack.Peek()).ssourceName).Add("selfName", ((basic_l_value_scope)basic_l_value_stack.Peek()).sselfName).Add("index", autoCast_return?.sRetValue).Add("autoCast", autoCast_return?.ST).Add("arrayExpressions", func_or_id_return?.ST).Add("indexExpressions", expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 5:
@@ -1562,11 +1561,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D8D RID: 3469 RVA: 0x00061E50 File Offset: 0x00060050
 		public expression_return expression()
 		{
-			expression_return expression_return = new expression_return();
+			var expression_return = new expression_return();
 			expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 65)
 				{
@@ -1574,9 +1573,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 36) && (num != 38 && num != 62 && num is < 66 or > 72) && num is < 77 or > 82 && num is < 90 or > 93)
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 62 and (< 66 or > 72) and (< 77 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 29, 0, input);
+						var ex = new NoViableAltException("", 29, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1585,27 +1584,27 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1595);
+					var commonTree = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1595);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1597);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1597);
 					PushFollow(FOLLOW_expression_in_expression1601);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_and_expression_in_expression1605);
-					and_expression_return and_expression_return = and_expression();
+					var and_expression_return = and_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					expression_return.ST = templateLib.GetInstanceOf("orExpression", new STAttrMap().Add("target", expression_return.sRetValue).Add("arg1", (expression_return2 != null) ? expression_return2.sRetValue : null).Add("arg2", (and_expression_return != null) ? and_expression_return.sRetValue : null).Add("extraExpressions1", (expression_return2 != null) ? expression_return2.ST : null).Add("extraExpressions2", (and_expression_return != null) ? and_expression_return.ST : null).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
+					expression_return.ST = templateLib.GetInstanceOf("orExpression", new STAttrMap().Add("target", expression_return.sRetValue).Add("arg1", expression_return2?.sRetValue).Add("arg2", and_expression_return?.sRetValue).Add("extraExpressions1", expression_return2?.ST).Add("extraExpressions2", and_expression_return?.ST).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_and_expression_in_expression1659);
-					and_expression_return and_expression_return2 = and_expression();
+					var and_expression_return2 = and_expression();
 					state.followingStackPointer--;
-					expression_return.sRetValue = ((and_expression_return2 != null) ? and_expression_return2.sRetValue : null);
-					expression_return.ST = ((and_expression_return2 != null) ? and_expression_return2.ST : null);
+					expression_return.sRetValue = and_expression_return2?.sRetValue;
+					expression_return.ST = and_expression_return2?.ST;
 					break;
 				}
 				}
@@ -1621,11 +1620,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D8E RID: 3470 RVA: 0x00062120 File Offset: 0x00060320
 		public and_expression_return and_expression()
 		{
-			and_expression_return and_expression_return = new and_expression_return();
+			var and_expression_return = new and_expression_return();
 			and_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 66)
 				{
@@ -1633,9 +1632,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 36) && (num != 38 && num != 62 && num is < 67 or > 72) && num is < 77 or > 82 && num is < 90 or > 93)
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 62 and (< 67 or > 72) and (< 77 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 30, 0, input);
+						var ex = new NoViableAltException("", 30, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1644,27 +1643,27 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1681);
+					var commonTree = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1681);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1683);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1683);
 					PushFollow(FOLLOW_and_expression_in_and_expression1687);
-					and_expression_return and_expression_return2 = and_expression();
+					var and_expression_return2 = and_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_and_expression1691);
-					bool_expression_return bool_expression_return = bool_expression();
+					var bool_expression_return = bool_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					and_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					and_expression_return.ST = templateLib.GetInstanceOf("andExpression", new STAttrMap().Add("target", and_expression_return.sRetValue).Add("arg1", (and_expression_return2 != null) ? and_expression_return2.sRetValue : null).Add("arg2", (bool_expression_return != null) ? bool_expression_return.sRetValue : null).Add("extraExpressions1", (and_expression_return2 != null) ? and_expression_return2.ST : null).Add("extraExpressions2", (bool_expression_return != null) ? bool_expression_return.ST : null).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
+					and_expression_return.ST = templateLib.GetInstanceOf("andExpression", new STAttrMap().Add("target", and_expression_return.sRetValue).Add("arg1", and_expression_return2?.sRetValue).Add("arg2", bool_expression_return?.sRetValue).Add("extraExpressions1", and_expression_return2?.ST).Add("extraExpressions2", bool_expression_return?.ST).Add("endLabel", GenerateLabel()).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_bool_expression_in_and_expression1745);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
-					and_expression_return.sRetValue = ((bool_expression_return2 != null) ? bool_expression_return2.sRetValue : null);
-					and_expression_return.ST = ((bool_expression_return2 != null) ? bool_expression_return2.ST : null);
+					and_expression_return.sRetValue = bool_expression_return2?.sRetValue;
+					and_expression_return.ST = bool_expression_return2?.ST;
 					break;
 				}
 				}
@@ -1680,11 +1679,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D8F RID: 3471 RVA: 0x000623F0 File Offset: 0x000605F0
 		public bool_expression_return bool_expression()
 		{
-			bool_expression_return bool_expression_return = new bool_expression_return();
+			var bool_expression_return = new bool_expression_return();
 			bool_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1775,150 +1774,150 @@ namespace pcomps.PCompiler
 				num2 = 7;
 				goto IL_19A;
 				IL_182:
-				NoViableAltException ex = new NoViableAltException("", 31, 0, input);
+				var ex = new NoViableAltException("", 31, 0, input);
 				throw ex;
 				IL_19A:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1767);
+					var commonTree = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1767);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1769);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1769);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1773);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression1777);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1781);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression1785);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREEQ").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREEQ").Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1850);
+					var commonTree3 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1850);
 					Match(input, 2, null);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1852);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1852);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1856);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression1860);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1864);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression1868);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("notEqual", new STAttrMap().Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("notEqual", new STAttrMap().Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1928);
+					var commonTree5 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1928);
 					Match(input, 2, null);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1930);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1930);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1934);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression1938);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1942);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression1946);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGT").Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression2011);
+					var commonTree7 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression2011);
 					Match(input, 2, null);
-					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2013);
+					var commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2013);
 					PushFollow(FOLLOW_autoCast_in_bool_expression2017);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression2021);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression2025);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression2029);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELT").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELT").Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression2094);
+					var commonTree9 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression2094);
 					Match(input, 2, null);
-					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2096);
+					var commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2096);
 					PushFollow(FOLLOW_autoCast_in_bool_expression2100);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression2104);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression2108);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression2112);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPAREGTE").Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
-					CommonTree commonTree11 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression2177);
+					var commonTree11 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression2177);
 					Match(input, 2, null);
-					CommonTree commonTree12 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2179);
+					var commonTree12 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression2179);
 					PushFollow(FOLLOW_autoCast_in_bool_expression2183);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_bool_expression2187);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_bool_expression_in_bool_expression2191);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_bool_expression2195);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					bool_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree12.Text);
-					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELTE").Add("target", bool_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (bool_expression_return2 != null) ? bool_expression_return2.ST : null).Add("extraExpressions2", (add_expression_return != null) ? add_expression_return.ST : null).Add("lineNo", commonTree11.Line));
+					bool_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "COMPARELTE").Add("target", bool_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", bool_expression_return2?.ST).Add("extraExpressions2", add_expression_return?.ST).Add("lineNo", commonTree11.Line));
 					break;
 				}
 				case 7:
 				{
 					PushFollow(FOLLOW_add_expression_in_bool_expression2259);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
-					bool_expression_return.sRetValue = ((add_expression_return2 != null) ? add_expression_return2.sRetValue : null);
-					bool_expression_return.ST = ((add_expression_return2 != null) ? add_expression_return2.ST : null);
+					bool_expression_return.sRetValue = add_expression_return2?.sRetValue;
+					bool_expression_return.ST = add_expression_return2?.ST;
 					break;
 				}
 				}
@@ -1934,11 +1933,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D90 RID: 3472 RVA: 0x000631DC File Offset: 0x000613DC
 		public add_expression_return add_expression()
 		{
-			add_expression_return add_expression_return = new add_expression_return();
+			var add_expression_return = new add_expression_return();
 			add_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2015,128 +2014,128 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_159;
 				IL_141:
-				NoViableAltException ex = new NoViableAltException("", 32, 0, input);
+				var ex = new NoViableAltException("", 32, 0, input);
 				throw ex;
 				IL_159:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression2281);
+					var commonTree = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression2281);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2283);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2283);
 					PushFollow(FOLLOW_autoCast_in_add_expression2287);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_add_expression2291);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_add_expression2295);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_add_expression2299);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IADD").Add("target", add_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", add_expression_return2?.ST).Add("extraExpressions2", mult_expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression2364);
+					var commonTree3 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression2364);
 					Match(input, 2, null);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2366);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2366);
 					PushFollow(FOLLOW_autoCast_in_add_expression2370);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_add_expression2374);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_add_expression2378);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_add_expression2382);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FADD").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FADD").Add("target", add_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", add_expression_return2?.ST).Add("extraExpressions2", mult_expression_return?.ST).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression2447);
+					var commonTree5 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression2447);
 					Match(input, 2, null);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2449);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2449);
 					PushFollow(FOLLOW_autoCast_in_add_expression2453);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_add_expression2457);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_add_expression2461);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_add_expression2465);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "ISUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "ISUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", add_expression_return2?.ST).Add("extraExpressions2", mult_expression_return?.ST).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression2530);
+					var commonTree7 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression2530);
 					Match(input, 2, null);
-					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2532);
+					var commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2532);
 					PushFollow(FOLLOW_autoCast_in_add_expression2536);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_add_expression2540);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_add_expression2544);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_add_expression2548);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FSUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FSUBTRACT").Add("target", add_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", add_expression_return2?.ST).Add("extraExpressions2", mult_expression_return?.ST).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression2613);
+					var commonTree9 = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression2613);
 					Match(input, 2, null);
-					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2615);
+					var commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression2615);
 					PushFollow(FOLLOW_autoCast_in_add_expression2619);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_add_expression2623);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_add_expression_in_add_expression2627);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_add_expression2631);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					add_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "STRCAT").Add("target", add_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (add_expression_return2 != null) ? add_expression_return2.ST : null).Add("extraExpressions2", (mult_expression_return != null) ? mult_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					add_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "STRCAT").Add("target", add_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", add_expression_return2?.ST).Add("extraExpressions2", mult_expression_return?.ST).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
 					PushFollow(FOLLOW_mult_expression_in_add_expression2695);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
-					add_expression_return.sRetValue = ((mult_expression_return2 != null) ? mult_expression_return2.sRetValue : null);
-					add_expression_return.ST = ((mult_expression_return2 != null) ? mult_expression_return2.ST : null);
+					add_expression_return.sRetValue = mult_expression_return2?.sRetValue;
+					add_expression_return.ST = mult_expression_return2?.ST;
 					break;
 				}
 				}
@@ -2152,11 +2151,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D91 RID: 3473 RVA: 0x00063DA0 File Offset: 0x00061FA0
 		public mult_expression_return mult_expression()
 		{
-			mult_expression_return mult_expression_return = new mult_expression_return();
+			var mult_expression_return = new mult_expression_return();
 			mult_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2233,122 +2232,122 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_159;
 				IL_141:
-				NoViableAltException ex = new NoViableAltException("", 33, 0, input);
+				var ex = new NoViableAltException("", 33, 0, input);
 				throw ex;
 				IL_159:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression2718);
+					var commonTree = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression2718);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2720);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2720);
 					PushFollow(FOLLOW_autoCast_in_mult_expression2724);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_mult_expression2728);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_mult_expression2732);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2736);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree.Line));
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", mult_expression_return2?.ST).Add("extraExpressions2", unary_expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression2801);
+					var commonTree3 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression2801);
 					Match(input, 2, null);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2803);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2803);
 					PushFollow(FOLLOW_autoCast_in_mult_expression2807);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_mult_expression2811);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_mult_expression2815);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2819);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree3.Line));
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FMULTIPLY").Add("target", mult_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", mult_expression_return2?.ST).Add("extraExpressions2", unary_expression_return?.ST).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression2884);
+					var commonTree5 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression2884);
 					Match(input, 2, null);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2886);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2886);
 					PushFollow(FOLLOW_autoCast_in_mult_expression2890);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_mult_expression2894);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_mult_expression2898);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2902);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree5.Line));
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", mult_expression_return2?.ST).Add("extraExpressions2", unary_expression_return?.ST).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree7 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression2967);
+					var commonTree7 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression2967);
 					Match(input, 2, null);
-					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2969);
+					var commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2969);
 					PushFollow(FOLLOW_autoCast_in_mult_expression2973);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_autoCast_in_mult_expression2977);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_mult_expression_in_mult_expression2981);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2985);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree8.Text);
-					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("arg2", (autoCast_return2 != null) ? autoCast_return2.sRetValue : null).Add("autoCast1", (autoCast_return != null) ? autoCast_return.ST : null).Add("autoCast2", (autoCast_return2 != null) ? autoCast_return2.ST : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree7.Line));
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "FDIVIDE").Add("target", mult_expression_return.sRetValue).Add("arg1", autoCast_return?.sRetValue).Add("arg2", autoCast_return2?.sRetValue).Add("autoCast1", autoCast_return?.ST).Add("autoCast2", autoCast_return2?.ST).Add("extraExpressions1", mult_expression_return2?.ST).Add("extraExpressions2", unary_expression_return?.ST).Add("lineNo", commonTree7.Line));
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression3050);
+					var commonTree9 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression3050);
 					Match(input, 2, null);
-					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression3052);
+					var commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression3052);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression3056);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_unary_expression_in_mult_expression3060);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					mult_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree10.Text);
-					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMOD").Add("target", mult_expression_return.sRetValue).Add("arg1", (mult_expression_return2 != null) ? mult_expression_return2.sRetValue : null).Add("arg2", (unary_expression_return != null) ? unary_expression_return.sRetValue : null).Add("extraExpressions1", (mult_expression_return2 != null) ? mult_expression_return2.ST : null).Add("extraExpressions2", (unary_expression_return != null) ? unary_expression_return.ST : null).Add("lineNo", commonTree9.Line));
+					mult_expression_return.ST = templateLib.GetInstanceOf("twoOpCommand", new STAttrMap().Add("command", "IMOD").Add("target", mult_expression_return.sRetValue).Add("arg1", mult_expression_return2?.sRetValue).Add("arg2", unary_expression_return?.sRetValue).Add("extraExpressions1", mult_expression_return2?.ST).Add("extraExpressions2", unary_expression_return?.ST).Add("lineNo", commonTree9.Line));
 					break;
 				}
 				case 6:
 				{
 					PushFollow(FOLLOW_unary_expression_in_mult_expression3114);
-					unary_expression_return unary_expression_return2 = unary_expression();
+					var unary_expression_return2 = unary_expression();
 					state.followingStackPointer--;
-					mult_expression_return.sRetValue = ((unary_expression_return2 != null) ? unary_expression_return2.sRetValue : null);
-					mult_expression_return.ST = ((unary_expression_return2 != null) ? unary_expression_return2.ST : null);
+					mult_expression_return.sRetValue = unary_expression_return2?.sRetValue;
+					mult_expression_return.ST = unary_expression_return2?.ST;
 					break;
 				}
 				}
@@ -2364,11 +2363,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D92 RID: 3474 RVA: 0x000648E8 File Offset: 0x00062AE8
 		public unary_expression_return unary_expression()
 		{
-			unary_expression_return unary_expression_return = new unary_expression_return();
+			var unary_expression_return = new unary_expression_return();
 			unary_expression_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -2442,57 +2441,57 @@ namespace pcomps.PCompiler
 				num2 = 4;
 				goto IL_12E;
 				IL_116:
-				NoViableAltException ex = new NoViableAltException("", 34, 0, input);
+				var ex = new NoViableAltException("", 34, 0, input);
 				throw ex;
 				IL_12E:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression3137);
+					var commonTree = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression3137);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3139);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3139);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression3141);
-					cast_atom_return cast_atom_return = cast_atom();
+					var cast_atom_return = cast_atom();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "INEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return != null) ? cast_atom_return.sRetValue : null).Add("extraExpressions", (cast_atom_return != null) ? cast_atom_return.ST : null).Add("lineNo", commonTree.Line));
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "INEGATE").Add("target", unary_expression_return.sRetValue).Add("source", cast_atom_return?.sRetValue).Add("extraExpressions", cast_atom_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree3 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression3186);
+					var commonTree3 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression3186);
 					Match(input, 2, null);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3188);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3188);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression3190);
-					cast_atom_return cast_atom_return2 = cast_atom();
+					var cast_atom_return2 = cast_atom();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "FNEGATE").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return2 != null) ? cast_atom_return2.sRetValue : null).Add("extraExpressions", (cast_atom_return2 != null) ? cast_atom_return2.ST : null).Add("lineNo", commonTree3.Line));
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "FNEGATE").Add("target", unary_expression_return.sRetValue).Add("source", cast_atom_return2?.sRetValue).Add("extraExpressions", cast_atom_return2?.ST).Add("lineNo", commonTree3.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression3235);
+					var commonTree5 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression3235);
 					Match(input, 2, null);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3237);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression3237);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression3239);
-					cast_atom_return cast_atom_return3 = cast_atom();
+					var cast_atom_return3 = cast_atom();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					unary_expression_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
-					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "NOT").Add("target", unary_expression_return.sRetValue).Add("source", (cast_atom_return3 != null) ? cast_atom_return3.sRetValue : null).Add("extraExpressions", (cast_atom_return3 != null) ? cast_atom_return3.ST : null).Add("lineNo", commonTree5.Line));
+					unary_expression_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "NOT").Add("target", unary_expression_return.sRetValue).Add("source", cast_atom_return3?.sRetValue).Add("extraExpressions", cast_atom_return3?.ST).Add("lineNo", commonTree5.Line));
 					break;
 				}
 				case 4:
 				{
 					PushFollow(FOLLOW_cast_atom_in_unary_expression3283);
-					cast_atom_return cast_atom_return4 = cast_atom();
+					var cast_atom_return4 = cast_atom();
 					state.followingStackPointer--;
-					unary_expression_return.sRetValue = ((cast_atom_return4 != null) ? cast_atom_return4.sRetValue : null);
-					unary_expression_return.ST = ((cast_atom_return4 != null) ? cast_atom_return4.ST : null);
+					unary_expression_return.sRetValue = cast_atom_return4?.sRetValue;
+					unary_expression_return.ST = cast_atom_return4?.ST;
 					break;
 				}
 				}
@@ -2508,11 +2507,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D93 RID: 3475 RVA: 0x00064E20 File Offset: 0x00063020
 		public cast_atom_return cast_atom()
 		{
-			cast_atom_return cast_atom_return = new cast_atom_return();
+			var cast_atom_return = new cast_atom_return();
 			cast_atom_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 79)
 				{
@@ -2520,9 +2519,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 25) && (num != 38 && num != 62 && num is < 80 or > 82) && num is < 90 or > 93)
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 25) and not 38 and not 62 and (< 80 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 35, 0, input);
+						var ex = new NoViableAltException("", 35, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2531,24 +2530,24 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom3306);
+					var commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom3306);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom3308);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom3308);
 					PushFollow(FOLLOW_dot_atom_in_cast_atom3310);
-					dot_atom_return dot_atom_return = dot_atom();
+					var dot_atom_return = dot_atom();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					cast_atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
-					cast_atom_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", cast_atom_return.sRetValue).Add("source", (dot_atom_return != null) ? dot_atom_return.sRetValue : null).Add("extraExpressions", (dot_atom_return != null) ? dot_atom_return.ST : null).Add("lineNo", commonTree.Line));
+					cast_atom_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", cast_atom_return.sRetValue).Add("source", dot_atom_return?.sRetValue).Add("extraExpressions", dot_atom_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_dot_atom_in_cast_atom3349);
-					dot_atom_return dot_atom_return2 = dot_atom();
+					var dot_atom_return2 = dot_atom();
 					state.followingStackPointer--;
-					cast_atom_return.sRetValue = ((dot_atom_return2 != null) ? dot_atom_return2.sRetValue : null);
-					cast_atom_return.ST = ((dot_atom_return2 != null) ? dot_atom_return2.ST : null);
+					cast_atom_return.sRetValue = dot_atom_return2?.sRetValue;
+					cast_atom_return.ST = dot_atom_return2?.ST;
 					break;
 				}
 				}
@@ -2564,11 +2563,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D94 RID: 3476 RVA: 0x0006507C File Offset: 0x0006327C
 		public dot_atom_return dot_atom()
 		{
-			dot_atom_return dot_atom_return = new dot_atom_return();
-			dot_atom_return.Start = input.LT(1);
-			try
+			var dot_atom_return = new dot_atom_return
+            {
+                Start = input.LT(1)
+            };
+            try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -2633,7 +2634,7 @@ namespace pcomps.PCompiler
 				num2 = 2;
 				goto IL_E5;
 				IL_CD:
-				NoViableAltException ex = new NoViableAltException("", 36, 0, input);
+				var ex = new NoViableAltException("", 36, 0, input);
 				throw ex;
 				IL_E5:
 				switch (num2)
@@ -2643,31 +2644,31 @@ namespace pcomps.PCompiler
 					Match(input, 62, FOLLOW_DOT_in_dot_atom3372);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_dot_atom_in_dot_atom3376);
-					dot_atom_return dot_atom_return2 = dot_atom();
+					var dot_atom_return2 = dot_atom();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_array_func_or_id_in_dot_atom3380);
-					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					var array_func_or_id_return = array_func_or_id();
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					dot_atom_return.sRetValue = ((array_func_or_id_return != null) ? array_func_or_id_return.sRetValue : null);
-					dot_atom_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", (dot_atom_return2 != null) ? dot_atom_return2.ST : null).Add("bTemplate", (array_func_or_id_return != null) ? array_func_or_id_return.ST : null));
+					dot_atom_return.sRetValue = array_func_or_id_return?.sRetValue;
+					dot_atom_return.ST = templateLib.GetInstanceOf("dot", new STAttrMap().Add("aTemplate", dot_atom_return2?.ST).Add("bTemplate", array_func_or_id_return?.ST));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_array_atom_in_dot_atom3409);
-					array_atom_return array_atom_return = array_atom();
+					var array_atom_return = array_atom();
 					state.followingStackPointer--;
-					dot_atom_return.sRetValue = ((array_atom_return != null) ? array_atom_return.sRetValue : null);
-					dot_atom_return.ST = ((array_atom_return != null) ? array_atom_return.ST : null);
+					dot_atom_return.sRetValue = array_atom_return?.sRetValue;
+					dot_atom_return.ST = array_atom_return?.ST;
 					break;
 				}
 				case 3:
 				{
 					PushFollow(FOLLOW_constant_in_dot_atom3420);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
-					dot_atom_return.sRetValue = ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text;
+					dot_atom_return.sRetValue = ((CommonTree)constant_return?.Start)?.Text;
 					break;
 				}
 				}
@@ -2684,11 +2685,11 @@ namespace pcomps.PCompiler
 		public array_atom_return array_atom()
 		{
 			array_atom_stack.Push(new array_atom_scope());
-			array_atom_return array_atom_return = new array_atom_return();
+			var array_atom_return = new array_atom_return();
 			array_atom_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -2696,9 +2697,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num is < 11 or > 13 && (num != 15 && num != 20 && num is < 24 or > 25) && num != 38 && num != 80 && num != 82)
+					if (num is (< 11 or > 13) and not 15 and not 20 and (< 24 or > 25) and not 38 and not 80 and not 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 37, 0, input);
+						var ex = new NoViableAltException("", 37, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2707,32 +2708,32 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom3447);
+					var commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom3447);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3451);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3455);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3451);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom3455);
 					PushFollow(FOLLOW_autoCast_in_array_atom3457);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_atom_in_array_atom3459);
-					atom_return atom_return = atom();
+					var atom_return = atom();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_expression_in_array_atom3461);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					array_atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					((array_atom_scope)array_atom_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					array_atom_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_atom_return.sRetValue).Add("selfName", ((array_atom_scope)array_atom_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (atom_return != null) ? atom_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					array_atom_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_atom_return.sRetValue).Add("selfName", ((array_atom_scope)array_atom_stack.Peek()).sselfName).Add("index", autoCast_return?.sRetValue).Add("autoCast", autoCast_return?.ST).Add("arrayExpressions", atom_return?.ST).Add("indexExpressions", expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_atom_in_array_atom3515);
-					atom_return atom_return2 = atom();
+					var atom_return2 = atom();
 					state.followingStackPointer--;
-					array_atom_return.sRetValue = ((atom_return2 != null) ? atom_return2.sRetValue : null);
-					array_atom_return.ST = ((atom_return2 != null) ? atom_return2.ST : null);
+					array_atom_return.sRetValue = atom_return2?.sRetValue;
+					array_atom_return.ST = atom_return2?.ST;
 					break;
 				}
 				}
@@ -2752,11 +2753,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D96 RID: 3478 RVA: 0x000656A0 File Offset: 0x000638A0
 		public atom_return atom()
 		{
-			atom_return atom_return = new atom_return();
+			var atom_return = new atom_return();
 			atom_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -2808,7 +2809,7 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_B8;
 				IL_A0:
-				NoViableAltException ex = new NoViableAltException("", 38, 0, input);
+				var ex = new NoViableAltException("", 38, 0, input);
 				throw ex;
 				IL_B8:
 				switch (num2)
@@ -2818,19 +2819,19 @@ namespace pcomps.PCompiler
 					Match(input, 15, FOLLOW_PAREXPR_in_atom3538);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_expression_in_atom3540);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					atom_return.sRetValue = ((expression_return != null) ? expression_return.sRetValue : null);
-					atom_return.ST = ((expression_return != null) ? expression_return.ST : null);
+					atom_return.sRetValue = expression_return?.sRetValue;
+					atom_return.ST = expression_return?.ST;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom3553);
+					var commonTree = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom3553);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom3555);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom3559);
+					var commonTree2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom3555);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom3559);
 					Match(input, 3, null);
 					atom_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
 					atom_return.ST = templateLib.GetInstanceOf("newArray", new STAttrMap().Add("dest", atom_return.sRetValue).Add("size", commonTree2.Text).Add("lineNo", commonTree.Line));
@@ -2839,10 +2840,10 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					PushFollow(FOLLOW_func_or_id_in_atom3593);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
-					atom_return.sRetValue = ((func_or_id_return != null) ? func_or_id_return.sRetValue : null);
-					atom_return.ST = ((func_or_id_return != null) ? func_or_id_return.ST : null);
+					atom_return.sRetValue = func_or_id_return?.sRetValue;
+					atom_return.ST = func_or_id_return?.ST;
 					break;
 				}
 				}
@@ -2859,11 +2860,11 @@ namespace pcomps.PCompiler
 		public array_func_or_id_return array_func_or_id()
 		{
 			array_func_or_id_stack.Push(new array_func_or_id_scope());
-			array_func_or_id_return array_func_or_id_return = new array_func_or_id_return();
+			var array_func_or_id_return = new array_func_or_id_return();
 			array_func_or_id_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -2871,9 +2872,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num is < 11 or > 13 && (num != 20 && num is < 24 or > 25) && num != 38 && num != 82)
+					if (num is (< 11 or > 13) and not 20 and (< 24 or > 25) and not 38 and not 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 39, 0, input);
+						var ex = new NoViableAltException("", 39, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2882,32 +2883,32 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id3620);
+					var commonTree = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id3620);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3624);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3628);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3624);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id3628);
 					PushFollow(FOLLOW_autoCast_in_array_func_or_id3630);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_func_or_id_in_array_func_or_id3632);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_expression_in_array_func_or_id3634);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					array_func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					((array_func_or_id_scope)array_func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
-					array_func_or_id_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_func_or_id_return.sRetValue).Add("selfName", ((array_func_or_id_scope)array_func_or_id_stack.Peek()).sselfName).Add("index", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("arrayExpressions", (func_or_id_return != null) ? func_or_id_return.ST : null).Add("indexExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					array_func_or_id_return.ST = templateLib.GetInstanceOf("arrayGet", new STAttrMap().Add("retValue", array_func_or_id_return.sRetValue).Add("selfName", ((array_func_or_id_scope)array_func_or_id_stack.Peek()).sselfName).Add("index", autoCast_return?.sRetValue).Add("autoCast", autoCast_return?.ST).Add("arrayExpressions", func_or_id_return?.ST).Add("indexExpressions", expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
 					PushFollow(FOLLOW_func_or_id_in_array_func_or_id3688);
-					func_or_id_return func_or_id_return2 = func_or_id();
+					var func_or_id_return2 = func_or_id();
 					state.followingStackPointer--;
-					array_func_or_id_return.sRetValue = ((func_or_id_return2 != null) ? func_or_id_return2.sRetValue : null);
-					array_func_or_id_return.ST = ((func_or_id_return2 != null) ? func_or_id_return2.ST : null);
+					array_func_or_id_return.sRetValue = func_or_id_return2?.sRetValue;
+					array_func_or_id_return.ST = func_or_id_return2?.ST;
 					break;
 				}
 				}
@@ -2928,11 +2929,11 @@ namespace pcomps.PCompiler
 		public func_or_id_return func_or_id()
 		{
 			func_or_id_stack.Push(new func_or_id_scope());
-			func_or_id_return func_or_id_return = new func_or_id_return();
+			var func_or_id_return = new func_or_id_return();
 			func_or_id_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -2975,7 +2976,7 @@ namespace pcomps.PCompiler
 				num2 = 1;
 				goto IL_BB;
 				IL_A3:
-				NoViableAltException ex = new NoViableAltException("", 40, 0, input);
+				var ex = new NoViableAltException("", 40, 0, input);
 				throw ex;
 				IL_BB:
 				switch (num2)
@@ -2983,19 +2984,19 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					PushFollow(FOLLOW_function_call_in_func_or_id3714);
-					function_call_return function_call_return = function_call();
+					var function_call_return = function_call();
 					state.followingStackPointer--;
-					func_or_id_return.sRetValue = ((function_call_return != null) ? function_call_return.sRetValue : null);
-					func_or_id_return.ST = ((function_call_return != null) ? function_call_return.ST : null);
+					func_or_id_return.sRetValue = function_call_return?.sRetValue;
+					func_or_id_return.ST = function_call_return?.ST;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id3726);
+					var commonTree = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id3726);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3730);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3734);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3738);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3730);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3734);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3738);
 					Match(input, 3, null);
 					((func_or_id_scope)func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
@@ -3004,16 +3005,16 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3777);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3777);
 					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree6 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id3789);
+					var commonTree6 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id3789);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3793);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3797);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3793);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id3797);
 					Match(input, 3, null);
 					((func_or_id_scope)func_or_id_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					func_or_id_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
@@ -3038,15 +3039,15 @@ namespace pcomps.PCompiler
 		public property_set_return property_set()
 		{
 			property_set_stack.Push(new property_set_scope());
-			property_set_return property_set_return = new property_set_return();
+			var property_set_return = new property_set_return();
 			property_set_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set3843);
+				var commonTree = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set3843);
 				Match(input, 2, null);
-				CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3847);
-				CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3851);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3855);
+				var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3847);
+				var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3851);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set3855);
 				Match(input, 3, null);
 				((property_set_scope)property_set_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 				((property_set_scope)property_set_stack.Peek()).sparamName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
@@ -3067,17 +3068,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D9A RID: 3482 RVA: 0x0006632C File Offset: 0x0006452C
 		public return_stat_return return_stat()
 		{
-			return_stat_return return_stat_return = new return_stat_return();
+			var return_stat_return = new return_stat_return();
 			return_stat_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				if (num != 83)
 				{
-					NoViableAltException ex = new NoViableAltException("", 41, 0, input);
+					var ex = new NoViableAltException("", 41, 0, input);
 					throw ex;
 				}
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -3085,9 +3086,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num2 != 3 && num2 != 5 && num2 is < 11 or > 13 && (num2 != 15 && num2 != 20 && num2 != 22 && num2 is < 24 or > 36) && (num2 != 38 && num2 != 41 && num2 != 62 && num2 is < 65 or > 72) && num2 is < 77 or > 84 && num2 != 88 && num2 is < 90 or > 93)
+					if (num2 is not 3 and not 5 and (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 41 and not 62 and (< 65 or > 72) and (< 77 or > 84) and not 88 and (< 90 or > 93))
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 41, 1, input);
+						var ex2 = new NoViableAltException("", 41, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -3096,21 +3097,21 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3903);
+					var commonTree = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3903);
 					Match(input, 2, null);
 					PushFollow(FOLLOW_autoCast_in_return_stat3905);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					PushFollow(FOLLOW_expression_in_return_stat3907);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					Match(input, 3, null);
-					return_stat_return.ST = templateLib.GetInstanceOf("return", new STAttrMap().Add("retVal", (autoCast_return != null) ? autoCast_return.sRetValue : null).Add("autoCast", (autoCast_return != null) ? autoCast_return.ST : null).Add("extraExpressions", (expression_return != null) ? expression_return.ST : null).Add("lineNo", commonTree.Line));
+					return_stat_return.ST = templateLib.GetInstanceOf("return", new STAttrMap().Add("retVal", autoCast_return?.sRetValue).Add("autoCast", autoCast_return?.ST).Add("extraExpressions", expression_return?.ST).Add("lineNo", commonTree.Line));
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3940);
+					var commonTree2 = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat3940);
 					return_stat_return.ST = templateLib.GetInstanceOf("return", new STAttrMap().Add("retVal", "none").Add("lineNo", commonTree2.Line));
 					break;
 				}
@@ -3128,7 +3129,7 @@ namespace pcomps.PCompiler
 		public ifBlock_return ifBlock()
 		{
 			ifBlock_stack.Push(new ifBlock_scope());
-			ifBlock_return ifBlock_return = new ifBlock_return();
+			var ifBlock_return = new ifBlock_return();
 			ifBlock_return.Start = input.LT(1);
 			IList list = null;
 			elseBlock_return elseBlock_return = null;
@@ -3137,43 +3138,40 @@ namespace pcomps.PCompiler
 			((ifBlock_scope)ifBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock3984);
+				var commonTree = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock3984);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_expression_in_ifBlock3986);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				PushFollow(FOLLOW_codeBlock_in_ifBlock3988);
 				codeBlock(((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((ifBlock_scope)ifBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 86)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						break;
 					}
 					PushFollow(FOLLOW_elseIfBlock_in_ifBlock3994);
-					elseIfBlock_return elseIfBlock_return = elseIfBlock();
+					var elseIfBlock_return = elseIfBlock();
 					state.followingStackPointer--;
-					if (list == null)
-					{
-						list = new ArrayList();
-					}
+					list ??= new ArrayList();
 					list.Add(elseIfBlock_return.Template);
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 87)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					PushFollow(FOLLOW_elseBlock_in_ifBlock3998);
@@ -3181,7 +3179,7 @@ namespace pcomps.PCompiler
 					state.followingStackPointer--;
 				}
 				Match(input, 3, null);
-				ifBlock_return.ST = templateLib.GetInstanceOf("ifBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements).Add("elifBlocks", list).Add("elseBlock", (elseBlock_return != null) ? elseBlock_return.ST : null).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				ifBlock_return.ST = templateLib.GetInstanceOf("ifBlock", new STAttrMap().Add("condition", expression_return?.sRetValue).Add("condExpressions", expression_return?.ST).Add("blockStatements", ((ifBlock_scope)ifBlock_stack.Peek()).kBlockStatements).Add("elifBlocks", list).Add("elseBlock", elseBlock_return?.ST).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
 				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
@@ -3200,23 +3198,23 @@ namespace pcomps.PCompiler
 		public elseIfBlock_return elseIfBlock()
 		{
 			elseIfBlock_stack.Push(new elseIfBlock_scope());
-			elseIfBlock_return elseIfBlock_return = new elseIfBlock_return();
+			var elseIfBlock_return = new elseIfBlock_return();
 			elseIfBlock_return.Start = input.LT(1);
 			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements = new ArrayList();
 			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock4072);
+				var commonTree = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock4072);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_expression_in_elseIfBlock4074);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				PushFollow(FOLLOW_codeBlock_in_elseIfBlock4076);
 				codeBlock(((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				Match(input, 3, null);
-				elseIfBlock_return.ST = templateLib.GetInstanceOf("elseIfBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				elseIfBlock_return.ST = templateLib.GetInstanceOf("elseIfBlock", new STAttrMap().Add("condition", expression_return?.sRetValue).Add("condExpressions", expression_return?.ST).Add("blockStatements", ((elseIfBlock_scope)elseIfBlock_stack.Peek()).kBlockStatements).Add("elseLabel", GenerateLabel()).Add("endLabel", ((ifBlock_scope)ifBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
 			}
 			catch (RecognitionException ex)
 			{
@@ -3234,7 +3232,7 @@ namespace pcomps.PCompiler
 		public elseBlock_return elseBlock()
 		{
 			elseBlock_stack.Push(new elseBlock_scope());
-			elseBlock_return elseBlock_return = new elseBlock_return();
+			var elseBlock_return = new elseBlock_return();
 			elseBlock_return.Start = input.LT(1);
 			((elseBlock_scope)elseBlock_stack.Peek()).kBlockStatements = new ArrayList();
 			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
@@ -3265,7 +3263,7 @@ namespace pcomps.PCompiler
 		public whileBlock_return whileBlock()
 		{
 			whileBlock_stack.Push(new whileBlock_scope());
-			whileBlock_return whileBlock_return = new whileBlock_return();
+			var whileBlock_return = new whileBlock_return();
 			whileBlock_return.Start = input.LT(1);
 			((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements = new ArrayList();
 			((whileBlock_scope)whileBlock_stack.Peek()).sStartLabel = GenerateLabel();
@@ -3273,16 +3271,16 @@ namespace pcomps.PCompiler
 			((whileBlock_scope)whileBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock4183);
+				var commonTree = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock4183);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_expression_in_whileBlock4185);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				PushFollow(FOLLOW_codeBlock_in_whileBlock4187);
 				codeBlock(((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements, ((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs, ((whileBlock_scope)whileBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				Match(input, 3, null);
-				whileBlock_return.ST = templateLib.GetInstanceOf("whileBlock", new STAttrMap().Add("condition", (expression_return != null) ? expression_return.sRetValue : null).Add("condExpressions", (expression_return != null) ? expression_return.ST : null).Add("blockStatements", ((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements).Add("startLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sStartLabel).Add("endLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
+				whileBlock_return.ST = templateLib.GetInstanceOf("whileBlock", new STAttrMap().Add("condition", expression_return?.sRetValue).Add("condExpressions", expression_return?.ST).Add("blockStatements", ((whileBlock_scope)whileBlock_stack.Peek()).kBlockStatements).Add("startLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sStartLabel).Add("endLabel", ((whileBlock_scope)whileBlock_stack.Peek()).sEndLabel).Add("lineNo", commonTree.Line));
 				((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			}
 			catch (RecognitionException ex)
@@ -3301,7 +3299,7 @@ namespace pcomps.PCompiler
 		public function_call_return function_call()
 		{
 			function_call_stack.Push(new function_call_scope());
-			function_call_return function_call_return = new function_call_return();
+			var function_call_return = new function_call_return();
 			function_call_return.Start = input.LT(1);
 			parameters_return parameters_return = null;
 			parameters_return parameters_return2 = null;
@@ -3310,7 +3308,7 @@ namespace pcomps.PCompiler
 			parameters_return parameters_return5 = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3344,22 +3342,22 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call4252);
+					var commonTree = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call4252);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4256);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4260);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4264);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4256);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4260);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4264);
 					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4267);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num3 = 2;
-						int num4 = input.LA(1);
+						var num3 = 2;
+						var num4 = input.LA(1);
 						if (num4 == 9)
 						{
 							num3 = 1;
 						}
-						int num5 = num3;
+						var num5 = num3;
 						if (num5 == 1)
 						{
 							PushFollow(FOLLOW_parameters_in_function_call4269);
@@ -3371,34 +3369,34 @@ namespace pcomps.PCompiler
 					Match(input, 3, null);
 					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					if (((parameters_return != null) ? ((CommonTree)parameters_return.Start) : null) == null)
+					if ((CommonTree)parameters_return?.Start == null)
 					{
 						function_call_return.ST = templateLib.GetInstanceOf("callLocal", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree.Line));
 					}
 					else
 					{
-						function_call_return.ST = templateLib.GetInstanceOf("callLocal", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return != null) ? parameters_return.sParamVars : null).Add("autoCast", (parameters_return != null) ? parameters_return.kAutoCastST : null).Add("paramExpressions", (parameters_return != null) ? parameters_return.ST : null).Add("lineNo", commonTree.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callLocal", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", parameters_return?.sParamVars).Add("autoCast", parameters_return?.kAutoCastST).Add("paramExpressions", parameters_return?.ST).Add("lineNo", commonTree.Line));
 					}
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree5 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call4355);
+					var commonTree5 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call4355);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4359);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4363);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4367);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4359);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4363);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4367);
 					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4370);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num6 = 2;
-						int num7 = input.LA(1);
+						var num6 = 2;
+						var num7 = input.LA(1);
 						if (num7 == 9)
 						{
 							num6 = 1;
 						}
-						int num8 = num6;
+						var num8 = num6;
 						if (num8 == 1)
 						{
 							PushFollow(FOLLOW_parameters_in_function_call4372);
@@ -3409,34 +3407,34 @@ namespace pcomps.PCompiler
 					}
 					Match(input, 3, null);
 					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					if (((parameters_return2 != null) ? ((CommonTree)parameters_return2.Start) : null) == null)
+					if ((CommonTree)parameters_return2?.Start == null)
 					{
 						function_call_return.ST = templateLib.GetInstanceOf("callParent", new STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree5.Line));
 					}
 					else
 					{
-						function_call_return.ST = templateLib.GetInstanceOf("callParent", new STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return2 != null) ? parameters_return2.sParamVars : null).Add("autoCast", (parameters_return2 != null) ? parameters_return2.kAutoCastST : null).Add("paramExpressions", (parameters_return2 != null) ? parameters_return2.ST : null).Add("lineNo", commonTree5.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callParent", new STAttrMap().Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", parameters_return2?.sParamVars).Add("autoCast", parameters_return2?.kAutoCastST).Add("paramExpressions", parameters_return2?.ST).Add("lineNo", commonTree5.Line));
 					}
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call4448);
+					var commonTree6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call4448);
 					Match(input, 2, null);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4452);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4456);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4460);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4452);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4456);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4460);
 					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4463);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num9 = 2;
-						int num10 = input.LA(1);
+						var num9 = 2;
+						var num10 = input.LA(1);
 						if (num10 == 9)
 						{
 							num9 = 1;
 						}
-						int num11 = num9;
+						var num11 = num9;
 						if (num11 == 1)
 						{
 							PushFollow(FOLLOW_parameters_in_function_call4465);
@@ -3447,33 +3445,33 @@ namespace pcomps.PCompiler
 					}
 					Match(input, 3, null);
 					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					if (((parameters_return3 != null) ? ((CommonTree)parameters_return3.Start) : null) == null)
+					if ((CommonTree)parameters_return3?.Start == null)
 					{
 						function_call_return.ST = templateLib.GetInstanceOf("callGlobal", new STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree6.Line));
 					}
 					else
 					{
-						function_call_return.ST = templateLib.GetInstanceOf("callGlobal", new STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return3 != null) ? parameters_return3.sParamVars : null).Add("autoCast", (parameters_return3 != null) ? parameters_return3.kAutoCastST : null).Add("paramExpressions", (parameters_return3 != null) ? parameters_return3.ST : null).Add("lineNo", commonTree6.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("callGlobal", new STAttrMap().Add("objType", commonTree7.Text).Add("name", commonTree3.Text).Add("retValue", function_call_return.sRetValue).Add("args", parameters_return3?.sParamVars).Add("autoCast", parameters_return3?.kAutoCastST).Add("paramExpressions", parameters_return3?.ST).Add("lineNo", commonTree6.Line));
 					}
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree8 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call4551);
+					var commonTree8 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call4551);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4555);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4559);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4555);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4559);
 					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4562);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num12 = 2;
-						int num13 = input.LA(1);
+						var num12 = 2;
+						var num13 = input.LA(1);
 						if (num13 == 9)
 						{
 							num12 = 1;
 						}
-						int num14 = num12;
+						var num14 = num12;
 						if (num14 == 1)
 						{
 							PushFollow(FOLLOW_parameters_in_function_call4564);
@@ -3485,33 +3483,33 @@ namespace pcomps.PCompiler
 					Match(input, 3, null);
 					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					if (((parameters_return4 != null) ? ((CommonTree)parameters_return4.Start) : null) == null)
+					if ((CommonTree)parameters_return4?.Start == null)
 					{
 						function_call_return.ST = templateLib.GetInstanceOf("arrayFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree8.Line));
 					}
 					else
 					{
-						function_call_return.ST = templateLib.GetInstanceOf("arrayFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return4 != null) ? parameters_return4.sParamVars : null).Add("autoCast", (parameters_return4 != null) ? parameters_return4.kAutoCastST : null).Add("paramExpressions", (parameters_return4 != null) ? parameters_return4.ST : null).Add("lineNo", commonTree8.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", parameters_return4?.sParamVars).Add("autoCast", parameters_return4?.kAutoCastST).Add("paramExpressions", parameters_return4?.ST).Add("lineNo", commonTree8.Line));
 					}
 					break;
 				}
 				case 5:
 				{
-					CommonTree commonTree9 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call4640);
+					var commonTree9 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call4640);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4644);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4648);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4644);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call4648);
 					Match(input, 14, FOLLOW_CALLPARAMS_in_function_call4651);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num15 = 2;
-						int num16 = input.LA(1);
+						var num15 = 2;
+						var num16 = input.LA(1);
 						if (num16 == 9)
 						{
 							num15 = 1;
 						}
-						int num17 = num15;
+						var num17 = num15;
 						if (num17 == 1)
 						{
 							PushFollow(FOLLOW_parameters_in_function_call4653);
@@ -3523,13 +3521,13 @@ namespace pcomps.PCompiler
 					Match(input, 3, null);
 					((function_call_scope)function_call_stack.Peek()).sselfName = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
 					function_call_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree4.Text);
-					if (((parameters_return5 != null) ? ((CommonTree)parameters_return5.Start) : null) == null)
+					if ((CommonTree)parameters_return5?.Start == null)
 					{
 						function_call_return.ST = templateLib.GetInstanceOf("arrayRFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("lineNo", commonTree9.Line));
 					}
 					else
 					{
-						function_call_return.ST = templateLib.GetInstanceOf("arrayRFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", (parameters_return5 != null) ? parameters_return5.sParamVars : null).Add("autoCast", (parameters_return5 != null) ? parameters_return5.kAutoCastST : null).Add("paramExpressions", (parameters_return5 != null) ? parameters_return5.ST : null).Add("lineNo", commonTree9.Line));
+						function_call_return.ST = templateLib.GetInstanceOf("arrayRFind", new STAttrMap().Add("selfName", ((function_call_scope)function_call_stack.Peek()).sselfName).Add("retValue", function_call_return.sRetValue).Add("args", parameters_return5?.sParamVars).Add("autoCast", parameters_return5?.kAutoCastST).Add("paramExpressions", parameters_return5?.ST).Add("lineNo", commonTree9.Line));
 					}
 					break;
 				}
@@ -3550,42 +3548,39 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA0 RID: 3488 RVA: 0x00067D9C File Offset: 0x00065F9C
 		public parameters_return parameters()
 		{
-			parameters_return parameters_return = new parameters_return();
+			var parameters_return = new parameters_return();
 			parameters_return.Start = input.LT(1);
 			IList list = null;
 			parameters_return.sParamVars = new ArrayList();
 			parameters_return.kAutoCastST = new ArrayList();
 			try
 			{
-				int num = 0;
+				var num = 0;
 				for (;;)
 				{
-					int num2 = 2;
-					int num3 = input.LA(1);
+					var num2 = 2;
+					var num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
 					}
-					int num4 = num2;
+					var num4 = num2;
 					if (num4 != 1)
 					{
 						break;
 					}
 					PushFollow(FOLLOW_parameter_in_parameters4751);
-					parameter_return parameter_return = parameter();
+					var parameter_return = parameter();
 					state.followingStackPointer--;
-					if (list == null)
-					{
-						list = new ArrayList();
-					}
+					list ??= new ArrayList();
 					list.Add(parameter_return.Template);
-					parameters_return.sParamVars.Add((parameter_return != null) ? parameter_return.sVarName : null);
-					parameters_return.kAutoCastST.Add((parameter_return != null) ? parameter_return.kAutoCastST : null);
+					parameters_return.sParamVars.Add(parameter_return.sVarName);
+					parameters_return.kAutoCastST.Add(parameter_return.kAutoCastST);
 					num++;
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(50, input);
+					var ex = new EarlyExitException(50, input);
 					throw ex;
 				}
 				parameters_return.ST = templateLib.GetInstanceOf("parameterExpressions", new STAttrMap().Add("expressions", list));
@@ -3601,22 +3596,22 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA1 RID: 3489 RVA: 0x00067EE4 File Offset: 0x000660E4
 		public parameter_return parameter()
 		{
-			parameter_return parameter_return = new parameter_return();
+			var parameter_return = new parameter_return();
 			parameter_return.Start = input.LT(1);
 			try
 			{
 				Match(input, 9, FOLLOW_PARAM_in_parameter4793);
 				Match(input, 2, null);
 				PushFollow(FOLLOW_autoCast_in_parameter4795);
-				autoCast_return autoCast_return = autoCast();
+				var autoCast_return = autoCast();
 				state.followingStackPointer--;
 				PushFollow(FOLLOW_expression_in_parameter4797);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				Match(input, 3, null);
-				parameter_return.ST = ((expression_return != null) ? expression_return.ST : null);
-				parameter_return.sVarName = ((autoCast_return != null) ? autoCast_return.sRetValue : null);
-				parameter_return.kAutoCastST = ((autoCast_return != null) ? autoCast_return.ST : null);
+				parameter_return.ST = expression_return?.ST;
+				parameter_return.sVarName = (autoCast_return?.sRetValue);
+				parameter_return.kAutoCastST = (autoCast_return?.ST);
 			}
 			catch (RecognitionException ex)
 			{
@@ -3630,11 +3625,11 @@ namespace pcomps.PCompiler
 		public autoCast_return autoCast()
 		{
 			autoCast_stack.Push(new autoCast_scope());
-			autoCast_return autoCast_return = new autoCast_return();
+			var autoCast_return = new autoCast_return();
 			autoCast_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num5;
 				if (num != 38)
 				{
@@ -3642,19 +3637,19 @@ namespace pcomps.PCompiler
 					{
 					case 79:
 					{
-						int num2 = input.LA(2);
+						var num2 = input.LA(2);
 						if (num2 != 2)
 						{
-							NoViableAltException ex = new NoViableAltException("", 51, 1, input);
+							var ex = new NoViableAltException("", 51, 1, input);
 							throw ex;
 						}
-						int num3 = input.LA(3);
+						var num3 = input.LA(3);
 						if (num3 != 38)
 						{
-							NoViableAltException ex2 = new NoViableAltException("", 51, 4, input);
+							var ex2 = new NoViableAltException("", 51, 4, input);
 							throw ex2;
 						}
-						int num4 = input.LA(4);
+						var num4 = input.LA(4);
 						if (num4 == 38)
 						{
 							num5 = 1;
@@ -3665,7 +3660,7 @@ namespace pcomps.PCompiler
 							num5 = 2;
 							goto IL_150;
 						}
-						NoViableAltException ex3 = new NoViableAltException("", 51, 5, input);
+						var ex3 = new NoViableAltException("", 51, 5, input);
 						throw ex3;
 					}
 					case 80:
@@ -3688,7 +3683,7 @@ namespace pcomps.PCompiler
 					num5 = 4;
 					goto IL_150;
 					IL_138:
-					NoViableAltException ex4 = new NoViableAltException("", 51, 0, input);
+					NoViableAltException ex4 = new("", 51, 0, input);
 					throw ex4;
 				}
 				num5 = 3;
@@ -3697,10 +3692,10 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4825);
+					var commonTree = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4825);
 					Match(input, 2, null);
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4829);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4833);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4829);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4833);
 					Match(input, 3, null);
 					((autoCast_scope)autoCast_stack.Peek()).ssource = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree3.Text);
 					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree2.Text);
@@ -3709,29 +3704,29 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree4 = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4868);
+					var commonTree4 = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast4868);
 					Match(input, 2, null);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4870);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4870);
 					PushFollow(FOLLOW_constant_in_autoCast4872);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
 					Match(input, 3, null);
 					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree5.Text);
-					autoCast_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((constant_return != null) ? ((CommonTree)constant_return.Start) : null).Text).Add("lineNo", commonTree4.Line));
+					autoCast_return.ST = templateLib.GetInstanceOf("cast", new STAttrMap().Add("target", autoCast_return.sRetValue).Add("source", ((CommonTree)constant_return?.Start).Text).Add("lineNo", commonTree4.Line));
 					break;
 				}
 				case 3:
 				{
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4906);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast4906);
 					autoCast_return.sRetValue = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.GetMangledVariableName(commonTree6.Text);
 					break;
 				}
 				case 4:
 				{
 					PushFollow(FOLLOW_constant_in_autoCast4917);
-					constant_return constant_return2 = constant();
+					var constant_return2 = constant();
 					state.followingStackPointer--;
-					autoCast_return.sRetValue = ((constant_return2 != null) ? ((CommonTree)constant_return2.Start) : null).Text;
+					autoCast_return.sRetValue = ((CommonTree)constant_return2?.Start)?.Text;
 					break;
 				}
 				}
@@ -3751,11 +3746,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA3 RID: 3491 RVA: 0x00068478 File Offset: 0x00066678
 		public constant_return constant()
 		{
-			constant_return constant_return = new constant_return();
+			var constant_return = new constant_return();
 			constant_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num != 81)
 				{
@@ -3774,7 +3769,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 52, 0, input);
+						var ex = new NoViableAltException("", 52, 0, input);
 						throw ex;
 					}
 					}
@@ -3810,13 +3805,13 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA4 RID: 3492 RVA: 0x000685A4 File Offset: 0x000667A4
 		public number_return number()
 		{
-			number_return number_return = new number_return();
+			var number_return = new number_return();
 			number_return.Start = input.LT(1);
 			try
 			{
 				if (input.LA(1) != 81 && input.LA(1) != 93)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
 				input.Consume();
@@ -3833,15 +3828,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA5 RID: 3493 RVA: 0x0006863C File Offset: 0x0006683C
 		public type_return type()
 		{
-			type_return type_return = new type_return();
+			var type_return = new type_return();
 			type_return.Start = input.LT(1);
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num3;
 				if (num == 38)
 				{
-					int num2 = input.LA(2);
+					var num2 = input.LA(2);
 					if (num2 == 63)
 					{
 						num3 = 2;
@@ -3850,7 +3845,7 @@ namespace pcomps.PCompiler
 					{
 						if (num2 != 38)
 						{
-							NoViableAltException ex = new NoViableAltException("", 53, 1, input);
+							var ex = new NoViableAltException("", 53, 1, input);
 							throw ex;
 						}
 						num3 = 1;
@@ -3860,10 +3855,10 @@ namespace pcomps.PCompiler
 				{
 					if (num != 55)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 53, 0, input);
+						var ex2 = new NoViableAltException("", 53, 0, input);
 						throw ex2;
 					}
-					int num4 = input.LA(2);
+					var num4 = input.LA(2);
 					if (num4 == 63)
 					{
 						num3 = 4;
@@ -3872,7 +3867,7 @@ namespace pcomps.PCompiler
 					{
 						if (num4 != 38)
 						{
-							NoViableAltException ex3 = new NoViableAltException("", 53, 2, input);
+							var ex3 = new NoViableAltException("", 53, 2, input);
 							throw ex3;
 						}
 						num3 = 3;
@@ -3882,13 +3877,13 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4985);
+					var commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4985);
 					type_return.sTypeString = commonTree.Text;
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4996);
+					var commonTree2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type4996);
 					Match(input, 63, FOLLOW_LBRACKET_in_type4998);
 					Match(input, 64, FOLLOW_RBRACKET_in_type5000);
 					type_return.sTypeString = $"{commonTree2.Text}[]";
@@ -3896,13 +3891,13 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree3 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5011);
+					var commonTree3 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5011);
 					type_return.sTypeString = commonTree3.Text;
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree4 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5022);
+					var commonTree4 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type5022);
 					Match(input, 63, FOLLOW_LBRACKET_in_type5024);
 					Match(input, 64, FOLLOW_RBRACKET_in_type5026);
 					type_return.sTypeString = $"{commonTree4.Text}[]";
@@ -3934,7 +3929,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA8 RID: 3496 RVA: 0x00068894 File Offset: 0x00066A94
 		private string MangleVariableName(string asOriginalName)
 		{
-			string result = $"::mangled_{asOriginalName}_{iCurMangleSuffix}";
+			var result = $"::mangled_{asOriginalName}_{iCurMangleSuffix}";
 			iCurMangleSuffix++;
 			return result;
 		}
@@ -3942,26 +3937,26 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DA9 RID: 3497 RVA: 0x000688C8 File Offset: 0x00066AC8
 		private void MangleFunctionVariables(ScriptFunctionType akFunction)
 		{
-			Dictionary<string, bool> dictionary = new Dictionary<string, bool>();
+			var dictionary = new Dictionary<string, bool>();
 			MangleScopeVariables(akFunction.FunctionScope, ref dictionary);
 		}
 
 		// Token: 0x06000DAA RID: 3498 RVA: 0x000688EC File Offset: 0x00066AEC
 		private void MangleScopeVariables(ScriptScope akCurrentScope, ref Dictionary<string, bool> akAlreadyDefinedVars)
 		{
-			foreach (KeyValuePair<string, ScriptScope.ScopeVariable> keyValuePair in akCurrentScope.Variables)
+			foreach (var (s, _) in akCurrentScope.Variables)
 			{
-				string key = keyValuePair.Key.ToLowerInvariant();
+				var key = s.ToLowerInvariant();
 				if (akAlreadyDefinedVars.ContainsKey(key))
 				{
-					akCurrentScope.kMangledVarNames.Add(key, MangleVariableName(keyValuePair.Key));
+					akCurrentScope.kMangledVarNames.Add(key, MangleVariableName(s));
 				}
 				else
 				{
 					akAlreadyDefinedVars.Add(key, true);
 				}
 			}
-			foreach (ScriptScope akCurrentScope2 in akCurrentScope.Children)
+			foreach (var akCurrentScope2 in akCurrentScope.Children)
 			{
 				MangleScopeVariables(akCurrentScope2, ref akAlreadyDefinedVars);
 			}
@@ -3970,14 +3965,14 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DAB RID: 3499 RVA: 0x000689B8 File Offset: 0x00066BB8
 		private string GenerateLabel()
 		{
-			string result = string.Format("label{0}", iCurLabelSuffix);
+			var result = $"label{iCurLabelSuffix}";
 			iCurLabelSuffix++;
 			return result;
 		}
 
 		// Token: 0x170001B9 RID: 441
 		// (get) Token: 0x06000DAC RID: 3500 RVA: 0x000689EC File Offset: 0x00066BEC
-		private static DateTime UnixEpoc => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static DateTime UnixEpoc => new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // Token: 0x06000DAD RID: 3501 RVA: 0x00068A00 File Offset: 0x00066C00
 		private static long ToUnixTime(DateTime akDateTime)
@@ -3988,7 +3983,7 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DAE RID: 3502 RVA: 0x00068A28 File Offset: 0x00066C28
 		private string GetFileModTimeUnix(string asFilename)
 		{
-			FileInfo fileInfo = new FileInfo(asFilename);
+			var fileInfo = new FileInfo(asFilename);
 			return ToUnixTime(fileInfo.LastWriteTime.ToUniversalTime()).ToString();
 		}
 
@@ -4001,8 +3996,8 @@ namespace pcomps.PCompiler
 		// Token: 0x06000DB0 RID: 3504 RVA: 0x00068A78 File Offset: 0x00066C78
 		private Hashtable ConstructUserFlagRefInfo()
 		{
-			Hashtable hashtable = new Hashtable();
-			foreach (KeyValuePair<string, PapyrusFlag> keyValuePair in kFlagDict)
+			var hashtable = new Hashtable();
+			foreach (var keyValuePair in kFlagDict)
 			{
 				hashtable.Add(keyValuePair.Key, keyValuePair.Value.Index);
 			}
@@ -4334,8 +4329,7 @@ namespace pcomps.PCompiler
 		private const string DFA27_specialS = "\u0019￿}>";
 
 		// Token: 0x04000A59 RID: 2649
-		public static readonly string[] tokenNames = new string[]
-		{
+		public static readonly string[] tokenNames = {
 			"<invalid>",
 			"<EOR>",
 			"<DOWN>",
@@ -4507,8 +4501,7 @@ namespace pcomps.PCompiler
 		protected DFA27 dfa27;
 
 		// Token: 0x04000A70 RID: 2672
-		private static readonly string[] DFA27_transitionS = new string[]
-		{
+		private static readonly string[] DFA27_transitionS = {
 			"\u0003\u0003\a￿\u0001\u0003\u0001￿\u0001\u0002\u0002\u0003\f￿\u0001\u0003\u0017￿\u0001\u0001",
 			"\u0001\u0004",
 			"\u0001\u0005",
@@ -4558,2112 +4551,2112 @@ namespace pcomps.PCompiler
 		private static readonly short[][] DFA27_transition = DFA.UnpackEncodedStringArray(DFA27_transitionS);
 
 		// Token: 0x04000A78 RID: 2680
-		public static readonly BitSet FOLLOW_OBJECT_in_script80 = new(new ulong[]
+		public static readonly BitSet FOLLOW_OBJECT_in_script80 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A79 RID: 2681
-		public static readonly BitSet FOLLOW_header_in_script82 = new(new ulong[]
+		public static readonly BitSet FOLLOW_header_in_script82 = new(new[]
 		{
 			20266198323691752UL
 		});
 
 		// Token: 0x04000A7A RID: 2682
-		public static readonly BitSet FOLLOW_definitionOrBlock_in_script84 = new(new ulong[]
+		public static readonly BitSet FOLLOW_definitionOrBlock_in_script84 = new(new[]
 		{
 			20266198323691752UL
 		});
 
 		// Token: 0x04000A7B RID: 2683
-		public static readonly BitSet FOLLOW_ID_in_header224 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_header224 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A7C RID: 2684
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_header226 = new(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_header226 = new(new[]
 		{
 			1374389534728UL
 		});
 
 		// Token: 0x04000A7D RID: 2685
-		public static readonly BitSet FOLLOW_ID_in_header230 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_header230 = new(new[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000A7E RID: 2686
-		public static readonly BitSet FOLLOW_DOCSTRING_in_header233 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_header233 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A7F RID: 2687
-		public static readonly BitSet FOLLOW_fieldDefinition_in_definitionOrBlock253 = new(new ulong[]
+		public static readonly BitSet FOLLOW_fieldDefinition_in_definitionOrBlock253 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A80 RID: 2688
-		public static readonly BitSet FOLLOW_function_in_definitionOrBlock264 = new(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_definitionOrBlock264 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A81 RID: 2689
-		public static readonly BitSet FOLLOW_eventFunc_in_definitionOrBlock277 = new(new ulong[]
+		public static readonly BitSet FOLLOW_eventFunc_in_definitionOrBlock277 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A82 RID: 2690
-		public static readonly BitSet FOLLOW_stateBlock_in_definitionOrBlock289 = new(new ulong[]
+		public static readonly BitSet FOLLOW_stateBlock_in_definitionOrBlock289 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A83 RID: 2691
-		public static readonly BitSet FOLLOW_propertyBlock_in_definitionOrBlock295 = new(new ulong[]
+		public static readonly BitSet FOLLOW_propertyBlock_in_definitionOrBlock295 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A84 RID: 2692
-		public static readonly BitSet FOLLOW_VAR_in_fieldDefinition323 = new(new ulong[]
+		public static readonly BitSet FOLLOW_VAR_in_fieldDefinition323 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A85 RID: 2693
-		public static readonly BitSet FOLLOW_type_in_fieldDefinition325 = new(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_fieldDefinition325 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A86 RID: 2694
-		public static readonly BitSet FOLLOW_ID_in_fieldDefinition329 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_fieldDefinition329 = new(new[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A87 RID: 2695
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_fieldDefinition331 = new(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_fieldDefinition331 = new(new[]
 		{
 			8UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000A88 RID: 2696
-		public static readonly BitSet FOLLOW_constant_in_fieldDefinition333 = new(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_fieldDefinition333 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A89 RID: 2697
-		public static readonly BitSet FOLLOW_FUNCTION_in_function408 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FUNCTION_in_function408 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A8A RID: 2698
-		public static readonly BitSet FOLLOW_functionHeader_in_function410 = new(new ulong[]
+		public static readonly BitSet FOLLOW_functionHeader_in_function410 = new(new[]
 		{
 			1032UL
 		});
 
 		// Token: 0x04000A8B RID: 2699
-		public static readonly BitSet FOLLOW_codeBlock_in_function412 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_function412 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A8C RID: 2700
-		public static readonly BitSet FOLLOW_HEADER_in_functionHeader504 = new(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_functionHeader504 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A8D RID: 2701
-		public static readonly BitSet FOLLOW_type_in_functionHeader507 = new(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_functionHeader507 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A8E RID: 2702
-		public static readonly BitSet FOLLOW_NONE_in_functionHeader511 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_functionHeader511 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A8F RID: 2703
-		public static readonly BitSet FOLLOW_ID_in_functionHeader516 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_functionHeader516 = new(new[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A90 RID: 2704
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_functionHeader518 = new(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_functionHeader518 = new(new[]
 		{
 			212205744161288UL
 		});
 
 		// Token: 0x04000A91 RID: 2705
-		public static readonly BitSet FOLLOW_callParameters_in_functionHeader520 = new(new ulong[]
+		public static readonly BitSet FOLLOW_callParameters_in_functionHeader520 = new(new[]
 		{
 			212205744160776UL
 		});
 
 		// Token: 0x04000A92 RID: 2706
-		public static readonly BitSet FOLLOW_functionModifier_in_functionHeader523 = new(new ulong[]
+		public static readonly BitSet FOLLOW_functionModifier_in_functionHeader523 = new(new[]
 		{
 			212205744160776UL
 		});
 
 		// Token: 0x04000A93 RID: 2707
-		public static readonly BitSet FOLLOW_DOCSTRING_in_functionHeader526 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_functionHeader526 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A94 RID: 2708
-		public static readonly BitSet FOLLOW_NATIVE_in_functionModifier545 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NATIVE_in_functionModifier545 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A95 RID: 2709
-		public static readonly BitSet FOLLOW_GLOBAL_in_functionModifier553 = new(new ulong[]
+		public static readonly BitSet FOLLOW_GLOBAL_in_functionModifier553 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A96 RID: 2710
-		public static readonly BitSet FOLLOW_EVENT_in_eventFunc588 = new(new ulong[]
+		public static readonly BitSet FOLLOW_EVENT_in_eventFunc588 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A97 RID: 2711
-		public static readonly BitSet FOLLOW_eventHeader_in_eventFunc590 = new(new ulong[]
+		public static readonly BitSet FOLLOW_eventHeader_in_eventFunc590 = new(new[]
 		{
 			1032UL
 		});
 
 		// Token: 0x04000A98 RID: 2712
-		public static readonly BitSet FOLLOW_codeBlock_in_eventFunc592 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_eventFunc592 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A99 RID: 2713
-		public static readonly BitSet FOLLOW_HEADER_in_eventHeader684 = new(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_eventHeader684 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A9A RID: 2714
-		public static readonly BitSet FOLLOW_NONE_in_eventHeader686 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_eventHeader686 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A9B RID: 2715
-		public static readonly BitSet FOLLOW_ID_in_eventHeader688 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_eventHeader688 = new(new[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A9C RID: 2716
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_eventHeader690 = new(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_eventHeader690 = new(new[]
 		{
 			141836999983624UL
 		});
 
 		// Token: 0x04000A9D RID: 2717
-		public static readonly BitSet FOLLOW_callParameters_in_eventHeader692 = new(new ulong[]
+		public static readonly BitSet FOLLOW_callParameters_in_eventHeader692 = new(new[]
 		{
 			141836999983112UL
 		});
 
 		// Token: 0x04000A9E RID: 2718
-		public static readonly BitSet FOLLOW_NATIVE_in_eventHeader695 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NATIVE_in_eventHeader695 = new(new[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000A9F RID: 2719
-		public static readonly BitSet FOLLOW_DOCSTRING_in_eventHeader698 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_eventHeader698 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AA0 RID: 2720
-		public static readonly BitSet FOLLOW_callParameter_in_callParameters725 = new(new ulong[]
+		public static readonly BitSet FOLLOW_callParameter_in_callParameters725 = new(new[]
 		{
 			514UL
 		});
 
 		// Token: 0x04000AA1 RID: 2721
-		public static readonly BitSet FOLLOW_PARAM_in_callParameter742 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PARAM_in_callParameter742 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AA2 RID: 2722
-		public static readonly BitSet FOLLOW_type_in_callParameter744 = new(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_callParameter744 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AA3 RID: 2723
-		public static readonly BitSet FOLLOW_ID_in_callParameter748 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_callParameter748 = new(new[]
 		{
 			8UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000AA4 RID: 2724
-		public static readonly BitSet FOLLOW_constant_in_callParameter750 = new(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_callParameter750 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AA5 RID: 2725
-		public static readonly BitSet FOLLOW_STATE_in_stateBlock787 = new(new ulong[]
+		public static readonly BitSet FOLLOW_STATE_in_stateBlock787 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AA6 RID: 2726
-		public static readonly BitSet FOLLOW_ID_in_stateBlock789 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_stateBlock789 = new(new[]
 		{
 			1125899906842824UL
 		});
 
 		// Token: 0x04000AA7 RID: 2727
-		public static readonly BitSet FOLLOW_AUTO_in_stateBlock791 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AUTO_in_stateBlock791 = new(new[]
 		{
 			200UL
 		});
 
 		// Token: 0x04000AA8 RID: 2728
-		public static readonly BitSet FOLLOW_stateFuncOrEvent_in_stateBlock797 = new(new ulong[]
+		public static readonly BitSet FOLLOW_stateFuncOrEvent_in_stateBlock797 = new(new[]
 		{
 			200UL
 		});
 
 		// Token: 0x04000AA9 RID: 2729
-		public static readonly BitSet FOLLOW_function_in_stateFuncOrEvent819 = new(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_stateFuncOrEvent819 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AAA RID: 2730
-		public static readonly BitSet FOLLOW_eventFunc_in_stateFuncOrEvent832 = new(new ulong[]
+		public static readonly BitSet FOLLOW_eventFunc_in_stateFuncOrEvent832 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AAB RID: 2731
-		public static readonly BitSet FOLLOW_PROPERTY_in_propertyBlock861 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PROPERTY_in_propertyBlock861 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AAC RID: 2732
-		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock863 = new(new ulong[]
+		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock863 = new(new[]
 		{
 			131072UL
 		});
 
 		// Token: 0x04000AAD RID: 2733
-		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock867 = new(new ulong[]
+		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock867 = new(new[]
 		{
 			131072UL
 		});
 
 		// Token: 0x04000AAE RID: 2734
-		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock872 = new(new ulong[]
+		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock872 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AAF RID: 2735
-		public static readonly BitSet FOLLOW_AUTOPROP_in_propertyBlock922 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AUTOPROP_in_propertyBlock922 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB0 RID: 2736
-		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock924 = new(new ulong[]
+		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock924 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AB1 RID: 2737
-		public static readonly BitSet FOLLOW_ID_in_propertyBlock928 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_propertyBlock928 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB2 RID: 2738
-		public static readonly BitSet FOLLOW_HEADER_in_propertyHeader978 = new(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_propertyHeader978 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB3 RID: 2739
-		public static readonly BitSet FOLLOW_type_in_propertyHeader980 = new(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_propertyHeader980 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AB4 RID: 2740
-		public static readonly BitSet FOLLOW_ID_in_propertyHeader984 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_propertyHeader984 = new(new[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000AB5 RID: 2741
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_propertyHeader986 = new(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_propertyHeader986 = new(new[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000AB6 RID: 2742
-		public static readonly BitSet FOLLOW_DOCSTRING_in_propertyHeader988 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_propertyHeader988 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB7 RID: 2743
-		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1009 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1009 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB8 RID: 2744
-		public static readonly BitSet FOLLOW_function_in_propertyFunc1011 = new(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_propertyFunc1011 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB9 RID: 2745
-		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1025 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1025 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ABA RID: 2746
-		public static readonly BitSet FOLLOW_BLOCK_in_codeBlock1049 = new(new ulong[]
+		public static readonly BitSet FOLLOW_BLOCK_in_codeBlock1049 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ABB RID: 2747
-		public static readonly BitSet FOLLOW_statement_in_codeBlock1057 = new(new ulong[]
+		public static readonly BitSet FOLLOW_statement_in_codeBlock1057 = new(new[]
 		{
 			4611688629756016680UL,
 			1025499646UL
 		});
 
 		// Token: 0x04000ABC RID: 2748
-		public static readonly BitSet FOLLOW_localDefinition_in_statement1086 = new(new ulong[]
+		public static readonly BitSet FOLLOW_localDefinition_in_statement1086 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ABD RID: 2749
-		public static readonly BitSet FOLLOW_EQUALS_in_statement1147 = new(new ulong[]
+		public static readonly BitSet FOLLOW_EQUALS_in_statement1147 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ABE RID: 2750
-		public static readonly BitSet FOLLOW_ID_in_statement1149 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_statement1149 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000ABF RID: 2751
-		public static readonly BitSet FOLLOW_autoCast_in_statement1151 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_statement1151 = new(new[]
 		{
 			4611686293366126592UL
 		});
 
 		// Token: 0x04000AC0 RID: 2752
-		public static readonly BitSet FOLLOW_l_value_in_statement1153 = new(new ulong[]
+		public static readonly BitSet FOLLOW_l_value_in_statement1153 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AC1 RID: 2753
-		public static readonly BitSet FOLLOW_expression_in_statement1155 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_statement1155 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AC2 RID: 2754
-		public static readonly BitSet FOLLOW_expression_in_statement1204 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_statement1204 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC3 RID: 2755
-		public static readonly BitSet FOLLOW_return_stat_in_statement1215 = new(new ulong[]
+		public static readonly BitSet FOLLOW_return_stat_in_statement1215 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC4 RID: 2756
-		public static readonly BitSet FOLLOW_ifBlock_in_statement1226 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ifBlock_in_statement1226 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC5 RID: 2757
-		public static readonly BitSet FOLLOW_whileBlock_in_statement1237 = new(new ulong[]
+		public static readonly BitSet FOLLOW_whileBlock_in_statement1237 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC6 RID: 2758
-		public static readonly BitSet FOLLOW_VAR_in_localDefinition1260 = new(new ulong[]
+		public static readonly BitSet FOLLOW_VAR_in_localDefinition1260 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AC7 RID: 2759
-		public static readonly BitSet FOLLOW_type_in_localDefinition1262 = new(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_localDefinition1262 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AC8 RID: 2760
-		public static readonly BitSet FOLLOW_ID_in_localDefinition1266 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_localDefinition1266 = new(new[]
 		{
 			274877906952UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AC9 RID: 2761
-		public static readonly BitSet FOLLOW_autoCast_in_localDefinition1269 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_localDefinition1269 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000ACA RID: 2762
-		public static readonly BitSet FOLLOW_expression_in_localDefinition1271 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_localDefinition1271 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACB RID: 2763
-		public static readonly BitSet FOLLOW_DOT_in_l_value1318 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_l_value1318 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ACC RID: 2764
-		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1321 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1321 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ACD RID: 2765
-		public static readonly BitSet FOLLOW_expression_in_l_value1325 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1325 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACE RID: 2766
-		public static readonly BitSet FOLLOW_property_set_in_l_value1330 = new(new ulong[]
+		public static readonly BitSet FOLLOW_property_set_in_l_value1330 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACF RID: 2767
-		public static readonly BitSet FOLLOW_ARRAYSET_in_l_value1355 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYSET_in_l_value1355 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD0 RID: 2768
-		public static readonly BitSet FOLLOW_ID_in_l_value1359 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_l_value1359 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AD1 RID: 2769
-		public static readonly BitSet FOLLOW_ID_in_l_value1363 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_l_value1363 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AD2 RID: 2770
-		public static readonly BitSet FOLLOW_autoCast_in_l_value1365 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_l_value1365 = new(new[]
 		{
 			32768UL
 		});
 
 		// Token: 0x04000AD3 RID: 2771
-		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1368 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1368 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD4 RID: 2772
-		public static readonly BitSet FOLLOW_expression_in_l_value1372 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1372 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AD5 RID: 2773
-		public static readonly BitSet FOLLOW_expression_in_l_value1377 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1377 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AD6 RID: 2774
-		public static readonly BitSet FOLLOW_basic_l_value_in_l_value1431 = new(new ulong[]
+		public static readonly BitSet FOLLOW_basic_l_value_in_l_value1431 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AD7 RID: 2775
-		public static readonly BitSet FOLLOW_DOT_in_basic_l_value1454 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_basic_l_value1454 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD8 RID: 2776
-		public static readonly BitSet FOLLOW_array_func_or_id_in_basic_l_value1458 = new(new ulong[]
+		public static readonly BitSet FOLLOW_array_func_or_id_in_basic_l_value1458 = new(new[]
 		{
 			4611686293366126592UL
 		});
 
 		// Token: 0x04000AD9 RID: 2777
-		public static readonly BitSet FOLLOW_basic_l_value_in_basic_l_value1462 = new(new ulong[]
+		public static readonly BitSet FOLLOW_basic_l_value_in_basic_l_value1462 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ADA RID: 2778
-		public static readonly BitSet FOLLOW_function_call_in_basic_l_value1486 = new(new ulong[]
+		public static readonly BitSet FOLLOW_function_call_in_basic_l_value1486 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ADB RID: 2779
-		public static readonly BitSet FOLLOW_property_set_in_basic_l_value1497 = new(new ulong[]
+		public static readonly BitSet FOLLOW_property_set_in_basic_l_value1497 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ADC RID: 2780
-		public static readonly BitSet FOLLOW_ARRAYSET_in_basic_l_value1509 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYSET_in_basic_l_value1509 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ADD RID: 2781
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1513 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1513 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000ADE RID: 2782
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1517 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1517 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000ADF RID: 2783
-		public static readonly BitSet FOLLOW_autoCast_in_basic_l_value1519 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_basic_l_value1519 = new(new[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000AE0 RID: 2784
-		public static readonly BitSet FOLLOW_func_or_id_in_basic_l_value1521 = new(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_basic_l_value1521 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE1 RID: 2785
-		public static readonly BitSet FOLLOW_expression_in_basic_l_value1523 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_basic_l_value1523 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AE2 RID: 2786
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1577 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1577 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AE3 RID: 2787
-		public static readonly BitSet FOLLOW_OR_in_expression1595 = new(new ulong[]
+		public static readonly BitSet FOLLOW_OR_in_expression1595 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AE4 RID: 2788
-		public static readonly BitSet FOLLOW_ID_in_expression1597 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_expression1597 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE5 RID: 2789
-		public static readonly BitSet FOLLOW_expression_in_expression1601 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_expression1601 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE6 RID: 2790
-		public static readonly BitSet FOLLOW_and_expression_in_expression1605 = new(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_expression1605 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AE7 RID: 2791
-		public static readonly BitSet FOLLOW_and_expression_in_expression1659 = new(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_expression1659 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AE8 RID: 2792
-		public static readonly BitSet FOLLOW_AND_in_and_expression1681 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AND_in_and_expression1681 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AE9 RID: 2793
-		public static readonly BitSet FOLLOW_ID_in_and_expression1683 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_and_expression1683 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AEA RID: 2794
-		public static readonly BitSet FOLLOW_and_expression_in_and_expression1687 = new(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_and_expression1687 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AEB RID: 2795
-		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1691 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1691 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AEC RID: 2796
-		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1745 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1745 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AED RID: 2797
-		public static readonly BitSet FOLLOW_EQ_in_bool_expression1767 = new(new ulong[]
+		public static readonly BitSet FOLLOW_EQ_in_bool_expression1767 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AEE RID: 2798
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1769 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1769 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AEF RID: 2799
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1773 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1773 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF0 RID: 2800
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1777 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1777 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF1 RID: 2801
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1781 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1781 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF2 RID: 2802
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1785 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1785 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AF3 RID: 2803
-		public static readonly BitSet FOLLOW_NE_in_bool_expression1850 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NE_in_bool_expression1850 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AF4 RID: 2804
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1852 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1852 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF5 RID: 2805
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1856 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1856 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF6 RID: 2806
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1860 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1860 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF7 RID: 2807
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1864 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1864 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF8 RID: 2808
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1868 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1868 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AF9 RID: 2809
-		public static readonly BitSet FOLLOW_GT_in_bool_expression1928 = new(new ulong[]
+		public static readonly BitSet FOLLOW_GT_in_bool_expression1928 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AFA RID: 2810
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1930 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1930 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AFB RID: 2811
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1934 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1934 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AFC RID: 2812
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1938 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1938 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AFD RID: 2813
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1942 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1942 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AFE RID: 2814
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1946 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1946 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AFF RID: 2815
-		public static readonly BitSet FOLLOW_LT_in_bool_expression2011 = new(new ulong[]
+		public static readonly BitSet FOLLOW_LT_in_bool_expression2011 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B00 RID: 2816
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2013 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2013 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B01 RID: 2817
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2017 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2017 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B02 RID: 2818
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2021 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2021 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B03 RID: 2819
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2025 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2025 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B04 RID: 2820
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2029 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2029 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B05 RID: 2821
-		public static readonly BitSet FOLLOW_GTE_in_bool_expression2094 = new(new ulong[]
+		public static readonly BitSet FOLLOW_GTE_in_bool_expression2094 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B06 RID: 2822
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2096 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2096 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B07 RID: 2823
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2100 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2100 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B08 RID: 2824
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2104 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2104 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B09 RID: 2825
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2108 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2108 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B0A RID: 2826
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2112 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2112 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B0B RID: 2827
-		public static readonly BitSet FOLLOW_LTE_in_bool_expression2177 = new(new ulong[]
+		public static readonly BitSet FOLLOW_LTE_in_bool_expression2177 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B0C RID: 2828
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2179 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2179 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B0D RID: 2829
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2183 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2183 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B0E RID: 2830
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2187 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2187 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B0F RID: 2831
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2191 = new(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2191 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B10 RID: 2832
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2195 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2195 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B11 RID: 2833
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2259 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2259 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B12 RID: 2834
-		public static readonly BitSet FOLLOW_IADD_in_add_expression2281 = new(new ulong[]
+		public static readonly BitSet FOLLOW_IADD_in_add_expression2281 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B13 RID: 2835
-		public static readonly BitSet FOLLOW_ID_in_add_expression2283 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2283 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B14 RID: 2836
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2287 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2287 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B15 RID: 2837
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2291 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2291 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B16 RID: 2838
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2295 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2295 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B17 RID: 2839
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2299 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2299 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B18 RID: 2840
-		public static readonly BitSet FOLLOW_FADD_in_add_expression2364 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FADD_in_add_expression2364 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B19 RID: 2841
-		public static readonly BitSet FOLLOW_ID_in_add_expression2366 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2366 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B1A RID: 2842
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2370 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2370 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B1B RID: 2843
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2374 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2374 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B1C RID: 2844
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2378 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2378 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B1D RID: 2845
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2382 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2382 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B1E RID: 2846
-		public static readonly BitSet FOLLOW_ISUBTRACT_in_add_expression2447 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ISUBTRACT_in_add_expression2447 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B1F RID: 2847
-		public static readonly BitSet FOLLOW_ID_in_add_expression2449 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2449 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B20 RID: 2848
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2453 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2453 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B21 RID: 2849
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2457 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2457 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B22 RID: 2850
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2461 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2461 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B23 RID: 2851
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2465 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2465 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B24 RID: 2852
-		public static readonly BitSet FOLLOW_FSUBTRACT_in_add_expression2530 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FSUBTRACT_in_add_expression2530 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B25 RID: 2853
-		public static readonly BitSet FOLLOW_ID_in_add_expression2532 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2532 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B26 RID: 2854
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2536 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2536 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B27 RID: 2855
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2540 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2540 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B28 RID: 2856
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2544 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2544 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B29 RID: 2857
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2548 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2548 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B2A RID: 2858
-		public static readonly BitSet FOLLOW_STRCAT_in_add_expression2613 = new(new ulong[]
+		public static readonly BitSet FOLLOW_STRCAT_in_add_expression2613 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B2B RID: 2859
-		public static readonly BitSet FOLLOW_ID_in_add_expression2615 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2615 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B2C RID: 2860
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2619 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2619 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B2D RID: 2861
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2623 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2623 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B2E RID: 2862
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2627 = new(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2627 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B2F RID: 2863
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2631 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2631 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B30 RID: 2864
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2695 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2695 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B31 RID: 2865
-		public static readonly BitSet FOLLOW_IMULTIPLY_in_mult_expression2718 = new(new ulong[]
+		public static readonly BitSet FOLLOW_IMULTIPLY_in_mult_expression2718 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B32 RID: 2866
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2720 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2720 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B33 RID: 2867
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2724 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2724 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B34 RID: 2868
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2728 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2728 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B35 RID: 2869
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2732 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2732 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B36 RID: 2870
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2736 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2736 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B37 RID: 2871
-		public static readonly BitSet FOLLOW_FMULTIPLY_in_mult_expression2801 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FMULTIPLY_in_mult_expression2801 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B38 RID: 2872
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2803 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2803 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B39 RID: 2873
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2807 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2807 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B3A RID: 2874
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2811 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2811 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B3B RID: 2875
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2815 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2815 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B3C RID: 2876
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2819 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2819 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B3D RID: 2877
-		public static readonly BitSet FOLLOW_IDIVIDE_in_mult_expression2884 = new(new ulong[]
+		public static readonly BitSet FOLLOW_IDIVIDE_in_mult_expression2884 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B3E RID: 2878
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2886 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2886 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B3F RID: 2879
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2890 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2890 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B40 RID: 2880
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2894 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2894 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B41 RID: 2881
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2898 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2898 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B42 RID: 2882
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2902 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2902 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B43 RID: 2883
-		public static readonly BitSet FOLLOW_FDIVIDE_in_mult_expression2967 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FDIVIDE_in_mult_expression2967 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B44 RID: 2884
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2969 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2969 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B45 RID: 2885
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2973 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2973 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B46 RID: 2886
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2977 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2977 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B47 RID: 2887
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2981 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2981 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B48 RID: 2888
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2985 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2985 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B49 RID: 2889
-		public static readonly BitSet FOLLOW_MOD_in_mult_expression3050 = new(new ulong[]
+		public static readonly BitSet FOLLOW_MOD_in_mult_expression3050 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B4A RID: 2890
-		public static readonly BitSet FOLLOW_ID_in_mult_expression3052 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression3052 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B4B RID: 2891
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression3056 = new(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression3056 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B4C RID: 2892
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3060 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3060 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B4D RID: 2893
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3114 = new(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3114 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B4E RID: 2894
-		public static readonly BitSet FOLLOW_INEGATE_in_unary_expression3137 = new(new ulong[]
+		public static readonly BitSet FOLLOW_INEGATE_in_unary_expression3137 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B4F RID: 2895
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3139 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3139 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B50 RID: 2896
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3141 = new(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3141 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B51 RID: 2897
-		public static readonly BitSet FOLLOW_FNEGATE_in_unary_expression3186 = new(new ulong[]
+		public static readonly BitSet FOLLOW_FNEGATE_in_unary_expression3186 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B52 RID: 2898
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3188 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3188 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B53 RID: 2899
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3190 = new(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3190 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B54 RID: 2900
-		public static readonly BitSet FOLLOW_NOT_in_unary_expression3235 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NOT_in_unary_expression3235 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B55 RID: 2901
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3237 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3237 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B56 RID: 2902
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3239 = new(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3239 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B57 RID: 2903
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3283 = new(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3283 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B58 RID: 2904
-		public static readonly BitSet FOLLOW_AS_in_cast_atom3306 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_cast_atom3306 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B59 RID: 2905
-		public static readonly BitSet FOLLOW_ID_in_cast_atom3308 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_cast_atom3308 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B5A RID: 2906
-		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3310 = new(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3310 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B5B RID: 2907
-		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3349 = new(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3349 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B5C RID: 2908
-		public static readonly BitSet FOLLOW_DOT_in_dot_atom3372 = new(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_dot_atom3372 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B5D RID: 2909
-		public static readonly BitSet FOLLOW_dot_atom_in_dot_atom3376 = new(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_dot_atom3376 = new(new[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B5E RID: 2910
-		public static readonly BitSet FOLLOW_array_func_or_id_in_dot_atom3380 = new(new ulong[]
+		public static readonly BitSet FOLLOW_array_func_or_id_in_dot_atom3380 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B5F RID: 2911
-		public static readonly BitSet FOLLOW_array_atom_in_dot_atom3409 = new(new ulong[]
+		public static readonly BitSet FOLLOW_array_atom_in_dot_atom3409 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B60 RID: 2912
-		public static readonly BitSet FOLLOW_constant_in_dot_atom3420 = new(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_dot_atom3420 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B61 RID: 2913
-		public static readonly BitSet FOLLOW_ARRAYGET_in_array_atom3447 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYGET_in_array_atom3447 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B62 RID: 2914
-		public static readonly BitSet FOLLOW_ID_in_array_atom3451 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_atom3451 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B63 RID: 2915
-		public static readonly BitSet FOLLOW_ID_in_array_atom3455 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_atom3455 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B64 RID: 2916
-		public static readonly BitSet FOLLOW_autoCast_in_array_atom3457 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_array_atom3457 = new(new[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B65 RID: 2917
-		public static readonly BitSet FOLLOW_atom_in_array_atom3459 = new(new ulong[]
+		public static readonly BitSet FOLLOW_atom_in_array_atom3459 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B66 RID: 2918
-		public static readonly BitSet FOLLOW_expression_in_array_atom3461 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_array_atom3461 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B67 RID: 2919
-		public static readonly BitSet FOLLOW_atom_in_array_atom3515 = new(new ulong[]
+		public static readonly BitSet FOLLOW_atom_in_array_atom3515 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B68 RID: 2920
-		public static readonly BitSet FOLLOW_PAREXPR_in_atom3538 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_atom3538 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B69 RID: 2921
-		public static readonly BitSet FOLLOW_expression_in_atom3540 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_atom3540 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B6A RID: 2922
-		public static readonly BitSet FOLLOW_NEW_in_atom3553 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NEW_in_atom3553 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B6B RID: 2923
-		public static readonly BitSet FOLLOW_INTEGER_in_atom3555 = new(new ulong[]
+		public static readonly BitSet FOLLOW_INTEGER_in_atom3555 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B6C RID: 2924
-		public static readonly BitSet FOLLOW_ID_in_atom3559 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_atom3559 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B6D RID: 2925
-		public static readonly BitSet FOLLOW_func_or_id_in_atom3593 = new(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_atom3593 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B6E RID: 2926
-		public static readonly BitSet FOLLOW_ARRAYGET_in_array_func_or_id3620 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYGET_in_array_func_or_id3620 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B6F RID: 2927
-		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3624 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3624 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B70 RID: 2928
-		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3628 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3628 = new(new[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B71 RID: 2929
-		public static readonly BitSet FOLLOW_autoCast_in_array_func_or_id3630 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_array_func_or_id3630 = new(new[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B72 RID: 2930
-		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3632 = new(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3632 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B73 RID: 2931
-		public static readonly BitSet FOLLOW_expression_in_array_func_or_id3634 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_array_func_or_id3634 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B74 RID: 2932
-		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3688 = new(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3688 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B75 RID: 2933
-		public static readonly BitSet FOLLOW_function_call_in_func_or_id3714 = new(new ulong[]
+		public static readonly BitSet FOLLOW_function_call_in_func_or_id3714 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B76 RID: 2934
-		public static readonly BitSet FOLLOW_PROPGET_in_func_or_id3726 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PROPGET_in_func_or_id3726 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B77 RID: 2935
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3730 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3730 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B78 RID: 2936
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3734 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3734 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B79 RID: 2937
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3738 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3738 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B7A RID: 2938
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3777 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3777 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B7B RID: 2939
-		public static readonly BitSet FOLLOW_LENGTH_in_func_or_id3789 = new(new ulong[]
+		public static readonly BitSet FOLLOW_LENGTH_in_func_or_id3789 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B7C RID: 2940
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3793 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3793 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B7D RID: 2941
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3797 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3797 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B7E RID: 2942
-		public static readonly BitSet FOLLOW_PROPSET_in_property_set3843 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PROPSET_in_property_set3843 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B7F RID: 2943
-		public static readonly BitSet FOLLOW_ID_in_property_set3847 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3847 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B80 RID: 2944
-		public static readonly BitSet FOLLOW_ID_in_property_set3851 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3851 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B81 RID: 2945
-		public static readonly BitSet FOLLOW_ID_in_property_set3855 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3855 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B82 RID: 2946
-		public static readonly BitSet FOLLOW_RETURN_in_return_stat3903 = new(new ulong[]
+		public static readonly BitSet FOLLOW_RETURN_in_return_stat3903 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B83 RID: 2947
-		public static readonly BitSet FOLLOW_autoCast_in_return_stat3905 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_return_stat3905 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B84 RID: 2948
-		public static readonly BitSet FOLLOW_expression_in_return_stat3907 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_return_stat3907 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B85 RID: 2949
-		public static readonly BitSet FOLLOW_RETURN_in_return_stat3940 = new(new ulong[]
+		public static readonly BitSet FOLLOW_RETURN_in_return_stat3940 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B86 RID: 2950
-		public static readonly BitSet FOLLOW_IF_in_ifBlock3984 = new(new ulong[]
+		public static readonly BitSet FOLLOW_IF_in_ifBlock3984 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B87 RID: 2951
-		public static readonly BitSet FOLLOW_expression_in_ifBlock3986 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_ifBlock3986 = new(new[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B88 RID: 2952
-		public static readonly BitSet FOLLOW_codeBlock_in_ifBlock3988 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_ifBlock3988 = new(new[]
 		{
 			8UL,
 			12582912UL
 		});
 
 		// Token: 0x04000B89 RID: 2953
-		public static readonly BitSet FOLLOW_elseIfBlock_in_ifBlock3994 = new(new ulong[]
+		public static readonly BitSet FOLLOW_elseIfBlock_in_ifBlock3994 = new(new[]
 		{
 			8UL,
 			12582912UL
 		});
 
 		// Token: 0x04000B8A RID: 2954
-		public static readonly BitSet FOLLOW_elseBlock_in_ifBlock3998 = new(new ulong[]
+		public static readonly BitSet FOLLOW_elseBlock_in_ifBlock3998 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B8B RID: 2955
-		public static readonly BitSet FOLLOW_ELSEIF_in_elseIfBlock4072 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ELSEIF_in_elseIfBlock4072 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B8C RID: 2956
-		public static readonly BitSet FOLLOW_expression_in_elseIfBlock4074 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_elseIfBlock4074 = new(new[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B8D RID: 2957
-		public static readonly BitSet FOLLOW_codeBlock_in_elseIfBlock4076 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_elseIfBlock4076 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B8E RID: 2958
-		public static readonly BitSet FOLLOW_ELSE_in_elseBlock4140 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ELSE_in_elseBlock4140 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B8F RID: 2959
-		public static readonly BitSet FOLLOW_codeBlock_in_elseBlock4142 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_elseBlock4142 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B90 RID: 2960
-		public static readonly BitSet FOLLOW_WHILE_in_whileBlock4183 = new(new ulong[]
+		public static readonly BitSet FOLLOW_WHILE_in_whileBlock4183 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B91 RID: 2961
-		public static readonly BitSet FOLLOW_expression_in_whileBlock4185 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_whileBlock4185 = new(new[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B92 RID: 2962
-		public static readonly BitSet FOLLOW_codeBlock_in_whileBlock4187 = new(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_whileBlock4187 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B93 RID: 2963
-		public static readonly BitSet FOLLOW_CALL_in_function_call4252 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALL_in_function_call4252 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B94 RID: 2964
-		public static readonly BitSet FOLLOW_ID_in_function_call4256 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4256 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B95 RID: 2965
-		public static readonly BitSet FOLLOW_ID_in_function_call4260 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4260 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B96 RID: 2966
-		public static readonly BitSet FOLLOW_ID_in_function_call4264 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4264 = new(new[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000B97 RID: 2967
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4267 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4267 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B98 RID: 2968
-		public static readonly BitSet FOLLOW_parameters_in_function_call4269 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4269 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B99 RID: 2969
-		public static readonly BitSet FOLLOW_CALLPARENT_in_function_call4355 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARENT_in_function_call4355 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B9A RID: 2970
-		public static readonly BitSet FOLLOW_ID_in_function_call4359 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4359 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B9B RID: 2971
-		public static readonly BitSet FOLLOW_ID_in_function_call4363 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4363 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B9C RID: 2972
-		public static readonly BitSet FOLLOW_ID_in_function_call4367 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4367 = new(new[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000B9D RID: 2973
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4370 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4370 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B9E RID: 2974
-		public static readonly BitSet FOLLOW_parameters_in_function_call4372 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4372 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B9F RID: 2975
-		public static readonly BitSet FOLLOW_CALLGLOBAL_in_function_call4448 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLGLOBAL_in_function_call4448 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA0 RID: 2976
-		public static readonly BitSet FOLLOW_ID_in_function_call4452 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4452 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA1 RID: 2977
-		public static readonly BitSet FOLLOW_ID_in_function_call4456 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4456 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA2 RID: 2978
-		public static readonly BitSet FOLLOW_ID_in_function_call4460 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4460 = new(new[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BA3 RID: 2979
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4463 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4463 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA4 RID: 2980
-		public static readonly BitSet FOLLOW_parameters_in_function_call4465 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4465 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BA5 RID: 2981
-		public static readonly BitSet FOLLOW_ARRAYFIND_in_function_call4551 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYFIND_in_function_call4551 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA6 RID: 2982
-		public static readonly BitSet FOLLOW_ID_in_function_call4555 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4555 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA7 RID: 2983
-		public static readonly BitSet FOLLOW_ID_in_function_call4559 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4559 = new(new[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BA8 RID: 2984
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4562 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4562 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA9 RID: 2985
-		public static readonly BitSet FOLLOW_parameters_in_function_call4564 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4564 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BAA RID: 2986
-		public static readonly BitSet FOLLOW_ARRAYRFIND_in_function_call4640 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYRFIND_in_function_call4640 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BAB RID: 2987
-		public static readonly BitSet FOLLOW_ID_in_function_call4644 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4644 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BAC RID: 2988
-		public static readonly BitSet FOLLOW_ID_in_function_call4648 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4648 = new(new[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BAD RID: 2989
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4651 = new(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4651 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BAE RID: 2990
-		public static readonly BitSet FOLLOW_parameters_in_function_call4653 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4653 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BAF RID: 2991
-		public static readonly BitSet FOLLOW_parameter_in_parameters4751 = new(new ulong[]
+		public static readonly BitSet FOLLOW_parameter_in_parameters4751 = new(new[]
 		{
 			514UL
 		});
 
 		// Token: 0x04000BB0 RID: 2992
-		public static readonly BitSet FOLLOW_PARAM_in_parameter4793 = new(new ulong[]
+		public static readonly BitSet FOLLOW_PARAM_in_parameter4793 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB1 RID: 2993
-		public static readonly BitSet FOLLOW_autoCast_in_parameter4795 = new(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_parameter4795 = new(new[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000BB2 RID: 2994
-		public static readonly BitSet FOLLOW_expression_in_parameter4797 = new(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_parameter4797 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB3 RID: 2995
-		public static readonly BitSet FOLLOW_AS_in_autoCast4825 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_autoCast4825 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB4 RID: 2996
-		public static readonly BitSet FOLLOW_ID_in_autoCast4829 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4829 = new(new[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BB5 RID: 2997
-		public static readonly BitSet FOLLOW_ID_in_autoCast4833 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4833 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB6 RID: 2998
-		public static readonly BitSet FOLLOW_AS_in_autoCast4868 = new(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_autoCast4868 = new(new[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB7 RID: 2999
-		public static readonly BitSet FOLLOW_ID_in_autoCast4870 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4870 = new(new[]
 		{
 			0UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000BB8 RID: 3000
-		public static readonly BitSet FOLLOW_constant_in_autoCast4872 = new(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_autoCast4872 = new(new[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB9 RID: 3001
-		public static readonly BitSet FOLLOW_ID_in_autoCast4906 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4906 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBA RID: 3002
-		public static readonly BitSet FOLLOW_constant_in_autoCast4917 = new(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_autoCast4917 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBB RID: 3003
-		public static readonly BitSet FOLLOW_number_in_constant4935 = new(new ulong[]
+		public static readonly BitSet FOLLOW_number_in_constant4935 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBC RID: 3004
-		public static readonly BitSet FOLLOW_STRING_in_constant4941 = new(new ulong[]
+		public static readonly BitSet FOLLOW_STRING_in_constant4941 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBD RID: 3005
-		public static readonly BitSet FOLLOW_BOOL_in_constant4947 = new(new ulong[]
+		public static readonly BitSet FOLLOW_BOOL_in_constant4947 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBE RID: 3006
-		public static readonly BitSet FOLLOW_NONE_in_constant4953 = new(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_constant4953 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBF RID: 3007
-		public static readonly BitSet FOLLOW_set_in_number4964 = new(new ulong[]
+		public static readonly BitSet FOLLOW_set_in_number4964 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC0 RID: 3008
-		public static readonly BitSet FOLLOW_ID_in_type4985 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_type4985 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC1 RID: 3009
-		public static readonly BitSet FOLLOW_ID_in_type4996 = new(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_type4996 = new(new[]
 		{
 			9223372036854775808UL
 		});
 
 		// Token: 0x04000BC2 RID: 3010
-		public static readonly BitSet FOLLOW_LBRACKET_in_type4998 = new(new ulong[]
+		public static readonly BitSet FOLLOW_LBRACKET_in_type4998 = new(new[]
 		{
 			0UL,
 			1UL
 		});
 
 		// Token: 0x04000BC3 RID: 3011
-		public static readonly BitSet FOLLOW_RBRACKET_in_type5000 = new(new ulong[]
+		public static readonly BitSet FOLLOW_RBRACKET_in_type5000 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC4 RID: 3012
-		public static readonly BitSet FOLLOW_BASETYPE_in_type5011 = new(new ulong[]
+		public static readonly BitSet FOLLOW_BASETYPE_in_type5011 = new(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC5 RID: 3013
-		public static readonly BitSet FOLLOW_BASETYPE_in_type5022 = new(new ulong[]
+		public static readonly BitSet FOLLOW_BASETYPE_in_type5022 = new(new[]
 		{
 			9223372036854775808UL
 		});
 
 		// Token: 0x04000BC6 RID: 3014
-		public static readonly BitSet FOLLOW_LBRACKET_in_type5024 = new(new ulong[]
+		public static readonly BitSet FOLLOW_LBRACKET_in_type5024 = new(new[]
 		{
 			0UL,
 			1UL
 		});
 
 		// Token: 0x04000BC7 RID: 3015
-		public static readonly BitSet FOLLOW_RBRACKET_in_type5026 = new(new ulong[]
+		public static readonly BitSet FOLLOW_RBRACKET_in_type5026 = new(new[]
 		{
 			2UL
 		});
@@ -7182,7 +7175,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001D7 RID: 471
-		protected class propertyBlock_scope
+		protected record propertyBlock_scope
 		{
 			// Token: 0x04000C04 RID: 3076
 			protected internal string spropName;
@@ -7425,7 +7418,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001E2 RID: 482
-		protected class basic_l_value_scope
+		protected record basic_l_value_scope
 		{
 			// Token: 0x04000C1A RID: 3098
 			protected internal string ssourceName;
