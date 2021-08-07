@@ -1,7 +1,7 @@
 ﻿namespace pcomps.Antlr.StringTemplate.Language
 {
 	// Token: 0x02000233 RID: 563
-	public class ActionEvaluatorTokenTypes
+	public record ActionEvaluatorTokenTypes
 	{
 		// Token: 0x04000D47 RID: 3399
 		public const int EOF = 1;

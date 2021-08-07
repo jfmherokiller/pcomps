@@ -363,7 +363,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			for (var i = 0; i < nodes.Count; i++)
 			{
 				var t = nodes[i];
-				stringBuilder.Append(" ");
+				stringBuilder.Append(' ');
 				stringBuilder.Append(adaptor.GetNodeType(t));
 			}
 			return stringBuilder.ToString();
@@ -381,7 +381,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			while (num < nodes.Count && num <= stop)
 			{
 				var treeNode = nodes[num];
-				stringBuilder.Append(" ");
+				stringBuilder.Append(' ');
 				stringBuilder.Append(adaptor.GetToken(treeNode));
 				num++;
 			}

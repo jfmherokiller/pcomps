@@ -233,8 +233,8 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x06000850 RID: 2128 RVA: 0x00017818 File Offset: 0x00015A18
-		public bool Equals(object t1, object t2)
-		{
+		public new bool Equals(object t1, object t2)
+        {
 			return _Equals(t1, t2, adaptor);
 		}
 
@@ -285,7 +285,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C6 RID: 198
-		public abstract class Visitor : ContextVisitor
+		public abstract record Visitor : ContextVisitor
 		{
 			// Token: 0x06000854 RID: 2132 RVA: 0x000178CC File Offset: 0x00015ACC
 			public void Visit(object t, object parent, int childIndex, IDictionary labels)
@@ -298,7 +298,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C7 RID: 199
-		private sealed class RecordAllElementsVisitor : Visitor
+		private sealed record RecordAllElementsVisitor : Visitor
 		{
 			// Token: 0x06000856 RID: 2134 RVA: 0x000178D8 File Offset: 0x00015AD8
 			public RecordAllElementsVisitor(IList list)
@@ -317,7 +317,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C8 RID: 200
-		private sealed class PatternMatchingContextVisitor : ContextVisitor
+		private sealed record PatternMatchingContextVisitor : ContextVisitor
 		{
 			// Token: 0x06000858 RID: 2136 RVA: 0x000178F8 File Offset: 0x00015AF8
 			public PatternMatchingContextVisitor(TreeWizard owner, TreePattern pattern, IList list)
@@ -347,7 +347,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		}
 
 		// Token: 0x020000C9 RID: 201
-		private sealed class InvokeVisitorOnPatternMatchContextVisitor : ContextVisitor
+		private sealed record InvokeVisitorOnPatternMatchContextVisitor : ContextVisitor
 		{
 			// Token: 0x0600085A RID: 2138 RVA: 0x00017940 File Offset: 0x00015B40
 			public InvokeVisitorOnPatternMatchContextVisitor(TreeWizard owner, TreePattern pattern, ContextVisitor visitor)
@@ -377,7 +377,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			private ContextVisitor visitor;
 
 			// Token: 0x04000225 RID: 549
-			private Hashtable labels = new Hashtable();
+			private Hashtable labels = new();
 		}
 
 		// Token: 0x020000CA RID: 202
@@ -390,13 +390,9 @@ namespace pcomps.Antlr.Runtime.Tree
 
 			// Token: 0x0600085D RID: 2141 RVA: 0x000179CC File Offset: 0x00015BCC
 			public override string ToString()
-			{
-				if (label != null)
-				{
-					return $"%{label}:{base.ToString()}";
-				}
-				return base.ToString();
-			}
+            {
+                return label != null ? $"%{label}:{base.ToString()}" : base.ToString();
+            }
 
 			// Token: 0x04000226 RID: 550
 			public string label;

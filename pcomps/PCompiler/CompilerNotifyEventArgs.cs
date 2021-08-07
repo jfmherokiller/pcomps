@@ -1,7 +1,7 @@
 ﻿namespace pcomps.PCompiler
 {
 	// Token: 0x020001BC RID: 444
-	public class CompilerNotifyEventArgs
+	public record CompilerNotifyEventArgs
 	{
 		// Token: 0x06000D28 RID: 3368 RVA: 0x0005CB9C File Offset: 0x0005AD9C
 		public CompilerNotifyEventArgs(string asMessage)

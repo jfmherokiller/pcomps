@@ -107,7 +107,7 @@ namespace pcomps.Antlr
 					var array = bset.toArray();
 					foreach (var t in array)
                     {
-                        stringBuilder.Append(" ");
+                        stringBuilder.Append(' ');
                         stringBuilder.Append(tokenName(t));
                     }
 					stringBuilder.Append($"), found '{tokenText}'");

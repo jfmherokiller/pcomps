@@ -13,7 +13,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			var stringBuilder = new StringBuilder();
 			if (coll != null)
 			{
-				stringBuilder.Append("[");
+				stringBuilder.Append('[');
 				for (var i = 0; i < coll.Count; i++)
 				{
 					if (i > 0)
@@ -38,7 +38,7 @@ namespace pcomps.Antlr.Runtime.Collections
 						stringBuilder.Append(obj);
 					}
 				}
-				stringBuilder.Append("]");
+				stringBuilder.Append(']');
 			}
 			else
 			{

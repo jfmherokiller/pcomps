@@ -51,16 +51,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x06000540 RID: 1344 RVA: 0x0000FB50 File Offset: 0x0000DD50
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"MismatchedNotSetException(",
-				UnexpectedType,
-				" not in [",
-				a,
-				",",
-				b,
-				"])"
-			});
+			return string.Concat("MismatchedNotSetException(", UnexpectedType, " not in [", a, ",", b, "])");
 		}
 
 		// Token: 0x0400016B RID: 363

@@ -15,15 +15,7 @@ namespace pcomps.Antlr.StringTemplate.Language
                     $"template parse error; template context is {self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
-			self.Error(string.Concat(new object[]
-			{
-				"template parse error in group ",
-				self.Group.Name,
-				" line ",
-				self.GroupFileLine,
-				"; template context is ",
-				self.GetEnclosingInstanceStackString()
-			}), e);
+			self.Error(string.Concat("template parse error in group ", self.Group.Name, " line ", self.GroupFileLine, "; template context is ", self.GetEnclosingInstanceStackString()), e);
 		}
 
 		// Token: 0x060011DD RID: 4573 RVA: 0x000826DC File Offset: 0x000808DC

@@ -7,18 +7,12 @@ using pcomps.PCompiler;
 namespace pcomps.PapyrusCompiler
 {
 	// Token: 0x02000004 RID: 4
-	internal class Program
+	internal static class Program
 	{
 		// Token: 0x06000014 RID: 20 RVA: 0x00002628 File Offset: 0x00000828
 		private static void CompilerErrorHandler(object kSender, CompilerErrorEventArgs kArgs)
 		{
-			var value = string.Format("{0}({1},{2}): {3}\n", new object[]
-			{
-				kArgs.Filename,
-				kArgs.LineNumber,
-				kArgs.ColumnNumber,
-				kArgs.Message
-			});
+			var value = $"{kArgs.Filename}({kArgs.LineNumber},{kArgs.ColumnNumber}): {kArgs.Message}\n";
 			Console.Error.Write(value);
 		}
 
@@ -36,7 +30,7 @@ namespace pcomps.PapyrusCompiler
 			compiler.CompilerNotifyHandler += CompilerNotifyHandler;
 			compiler.bDebug = kArgs.Debug;
 			compiler.OutputFolder = kArgs.OutputFolder;
-			compiler.ImportFolders = new List<string>(kArgs.ImportFolders.Split(new char[]
+			compiler.ImportFolders = new List<string>(kArgs.ImportFolders.Split(new[]
 			{
 				';'
 			}));
@@ -90,72 +84,71 @@ namespace pcomps.PapyrusCompiler
 		private static void Main(string[] args)
 		{
 			kArgs = new CommandLineArgs(args);
-			if (kArgs.Valid)
-			{
-				var flag = false;
-				if (kArgs.All)
-				{
-					var directoryInfo = new DirectoryInfo(kArgs.ObjectName);
-					if (directoryInfo.Exists)
-					{
-						var files = directoryInfo.GetFiles("*.psc");
-						if (files.Length > 0)
-						{
-							FilenamesA = new string[files.Length];
-							for (var i = 0; i < files.Length; i++)
-							{
-								FilenamesA[i] = files[i].ToString();
-							}
-						}
-						else
-						{
-							Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not contain any script files");
-							flag = true;
-						}
-					}
-					else
-					{
-						Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not exist");
-						flag = true;
-					}
-				}
-				else
-				{
-					FilenamesA = new string[1];
-					FilenamesA[0] = kArgs.ObjectName;
-				}
-				if (FilenamesA != null && FilenamesA.Length > 0)
-				{
-					var num = Math.Min(FilenamesA.Length, Environment.ProcessorCount + 1);
-					if (!kArgs.Quiet)
-					{
-						Console.Write("Starting {0} compile threads for {1} files...\n", num, FilenamesA.Length);
-					}
-					var array = new Thread[num];
-					for (var j = 0; j < num; j++)
-					{
-						array[j] = new Thread(new ThreadStart(CompilerThread));
-						array[j].Start();
-					}
-					foreach (var thread in array)
-					{
-						thread.Join();
-					}
-					if (!kArgs.Quiet)
-					{
-						Console.Write("\nBatch compile of {0} files finished. {1} succeeded, {2} failed.\n", FilenamesA.Length, iCompilesSucceeded, FilenamesA.Length - iCompilesSucceeded);
-						for (var l = 0; l < FailedCompiles.Count; l++)
-						{
-							Console.WriteLine("Failed on {0}", FailedCompiles[l]);
-						}
-					}
-				}
-				if (flag || FailedCompiles.Count > 0)
-				{
-					Environment.ExitCode = -1;
-				}
-			}
-		}
+            if (!kArgs.Valid) return;
+            var flag = false;
+            if (kArgs.All)
+            {
+                var directoryInfo = new DirectoryInfo(kArgs.ObjectName);
+                if (directoryInfo.Exists)
+                {
+                    var files = directoryInfo.GetFiles("*.psc");
+                    if (files.Length > 0)
+                    {
+                        FilenamesA = new string[files.Length];
+                        for (var i = 0; i < files.Length; i++)
+                        {
+                            FilenamesA[i] = files[i].ToString();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not contain any script files");
+                        flag = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Folder \"{directoryInfo.FullName}\" does not exist");
+                    flag = true;
+                }
+            }
+            else
+            {
+                FilenamesA = new string[1];
+                FilenamesA[0] = kArgs.ObjectName;
+            }
+            if (FilenamesA is { Length: > 0 })
+            {
+                var num = Math.Min(FilenamesA.Length, Environment.ProcessorCount + 1);
+                if (!kArgs.Quiet)
+                {
+                    Console.Write($"Starting {num} compile threads for {FilenamesA.Length} files...\n");
+                }
+                var array = new Thread[num];
+                for (var j = 0; j < num; j++)
+                {
+                    array[j] = new Thread(CompilerThread);
+                    array[j].Start();
+                }
+                foreach (var thread in array)
+                {
+                    thread.Join();
+                }
+                if (!kArgs.Quiet)
+                {
+                    Console.Write(
+                        $"\nBatch compile of {FilenamesA.Length} files finished. {iCompilesSucceeded} succeeded, {FilenamesA.Length - iCompilesSucceeded} failed.\n");
+                    foreach (var t in FailedCompiles)
+                    {
+                        Console.WriteLine($"Failed on {t}");
+                    }
+                }
+            }
+            if (flag || FailedCompiles.Count > 0)
+            {
+                Environment.ExitCode = -1;
+            }
+        }
 
 		// Token: 0x04000012 RID: 18
 		private static CommandLineArgs kArgs = null;
@@ -170,9 +163,9 @@ namespace pcomps.PapyrusCompiler
 		private static int iCompilesSucceeded = 0;
 
 		// Token: 0x04000016 RID: 22
-		private static Mutex FailureMutex = new Mutex();
+		private static Mutex FailureMutex = new();
 
 		// Token: 0x04000017 RID: 23
-		private static List<string> FailedCompiles = new List<string>();
+		private static List<string> FailedCompiles = new();
 	}
 }

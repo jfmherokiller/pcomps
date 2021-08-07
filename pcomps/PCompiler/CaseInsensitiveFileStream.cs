@@ -4,7 +4,7 @@ using pcomps.Antlr.Runtime;
 namespace pcomps.PCompiler
 {
 	// Token: 0x02000134 RID: 308
-	internal class CaseInsensitiveFileStream : ICharStream, IIntStream
+	internal class CaseInsensitiveFileStream : ICharStream
 	{
 		// Token: 0x06000ABF RID: 2751 RVA: 0x00032500 File Offset: 0x00030700
 		public CaseInsensitiveFileStream(string asFileName)
@@ -29,15 +29,9 @@ namespace pcomps.PCompiler
 		// (set) Token: 0x06000AC2 RID: 2754 RVA: 0x0003259C File Offset: 0x0003079C
 		public int CharPositionInLine
 		{
-			get
-			{
-				return kStringStream.CharPositionInLine;
-			}
-			set
-			{
-				kStringStream.CharPositionInLine = value;
-			}
-		}
+			get => kStringStream.CharPositionInLine;
+            set => kStringStream.CharPositionInLine = value;
+        }
 
 		// Token: 0x06000AC3 RID: 2755 RVA: 0x000325AC File Offset: 0x000307AC
 		public int LT(int i)
@@ -50,15 +44,9 @@ namespace pcomps.PCompiler
 		// (set) Token: 0x06000AC5 RID: 2757 RVA: 0x000325CC File Offset: 0x000307CC
 		public int Line
 		{
-			get
-			{
-				return kStringStream.Line;
-			}
-			set
-			{
-				kStringStream.Line = value;
-			}
-		}
+			get => kStringStream.Line;
+            set => kStringStream.Line = value;
+        }
 
 		// Token: 0x06000AC6 RID: 2758 RVA: 0x000325DC File Offset: 0x000307DC
 		public string Substring(int start, int stop)
@@ -74,15 +62,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x17000132 RID: 306
 		// (get) Token: 0x06000AC8 RID: 2760 RVA: 0x000325FC File Offset: 0x000307FC
-		public int Count
-		{
-			get
-			{
-				return kStringStream.Count;
-			}
-		}
+		public int Count => kStringStream.Count;
 
-		// Token: 0x06000AC9 RID: 2761 RVA: 0x0003260C File Offset: 0x0003080C
+        // Token: 0x06000AC9 RID: 2761 RVA: 0x0003260C File Offset: 0x0003080C
 		public int Index()
 		{
 			return kStringStream.Index();
@@ -92,12 +74,8 @@ namespace pcomps.PCompiler
 		public int LA(int iOffset)
 		{
 			var num = kStringStream.LA(iOffset);
-			if (num == -1)
-			{
-				return num;
-			}
-			return (int)char.ToLowerInvariant((char)num);
-		}
+			return num == -1 ? num : char.ToLowerInvariant((char)num);
+        }
 
 		// Token: 0x06000ACB RID: 2763 RVA: 0x00032644 File Offset: 0x00030844
 		public int Mark()
@@ -130,22 +108,13 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x06000AD0 RID: 2768 RVA: 0x00032694 File Offset: 0x00030894
-		public int Size()
-		{
-			return kStringStream.Count;
-		}
+		public int Size() => kStringStream.Count;
 
-		// Token: 0x17000133 RID: 307
+        // Token: 0x17000133 RID: 307
 		// (get) Token: 0x06000AD1 RID: 2769 RVA: 0x000326A4 File Offset: 0x000308A4
-		public string SourceName
-		{
-			get
-			{
-				return kStringStream.SourceName;
-			}
-		}
+		public string SourceName => kStringStream.SourceName;
 
-		// Token: 0x040004FF RID: 1279
+        // Token: 0x040004FF RID: 1279
 		private ANTLRStringStream kStringStream;
 	}
 }

@@ -3,7 +3,7 @@
 namespace pcomps.Antlr.StringTemplate.Utils
 {
 	// Token: 0x02000253 RID: 595
-	public class DateTimeFormatter
+	public record DateTimeFormatter
 	{
 		// Token: 0x060011EA RID: 4586 RVA: 0x00082CDC File Offset: 0x00080EDC
 		protected DateTimeFormatter()

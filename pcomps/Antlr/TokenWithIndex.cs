@@ -28,20 +28,7 @@
 		// Token: 0x060002BE RID: 702 RVA: 0x000090E8 File Offset: 0x000072E8
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"[",
-				index,
-				":\"",
-				getText(),
-				"\",<",
-				Type,
-				">,line=",
-				line,
-				",col=",
-				col,
-				"]\n"
-			});
+			return string.Concat("[", index, ":\"", getText(), "\",<", Type, ">,line=", line, ",col=", col, "]\n");
 		}
 
 		// Token: 0x040000D5 RID: 213

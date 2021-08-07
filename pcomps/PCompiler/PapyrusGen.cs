@@ -29,37 +29,19 @@ namespace pcomps.PCompiler
 		// (set) Token: 0x06000D71 RID: 3441 RVA: 0x0005E19C File Offset: 0x0005C39C
 		public StringTemplateGroup TemplateLib
 		{
-			get
-			{
-				return templateLib;
-			}
-			set
-			{
-				templateLib = value;
-			}
-		}
+			get => templateLib;
+            set => templateLib = value;
+        }
 
 		// Token: 0x170001B6 RID: 438
 		// (get) Token: 0x06000D72 RID: 3442 RVA: 0x0005E1A8 File Offset: 0x0005C3A8
-		public override string[] TokenNames
-		{
-			get
-			{
-				return tokenNames;
-			}
-		}
+		public override string[] TokenNames => tokenNames;
 
-		// Token: 0x170001B7 RID: 439
+        // Token: 0x170001B7 RID: 439
 		// (get) Token: 0x06000D73 RID: 3443 RVA: 0x0005E1B0 File Offset: 0x0005C3B0
-		public override string GrammarFileName
-		{
-			get
-			{
-				return "PapyrusGen.g";
-			}
-		}
+		public override string GrammarFileName => "PapyrusGen.g";
 
-		// Token: 0x1400003C RID: 60
+        // Token: 0x1400003C RID: 60
 		// (add) Token: 0x06000D74 RID: 3444 RVA: 0x0005E1B8 File Offset: 0x0005C3B8
 		// (remove) Token: 0x06000D75 RID: 3445 RVA: 0x0005E1D4 File Offset: 0x0005C3D4
 		internal event InternalErrorEventHandler ErrorHandler;
@@ -110,7 +92,7 @@ namespace pcomps.PCompiler
 				{
 					int num = 2;
 					int num2 = input.LA(1);
-					if ((num2 >= 5 && num2 <= 7) || num2 == 19 || num2 == 51 || num2 == 54)
+					if (num2 is >= 5 and <= 7 or 19 or 51 or 54)
 					{
 						num = 1;
 					}
@@ -211,9 +193,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D7A RID: 3450 RVA: 0x0005E99C File Offset: 0x0005CB9C
 		public definitionOrBlock_return definitionOrBlock()
 		{
-			definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return();
-			definitionOrBlock_return.Start = input.LT(1);
-			try
+            definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return
+            {
+                Start = input.LT(1)
+            };
+            try
 			{
 				int num = input.LA(1);
 				int num2;
@@ -263,7 +247,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_fieldDefinition_in_definitionOrBlock253);
 					fieldDefinition_return fieldDefinition_return = fieldDefinition();
 					state.followingStackPointer--;
-					((script_scope)script_stack.Peek()).kobjVarDefinitions.Add((fieldDefinition_return != null) ? fieldDefinition_return.ST : null);
+					((script_scope)script_stack.Peek()).kobjVarDefinitions.Add(fieldDefinition_return?.ST);
 					break;
 				}
 				case 2:
@@ -340,7 +324,7 @@ namespace pcomps.PCompiler
 				CommonTree commonTree2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition331);
 				int num = 2;
 				int num2 = input.LA(1);
-				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
+				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
@@ -438,7 +422,7 @@ namespace pcomps.PCompiler
 				Match(input, 2, null);
 				int num = input.LA(1);
 				int num2;
-				if (num == 38 || num == 55)
+				if (num is 38 or 55)
 				{
 					num2 = 1;
 				}
@@ -481,7 +465,7 @@ namespace pcomps.PCompiler
 				{
 					int num6 = 2;
 					int num7 = input.LA(1);
-					if (num7 >= 46 && num7 <= 47)
+					if (num7 is >= 46 and <= 47)
 					{
 						num6 = 1;
 					}
@@ -545,9 +529,11 @@ namespace pcomps.PCompiler
 		// Token: 0x06000D7E RID: 3454 RVA: 0x0005F70C File Offset: 0x0005D90C
 		public functionModifier_return functionModifier()
 		{
-			functionModifier_return functionModifier_return = new functionModifier_return();
-			functionModifier_return.Start = input.LT(1);
-			try
+			functionModifier_return functionModifier_return = new functionModifier_return
+            {
+                Start = input.LT(1)
+            };
+            try
 			{
 				int num = input.LA(1);
 				int num2;
@@ -772,7 +758,7 @@ namespace pcomps.PCompiler
 				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter748);
 				int num = 2;
 				int num2 = input.LA(1);
-				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
+				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
@@ -821,7 +807,7 @@ namespace pcomps.PCompiler
 				{
 					int num4 = 2;
 					int num5 = input.LA(1);
-					if (num5 >= 6 && num5 <= 7)
+					if (num5 is >= 6 and <= 7)
 					{
 						num4 = 1;
 					}
@@ -901,7 +887,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_eventFunc_in_stateFuncOrEvent832);
 					eventFunc_return eventFunc_return = eventFunc(asStateName);
 					state.followingStackPointer--;
-					stateFuncOrEvent_return.ST = ((eventFunc_return != null) ? eventFunc_return.ST : null);
+					stateFuncOrEvent_return.ST = eventFunc_return?.ST;
 					break;
 				}
 				}
@@ -1102,7 +1088,7 @@ namespace pcomps.PCompiler
 					{
 						int num = 2;
 						int num2 = input.LA(1);
-						if (num2 == 5 || (num2 >= 11 && num2 <= 13) || (num2 == 15 || num2 == 20 || num2 == 22 || (num2 >= 24 && num2 <= 36)) || (num2 == 38 || num2 == 41 || num2 == 62 || (num2 >= 65 && num2 <= 72)) || (num2 >= 77 && num2 <= 84) || num2 == 88 || (num2 >= 90 && num2 <= 93))
+						if (num2 is 5 or >= 11 and <= 13 or 15 or 20 or 22 or >= 24 and <= 36 or 38 or 41 or 62 or >= 65 and <= 72 or >= 77 and <= 84 or 88 or >= 90 and <= 93)
 						{
 							num = 1;
 						}
@@ -1251,14 +1237,7 @@ namespace pcomps.PCompiler
 					localDefinition_return localDefinition_return = localDefinition();
 					state.followingStackPointer--;
 					((codeBlock_scope)codeBlock_stack.Peek()).kvarDefs.Add((localDefinition_return != null) ? localDefinition_return.ST : null);
-					if (((localDefinition_return != null) ? localDefinition_return.sExprVar : null) != "")
-					{
-						statement_return.ST = templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "ASSIGN").Add("target", (localDefinition_return != null) ? localDefinition_return.sVarName : null).Add("source", (localDefinition_return != null) ? localDefinition_return.sExprVar : null).Add("autoCast", (localDefinition_return != null) ? localDefinition_return.kAutoCastST : null).Add("extraExpressions", (localDefinition_return != null) ? localDefinition_return.kExprST : null).Add("lineNo", (localDefinition_return != null) ? localDefinition_return.iLineNo : 0));
-					}
-					else
-					{
-						statement_return.ST = null;
-					}
+					statement_return.ST = localDefinition_return?.sExprVar != "" ? templateLib.GetInstanceOf("singleOpCommand", new STAttrMap().Add("command", "ASSIGN").Add("target", (localDefinition_return != null) ? localDefinition_return.sVarName : null).Add("source", (localDefinition_return != null) ? localDefinition_return.sExprVar : null).Add("autoCast", (localDefinition_return != null) ? localDefinition_return.kAutoCastST : null).Add("extraExpressions", (localDefinition_return != null) ? localDefinition_return.kExprST : null).Add("lineNo", (localDefinition_return != null) ? localDefinition_return.iLineNo : 0)) : null;
 					break;
 				}
 				case 2:
@@ -1285,7 +1264,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_expression_in_statement1204);
 					expression_return expression_return2 = expression();
 					state.followingStackPointer--;
-					statement_return.ST = ((expression_return2 != null) ? expression_return2.ST : null);
+					statement_return.ST = expression_return2?.ST;
 					break;
 				}
 				case 4:
@@ -1293,7 +1272,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_return_stat_in_statement1215);
 					return_stat_return return_stat_return = return_stat();
 					state.followingStackPointer--;
-					statement_return.ST = ((return_stat_return != null) ? return_stat_return.ST : null);
+					statement_return.ST = return_stat_return?.ST;
 					break;
 				}
 				case 5:
@@ -1301,7 +1280,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_ifBlock_in_statement1226);
 					ifBlock_return ifBlock_return = ifBlock();
 					state.followingStackPointer--;
-					statement_return.ST = ((ifBlock_return != null) ? ifBlock_return.ST : null);
+					statement_return.ST = ifBlock_return?.ST;
 					break;
 				}
 				case 6:
@@ -1309,7 +1288,7 @@ namespace pcomps.PCompiler
 					PushFollow(FOLLOW_whileBlock_in_statement1237);
 					whileBlock_return whileBlock_return = whileBlock();
 					state.followingStackPointer--;
-					statement_return.ST = ((whileBlock_return != null) ? whileBlock_return.ST : null);
+					statement_return.ST = whileBlock_return?.ST;
 					break;
 				}
 				}
@@ -1343,7 +1322,7 @@ namespace pcomps.PCompiler
 				CommonTree commonTree = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition1266);
 				int num = 2;
 				int num2 = input.LA(1);
-				if (num2 == 38 || num2 == 79 || num2 == 81 || (num2 >= 90 && num2 <= 93))
+				if (num2 is 38 or 79 or 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
@@ -1595,7 +1574,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 66 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
+					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 36) && (num != 38 && num != 62 && num is < 66 or > 72) && num is < 77 or > 82 && num is < 90 or > 93)
 					{
 						NoViableAltException ex = new NoViableAltException("", 29, 0, input);
 						throw ex;
@@ -1654,7 +1633,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 67 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
+					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 36) && (num != 38 && num != 62 && num is < 67 or > 72) && num is < 77 or > 82 && num is < 90 or > 93)
 					{
 						NoViableAltException ex = new NoViableAltException("", 30, 0, input);
 						throw ex;
@@ -2541,7 +2520,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 25)) && (num != 38 && num != 62 && (num < 80 || num > 82)) && (num < 90 || num > 93))
+					if (num is < 11 or > 13 && (num != 15 && num != 20 && num != 22 && num is < 24 or > 25) && (num != 38 && num != 62 && num is < 80 or > 82) && num is < 90 or > 93)
 					{
 						NoViableAltException ex = new NoViableAltException("", 35, 0, input);
 						throw ex;
@@ -2717,7 +2696,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && (num < 24 || num > 25)) && num != 38 && num != 80 && num != 82)
+					if (num is < 11 or > 13 && (num != 15 && num != 20 && num is < 24 or > 25) && num != 38 && num != 80 && num != 82)
 					{
 						NoViableAltException ex = new NoViableAltException("", 37, 0, input);
 						throw ex;
@@ -2892,7 +2871,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 20 && (num < 24 || num > 25)) && num != 38 && num != 82)
+					if (num is < 11 or > 13 && (num != 20 && num is < 24 or > 25) && num != 38 && num != 82)
 					{
 						NoViableAltException ex = new NoViableAltException("", 39, 0, input);
 						throw ex;
@@ -3106,7 +3085,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num2 != 3 && num2 != 5 && (num2 < 11 || num2 > 13) && (num2 != 15 && num2 != 20 && num2 != 22 && (num2 < 24 || num2 > 36)) && (num2 != 38 && num2 != 41 && num2 != 62 && (num2 < 65 || num2 > 72)) && (num2 < 77 || num2 > 84) && num2 != 88 && (num2 < 90 || num2 > 93))
+					if (num2 != 3 && num2 != 5 && num2 is < 11 or > 13 && (num2 != 15 && num2 != 20 && num2 != 22 && num2 is < 24 or > 36) && (num2 != 38 && num2 != 41 && num2 != 62 && num2 is < 65 or > 72) && num2 is < 77 or > 84 && num2 != 88 && num2 is < 90 or > 93)
 					{
 						NoViableAltException ex2 = new NoViableAltException("", 41, 1, input);
 						throw ex2;
@@ -3355,7 +3334,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 49, 0, input);
+						NoViableAltException ex = new("", 49, 0, input);
 						throw ex;
 					}
 					}
@@ -3681,7 +3660,7 @@ namespace pcomps.PCompiler
 							num5 = 1;
 							goto IL_150;
 						}
-						if (num4 == 81 || (num4 >= 90 && num4 <= 93))
+						if (num4 is 81 or >= 90 and <= 93)
 						{
 							num5 = 2;
 							goto IL_150;
@@ -3949,11 +3928,8 @@ namespace pcomps.PCompiler
 		// (set) Token: 0x06000DA7 RID: 3495 RVA: 0x00068888 File Offset: 0x00066A88
 		internal Dictionary<string, PapyrusFlag> KnownUserFlags
 		{
-			set
-			{
-				kFlagDict = value;
-			}
-		}
+			set => kFlagDict = value;
+        }
 
 		// Token: 0x06000DA8 RID: 3496 RVA: 0x00068894 File Offset: 0x00066A94
 		private string MangleVariableName(string asOriginalName)
@@ -4001,15 +3977,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x170001B9 RID: 441
 		// (get) Token: 0x06000DAC RID: 3500 RVA: 0x000689EC File Offset: 0x00066BEC
-		private static DateTime UnixEpoc
-		{
-			get
-			{
-				return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-			}
-		}
+		private static DateTime UnixEpoc => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-		// Token: 0x06000DAD RID: 3501 RVA: 0x00068A00 File Offset: 0x00066C00
+        // Token: 0x06000DAD RID: 3501 RVA: 0x00068A00 File Offset: 0x00066C00
 		private static long ToUnixTime(DateTime akDateTime)
 		{
 			return Convert.ToInt64((akDateTime - UnixEpoc).TotalSeconds);
@@ -4474,64 +4444,64 @@ namespace pcomps.PCompiler
 		};
 
 		// Token: 0x04000A5A RID: 2650
-		protected StringTemplateGroup templateLib = new StringTemplateGroup("PapyrusGenTemplates", typeof(AngleBracketTemplateLexer));
+		protected StringTemplateGroup templateLib = new("PapyrusGenTemplates", typeof(AngleBracketTemplateLexer));
 
 		// Token: 0x04000A5C RID: 2652
-		protected StackList script_stack = new StackList();
+		protected StackList script_stack = new();
 
 		// Token: 0x04000A5D RID: 2653
-		protected StackList fieldDefinition_stack = new StackList();
+		protected StackList fieldDefinition_stack = new();
 
 		// Token: 0x04000A5E RID: 2654
-		protected StackList function_stack = new StackList();
+		protected StackList function_stack = new();
 
 		// Token: 0x04000A5F RID: 2655
-		protected StackList eventFunc_stack = new StackList();
+		protected StackList eventFunc_stack = new();
 
 		// Token: 0x04000A60 RID: 2656
-		protected StackList propertyBlock_stack = new StackList();
+		protected StackList propertyBlock_stack = new();
 
 		// Token: 0x04000A61 RID: 2657
-		protected StackList codeBlock_stack = new StackList();
+		protected StackList codeBlock_stack = new();
 
 		// Token: 0x04000A62 RID: 2658
-		protected StackList statement_stack = new StackList();
+		protected StackList statement_stack = new();
 
 		// Token: 0x04000A63 RID: 2659
-		protected StackList l_value_stack = new StackList();
+		protected StackList l_value_stack = new();
 
 		// Token: 0x04000A64 RID: 2660
-		protected StackList basic_l_value_stack = new StackList();
+		protected StackList basic_l_value_stack = new();
 
 		// Token: 0x04000A65 RID: 2661
-		protected StackList array_atom_stack = new StackList();
+		protected StackList array_atom_stack = new();
 
 		// Token: 0x04000A66 RID: 2662
-		protected StackList array_func_or_id_stack = new StackList();
+		protected StackList array_func_or_id_stack = new();
 
 		// Token: 0x04000A67 RID: 2663
-		protected StackList func_or_id_stack = new StackList();
+		protected StackList func_or_id_stack = new();
 
 		// Token: 0x04000A68 RID: 2664
-		protected StackList property_set_stack = new StackList();
+		protected StackList property_set_stack = new();
 
 		// Token: 0x04000A69 RID: 2665
-		protected StackList ifBlock_stack = new StackList();
+		protected StackList ifBlock_stack = new();
 
 		// Token: 0x04000A6A RID: 2666
-		protected StackList elseIfBlock_stack = new StackList();
+		protected StackList elseIfBlock_stack = new();
 
 		// Token: 0x04000A6B RID: 2667
-		protected StackList elseBlock_stack = new StackList();
+		protected StackList elseBlock_stack = new();
 
 		// Token: 0x04000A6C RID: 2668
-		protected StackList whileBlock_stack = new StackList();
+		protected StackList whileBlock_stack = new();
 
 		// Token: 0x04000A6D RID: 2669
-		protected StackList function_call_stack = new StackList();
+		protected StackList function_call_stack = new();
 
 		// Token: 0x04000A6E RID: 2670
-		protected StackList autoCast_stack = new StackList();
+		protected StackList autoCast_stack = new();
 
 		// Token: 0x04000A6F RID: 2671
 		protected DFA27 dfa27;
@@ -4588,2112 +4558,2112 @@ namespace pcomps.PCompiler
 		private static readonly short[][] DFA27_transition = DFA.UnpackEncodedStringArray(DFA27_transitionS);
 
 		// Token: 0x04000A78 RID: 2680
-		public static readonly BitSet FOLLOW_OBJECT_in_script80 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_OBJECT_in_script80 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A79 RID: 2681
-		public static readonly BitSet FOLLOW_header_in_script82 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_header_in_script82 = new(new ulong[]
 		{
 			20266198323691752UL
 		});
 
 		// Token: 0x04000A7A RID: 2682
-		public static readonly BitSet FOLLOW_definitionOrBlock_in_script84 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_definitionOrBlock_in_script84 = new(new ulong[]
 		{
 			20266198323691752UL
 		});
 
 		// Token: 0x04000A7B RID: 2683
-		public static readonly BitSet FOLLOW_ID_in_header224 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_header224 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A7C RID: 2684
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_header226 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_header226 = new(new ulong[]
 		{
 			1374389534728UL
 		});
 
 		// Token: 0x04000A7D RID: 2685
-		public static readonly BitSet FOLLOW_ID_in_header230 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_header230 = new(new ulong[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000A7E RID: 2686
-		public static readonly BitSet FOLLOW_DOCSTRING_in_header233 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_header233 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A7F RID: 2687
-		public static readonly BitSet FOLLOW_fieldDefinition_in_definitionOrBlock253 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_fieldDefinition_in_definitionOrBlock253 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A80 RID: 2688
-		public static readonly BitSet FOLLOW_function_in_definitionOrBlock264 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_definitionOrBlock264 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A81 RID: 2689
-		public static readonly BitSet FOLLOW_eventFunc_in_definitionOrBlock277 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_eventFunc_in_definitionOrBlock277 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A82 RID: 2690
-		public static readonly BitSet FOLLOW_stateBlock_in_definitionOrBlock289 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_stateBlock_in_definitionOrBlock289 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A83 RID: 2691
-		public static readonly BitSet FOLLOW_propertyBlock_in_definitionOrBlock295 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_propertyBlock_in_definitionOrBlock295 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A84 RID: 2692
-		public static readonly BitSet FOLLOW_VAR_in_fieldDefinition323 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_VAR_in_fieldDefinition323 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A85 RID: 2693
-		public static readonly BitSet FOLLOW_type_in_fieldDefinition325 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_fieldDefinition325 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A86 RID: 2694
-		public static readonly BitSet FOLLOW_ID_in_fieldDefinition329 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_fieldDefinition329 = new(new ulong[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A87 RID: 2695
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_fieldDefinition331 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_fieldDefinition331 = new(new ulong[]
 		{
 			8UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000A88 RID: 2696
-		public static readonly BitSet FOLLOW_constant_in_fieldDefinition333 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_fieldDefinition333 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A89 RID: 2697
-		public static readonly BitSet FOLLOW_FUNCTION_in_function408 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FUNCTION_in_function408 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A8A RID: 2698
-		public static readonly BitSet FOLLOW_functionHeader_in_function410 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_functionHeader_in_function410 = new(new ulong[]
 		{
 			1032UL
 		});
 
 		// Token: 0x04000A8B RID: 2699
-		public static readonly BitSet FOLLOW_codeBlock_in_function412 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_function412 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A8C RID: 2700
-		public static readonly BitSet FOLLOW_HEADER_in_functionHeader504 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_functionHeader504 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A8D RID: 2701
-		public static readonly BitSet FOLLOW_type_in_functionHeader507 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_functionHeader507 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A8E RID: 2702
-		public static readonly BitSet FOLLOW_NONE_in_functionHeader511 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_functionHeader511 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A8F RID: 2703
-		public static readonly BitSet FOLLOW_ID_in_functionHeader516 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_functionHeader516 = new(new ulong[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A90 RID: 2704
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_functionHeader518 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_functionHeader518 = new(new ulong[]
 		{
 			212205744161288UL
 		});
 
 		// Token: 0x04000A91 RID: 2705
-		public static readonly BitSet FOLLOW_callParameters_in_functionHeader520 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_callParameters_in_functionHeader520 = new(new ulong[]
 		{
 			212205744160776UL
 		});
 
 		// Token: 0x04000A92 RID: 2706
-		public static readonly BitSet FOLLOW_functionModifier_in_functionHeader523 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_functionModifier_in_functionHeader523 = new(new ulong[]
 		{
 			212205744160776UL
 		});
 
 		// Token: 0x04000A93 RID: 2707
-		public static readonly BitSet FOLLOW_DOCSTRING_in_functionHeader526 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_functionHeader526 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A94 RID: 2708
-		public static readonly BitSet FOLLOW_NATIVE_in_functionModifier545 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NATIVE_in_functionModifier545 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A95 RID: 2709
-		public static readonly BitSet FOLLOW_GLOBAL_in_functionModifier553 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_GLOBAL_in_functionModifier553 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000A96 RID: 2710
-		public static readonly BitSet FOLLOW_EVENT_in_eventFunc588 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_EVENT_in_eventFunc588 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A97 RID: 2711
-		public static readonly BitSet FOLLOW_eventHeader_in_eventFunc590 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_eventHeader_in_eventFunc590 = new(new ulong[]
 		{
 			1032UL
 		});
 
 		// Token: 0x04000A98 RID: 2712
-		public static readonly BitSet FOLLOW_codeBlock_in_eventFunc592 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_eventFunc592 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000A99 RID: 2713
-		public static readonly BitSet FOLLOW_HEADER_in_eventHeader684 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_eventHeader684 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000A9A RID: 2714
-		public static readonly BitSet FOLLOW_NONE_in_eventHeader686 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_eventHeader686 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000A9B RID: 2715
-		public static readonly BitSet FOLLOW_ID_in_eventHeader688 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_eventHeader688 = new(new ulong[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000A9C RID: 2716
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_eventHeader690 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_eventHeader690 = new(new ulong[]
 		{
 			141836999983624UL
 		});
 
 		// Token: 0x04000A9D RID: 2717
-		public static readonly BitSet FOLLOW_callParameters_in_eventHeader692 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_callParameters_in_eventHeader692 = new(new ulong[]
 		{
 			141836999983112UL
 		});
 
 		// Token: 0x04000A9E RID: 2718
-		public static readonly BitSet FOLLOW_NATIVE_in_eventHeader695 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NATIVE_in_eventHeader695 = new(new ulong[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000A9F RID: 2719
-		public static readonly BitSet FOLLOW_DOCSTRING_in_eventHeader698 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_eventHeader698 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AA0 RID: 2720
-		public static readonly BitSet FOLLOW_callParameter_in_callParameters725 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_callParameter_in_callParameters725 = new(new ulong[]
 		{
 			514UL
 		});
 
 		// Token: 0x04000AA1 RID: 2721
-		public static readonly BitSet FOLLOW_PARAM_in_callParameter742 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PARAM_in_callParameter742 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AA2 RID: 2722
-		public static readonly BitSet FOLLOW_type_in_callParameter744 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_callParameter744 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AA3 RID: 2723
-		public static readonly BitSet FOLLOW_ID_in_callParameter748 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_callParameter748 = new(new ulong[]
 		{
 			8UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000AA4 RID: 2724
-		public static readonly BitSet FOLLOW_constant_in_callParameter750 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_callParameter750 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AA5 RID: 2725
-		public static readonly BitSet FOLLOW_STATE_in_stateBlock787 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_STATE_in_stateBlock787 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AA6 RID: 2726
-		public static readonly BitSet FOLLOW_ID_in_stateBlock789 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_stateBlock789 = new(new ulong[]
 		{
 			1125899906842824UL
 		});
 
 		// Token: 0x04000AA7 RID: 2727
-		public static readonly BitSet FOLLOW_AUTO_in_stateBlock791 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AUTO_in_stateBlock791 = new(new ulong[]
 		{
 			200UL
 		});
 
 		// Token: 0x04000AA8 RID: 2728
-		public static readonly BitSet FOLLOW_stateFuncOrEvent_in_stateBlock797 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_stateFuncOrEvent_in_stateBlock797 = new(new ulong[]
 		{
 			200UL
 		});
 
 		// Token: 0x04000AA9 RID: 2729
-		public static readonly BitSet FOLLOW_function_in_stateFuncOrEvent819 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_stateFuncOrEvent819 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AAA RID: 2730
-		public static readonly BitSet FOLLOW_eventFunc_in_stateFuncOrEvent832 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_eventFunc_in_stateFuncOrEvent832 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AAB RID: 2731
-		public static readonly BitSet FOLLOW_PROPERTY_in_propertyBlock861 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPERTY_in_propertyBlock861 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AAC RID: 2732
-		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock863 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock863 = new(new ulong[]
 		{
 			131072UL
 		});
 
 		// Token: 0x04000AAD RID: 2733
-		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock867 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock867 = new(new ulong[]
 		{
 			131072UL
 		});
 
 		// Token: 0x04000AAE RID: 2734
-		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock872 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_propertyFunc_in_propertyBlock872 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AAF RID: 2735
-		public static readonly BitSet FOLLOW_AUTOPROP_in_propertyBlock922 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AUTOPROP_in_propertyBlock922 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB0 RID: 2736
-		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock924 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_propertyHeader_in_propertyBlock924 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AB1 RID: 2737
-		public static readonly BitSet FOLLOW_ID_in_propertyBlock928 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_propertyBlock928 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB2 RID: 2738
-		public static readonly BitSet FOLLOW_HEADER_in_propertyHeader978 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_HEADER_in_propertyHeader978 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB3 RID: 2739
-		public static readonly BitSet FOLLOW_type_in_propertyHeader980 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_propertyHeader980 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AB4 RID: 2740
-		public static readonly BitSet FOLLOW_ID_in_propertyHeader984 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_propertyHeader984 = new(new ulong[]
 		{
 			262144UL
 		});
 
 		// Token: 0x04000AB5 RID: 2741
-		public static readonly BitSet FOLLOW_USER_FLAGS_in_propertyHeader986 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_USER_FLAGS_in_propertyHeader986 = new(new ulong[]
 		{
 			1099511627784UL
 		});
 
 		// Token: 0x04000AB6 RID: 2742
-		public static readonly BitSet FOLLOW_DOCSTRING_in_propertyHeader988 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOCSTRING_in_propertyHeader988 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB7 RID: 2743
-		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1009 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1009 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AB8 RID: 2744
-		public static readonly BitSet FOLLOW_function_in_propertyFunc1011 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_function_in_propertyFunc1011 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AB9 RID: 2745
-		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1025 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPFUNC_in_propertyFunc1025 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ABA RID: 2746
-		public static readonly BitSet FOLLOW_BLOCK_in_codeBlock1049 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_BLOCK_in_codeBlock1049 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ABB RID: 2747
-		public static readonly BitSet FOLLOW_statement_in_codeBlock1057 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_statement_in_codeBlock1057 = new(new ulong[]
 		{
 			4611688629756016680UL,
 			1025499646UL
 		});
 
 		// Token: 0x04000ABC RID: 2748
-		public static readonly BitSet FOLLOW_localDefinition_in_statement1086 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_localDefinition_in_statement1086 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ABD RID: 2749
-		public static readonly BitSet FOLLOW_EQUALS_in_statement1147 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_EQUALS_in_statement1147 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ABE RID: 2750
-		public static readonly BitSet FOLLOW_ID_in_statement1149 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_statement1149 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000ABF RID: 2751
-		public static readonly BitSet FOLLOW_autoCast_in_statement1151 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_statement1151 = new(new ulong[]
 		{
 			4611686293366126592UL
 		});
 
 		// Token: 0x04000AC0 RID: 2752
-		public static readonly BitSet FOLLOW_l_value_in_statement1153 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_l_value_in_statement1153 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AC1 RID: 2753
-		public static readonly BitSet FOLLOW_expression_in_statement1155 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_statement1155 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AC2 RID: 2754
-		public static readonly BitSet FOLLOW_expression_in_statement1204 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_statement1204 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC3 RID: 2755
-		public static readonly BitSet FOLLOW_return_stat_in_statement1215 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_return_stat_in_statement1215 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC4 RID: 2756
-		public static readonly BitSet FOLLOW_ifBlock_in_statement1226 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ifBlock_in_statement1226 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC5 RID: 2757
-		public static readonly BitSet FOLLOW_whileBlock_in_statement1237 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_whileBlock_in_statement1237 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AC6 RID: 2758
-		public static readonly BitSet FOLLOW_VAR_in_localDefinition1260 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_VAR_in_localDefinition1260 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AC7 RID: 2759
-		public static readonly BitSet FOLLOW_type_in_localDefinition1262 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_type_in_localDefinition1262 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AC8 RID: 2760
-		public static readonly BitSet FOLLOW_ID_in_localDefinition1266 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_localDefinition1266 = new(new ulong[]
 		{
 			274877906952UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AC9 RID: 2761
-		public static readonly BitSet FOLLOW_autoCast_in_localDefinition1269 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_localDefinition1269 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000ACA RID: 2762
-		public static readonly BitSet FOLLOW_expression_in_localDefinition1271 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_localDefinition1271 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACB RID: 2763
-		public static readonly BitSet FOLLOW_DOT_in_l_value1318 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_l_value1318 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ACC RID: 2764
-		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1321 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1321 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ACD RID: 2765
-		public static readonly BitSet FOLLOW_expression_in_l_value1325 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1325 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACE RID: 2766
-		public static readonly BitSet FOLLOW_property_set_in_l_value1330 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_property_set_in_l_value1330 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ACF RID: 2767
-		public static readonly BitSet FOLLOW_ARRAYSET_in_l_value1355 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYSET_in_l_value1355 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD0 RID: 2768
-		public static readonly BitSet FOLLOW_ID_in_l_value1359 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_l_value1359 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000AD1 RID: 2769
-		public static readonly BitSet FOLLOW_ID_in_l_value1363 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_l_value1363 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AD2 RID: 2770
-		public static readonly BitSet FOLLOW_autoCast_in_l_value1365 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_l_value1365 = new(new ulong[]
 		{
 			32768UL
 		});
 
 		// Token: 0x04000AD3 RID: 2771
-		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1368 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_l_value1368 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD4 RID: 2772
-		public static readonly BitSet FOLLOW_expression_in_l_value1372 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1372 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AD5 RID: 2773
-		public static readonly BitSet FOLLOW_expression_in_l_value1377 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_l_value1377 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AD6 RID: 2774
-		public static readonly BitSet FOLLOW_basic_l_value_in_l_value1431 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_basic_l_value_in_l_value1431 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AD7 RID: 2775
-		public static readonly BitSet FOLLOW_DOT_in_basic_l_value1454 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_basic_l_value1454 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AD8 RID: 2776
-		public static readonly BitSet FOLLOW_array_func_or_id_in_basic_l_value1458 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_array_func_or_id_in_basic_l_value1458 = new(new ulong[]
 		{
 			4611686293366126592UL
 		});
 
 		// Token: 0x04000AD9 RID: 2777
-		public static readonly BitSet FOLLOW_basic_l_value_in_basic_l_value1462 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_basic_l_value_in_basic_l_value1462 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000ADA RID: 2778
-		public static readonly BitSet FOLLOW_function_call_in_basic_l_value1486 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_function_call_in_basic_l_value1486 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ADB RID: 2779
-		public static readonly BitSet FOLLOW_property_set_in_basic_l_value1497 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_property_set_in_basic_l_value1497 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000ADC RID: 2780
-		public static readonly BitSet FOLLOW_ARRAYSET_in_basic_l_value1509 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYSET_in_basic_l_value1509 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000ADD RID: 2781
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1513 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1513 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000ADE RID: 2782
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1517 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1517 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000ADF RID: 2783
-		public static readonly BitSet FOLLOW_autoCast_in_basic_l_value1519 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_basic_l_value1519 = new(new ulong[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000AE0 RID: 2784
-		public static readonly BitSet FOLLOW_func_or_id_in_basic_l_value1521 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_basic_l_value1521 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE1 RID: 2785
-		public static readonly BitSet FOLLOW_expression_in_basic_l_value1523 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_basic_l_value1523 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AE2 RID: 2786
-		public static readonly BitSet FOLLOW_ID_in_basic_l_value1577 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_basic_l_value1577 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AE3 RID: 2787
-		public static readonly BitSet FOLLOW_OR_in_expression1595 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_OR_in_expression1595 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AE4 RID: 2788
-		public static readonly BitSet FOLLOW_ID_in_expression1597 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_expression1597 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE5 RID: 2789
-		public static readonly BitSet FOLLOW_expression_in_expression1601 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_expression1601 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AE6 RID: 2790
-		public static readonly BitSet FOLLOW_and_expression_in_expression1605 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_expression1605 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AE7 RID: 2791
-		public static readonly BitSet FOLLOW_and_expression_in_expression1659 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_expression1659 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AE8 RID: 2792
-		public static readonly BitSet FOLLOW_AND_in_and_expression1681 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AND_in_and_expression1681 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AE9 RID: 2793
-		public static readonly BitSet FOLLOW_ID_in_and_expression1683 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_and_expression1683 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AEA RID: 2794
-		public static readonly BitSet FOLLOW_and_expression_in_and_expression1687 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_and_expression_in_and_expression1687 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AEB RID: 2795
-		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1691 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1691 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AEC RID: 2796
-		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1745 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_and_expression1745 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000AED RID: 2797
-		public static readonly BitSet FOLLOW_EQ_in_bool_expression1767 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_EQ_in_bool_expression1767 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AEE RID: 2798
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1769 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1769 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AEF RID: 2799
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1773 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1773 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF0 RID: 2800
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1777 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1777 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF1 RID: 2801
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1781 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1781 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF2 RID: 2802
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1785 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1785 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AF3 RID: 2803
-		public static readonly BitSet FOLLOW_NE_in_bool_expression1850 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NE_in_bool_expression1850 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AF4 RID: 2804
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1852 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1852 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF5 RID: 2805
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1856 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1856 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AF6 RID: 2806
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1860 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1860 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF7 RID: 2807
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1864 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1864 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AF8 RID: 2808
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1868 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1868 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AF9 RID: 2809
-		public static readonly BitSet FOLLOW_GT_in_bool_expression1928 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_GT_in_bool_expression1928 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000AFA RID: 2810
-		public static readonly BitSet FOLLOW_ID_in_bool_expression1930 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression1930 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AFB RID: 2811
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1934 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1934 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000AFC RID: 2812
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1938 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression1938 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AFD RID: 2813
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1942 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression1942 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000AFE RID: 2814
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1946 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression1946 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000AFF RID: 2815
-		public static readonly BitSet FOLLOW_LT_in_bool_expression2011 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_LT_in_bool_expression2011 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B00 RID: 2816
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2013 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2013 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B01 RID: 2817
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2017 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2017 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B02 RID: 2818
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2021 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2021 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B03 RID: 2819
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2025 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2025 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B04 RID: 2820
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2029 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2029 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B05 RID: 2821
-		public static readonly BitSet FOLLOW_GTE_in_bool_expression2094 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_GTE_in_bool_expression2094 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B06 RID: 2822
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2096 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2096 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B07 RID: 2823
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2100 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2100 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B08 RID: 2824
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2104 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2104 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B09 RID: 2825
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2108 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2108 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B0A RID: 2826
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2112 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2112 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B0B RID: 2827
-		public static readonly BitSet FOLLOW_LTE_in_bool_expression2177 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_LTE_in_bool_expression2177 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B0C RID: 2828
-		public static readonly BitSet FOLLOW_ID_in_bool_expression2179 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_bool_expression2179 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B0D RID: 2829
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2183 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2183 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B0E RID: 2830
-		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2187 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_bool_expression2187 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B0F RID: 2831
-		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2191 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_bool_expression_in_bool_expression2191 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B10 RID: 2832
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2195 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2195 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B11 RID: 2833
-		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2259 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_bool_expression2259 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B12 RID: 2834
-		public static readonly BitSet FOLLOW_IADD_in_add_expression2281 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_IADD_in_add_expression2281 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B13 RID: 2835
-		public static readonly BitSet FOLLOW_ID_in_add_expression2283 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2283 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B14 RID: 2836
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2287 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2287 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B15 RID: 2837
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2291 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2291 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B16 RID: 2838
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2295 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2295 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B17 RID: 2839
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2299 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2299 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B18 RID: 2840
-		public static readonly BitSet FOLLOW_FADD_in_add_expression2364 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FADD_in_add_expression2364 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B19 RID: 2841
-		public static readonly BitSet FOLLOW_ID_in_add_expression2366 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2366 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B1A RID: 2842
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2370 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2370 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B1B RID: 2843
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2374 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2374 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B1C RID: 2844
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2378 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2378 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B1D RID: 2845
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2382 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2382 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B1E RID: 2846
-		public static readonly BitSet FOLLOW_ISUBTRACT_in_add_expression2447 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ISUBTRACT_in_add_expression2447 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B1F RID: 2847
-		public static readonly BitSet FOLLOW_ID_in_add_expression2449 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2449 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B20 RID: 2848
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2453 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2453 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B21 RID: 2849
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2457 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2457 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B22 RID: 2850
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2461 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2461 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B23 RID: 2851
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2465 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2465 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B24 RID: 2852
-		public static readonly BitSet FOLLOW_FSUBTRACT_in_add_expression2530 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FSUBTRACT_in_add_expression2530 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B25 RID: 2853
-		public static readonly BitSet FOLLOW_ID_in_add_expression2532 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2532 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B26 RID: 2854
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2536 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2536 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B27 RID: 2855
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2540 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2540 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B28 RID: 2856
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2544 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2544 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B29 RID: 2857
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2548 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2548 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B2A RID: 2858
-		public static readonly BitSet FOLLOW_STRCAT_in_add_expression2613 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_STRCAT_in_add_expression2613 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B2B RID: 2859
-		public static readonly BitSet FOLLOW_ID_in_add_expression2615 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_add_expression2615 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B2C RID: 2860
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2619 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2619 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B2D RID: 2861
-		public static readonly BitSet FOLLOW_autoCast_in_add_expression2623 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_add_expression2623 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B2E RID: 2862
-		public static readonly BitSet FOLLOW_add_expression_in_add_expression2627 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_add_expression_in_add_expression2627 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B2F RID: 2863
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2631 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2631 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B30 RID: 2864
-		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2695 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_add_expression2695 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B31 RID: 2865
-		public static readonly BitSet FOLLOW_IMULTIPLY_in_mult_expression2718 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_IMULTIPLY_in_mult_expression2718 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B32 RID: 2866
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2720 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2720 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B33 RID: 2867
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2724 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2724 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B34 RID: 2868
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2728 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2728 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B35 RID: 2869
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2732 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2732 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B36 RID: 2870
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2736 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2736 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B37 RID: 2871
-		public static readonly BitSet FOLLOW_FMULTIPLY_in_mult_expression2801 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FMULTIPLY_in_mult_expression2801 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B38 RID: 2872
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2803 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2803 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B39 RID: 2873
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2807 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2807 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B3A RID: 2874
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2811 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2811 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B3B RID: 2875
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2815 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2815 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B3C RID: 2876
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2819 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2819 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B3D RID: 2877
-		public static readonly BitSet FOLLOW_IDIVIDE_in_mult_expression2884 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_IDIVIDE_in_mult_expression2884 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B3E RID: 2878
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2886 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2886 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B3F RID: 2879
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2890 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2890 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B40 RID: 2880
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2894 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2894 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B41 RID: 2881
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2898 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2898 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B42 RID: 2882
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2902 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2902 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B43 RID: 2883
-		public static readonly BitSet FOLLOW_FDIVIDE_in_mult_expression2967 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FDIVIDE_in_mult_expression2967 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B44 RID: 2884
-		public static readonly BitSet FOLLOW_ID_in_mult_expression2969 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression2969 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B45 RID: 2885
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2973 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2973 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B46 RID: 2886
-		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2977 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_mult_expression2977 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B47 RID: 2887
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2981 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression2981 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B48 RID: 2888
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2985 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression2985 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B49 RID: 2889
-		public static readonly BitSet FOLLOW_MOD_in_mult_expression3050 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_MOD_in_mult_expression3050 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B4A RID: 2890
-		public static readonly BitSet FOLLOW_ID_in_mult_expression3052 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_mult_expression3052 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B4B RID: 2891
-		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression3056 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_mult_expression_in_mult_expression3056 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B4C RID: 2892
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3060 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3060 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B4D RID: 2893
-		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3114 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_unary_expression_in_mult_expression3114 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B4E RID: 2894
-		public static readonly BitSet FOLLOW_INEGATE_in_unary_expression3137 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_INEGATE_in_unary_expression3137 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B4F RID: 2895
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3139 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3139 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B50 RID: 2896
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3141 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3141 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B51 RID: 2897
-		public static readonly BitSet FOLLOW_FNEGATE_in_unary_expression3186 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FNEGATE_in_unary_expression3186 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B52 RID: 2898
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3188 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3188 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B53 RID: 2899
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3190 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3190 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B54 RID: 2900
-		public static readonly BitSet FOLLOW_NOT_in_unary_expression3235 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NOT_in_unary_expression3235 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B55 RID: 2901
-		public static readonly BitSet FOLLOW_ID_in_unary_expression3237 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_unary_expression3237 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B56 RID: 2902
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3239 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3239 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B57 RID: 2903
-		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3283 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_cast_atom_in_unary_expression3283 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B58 RID: 2904
-		public static readonly BitSet FOLLOW_AS_in_cast_atom3306 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_cast_atom3306 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B59 RID: 2905
-		public static readonly BitSet FOLLOW_ID_in_cast_atom3308 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_cast_atom3308 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B5A RID: 2906
-		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3310 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3310 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B5B RID: 2907
-		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3349 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_cast_atom3349 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B5C RID: 2908
-		public static readonly BitSet FOLLOW_DOT_in_dot_atom3372 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_DOT_in_dot_atom3372 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B5D RID: 2909
-		public static readonly BitSet FOLLOW_dot_atom_in_dot_atom3376 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_dot_atom_in_dot_atom3376 = new(new ulong[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B5E RID: 2910
-		public static readonly BitSet FOLLOW_array_func_or_id_in_dot_atom3380 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_array_func_or_id_in_dot_atom3380 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B5F RID: 2911
-		public static readonly BitSet FOLLOW_array_atom_in_dot_atom3409 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_array_atom_in_dot_atom3409 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B60 RID: 2912
-		public static readonly BitSet FOLLOW_constant_in_dot_atom3420 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_dot_atom3420 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B61 RID: 2913
-		public static readonly BitSet FOLLOW_ARRAYGET_in_array_atom3447 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYGET_in_array_atom3447 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B62 RID: 2914
-		public static readonly BitSet FOLLOW_ID_in_array_atom3451 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_atom3451 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B63 RID: 2915
-		public static readonly BitSet FOLLOW_ID_in_array_atom3455 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_atom3455 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B64 RID: 2916
-		public static readonly BitSet FOLLOW_autoCast_in_array_atom3457 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_array_atom3457 = new(new ulong[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B65 RID: 2917
-		public static readonly BitSet FOLLOW_atom_in_array_atom3459 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_atom_in_array_atom3459 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B66 RID: 2918
-		public static readonly BitSet FOLLOW_expression_in_array_atom3461 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_array_atom3461 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B67 RID: 2919
-		public static readonly BitSet FOLLOW_atom_in_array_atom3515 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_atom_in_array_atom3515 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B68 RID: 2920
-		public static readonly BitSet FOLLOW_PAREXPR_in_atom3538 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PAREXPR_in_atom3538 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B69 RID: 2921
-		public static readonly BitSet FOLLOW_expression_in_atom3540 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_atom3540 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B6A RID: 2922
-		public static readonly BitSet FOLLOW_NEW_in_atom3553 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NEW_in_atom3553 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B6B RID: 2923
-		public static readonly BitSet FOLLOW_INTEGER_in_atom3555 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_INTEGER_in_atom3555 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B6C RID: 2924
-		public static readonly BitSet FOLLOW_ID_in_atom3559 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_atom3559 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B6D RID: 2925
-		public static readonly BitSet FOLLOW_func_or_id_in_atom3593 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_atom3593 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B6E RID: 2926
-		public static readonly BitSet FOLLOW_ARRAYGET_in_array_func_or_id3620 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYGET_in_array_func_or_id3620 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B6F RID: 2927
-		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3624 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3624 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B70 RID: 2928
-		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3628 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_array_func_or_id3628 = new(new ulong[]
 		{
 			274877906944UL,
 			1006796800UL
 		});
 
 		// Token: 0x04000B71 RID: 2929
-		public static readonly BitSet FOLLOW_autoCast_in_array_func_or_id3630 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_array_func_or_id3630 = new(new ulong[]
 		{
 			274933528576UL,
 			327680UL
 		});
 
 		// Token: 0x04000B72 RID: 2930
-		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3632 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3632 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B73 RID: 2931
-		public static readonly BitSet FOLLOW_expression_in_array_func_or_id3634 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_array_func_or_id3634 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B74 RID: 2932
-		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3688 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_func_or_id_in_array_func_or_id3688 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B75 RID: 2933
-		public static readonly BitSet FOLLOW_function_call_in_func_or_id3714 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_function_call_in_func_or_id3714 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B76 RID: 2934
-		public static readonly BitSet FOLLOW_PROPGET_in_func_or_id3726 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPGET_in_func_or_id3726 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B77 RID: 2935
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3730 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3730 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B78 RID: 2936
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3734 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3734 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B79 RID: 2937
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3738 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3738 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B7A RID: 2938
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3777 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3777 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B7B RID: 2939
-		public static readonly BitSet FOLLOW_LENGTH_in_func_or_id3789 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_LENGTH_in_func_or_id3789 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B7C RID: 2940
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3793 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3793 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B7D RID: 2941
-		public static readonly BitSet FOLLOW_ID_in_func_or_id3797 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_func_or_id3797 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B7E RID: 2942
-		public static readonly BitSet FOLLOW_PROPSET_in_property_set3843 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPSET_in_property_set3843 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B7F RID: 2943
-		public static readonly BitSet FOLLOW_ID_in_property_set3847 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3847 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B80 RID: 2944
-		public static readonly BitSet FOLLOW_ID_in_property_set3851 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3851 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B81 RID: 2945
-		public static readonly BitSet FOLLOW_ID_in_property_set3855 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_property_set3855 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B82 RID: 2946
-		public static readonly BitSet FOLLOW_RETURN_in_return_stat3903 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_RETURN_in_return_stat3903 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B83 RID: 2947
-		public static readonly BitSet FOLLOW_autoCast_in_return_stat3905 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_return_stat3905 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000B84 RID: 2948
-		public static readonly BitSet FOLLOW_expression_in_return_stat3907 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_return_stat3907 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B85 RID: 2949
-		public static readonly BitSet FOLLOW_RETURN_in_return_stat3940 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_RETURN_in_return_stat3940 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000B86 RID: 2950
-		public static readonly BitSet FOLLOW_IF_in_ifBlock3984 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_IF_in_ifBlock3984 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B87 RID: 2951
-		public static readonly BitSet FOLLOW_expression_in_ifBlock3986 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_ifBlock3986 = new(new ulong[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B88 RID: 2952
-		public static readonly BitSet FOLLOW_codeBlock_in_ifBlock3988 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_ifBlock3988 = new(new ulong[]
 		{
 			8UL,
 			12582912UL
 		});
 
 		// Token: 0x04000B89 RID: 2953
-		public static readonly BitSet FOLLOW_elseIfBlock_in_ifBlock3994 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_elseIfBlock_in_ifBlock3994 = new(new ulong[]
 		{
 			8UL,
 			12582912UL
 		});
 
 		// Token: 0x04000B8A RID: 2954
-		public static readonly BitSet FOLLOW_elseBlock_in_ifBlock3998 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_elseBlock_in_ifBlock3998 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B8B RID: 2955
-		public static readonly BitSet FOLLOW_ELSEIF_in_elseIfBlock4072 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ELSEIF_in_elseIfBlock4072 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B8C RID: 2956
-		public static readonly BitSet FOLLOW_expression_in_elseIfBlock4074 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_elseIfBlock4074 = new(new ulong[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B8D RID: 2957
-		public static readonly BitSet FOLLOW_codeBlock_in_elseIfBlock4076 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_elseIfBlock4076 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B8E RID: 2958
-		public static readonly BitSet FOLLOW_ELSE_in_elseBlock4140 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ELSE_in_elseBlock4140 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B8F RID: 2959
-		public static readonly BitSet FOLLOW_codeBlock_in_elseBlock4142 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_elseBlock4142 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B90 RID: 2960
-		public static readonly BitSet FOLLOW_WHILE_in_whileBlock4183 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_WHILE_in_whileBlock4183 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B91 RID: 2961
-		public static readonly BitSet FOLLOW_expression_in_whileBlock4185 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_whileBlock4185 = new(new ulong[]
 		{
 			1024UL
 		});
 
 		// Token: 0x04000B92 RID: 2962
-		public static readonly BitSet FOLLOW_codeBlock_in_whileBlock4187 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_codeBlock_in_whileBlock4187 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B93 RID: 2963
-		public static readonly BitSet FOLLOW_CALL_in_function_call4252 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALL_in_function_call4252 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B94 RID: 2964
-		public static readonly BitSet FOLLOW_ID_in_function_call4256 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4256 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B95 RID: 2965
-		public static readonly BitSet FOLLOW_ID_in_function_call4260 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4260 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B96 RID: 2966
-		public static readonly BitSet FOLLOW_ID_in_function_call4264 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4264 = new(new ulong[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000B97 RID: 2967
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4267 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4267 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B98 RID: 2968
-		public static readonly BitSet FOLLOW_parameters_in_function_call4269 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4269 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B99 RID: 2969
-		public static readonly BitSet FOLLOW_CALLPARENT_in_function_call4355 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARENT_in_function_call4355 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B9A RID: 2970
-		public static readonly BitSet FOLLOW_ID_in_function_call4359 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4359 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B9B RID: 2971
-		public static readonly BitSet FOLLOW_ID_in_function_call4363 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4363 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000B9C RID: 2972
-		public static readonly BitSet FOLLOW_ID_in_function_call4367 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4367 = new(new ulong[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000B9D RID: 2973
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4370 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4370 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000B9E RID: 2974
-		public static readonly BitSet FOLLOW_parameters_in_function_call4372 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4372 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000B9F RID: 2975
-		public static readonly BitSet FOLLOW_CALLGLOBAL_in_function_call4448 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLGLOBAL_in_function_call4448 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA0 RID: 2976
-		public static readonly BitSet FOLLOW_ID_in_function_call4452 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4452 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA1 RID: 2977
-		public static readonly BitSet FOLLOW_ID_in_function_call4456 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4456 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA2 RID: 2978
-		public static readonly BitSet FOLLOW_ID_in_function_call4460 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4460 = new(new ulong[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BA3 RID: 2979
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4463 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4463 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA4 RID: 2980
-		public static readonly BitSet FOLLOW_parameters_in_function_call4465 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4465 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BA5 RID: 2981
-		public static readonly BitSet FOLLOW_ARRAYFIND_in_function_call4551 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYFIND_in_function_call4551 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA6 RID: 2982
-		public static readonly BitSet FOLLOW_ID_in_function_call4555 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4555 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BA7 RID: 2983
-		public static readonly BitSet FOLLOW_ID_in_function_call4559 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4559 = new(new ulong[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BA8 RID: 2984
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4562 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4562 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BA9 RID: 2985
-		public static readonly BitSet FOLLOW_parameters_in_function_call4564 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4564 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BAA RID: 2986
-		public static readonly BitSet FOLLOW_ARRAYRFIND_in_function_call4640 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ARRAYRFIND_in_function_call4640 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BAB RID: 2987
-		public static readonly BitSet FOLLOW_ID_in_function_call4644 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4644 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BAC RID: 2988
-		public static readonly BitSet FOLLOW_ID_in_function_call4648 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_function_call4648 = new(new ulong[]
 		{
 			16384UL
 		});
 
 		// Token: 0x04000BAD RID: 2989
-		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4651 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CALLPARAMS_in_function_call4651 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BAE RID: 2990
-		public static readonly BitSet FOLLOW_parameters_in_function_call4653 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameters_in_function_call4653 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BAF RID: 2991
-		public static readonly BitSet FOLLOW_parameter_in_parameters4751 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_parameter_in_parameters4751 = new(new ulong[]
 		{
 			514UL
 		});
 
 		// Token: 0x04000BB0 RID: 2992
-		public static readonly BitSet FOLLOW_PARAM_in_parameter4793 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PARAM_in_parameter4793 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB1 RID: 2993
-		public static readonly BitSet FOLLOW_autoCast_in_parameter4795 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_autoCast_in_parameter4795 = new(new ulong[]
 		{
 			4611686430732761088UL,
 			1007149566UL
 		});
 
 		// Token: 0x04000BB2 RID: 2994
-		public static readonly BitSet FOLLOW_expression_in_parameter4797 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_expression_in_parameter4797 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB3 RID: 2995
-		public static readonly BitSet FOLLOW_AS_in_autoCast4825 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_autoCast4825 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB4 RID: 2996
-		public static readonly BitSet FOLLOW_ID_in_autoCast4829 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4829 = new(new ulong[]
 		{
 			274877906944UL
 		});
 
 		// Token: 0x04000BB5 RID: 2997
-		public static readonly BitSet FOLLOW_ID_in_autoCast4833 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4833 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB6 RID: 2998
-		public static readonly BitSet FOLLOW_AS_in_autoCast4868 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_AS_in_autoCast4868 = new(new ulong[]
 		{
 			4UL
 		});
 
 		// Token: 0x04000BB7 RID: 2999
-		public static readonly BitSet FOLLOW_ID_in_autoCast4870 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4870 = new(new ulong[]
 		{
 			0UL,
 			1006764032UL
 		});
 
 		// Token: 0x04000BB8 RID: 3000
-		public static readonly BitSet FOLLOW_constant_in_autoCast4872 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_autoCast4872 = new(new ulong[]
 		{
 			8UL
 		});
 
 		// Token: 0x04000BB9 RID: 3001
-		public static readonly BitSet FOLLOW_ID_in_autoCast4906 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_autoCast4906 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBA RID: 3002
-		public static readonly BitSet FOLLOW_constant_in_autoCast4917 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_constant_in_autoCast4917 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBB RID: 3003
-		public static readonly BitSet FOLLOW_number_in_constant4935 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_number_in_constant4935 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBC RID: 3004
-		public static readonly BitSet FOLLOW_STRING_in_constant4941 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_STRING_in_constant4941 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBD RID: 3005
-		public static readonly BitSet FOLLOW_BOOL_in_constant4947 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_BOOL_in_constant4947 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBE RID: 3006
-		public static readonly BitSet FOLLOW_NONE_in_constant4953 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NONE_in_constant4953 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BBF RID: 3007
-		public static readonly BitSet FOLLOW_set_in_number4964 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_set_in_number4964 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC0 RID: 3008
-		public static readonly BitSet FOLLOW_ID_in_type4985 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_type4985 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC1 RID: 3009
-		public static readonly BitSet FOLLOW_ID_in_type4996 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_type4996 = new(new ulong[]
 		{
 			9223372036854775808UL
 		});
 
 		// Token: 0x04000BC2 RID: 3010
-		public static readonly BitSet FOLLOW_LBRACKET_in_type4998 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_LBRACKET_in_type4998 = new(new ulong[]
 		{
 			0UL,
 			1UL
 		});
 
 		// Token: 0x04000BC3 RID: 3011
-		public static readonly BitSet FOLLOW_RBRACKET_in_type5000 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_RBRACKET_in_type5000 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC4 RID: 3012
-		public static readonly BitSet FOLLOW_BASETYPE_in_type5011 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_BASETYPE_in_type5011 = new(new ulong[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000BC5 RID: 3013
-		public static readonly BitSet FOLLOW_BASETYPE_in_type5022 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_BASETYPE_in_type5022 = new(new ulong[]
 		{
 			9223372036854775808UL
 		});
 
 		// Token: 0x04000BC6 RID: 3014
-		public static readonly BitSet FOLLOW_LBRACKET_in_type5024 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_LBRACKET_in_type5024 = new(new ulong[]
 		{
 			0UL,
 			1UL
 		});
 
 		// Token: 0x04000BC7 RID: 3015
-		public static readonly BitSet FOLLOW_RBRACKET_in_type5026 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_RBRACKET_in_type5026 = new(new ulong[]
 		{
 			2UL
 		});
@@ -6729,7 +6699,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001C6 RID: 454
-		protected class script_scope
+		protected record script_scope
 		{
 			// Token: 0x04000BCC RID: 3020
 			protected internal string sobjName;
@@ -6788,27 +6758,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DB7 RID: 3511 RVA: 0x0006B638 File Offset: 0x00069838
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001BB RID: 443
 			// (get) Token: 0x06000DB8 RID: 3512 RVA: 0x0006B644 File Offset: 0x00069844
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DB9 RID: 3513 RVA: 0x0006B64C File Offset: 0x0006984C
+            // Token: 0x06000DB9 RID: 3513 RVA: 0x0006B64C File Offset: 0x0006984C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -6826,27 +6784,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DBC RID: 3516 RVA: 0x0006B674 File Offset: 0x00069874
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001BD RID: 445
 			// (get) Token: 0x06000DBD RID: 3517 RVA: 0x0006B680 File Offset: 0x00069880
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DBE RID: 3518 RVA: 0x0006B688 File Offset: 0x00069888
+            // Token: 0x06000DBE RID: 3518 RVA: 0x0006B688 File Offset: 0x00069888
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -6864,27 +6810,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DC1 RID: 3521 RVA: 0x0006B6B0 File Offset: 0x000698B0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001BF RID: 447
 			// (get) Token: 0x06000DC2 RID: 3522 RVA: 0x0006B6BC File Offset: 0x000698BC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DC3 RID: 3523 RVA: 0x0006B6C4 File Offset: 0x000698C4
+            // Token: 0x06000DC3 RID: 3523 RVA: 0x0006B6C4 File Offset: 0x000698C4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -6895,7 +6829,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001CA RID: 458
-		protected class fieldDefinition_scope
+		protected record fieldDefinition_scope
 		{
 			// Token: 0x04000BDF RID: 3039
 			protected internal string sinitialValue;
@@ -6909,27 +6843,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DC7 RID: 3527 RVA: 0x0006B6F4 File Offset: 0x000698F4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001C1 RID: 449
 			// (get) Token: 0x06000DC8 RID: 3528 RVA: 0x0006B700 File Offset: 0x00069900
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DC9 RID: 3529 RVA: 0x0006B708 File Offset: 0x00069908
+            // Token: 0x06000DC9 RID: 3529 RVA: 0x0006B708 File Offset: 0x00069908
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -6940,7 +6862,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001CC RID: 460
-		protected class function_scope
+		protected record function_scope
 		{
 			// Token: 0x04000BE1 RID: 3041
 			protected internal string sstate;
@@ -6987,27 +6909,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DCD RID: 3533 RVA: 0x0006B738 File Offset: 0x00069938
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001C3 RID: 451
 			// (get) Token: 0x06000DCE RID: 3534 RVA: 0x0006B744 File Offset: 0x00069944
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DCF RID: 3535 RVA: 0x0006B74C File Offset: 0x0006994C
+            // Token: 0x06000DCF RID: 3535 RVA: 0x0006B74C File Offset: 0x0006994C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7028,27 +6938,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DD2 RID: 3538 RVA: 0x0006B774 File Offset: 0x00069974
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001C5 RID: 453
 			// (get) Token: 0x06000DD3 RID: 3539 RVA: 0x0006B780 File Offset: 0x00069980
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DD4 RID: 3540 RVA: 0x0006B788 File Offset: 0x00069988
+            // Token: 0x06000DD4 RID: 3540 RVA: 0x0006B788 File Offset: 0x00069988
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7066,27 +6964,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DD7 RID: 3543 RVA: 0x0006B7B0 File Offset: 0x000699B0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001C7 RID: 455
 			// (get) Token: 0x06000DD8 RID: 3544 RVA: 0x0006B7BC File Offset: 0x000699BC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DD9 RID: 3545 RVA: 0x0006B7C4 File Offset: 0x000699C4
+            // Token: 0x06000DD9 RID: 3545 RVA: 0x0006B7C4 File Offset: 0x000699C4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7097,7 +6983,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001D0 RID: 464
-		protected class eventFunc_scope
+		protected record eventFunc_scope
 		{
 			// Token: 0x04000BF1 RID: 3057
 			protected internal string sstate;
@@ -7141,27 +7027,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DDD RID: 3549 RVA: 0x0006B7F4 File Offset: 0x000699F4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001C9 RID: 457
 			// (get) Token: 0x06000DDE RID: 3550 RVA: 0x0006B800 File Offset: 0x00069A00
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DDF RID: 3551 RVA: 0x0006B808 File Offset: 0x00069A08
+            // Token: 0x06000DDF RID: 3551 RVA: 0x0006B808 File Offset: 0x00069A08
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7182,27 +7056,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DE2 RID: 3554 RVA: 0x0006B830 File Offset: 0x00069A30
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001CB RID: 459
 			// (get) Token: 0x06000DE3 RID: 3555 RVA: 0x0006B83C File Offset: 0x00069A3C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DE4 RID: 3556 RVA: 0x0006B844 File Offset: 0x00069A44
+            // Token: 0x06000DE4 RID: 3556 RVA: 0x0006B844 File Offset: 0x00069A44
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7220,27 +7082,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DE7 RID: 3559 RVA: 0x0006B86C File Offset: 0x00069A6C
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001CD RID: 461
 			// (get) Token: 0x06000DE8 RID: 3560 RVA: 0x0006B878 File Offset: 0x00069A78
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DE9 RID: 3561 RVA: 0x0006B880 File Offset: 0x00069A80
+            // Token: 0x06000DE9 RID: 3561 RVA: 0x0006B880 File Offset: 0x00069A80
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7261,27 +7111,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DEC RID: 3564 RVA: 0x0006B8A8 File Offset: 0x00069AA8
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001CF RID: 463
 			// (get) Token: 0x06000DED RID: 3565 RVA: 0x0006B8B4 File Offset: 0x00069AB4
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DEE RID: 3566 RVA: 0x0006B8BC File Offset: 0x00069ABC
+            // Token: 0x06000DEE RID: 3566 RVA: 0x0006B8BC File Offset: 0x00069ABC
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7299,27 +7137,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DF1 RID: 3569 RVA: 0x0006B8E4 File Offset: 0x00069AE4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001D1 RID: 465
 			// (get) Token: 0x06000DF2 RID: 3570 RVA: 0x0006B8F0 File Offset: 0x00069AF0
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DF3 RID: 3571 RVA: 0x0006B8F8 File Offset: 0x00069AF8
+            // Token: 0x06000DF3 RID: 3571 RVA: 0x0006B8F8 File Offset: 0x00069AF8
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7337,27 +7163,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DF6 RID: 3574 RVA: 0x0006B920 File Offset: 0x00069B20
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001D3 RID: 467
 			// (get) Token: 0x06000DF7 RID: 3575 RVA: 0x0006B92C File Offset: 0x00069B2C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DF8 RID: 3576 RVA: 0x0006B934 File Offset: 0x00069B34
+            // Token: 0x06000DF8 RID: 3576 RVA: 0x0006B934 File Offset: 0x00069B34
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7391,27 +7205,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000DFC RID: 3580 RVA: 0x0006B964 File Offset: 0x00069B64
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001D5 RID: 469
 			// (get) Token: 0x06000DFD RID: 3581 RVA: 0x0006B970 File Offset: 0x00069B70
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000DFE RID: 3582 RVA: 0x0006B978 File Offset: 0x00069B78
+            // Token: 0x06000DFE RID: 3582 RVA: 0x0006B978 File Offset: 0x00069B78
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7429,27 +7231,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E01 RID: 3585 RVA: 0x0006B9A0 File Offset: 0x00069BA0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001D7 RID: 471
 			// (get) Token: 0x06000E02 RID: 3586 RVA: 0x0006B9AC File Offset: 0x00069BAC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E03 RID: 3587 RVA: 0x0006B9B4 File Offset: 0x00069BB4
+            // Token: 0x06000E03 RID: 3587 RVA: 0x0006B9B4 File Offset: 0x00069BB4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7467,27 +7257,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E06 RID: 3590 RVA: 0x0006B9DC File Offset: 0x00069BDC
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001D9 RID: 473
 			// (get) Token: 0x06000E07 RID: 3591 RVA: 0x0006B9E8 File Offset: 0x00069BE8
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E08 RID: 3592 RVA: 0x0006B9F0 File Offset: 0x00069BF0
+            // Token: 0x06000E08 RID: 3592 RVA: 0x0006B9F0 File Offset: 0x00069BF0
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7498,7 +7276,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001DB RID: 475
-		protected class codeBlock_scope
+		protected record codeBlock_scope
 		{
 			// Token: 0x04000C0B RID: 3083
 			protected internal IList kvarDefs;
@@ -7518,27 +7296,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E0C RID: 3596 RVA: 0x0006BA20 File Offset: 0x00069C20
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001DB RID: 475
 			// (get) Token: 0x06000E0D RID: 3597 RVA: 0x0006BA2C File Offset: 0x00069C2C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E0E RID: 3598 RVA: 0x0006BA34 File Offset: 0x00069C34
+            // Token: 0x06000E0E RID: 3598 RVA: 0x0006BA34 File Offset: 0x00069C34
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7563,27 +7329,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E12 RID: 3602 RVA: 0x0006BA64 File Offset: 0x00069C64
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001DD RID: 477
 			// (get) Token: 0x06000E13 RID: 3603 RVA: 0x0006BA70 File Offset: 0x00069C70
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E14 RID: 3604 RVA: 0x0006BA78 File Offset: 0x00069C78
+            // Token: 0x06000E14 RID: 3604 RVA: 0x0006BA78 File Offset: 0x00069C78
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7601,27 +7355,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E17 RID: 3607 RVA: 0x0006BAA0 File Offset: 0x00069CA0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001DF RID: 479
 			// (get) Token: 0x06000E18 RID: 3608 RVA: 0x0006BAAC File Offset: 0x00069CAC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E19 RID: 3609 RVA: 0x0006BAB4 File Offset: 0x00069CB4
+            // Token: 0x06000E19 RID: 3609 RVA: 0x0006BAB4 File Offset: 0x00069CB4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7647,7 +7389,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001E0 RID: 480
-		protected class l_value_scope
+		protected record l_value_scope
 		{
 			// Token: 0x04000C17 RID: 3095
 			protected internal string ssourceName;
@@ -7664,27 +7406,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E1D RID: 3613 RVA: 0x0006BAE4 File Offset: 0x00069CE4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001E1 RID: 481
 			// (get) Token: 0x06000E1E RID: 3614 RVA: 0x0006BAF0 File Offset: 0x00069CF0
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E1F RID: 3615 RVA: 0x0006BAF8 File Offset: 0x00069CF8
+            // Token: 0x06000E1F RID: 3615 RVA: 0x0006BAF8 File Offset: 0x00069CF8
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7712,27 +7442,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E23 RID: 3619 RVA: 0x0006BB28 File Offset: 0x00069D28
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001E3 RID: 483
 			// (get) Token: 0x06000E24 RID: 3620 RVA: 0x0006BB34 File Offset: 0x00069D34
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E25 RID: 3621 RVA: 0x0006BB3C File Offset: 0x00069D3C
+            // Token: 0x06000E25 RID: 3621 RVA: 0x0006BB3C File Offset: 0x00069D3C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7750,27 +7468,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E28 RID: 3624 RVA: 0x0006BB64 File Offset: 0x00069D64
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001E5 RID: 485
 			// (get) Token: 0x06000E29 RID: 3625 RVA: 0x0006BB70 File Offset: 0x00069D70
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E2A RID: 3626 RVA: 0x0006BB78 File Offset: 0x00069D78
+            // Token: 0x06000E2A RID: 3626 RVA: 0x0006BB78 File Offset: 0x00069D78
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7791,27 +7497,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E2D RID: 3629 RVA: 0x0006BBA0 File Offset: 0x00069DA0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001E7 RID: 487
 			// (get) Token: 0x06000E2E RID: 3630 RVA: 0x0006BBAC File Offset: 0x00069DAC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E2F RID: 3631 RVA: 0x0006BBB4 File Offset: 0x00069DB4
+            // Token: 0x06000E2F RID: 3631 RVA: 0x0006BBB4 File Offset: 0x00069DB4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7832,27 +7526,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E32 RID: 3634 RVA: 0x0006BBDC File Offset: 0x00069DDC
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001E9 RID: 489
 			// (get) Token: 0x06000E33 RID: 3635 RVA: 0x0006BBE8 File Offset: 0x00069DE8
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E34 RID: 3636 RVA: 0x0006BBF0 File Offset: 0x00069DF0
+            // Token: 0x06000E34 RID: 3636 RVA: 0x0006BBF0 File Offset: 0x00069DF0
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7873,27 +7555,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E37 RID: 3639 RVA: 0x0006BC18 File Offset: 0x00069E18
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001EB RID: 491
 			// (get) Token: 0x06000E38 RID: 3640 RVA: 0x0006BC24 File Offset: 0x00069E24
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E39 RID: 3641 RVA: 0x0006BC2C File Offset: 0x00069E2C
+            // Token: 0x06000E39 RID: 3641 RVA: 0x0006BC2C File Offset: 0x00069E2C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7914,27 +7584,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E3C RID: 3644 RVA: 0x0006BC54 File Offset: 0x00069E54
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001ED RID: 493
 			// (get) Token: 0x06000E3D RID: 3645 RVA: 0x0006BC60 File Offset: 0x00069E60
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E3E RID: 3646 RVA: 0x0006BC68 File Offset: 0x00069E68
+            // Token: 0x06000E3E RID: 3646 RVA: 0x0006BC68 File Offset: 0x00069E68
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7955,27 +7613,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E41 RID: 3649 RVA: 0x0006BC90 File Offset: 0x00069E90
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001EF RID: 495
 			// (get) Token: 0x06000E42 RID: 3650 RVA: 0x0006BC9C File Offset: 0x00069E9C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E43 RID: 3651 RVA: 0x0006BCA4 File Offset: 0x00069EA4
+            // Token: 0x06000E43 RID: 3651 RVA: 0x0006BCA4 File Offset: 0x00069EA4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -7996,27 +7642,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E46 RID: 3654 RVA: 0x0006BCCC File Offset: 0x00069ECC
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001F1 RID: 497
 			// (get) Token: 0x06000E47 RID: 3655 RVA: 0x0006BCD8 File Offset: 0x00069ED8
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E48 RID: 3656 RVA: 0x0006BCE0 File Offset: 0x00069EE0
+            // Token: 0x06000E48 RID: 3656 RVA: 0x0006BCE0 File Offset: 0x00069EE0
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8037,27 +7671,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E4B RID: 3659 RVA: 0x0006BD08 File Offset: 0x00069F08
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001F3 RID: 499
 			// (get) Token: 0x06000E4C RID: 3660 RVA: 0x0006BD14 File Offset: 0x00069F14
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E4D RID: 3661 RVA: 0x0006BD1C File Offset: 0x00069F1C
+            // Token: 0x06000E4D RID: 3661 RVA: 0x0006BD1C File Offset: 0x00069F1C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8085,27 +7707,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E51 RID: 3665 RVA: 0x0006BD4C File Offset: 0x00069F4C
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001F5 RID: 501
 			// (get) Token: 0x06000E52 RID: 3666 RVA: 0x0006BD58 File Offset: 0x00069F58
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E53 RID: 3667 RVA: 0x0006BD60 File Offset: 0x00069F60
+            // Token: 0x06000E53 RID: 3667 RVA: 0x0006BD60 File Offset: 0x00069F60
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8126,27 +7736,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E56 RID: 3670 RVA: 0x0006BD88 File Offset: 0x00069F88
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001F7 RID: 503
 			// (get) Token: 0x06000E57 RID: 3671 RVA: 0x0006BD94 File Offset: 0x00069F94
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E58 RID: 3672 RVA: 0x0006BD9C File Offset: 0x00069F9C
+            // Token: 0x06000E58 RID: 3672 RVA: 0x0006BD9C File Offset: 0x00069F9C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8174,27 +7772,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E5C RID: 3676 RVA: 0x0006BDCC File Offset: 0x00069FCC
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001F9 RID: 505
 			// (get) Token: 0x06000E5D RID: 3677 RVA: 0x0006BDD8 File Offset: 0x00069FD8
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E5E RID: 3678 RVA: 0x0006BDE0 File Offset: 0x00069FE0
+            // Token: 0x06000E5E RID: 3678 RVA: 0x0006BDE0 File Offset: 0x00069FE0
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8222,27 +7808,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E62 RID: 3682 RVA: 0x0006BE10 File Offset: 0x0006A010
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001FB RID: 507
 			// (get) Token: 0x06000E63 RID: 3683 RVA: 0x0006BE1C File Offset: 0x0006A01C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E64 RID: 3684 RVA: 0x0006BE24 File Offset: 0x0006A024
+            // Token: 0x06000E64 RID: 3684 RVA: 0x0006BE24 File Offset: 0x0006A024
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8273,27 +7847,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E68 RID: 3688 RVA: 0x0006BE54 File Offset: 0x0006A054
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001FD RID: 509
 			// (get) Token: 0x06000E69 RID: 3689 RVA: 0x0006BE60 File Offset: 0x0006A060
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E6A RID: 3690 RVA: 0x0006BE68 File Offset: 0x0006A068
+            // Token: 0x06000E6A RID: 3690 RVA: 0x0006BE68 File Offset: 0x0006A068
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8311,27 +7873,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E6D RID: 3693 RVA: 0x0006BE90 File Offset: 0x0006A090
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x170001FF RID: 511
 			// (get) Token: 0x06000E6E RID: 3694 RVA: 0x0006BE9C File Offset: 0x0006A09C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E6F RID: 3695 RVA: 0x0006BEA4 File Offset: 0x0006A0A4
+            // Token: 0x06000E6F RID: 3695 RVA: 0x0006BEA4 File Offset: 0x0006A0A4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8362,27 +7912,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E73 RID: 3699 RVA: 0x0006BED4 File Offset: 0x0006A0D4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000201 RID: 513
 			// (get) Token: 0x06000E74 RID: 3700 RVA: 0x0006BEE0 File Offset: 0x0006A0E0
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E75 RID: 3701 RVA: 0x0006BEE8 File Offset: 0x0006A0E8
+            // Token: 0x06000E75 RID: 3701 RVA: 0x0006BEE8 File Offset: 0x0006A0E8
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8410,27 +7948,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E79 RID: 3705 RVA: 0x0006BF18 File Offset: 0x0006A118
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000203 RID: 515
 			// (get) Token: 0x06000E7A RID: 3706 RVA: 0x0006BF24 File Offset: 0x0006A124
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E7B RID: 3707 RVA: 0x0006BF2C File Offset: 0x0006A12C
+            // Token: 0x06000E7B RID: 3707 RVA: 0x0006BF2C File Offset: 0x0006A12C
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8441,7 +7967,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001FA RID: 506
-		protected class elseBlock_scope
+		protected record elseBlock_scope
 		{
 			// Token: 0x04000C43 RID: 3139
 			protected internal IList kBlockStatements;
@@ -8458,27 +7984,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E7F RID: 3711 RVA: 0x0006BF5C File Offset: 0x0006A15C
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000205 RID: 517
 			// (get) Token: 0x06000E80 RID: 3712 RVA: 0x0006BF68 File Offset: 0x0006A168
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E81 RID: 3713 RVA: 0x0006BF70 File Offset: 0x0006A170
+            // Token: 0x06000E81 RID: 3713 RVA: 0x0006BF70 File Offset: 0x0006A170
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8489,7 +8003,7 @@ namespace pcomps.PCompiler
 		}
 
 		// Token: 0x020001FC RID: 508
-		protected class whileBlock_scope
+		protected record whileBlock_scope
 		{
 			// Token: 0x04000C46 RID: 3142
 			protected internal IList kBlockStatements;
@@ -8512,27 +8026,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E85 RID: 3717 RVA: 0x0006BFA0 File Offset: 0x0006A1A0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000207 RID: 519
 			// (get) Token: 0x06000E86 RID: 3718 RVA: 0x0006BFAC File Offset: 0x0006A1AC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E87 RID: 3719 RVA: 0x0006BFB4 File Offset: 0x0006A1B4
+            // Token: 0x06000E87 RID: 3719 RVA: 0x0006BFB4 File Offset: 0x0006A1B4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8557,27 +8059,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E8B RID: 3723 RVA: 0x0006BFE4 File Offset: 0x0006A1E4
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000209 RID: 521
 			// (get) Token: 0x06000E8C RID: 3724 RVA: 0x0006BFF0 File Offset: 0x0006A1F0
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E8D RID: 3725 RVA: 0x0006BFF8 File Offset: 0x0006A1F8
+            // Token: 0x06000E8D RID: 3725 RVA: 0x0006BFF8 File Offset: 0x0006A1F8
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8598,27 +8088,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E90 RID: 3728 RVA: 0x0006C020 File Offset: 0x0006A220
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x1700020B RID: 523
 			// (get) Token: 0x06000E91 RID: 3729 RVA: 0x0006C02C File Offset: 0x0006A22C
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E92 RID: 3730 RVA: 0x0006C034 File Offset: 0x0006A234
+            // Token: 0x06000E92 RID: 3730 RVA: 0x0006C034 File Offset: 0x0006A234
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8642,27 +8120,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E95 RID: 3733 RVA: 0x0006C05C File Offset: 0x0006A25C
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x1700020D RID: 525
 			// (get) Token: 0x06000E96 RID: 3734 RVA: 0x0006C068 File Offset: 0x0006A268
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E97 RID: 3735 RVA: 0x0006C070 File Offset: 0x0006A270
+            // Token: 0x06000E97 RID: 3735 RVA: 0x0006C070 File Offset: 0x0006A270
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8693,27 +8159,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000E9B RID: 3739 RVA: 0x0006C0A0 File Offset: 0x0006A2A0
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x1700020F RID: 527
 			// (get) Token: 0x06000E9C RID: 3740 RVA: 0x0006C0AC File Offset: 0x0006A2AC
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000E9D RID: 3741 RVA: 0x0006C0B4 File Offset: 0x0006A2B4
+            // Token: 0x06000E9D RID: 3741 RVA: 0x0006C0B4 File Offset: 0x0006A2B4
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8734,27 +8188,15 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000EA0 RID: 3744 RVA: 0x0006C0DC File Offset: 0x0006A2DC
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000211 RID: 529
 			// (get) Token: 0x06000EA1 RID: 3745 RVA: 0x0006C0E8 File Offset: 0x0006A2E8
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000EA2 RID: 3746 RVA: 0x0006C0F0 File Offset: 0x0006A2F0
+            // Token: 0x06000EA2 RID: 3746 RVA: 0x0006C0F0 File Offset: 0x0006A2F0
 			public override string ToString()
 			{
                 return st?.ToString();
@@ -8772,33 +8214,18 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000EA5 RID: 3749 RVA: 0x0006C118 File Offset: 0x0006A318
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000213 RID: 531
 			// (get) Token: 0x06000EA6 RID: 3750 RVA: 0x0006C124 File Offset: 0x0006A324
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000EA7 RID: 3751 RVA: 0x0006C12C File Offset: 0x0006A32C
-			public override string ToString()
-			{
-                return st?.ToString();
-            }
+            // Token: 0x06000EA7 RID: 3751 RVA: 0x0006C12C File Offset: 0x0006A32C
+			public override string ToString() => st?.ToString();
 
-			// Token: 0x04000C58 RID: 3160
+            // Token: 0x04000C58 RID: 3160
 			private StringTemplate st;
 		}
 
@@ -8810,33 +8237,18 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000EAA RID: 3754 RVA: 0x0006C154 File Offset: 0x0006A354
 			public StringTemplate ST
 			{
-				get
-				{
-					return st;
-				}
-				set
-				{
-					st = value;
-				}
-			}
+				get => st;
+                set => st = value;
+            }
 
 			// Token: 0x17000215 RID: 533
 			// (get) Token: 0x06000EAB RID: 3755 RVA: 0x0006C160 File Offset: 0x0006A360
-			public override object Template
-			{
-				get
-				{
-					return st;
-				}
-			}
+			public override object Template => st;
 
-			// Token: 0x06000EAC RID: 3756 RVA: 0x0006C168 File Offset: 0x0006A368
-			public override string ToString()
-			{
-                return st?.ToString();
-            }
+            // Token: 0x06000EAC RID: 3756 RVA: 0x0006C168 File Offset: 0x0006A368
+			public override string ToString() => st?.ToString();
 
-			// Token: 0x04000C59 RID: 3161
+            // Token: 0x04000C59 RID: 3161
 			public string sTypeString;
 
 			// Token: 0x04000C5A RID: 3162
@@ -8862,13 +8274,7 @@ namespace pcomps.PCompiler
 
 			// Token: 0x17000216 RID: 534
 			// (get) Token: 0x06000EAF RID: 3759 RVA: 0x0006C1F8 File Offset: 0x0006A3F8
-			public override string Description
-			{
-				get
-				{
-					return "437:1: l_value : ( ^( DOT ^( PAREXPR a= expression ) b= property_set ) -> dot(aTemplate=$a.stbTemplate=$b.st) | ^( ARRAYSET source= ID self= ID autoCast ^( PAREXPR array= expression ) index= expression ) -> arraySet(sourceName=$l_value::ssourceNameselfName=$l_value::sselfNameindex=$autoCast.sRetValueautoCast=$autoCast.starrayExpressions=$array.stindexExpressions=$index.stlineNo=$ARRAYSET.Line) | basic_l_value );";
-				}
-			}
-		}
+			public override string Description => "437:1: l_value : ( ^( DOT ^( PAREXPR a= expression ) b= property_set ) -> dot(aTemplate=$a.stbTemplate=$b.st) | ^( ARRAYSET source= ID self= ID autoCast ^( PAREXPR array= expression ) index= expression ) -> arraySet(sourceName=$l_value::ssourceNameselfName=$l_value::sselfNameindex=$autoCast.sRetValueautoCast=$autoCast.starrayExpressions=$array.stindexExpressions=$index.stlineNo=$ARRAYSET.Line) | basic_l_value );";
+        }
 	}
 }

@@ -33,7 +33,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			caseSensitiveLiterals = true;
 			setCaseSensitive(true);
-			literals = new Hashtable(100, 0.4f, null, Comparer.Default);
+			literals = new Hashtable(100, 0.4f);
 			literals.Add("group", 4);
 			literals.Add("implements", 7);
 			literals.Add("default", 21);
@@ -454,14 +454,14 @@ namespace pcomps.Antlr.StringTemplate.Language
 					text.Length = length2;
 					match('"');
 				}
-				else if (cached_LA1 == '\\' && tokenSet_0_.member((int)cached_LA2))
+				else if (cached_LA1 == '\\' && tokenSet_0_.member(cached_LA2))
 				{
 					match('\\');
 					matchNot('"');
 				}
 				else
 				{
-					if (!tokenSet_1_.member((int)cached_LA1))
+					if (!tokenSet_1_.member(cached_LA1))
 					{
 						break;
 					}
@@ -838,7 +838,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			IToken token = null;
 			var length = text.Length;
 			match("//");
-			while (tokenSet_2_.member((int)cached_LA1))
+			while (tokenSet_2_.member(cached_LA1))
 			{
 				match(tokenSet_2_);
 			}

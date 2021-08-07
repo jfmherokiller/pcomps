@@ -369,7 +369,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			public override string ToString()
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.Append("[");
+				stringBuilder.Append('[');
 				var insertionOrderList = _hashList._insertionOrderList;
 				for (var i = 0; i < insertionOrderList.Count; i++)
 				{
@@ -379,7 +379,7 @@ namespace pcomps.Antlr.Runtime.Collections
 					}
 					stringBuilder.Append(insertionOrderList[i]);
 				}
-				stringBuilder.Append("]");
+				stringBuilder.Append(']');
 				return stringBuilder.ToString();
 			}
 
@@ -477,7 +477,7 @@ namespace pcomps.Antlr.Runtime.Collections
 			public override string ToString()
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.Append("[");
+				stringBuilder.Append('[');
 				IEnumerator enumerator = new HashListEnumerator(_hashList, HashListEnumerator.EnumerationMode.Value);
 				if (enumerator.MoveNext())
 				{
@@ -488,7 +488,7 @@ namespace pcomps.Antlr.Runtime.Collections
 						stringBuilder.Append((enumerator.Current != null) ? enumerator.Current : "null");
 					}
 				}
-				stringBuilder.Append("]");
+				stringBuilder.Append(']');
 				return stringBuilder.ToString();
 			}
 

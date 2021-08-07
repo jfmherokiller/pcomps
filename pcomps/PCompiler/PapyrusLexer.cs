@@ -2150,113 +2150,63 @@ namespace pcomps.PCompiler
 				_input.LA(1);
 				var index = _input.Index();
 				_input.Rewind();
-				s = -1;
-				if (synpred1_Papyrus())
-				{
-					s = 5;
-				}
-				else
-				{
-					s = 3;
-				}
+                s = synpred1_Papyrus() ? 5 : 3;
 				_input.Seek(index);
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                return s;
+            }
 			case 1:
 			{
 				var num = _input.LA(1);
 				var index2 = _input.Index();
 				_input.Rewind();
-				s = -1;
-				if (num == 47)
-				{
-					s = 4;
-				}
-				else if ((num >= 0 && num <= 9) || (num >= 11 && num <= 46) || (num >= 48 && num <= 65535))
-				{
-					s = 6;
-				}
-				else if (num == 10 && synpred1_Papyrus())
-				{
-					s = 5;
-				}
-				else
-				{
-					s = 3;
-				}
-				_input.Seek(index2);
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                s = num switch
+                {
+                    47 => 4,
+                    >= 0 and <= 9 => 6,
+                    >= 11 and <= 46 => 6,
+                    >= 48 and <= 65535 => 6,
+                    10 when synpred1_Papyrus() => 5,
+                    _ => 3
+                };
+                _input.Seek(index2);
+                return s;
+            }
 			case 2:
 			{
 				var num2 = _input.LA(1);
 				var index3 = _input.Index();
 				_input.Rewind();
-				s = -1;
-				if (num2 == 47)
-				{
-					s = 4;
-				}
-				else if (num2 == 10 && synpred1_Papyrus())
-				{
-					s = 5;
-				}
-				else if ((num2 >= 0 && num2 <= 9) || (num2 >= 11 && num2 <= 46) || (num2 >= 48 && num2 <= 65535))
-				{
-					s = 6;
-				}
-				else
-				{
-					s = 3;
-				}
-				_input.Seek(index3);
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                s = num2 switch
+                {
+                    47 => 4,
+                    10 when synpred1_Papyrus() => 5,
+                    >= 0 and <= 9 => 6,
+                    >= 11 and <= 46 => 6,
+                    >= 48 and <= 65535 => 6,
+                    _ => 3
+                };
+                _input.Seek(index3);
+                return s;
+            }
 			case 3:
 			{
 				var num3 = _input.LA(1);
 				var index4 = _input.Index();
 				_input.Rewind();
-				s = -1;
-				if (num3 == 59)
-				{
-					s = 7;
-				}
-				else if (num3 == 47)
-				{
-					s = 4;
-				}
-				else if ((num3 >= 0 && num3 <= 9) || (num3 >= 11 && num3 <= 46) || (num3 >= 48 && num3 <= 58) || (num3 >= 60 && num3 <= 65535))
-				{
-					s = 6;
-				}
-				else if (num3 == 10 && synpred1_Papyrus())
-				{
-					s = 5;
-				}
-				else
-				{
-					s = 3;
-				}
-				_input.Seek(index4);
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                s = num3 switch
+                {
+                    59 => 7,
+                    47 => 4,
+                    >= 0 and <= 9 => 6,
+                    >= 11 and <= 46 => 6,
+                    >= 48 and <= 58 => 6,
+                    >= 60 and <= 65535 => 6,
+                    10 when synpred1_Papyrus() => 5,
+                    _ => 3
+                };
+                _input.Seek(index4);
+                return s;
+            }
 			}
 			if (state.backtracking > 0)
 			{
@@ -2277,39 +2227,15 @@ namespace pcomps.PCompiler
 			case 0:
 			{
 				var num = _input.LA(1);
-				s = -1;
-				if (num >= 0 && num <= 65535)
-				{
-					s = 72;
-				}
-				else
-				{
-					s = 71;
-				}
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                s = num is >= 0 and <= 65535 ? 72 : 71;
+                return s;
+            }
 			case 1:
 			{
 				var num2 = _input.LA(1);
-				s = -1;
-				if ((num2 >= 0 && num2 <= 9) || (num2 >= 11 && num2 <= 12) || (num2 >= 14 && num2 <= 65535))
-				{
-					s = 70;
-				}
-				else
-				{
-					s = 69;
-				}
-				if (s >= 0)
-				{
-					return s;
-				}
-				break;
-			}
+                s = num2 is >= 0 and <= 9 or >= 11 and <= 12 or >= 14 and <= 65535 ? 70 : 69;
+                return s;
+            }
 			}
 			if (state.backtracking > 0)
 			{
@@ -2324,39 +2250,43 @@ namespace pcomps.PCompiler
 		// Token: 0x06000C14 RID: 3092 RVA: 0x00048F90 File Offset: 0x00047190
 		private string HexToDecString(string asHexString)
 		{
-			asHexString = asHexString.Substring(2);
+			asHexString = asHexString[2..];
 			return int.Parse(asHexString, NumberStyles.AllowHexSpecifier).ToString();
 		}
 
 		// Token: 0x06000C15 RID: 3093 RVA: 0x00048FBC File Offset: 0x000471BC
 		private string DocStringToEscapedString(string asDocString)
 		{
-			var text = asDocString.Substring(1, asDocString.Length - 2);
+			var text = asDocString[1..^1];
 			text = text.Trim();
 			var stringBuilder = new StringBuilder();
 			foreach (var c in text)
-			{
-				if (c == '\n')
-				{
-					stringBuilder.Append("\\n");
-				}
-				else if (c == '\t')
-				{
-					stringBuilder.Append("\\t");
-				}
-				else if (c == '\\')
-				{
-					stringBuilder.Append("\\\\");
-				}
-				else if (c == '"')
-				{
-					stringBuilder.Append("\\\"");
-				}
-				else if (c != '\r')
-				{
-					stringBuilder.Append(c);
-				}
-			}
+            {
+                switch (c)
+                {
+                    case '\n':
+                        stringBuilder.Append("\\n");
+                        break;
+                    case '\t':
+                        stringBuilder.Append("\\t");
+                        break;
+                    case '\\':
+                        stringBuilder.Append("\\\\");
+                        break;
+                    case '"':
+                        stringBuilder.Append("\\\"");
+                        break;
+                    default:
+                    {
+                        if (c != '\r')
+                        {
+                            stringBuilder.Append(c);
+                        }
+
+                        break;
+                    }
+                }
+            }
 			return stringBuilder.ToString();
 		}
 
@@ -2709,8 +2639,7 @@ namespace pcomps.PCompiler
 		protected DFA20 dfa20;
 
 		// Token: 0x040007BF RID: 1983
-		private static readonly string[] DFA19_transitionS = new string[]
-		{
+		private static readonly string[] DFA19_transitionS = {
 			"\u0001\u0001",
 			"\u0001\u0002",
 			"\n\u0006\u0001\u0005$\u0006\u0001\u0004￐\u0006",
@@ -2743,8 +2672,7 @@ namespace pcomps.PCompiler
 		private static readonly short[][] DFA19_transition = DFA.UnpackEncodedStringArray(DFA19_transitionS);
 
 		// Token: 0x040007C7 RID: 1991
-		private static readonly string[] DFA20_transitionS = new string[]
-		{
+		private static readonly string[] DFA20_transitionS = {
 			"\u0001&\u0001%\u0002￿\u0001%\u0012￿\u0001&\u0001 \u0001\u0012\u0002￿\u0001\u001e\u0001$\u0001￿\u0001\u0014\u0001\u0015\u0001\u001c\u0001\u001b\u0001\u0019\u0001\u000f\u0001\u001f\u0001\u001d\u0001\u0010\t\u0011\u0001￿\u0001(\u0001\"\u0001\u001a\u0001!\u0002￿\u001a\u000e\u0001\u0017\u0001'\u0001\u0018\u0001￿\u0001\u000e\u0001￿\u0001\a\u0001\v\u0002\u000e\u0001\u0003\u0001\u0002\u0001\u0005\u0001\u000e\u0001\b\u0002\u000e\u0001\f\u0001\u000e\u0001\u0004\u0001\u000e\u0001\t\u0001\u000e\u0001\u0006\u0001\u0001\u0001\r\u0002\u000e\u0001\n\u0003\u000e\u0001\u0013\u0001#\u0001\u0016",
 			"\u0001)\u0010￿\u0001*",
 			"\u0001-\n￿\u0001,\b￿\u0001+",
@@ -3052,13 +2980,7 @@ namespace pcomps.PCompiler
 
 			// Token: 0x1700016F RID: 367
 			// (get) Token: 0x06000C1A RID: 3098 RVA: 0x00049C20 File Offset: 0x00047E20
-			public override string Description
-			{
-				get
-				{
-					return "1:1: Tokens : ( SCRIPTNAME | FUNCTION | ENDFUNCTION | EVENT | ENDEVENT | NATIVE | GLOBAL | RETURN | AS | IF | ELSEIF | ELSE | ENDIF | EXTENDS | IMPORT | AUTO | AUTOREADONLY | STATE | ENDSTATE | PROPERTY | ENDPROPERTY | WHILE | ENDWHILE | BASETYPE | NONE | NEW | LENGTH | BOOL | ID | INTEGER | FLOAT | STRING | DOCSTRING | LPAREN | RPAREN | LBRACE | RBRACE | LBRACKET | RBRACKET | COMMA | EQUALS | PLUS | MINUS | MULT | DIVIDE | MOD | DOT | DQUOTE | NOT | EQ | NE | GT | LT | GTE | LTE | OR | AND | PLUSEQUALS | MINUSEQUALS | MULTEQUALS | DIVEQUALS | MODEQUALS | EOL | WS | EAT_EOL | COMMENT );";
-				}
-			}
-		}
+			public override string Description => "1:1: Tokens : ( SCRIPTNAME | FUNCTION | ENDFUNCTION | EVENT | ENDEVENT | NATIVE | GLOBAL | RETURN | AS | IF | ELSEIF | ELSE | ENDIF | EXTENDS | IMPORT | AUTO | AUTOREADONLY | STATE | ENDSTATE | PROPERTY | ENDPROPERTY | WHILE | ENDWHILE | BASETYPE | NONE | NEW | LENGTH | BOOL | ID | INTEGER | FLOAT | STRING | DOCSTRING | LPAREN | RPAREN | LBRACE | RBRACE | LBRACKET | RBRACKET | COMMA | EQUALS | PLUS | MINUS | MULT | DIVIDE | MOD | DOT | DQUOTE | NOT | EQ | NE | GT | LT | GTE | LTE | OR | AND | PLUSEQUALS | MINUSEQUALS | MULTEQUALS | DIVEQUALS | MODEQUALS | EOL | WS | EAT_EOL | COMMENT );";
+        }
 	}
 }

@@ -48,18 +48,7 @@
 		// Token: 0x06000188 RID: 392 RVA: 0x00005D60 File Offset: 0x00003F60
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"[\"",
-				getText(),
-				"\",<",
-				type_,
-				">,line=",
-				line,
-				",col=",
-				col,
-				"]"
-			});
+			return $"[\"{getText()}\",<{type_}>,line={line},col={col}]";
 		}
 
 		// Token: 0x06000189 RID: 393 RVA: 0x00005DD8 File Offset: 0x00003FD8
@@ -75,7 +64,7 @@
 		}
 
 		// Token: 0x04000063 RID: 99
-		public static readonly CommonTokenCreator Creator = new CommonTokenCreator();
+		public static readonly CommonTokenCreator Creator = new();
 
 		// Token: 0x04000064 RID: 100
 		protected internal int line;
@@ -91,19 +80,10 @@
 		{
 			// Token: 0x17000019 RID: 25
 			// (get) Token: 0x0600018D RID: 397 RVA: 0x00005E2C File Offset: 0x0000402C
-			public override string TokenTypeName
-			{
-				get
-				{
-					return typeof(CommonToken).FullName;
-				}
-			}
+			public override string TokenTypeName => typeof(CommonToken).FullName;
 
-			// Token: 0x0600018E RID: 398 RVA: 0x00005E48 File Offset: 0x00004048
-			public override IToken Create()
-			{
-				return new CommonToken();
-			}
-		}
+            // Token: 0x0600018E RID: 398 RVA: 0x00005E48 File Offset: 0x00004048
+			public override IToken Create() => new CommonToken();
+        }
 	}
 }

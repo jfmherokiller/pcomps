@@ -44,15 +44,9 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x17000243 RID: 579
 		// (get) Token: 0x06000FCC RID: 4044 RVA: 0x00070780 File Offset: 0x0006E980
-		public object StringTemplateContext
-		{
-			get
-			{
-				return _context;
-			}
-		}
+		public object StringTemplateContext => _context;
 
-		// Token: 0x04000CEB RID: 3307
+        // Token: 0x04000CEB RID: 3307
 		private object _context;
 	}
 }

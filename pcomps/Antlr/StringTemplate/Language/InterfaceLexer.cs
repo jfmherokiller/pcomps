@@ -33,7 +33,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			caseSensitiveLiterals = true;
 			setCaseSensitive(true);
-			literals = new Hashtable(100, 0.4f, null, Comparer.Default);
+			literals = new Hashtable(100, 0.4f);
 			literals.Add("optional", 7);
 			literals.Add("interface", 4);
 		}
@@ -446,7 +446,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			IToken token = null;
 			var length = text.Length;
 			match("//");
-			while (tokenSet_0_.member((int)cached_LA1))
+			while (tokenSet_0_.member(cached_LA1))
 			{
 				match(tokenSet_0_);
 			}

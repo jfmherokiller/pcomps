@@ -24,10 +24,12 @@ namespace pcomps.Antlr
 			heteroList_ = new FactoryEntry[5];
 			defaultASTNodeTypeObject_ = nodeType;
 			defaultCreator_ = null;
-			typename2creator_ = new Hashtable(32, 0.3f);
-			typename2creator_["antlr.CommonAST"] = CommonAST.Creator;
-			typename2creator_["antlr.CommonASTWithHiddenTokens"] = CommonASTWithHiddenTokens.Creator;
-		}
+			typename2creator_ = new Hashtable(32, 0.3f)
+            {
+                ["antlr.CommonAST"] = CommonAST.Creator,
+                ["antlr.CommonASTWithHiddenTokens"] = CommonASTWithHiddenTokens.Creator
+            };
+        }
 
 		// Token: 0x06000023 RID: 35 RVA: 0x00002BB8 File Offset: 0x00000DB8
 		public void setTokenTypeASTNodeType(int tokenType, string NodeTypeName)
@@ -104,40 +106,30 @@ namespace pcomps.Antlr
 
 		// Token: 0x06000028 RID: 40 RVA: 0x00002D4C File Offset: 0x00000F4C
 		public virtual void addASTChild(ref ASTPair currentAST, AST child)
-		{
-			if (child != null)
-			{
-				if (currentAST.root == null)
-				{
-					currentAST.root = child;
-				}
-				else if (currentAST.child == null)
-				{
-					currentAST.root.setFirstChild(child);
-				}
-				else
-				{
-					currentAST.child.setNextSibling(child);
-				}
-				currentAST.child = child;
-				currentAST.advanceChildToEnd();
-			}
-		}
+        {
+            if (child == null) return;
+            if (currentAST.root == null)
+            {
+                currentAST.root = child;
+            }
+            else if (currentAST.child == null)
+            {
+                currentAST.root.setFirstChild(child);
+            }
+            else
+            {
+                currentAST.child.setNextSibling(child);
+            }
+            currentAST.child = child;
+            currentAST.advanceChildToEnd();
+        }
 
 		// Token: 0x06000029 RID: 41 RVA: 0x00002D9C File Offset: 0x00000F9C
 		public virtual AST create()
-		{
-			AST result;
-			if (defaultCreator_ == null)
-			{
-				result = createFromNodeTypeObject(defaultASTNodeTypeObject_);
-			}
-			else
-			{
-				result = defaultCreator_.Create();
-			}
-			return result;
-		}
+        {
+            var result = defaultCreator_ == null ? createFromNodeTypeObject(defaultASTNodeTypeObject_) : defaultCreator_.Create();
+            return result;
+        }
 
 		// Token: 0x0600002A RID: 42 RVA: 0x00002DD0 File Offset: 0x00000FD0
 		public virtual AST create(int type)
@@ -251,29 +243,27 @@ namespace pcomps.Antlr
 			AST ast2 = null;
             ast?.setFirstChild(null);
             for (var i = 1; i < nodes.Length; i++)
-			{
-				if (nodes[i] != null)
-				{
-					if (ast == null)
-					{
-						ast2 = (ast = nodes[i]);
-					}
-					else if (ast2 == null)
-					{
-						ast.setFirstChild(nodes[i]);
-						ast2 = ast.getFirstChild();
-					}
-					else
-					{
-						ast2.setNextSibling(nodes[i]);
-						ast2 = ast2.getNextSibling();
-					}
-					while (ast2.getNextSibling() != null)
-					{
-						ast2 = ast2.getNextSibling();
-					}
-				}
-			}
+            {
+                if (nodes[i] == null) continue;
+                if (ast == null)
+                {
+                    ast2 = (ast = nodes[i]);
+                }
+                else if (ast2 == null)
+                {
+                    ast.setFirstChild(nodes[i]);
+                    ast2 = ast.getFirstChild();
+                }
+                else
+                {
+                    ast2.setNextSibling(nodes[i]);
+                    ast2 = ast2.getNextSibling();
+                }
+                while (ast2.getNextSibling() != null)
+                {
+                    ast2 = ast2.getNextSibling();
+                }
+            }
 			return ast;
 		}
 
@@ -285,15 +275,13 @@ namespace pcomps.Antlr
 
 		// Token: 0x06000035 RID: 53 RVA: 0x00002FC8 File Offset: 0x000011C8
 		public virtual void makeASTRoot(ref ASTPair currentAST, AST root)
-		{
-			if (root != null)
-			{
-				root.addChild(currentAST.root);
-				currentAST.child = currentAST.root;
-				currentAST.advanceChildToEnd();
-				currentAST.root = root;
-			}
-		}
+        {
+            if (root == null) return;
+            root.addChild(currentAST.root);
+            currentAST.child = currentAST.root;
+            currentAST.advanceChildToEnd();
+            currentAST.root = root;
+        }
 
 		// Token: 0x06000036 RID: 54 RVA: 0x00003000 File Offset: 0x00001200
 		public virtual void setASTNodeType(string t)
@@ -323,12 +311,10 @@ namespace pcomps.Antlr
 					try
 					{
 						type = assembly.GetType(nodeTypeName);
-						if (type != null)
-						{
-							flag = true;
-							break;
-						}
-					}
+                        if (type == null) continue;
+                        flag = true;
+                        break;
+                    }
 					catch
 					{
 						flag = false;
@@ -346,7 +332,7 @@ namespace pcomps.Antlr
 		private AST createFromAST(AST node)
 		{
 			var type = node.GetType();
-			var astnodeCreator = (ASTNodeCreator)typename2creator_[type.FullName];
+			var astnodeCreator = (ASTNodeCreator)typename2creator_[type.FullName ?? string.Empty];
 			AST ast;
 			if (astnodeCreator != null)
 			{
@@ -388,21 +374,14 @@ namespace pcomps.Antlr
 		{
 			var factoryEntry = heteroList_[nodeTypeIndex];
 			AST result;
-			if (factoryEntry != null && factoryEntry.Creator != null)
+			if (factoryEntry is { Creator: { } })
 			{
 				result = factoryEntry.Creator.Create();
 			}
-			else if (factoryEntry == null || factoryEntry.NodeTypeObject == null)
-			{
-				if (defaultCreator_ == null)
-				{
-					result = createFromNodeTypeObject(defaultASTNodeTypeObject_);
-				}
-				else
-				{
-					result = defaultCreator_.Create();
-				}
-			}
+			else if (factoryEntry?.NodeTypeObject == null)
+            {
+                result = defaultCreator_ == null ? createFromNodeTypeObject(defaultASTNodeTypeObject_) : defaultCreator_.Create();
+            }
 			else
 			{
 				result = createFromNodeTypeObject(factoryEntry.NodeTypeObject);
@@ -413,7 +392,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600003C RID: 60 RVA: 0x000031F0 File Offset: 0x000013F0
 		private AST createFromNodeTypeObject(Type nodeTypeObject)
 		{
-			AST ast = null;
+			AST ast;
 			try
 			{
 				ast = (AST)Activator.CreateInstance(nodeTypeObject);

@@ -7,25 +7,13 @@ namespace pcomps.PCompiler
 	{
 		// Token: 0x17000222 RID: 546
 		// (get) Token: 0x06000EE8 RID: 3816 RVA: 0x0006D9E8 File Offset: 0x0006BBE8
-		public string Message
-		{
-			get
-			{
-				return sError;
-			}
-		}
+		public string Message => sError;
 
-		// Token: 0x17000223 RID: 547
+        // Token: 0x17000223 RID: 547
 		// (get) Token: 0x06000EE9 RID: 3817 RVA: 0x0006D9F0 File Offset: 0x0006BBF0
-		public bool FilenameValid
-		{
-			get
-			{
-				return bHasFileInformation;
-			}
-		}
+		public bool FilenameValid => bHasFileInformation;
 
-		// Token: 0x17000224 RID: 548
+        // Token: 0x17000224 RID: 548
 		// (get) Token: 0x06000EEA RID: 3818 RVA: 0x0006D9F8 File Offset: 0x0006BBF8
 		public string Filename
 		{
@@ -42,15 +30,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x17000225 RID: 549
 		// (get) Token: 0x06000EEB RID: 3819 RVA: 0x0006DA1C File Offset: 0x0006BC1C
-		public bool LineInformationValid
-		{
-			get
-			{
-				return bHasFileInformation && bHasLineInformation;
-			}
-		}
+		public bool LineInformationValid => bHasFileInformation && bHasLineInformation;
 
-		// Token: 0x17000226 RID: 550
+        // Token: 0x17000226 RID: 550
 		// (get) Token: 0x06000EEC RID: 3820 RVA: 0x0006DA30 File Offset: 0x0006BC30
 		public int LineNumber
 		{

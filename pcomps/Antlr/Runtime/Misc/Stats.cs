@@ -18,9 +18,9 @@ namespace pcomps.Antlr.Runtime.Misc
 			var num3 = 0.0;
 			for (var i = 0; i < num; i++)
 			{
-				num3 += ((double)X[i] - num2) * ((double)X[i] - num2);
+				num3 += (X[i] - num2) * (X[i] - num2);
 			}
-			num3 /= (double)(num - 1);
+			num3 /= num - 1;
 			return Math.Sqrt(num3);
 		}
 
@@ -35,11 +35,11 @@ namespace pcomps.Antlr.Runtime.Misc
 			}
 			for (var i = 0; i < num2; i++)
 			{
-				num += (double)X[i];
+				num += X[i];
 			}
 			if (num >= 0.0)
 			{
-				return num / (double)num2;
+				return num / num2;
 			}
 			return 0.0;
 		}

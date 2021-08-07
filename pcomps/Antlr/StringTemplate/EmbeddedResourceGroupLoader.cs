@@ -58,16 +58,7 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			catch (Exception e)
 			{
-				Error(string.Concat(new string[]
-				{
-					"Resource Error: can't load group '",
-					namespaceRoot,
-					".",
-					groupName,
-					".stg' from assembly '",
-					assembly.FullName,
-					"'"
-				}), e);
+				Error(string.Concat("Resource Error: can't load group '", namespaceRoot, ".", groupName, ".stg' from assembly '", assembly.FullName, "'"), e);
 			}
 			return result;
 		}
@@ -87,16 +78,7 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			catch (Exception e)
 			{
-				Error(string.Concat(new string[]
-				{
-					"Resource Error: can't load interface '",
-					namespaceRoot,
-					".",
-					interfaceName,
-					".sti' from assembly '",
-					assembly.FullName,
-					"'"
-				}), e);
+				Error(string.Concat("Resource Error: can't load interface '", namespaceRoot, ".", interfaceName, ".sti' from assembly '", assembly.FullName, "'"), e);
 			}
 			return result;
 		}

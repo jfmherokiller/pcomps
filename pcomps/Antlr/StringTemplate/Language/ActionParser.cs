@@ -23,15 +23,7 @@ namespace pcomps.Antlr.StringTemplate.Language
                     $"action parse error; template context is {self.GetEnclosingInstanceStackString()}", e);
 				return;
 			}
-			self.Error(string.Concat(new object[]
-			{
-				"action parse error in group ",
-				self.Group.Name,
-				" line ",
-				self.GroupFileLine,
-				"; template context is ",
-				self.GetEnclosingInstanceStackString()
-			}), e);
+			self.Error(string.Concat("action parse error in group ", self.Group.Name, " line ", self.GroupFileLine, "; template context is ", self.GetEnclosingInstanceStackString()), e);
 		}
 
 		// Token: 0x060010A7 RID: 4263 RVA: 0x00075B14 File Offset: 0x00073D14
@@ -230,11 +222,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-							{
-								(StringTemplateAST)astFactory.create(5, "MULTI_APPLY"),
-								stringTemplateAST
-							});
+							stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(5, "MULTI_APPLY"), stringTemplateAST);
 							astpair.root = stringTemplateAST;
 							if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 							{
@@ -563,11 +551,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-					{
-						(StringTemplateAST)astFactory.create(10),
-						stringTemplateAST
-					});
+					stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(10), stringTemplateAST);
 					astpair.root = stringTemplateAST;
 					if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 					{
@@ -623,11 +607,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (inputState.guessing == 0)
 					{
 						stringTemplateAST = (StringTemplateAST)astpair.root;
-						stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-						{
-							(StringTemplateAST)astFactory.create(7, "include"),
-							stringTemplateAST
-						});
+						stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(7, "include"), stringTemplateAST);
 						astpair.root = stringTemplateAST;
 						if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 						{
@@ -677,11 +657,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (inputState.guessing == 0)
 					{
 						stringTemplateAST = (StringTemplateAST)astpair.root;
-						stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-						{
-							(StringTemplateAST)astFactory.create(7, "include"),
-							stringTemplateAST
-						});
+						stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(7, "include"), stringTemplateAST);
 						astpair.root = stringTemplateAST;
 						if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 						{
@@ -758,11 +734,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-							{
-								(StringTemplateAST)astFactory.create(7, "include"),
-								stringTemplateAST
-							});
+							stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(7, "include"), stringTemplateAST);
 							astpair.root = stringTemplateAST;
 							if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 							{
@@ -885,11 +857,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						if (inputState.guessing == 0)
 						{
 							stringTemplateAST = (StringTemplateAST)astpair.root;
-							stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-							{
-								(StringTemplateAST)astFactory.create(6, "ARGS"),
-								stringTemplateAST
-							});
+							stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(6, "ARGS"), stringTemplateAST);
 							astpair.root = stringTemplateAST;
 							if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 							{
@@ -1078,11 +1046,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-					{
-						(StringTemplateAST)astFactory.create(11),
-						stringTemplateAST
-					});
+					stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(11), stringTemplateAST);
 					astpair.root = stringTemplateAST;
 					if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 					{
@@ -1181,12 +1145,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-					{
-						(StringTemplateAST)astFactory.create(9, "value"),
-						stringTemplateAST2,
-						stringTemplateAST3
-					});
+					stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(9, "value"), stringTemplateAST2, stringTemplateAST3);
 					astpair.root = stringTemplateAST;
 					if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 					{
@@ -1272,11 +1231,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				if (inputState.guessing == 0)
 				{
 					stringTemplateAST = (StringTemplateAST)astpair.root;
-					stringTemplateAST = (StringTemplateAST)astFactory.make(new AST[]
-					{
-						(StringTemplateAST)astFactory.create(12, "SINGLEVALUEARG"),
-						stringTemplateAST
-					});
+					stringTemplateAST = (StringTemplateAST)astFactory.make((StringTemplateAST)astFactory.create(12, "SINGLEVALUEARG"), stringTemplateAST);
 					astpair.root = stringTemplateAST;
 					if (stringTemplateAST != null && stringTemplateAST.getFirstChild() != null)
 					{

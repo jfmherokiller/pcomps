@@ -50,23 +50,9 @@ namespace pcomps.Antlr.StringTemplate
 			//base..ctor();
 			this.name = name;
 			nameToGroupMap[name] = this;
-			if (templateLoader == null)
-			{
-				this.templateLoader = new NullTemplateLoader();
-			}
-			else
-			{
-				this.templateLoader = templateLoader;
-			}
+			this.templateLoader = templateLoader ?? new NullTemplateLoader();
 			templateLexerClass = lexer;
-			if (errorListener == null)
-			{
-				this.errorListener = DEFAULT_ERROR_LISTENER;
-			}
-			else
-			{
-				this.errorListener = errorListener;
-			}
+			this.errorListener = errorListener ?? DEFAULT_ERROR_LISTENER;
 			this.superGroup = superGroup;
 		}
 
@@ -103,8 +89,8 @@ namespace pcomps.Antlr.StringTemplate
 			this.errorListener = DEFAULT_ERROR_LISTENER;
 			//base..ctor();
 			templatesDefinedInGroupFile = true;
-			templateLexerClass = ((lexer == null) ? typeof(AngleBracketTemplateLexer) : lexer);
-			this.errorListener = ((errorListener == null) ? DEFAULT_ERROR_LISTENER : errorListener);
+			templateLexerClass = (lexer ?? typeof(AngleBracketTemplateLexer));
+			this.errorListener = (errorListener ?? DEFAULT_ERROR_LISTENER);
 			this.superGroup = superGroup;
 			templateLoader = new NullTemplateLoader();
 			ParseGroup(r);
@@ -124,13 +110,9 @@ namespace pcomps.Antlr.StringTemplate
 		}
 
 		// Token: 0x06000FDC RID: 4060 RVA: 0x00070984 File Offset: 0x0006EB84
-		public static StringTemplateGroup LoadGroup(string name)
-		{
-			return LoadGroup(name, null);
-		}
 
-		// Token: 0x06000FDD RID: 4061 RVA: 0x00070990 File Offset: 0x0006EB90
-		public static StringTemplateGroup LoadGroup(string name, StringTemplateGroup superGroup)
+        // Token: 0x06000FDD RID: 4061 RVA: 0x00070990 File Offset: 0x0006EB90
+		public static StringTemplateGroup LoadGroup(string name, StringTemplateGroup superGroup = null)
 		{
             return groupLoader?.LoadGroup(name, superGroup);
         }
@@ -143,57 +125,32 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x17000244 RID: 580
 		// (get) Token: 0x06000FDF RID: 4063 RVA: 0x000709C0 File Offset: 0x0006EBC0
-		public virtual Type TemplateLexerClass
-		{
-			get
-			{
-				if (templateLexerClass != null)
-				{
-					return templateLexerClass;
-				}
-				return DEFAULT_TEMPLATE_LEXER_TYPE;
-			}
-		}
+		public virtual Type TemplateLexerClass => templateLexerClass ?? DEFAULT_TEMPLATE_LEXER_TYPE;
 
-		// Token: 0x17000245 RID: 581
+        // Token: 0x17000245 RID: 581
 		// (get) Token: 0x06000FE0 RID: 4064 RVA: 0x000709D8 File Offset: 0x0006EBD8
 		// (set) Token: 0x06000FE1 RID: 4065 RVA: 0x000709E0 File Offset: 0x0006EBE0
 		public virtual string Name
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+			get => name;
+            set => name = value;
+        }
 
 		// Token: 0x17000246 RID: 582
 		// (get) Token: 0x06000FE2 RID: 4066 RVA: 0x000709EC File Offset: 0x0006EBEC
 		// (set) Token: 0x06000FE3 RID: 4067 RVA: 0x000709F4 File Offset: 0x0006EBF4
 		public virtual IStringTemplateErrorListener ErrorListener
 		{
-			get
-			{
-				return errorListener;
-			}
-			set
-			{
-				errorListener = value;
-			}
-		}
+			get => errorListener;
+            set => errorListener = value;
+        }
 
 		// Token: 0x17000247 RID: 583
 		// (set) Token: 0x06000FE4 RID: 4068 RVA: 0x00070A00 File Offset: 0x0006EC00
 		public virtual IDictionary AttributeRenderers
 		{
-			set
-			{
-				attributeRenderers = value;
-			}
-		}
+			set => attributeRenderers = value;
+        }
 
 		// Token: 0x06000FE5 RID: 4069 RVA: 0x00070A0C File Offset: 0x0006EC0C
 		public virtual void SetSuperGroup(string groupName)
@@ -222,15 +179,9 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06000FE7 RID: 4071 RVA: 0x00070A70 File Offset: 0x0006EC70
 		public virtual StringTemplateGroup SuperGroup
 		{
-			get
-			{
-				return superGroup;
-			}
-			set
-			{
-				superGroup = value;
-			}
-		}
+			get => superGroup;
+            set => superGroup = value;
+        }
 
 		// Token: 0x06000FE8 RID: 4072 RVA: 0x00070A7C File Offset: 0x0006EC7C
 		public void ImplementInterface(StringTemplateGroupInterface iface)
@@ -291,15 +242,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FEE RID: 4078 RVA: 0x00070B54 File Offset: 0x0006ED54
 		public virtual StringTemplate GetEmbeddedInstanceOf(StringTemplate enclosingInstance, string name)
 		{
-			StringTemplate instanceOf;
-			if (name.StartsWith("super."))
-			{
-				instanceOf = enclosingInstance.NativeGroup.GetInstanceOf(enclosingInstance, name);
-			}
-			else
-			{
-				instanceOf = GetInstanceOf(enclosingInstance, name);
-			}
+            var instanceOf = name.StartsWith("super.") ? enclosingInstance.NativeGroup.GetInstanceOf(enclosingInstance, name) : GetInstanceOf(enclosingInstance, name);
 			instanceOf.Group = this;
 			instanceOf.EnclosingInstance = enclosingInstance;
 			return instanceOf;
@@ -406,7 +349,7 @@ namespace pcomps.Antlr.StringTemplate
 				stringTemplate.NativeGroup = this;
 				stringTemplate.Template = template;
 				stringTemplate.ErrorListener = errorListener;
-				templates[name] = stringTemplate;
+				templates[name ?? string.Empty] = stringTemplate;
 				result = stringTemplate;
 			}
 			return result;
@@ -445,7 +388,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FF8 RID: 4088 RVA: 0x00070E5C File Offset: 0x0006F05C
 		public string GetUnMangledTemplateName(string mangledName)
 		{
-			return mangledName.Substring("region__".Length, mangledName.LastIndexOf("__", StringComparison.Ordinal) - "region__".Length);
+			return mangledName["region__".Length..mangledName.LastIndexOf("__", StringComparison.Ordinal)];
 		}
 
 		// Token: 0x06000FF9 RID: 4089 RVA: 0x00070E84 File Offset: 0x0006F084
@@ -541,7 +484,7 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				try
 				{
-					var constructor = userSpecifiedWriter.GetConstructor(new Type[]
+					var constructor = userSpecifiedWriter.GetConstructor(new[]
 					{
 						typeof(TextWriter)
 					});
@@ -564,45 +507,36 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06001000 RID: 4096 RVA: 0x00071064 File Offset: 0x0006F264
 		public virtual void RegisterAttributeRenderer(Type attributeClassType, object renderer)
-		{
-			if (attributeRenderers == null)
-			{
-				attributeRenderers = Hashtable.Synchronized(new Hashtable());
-			}
-			attributeRenderers[attributeClassType] = renderer;
-		}
+        {
+            attributeRenderers ??= Hashtable.Synchronized(new Hashtable());
+            attributeRenderers[attributeClassType] = renderer;
+        }
 
 		// Token: 0x06001001 RID: 4097 RVA: 0x0007108C File Offset: 0x0006F28C
 		public virtual IAttributeRenderer GetAttributeRenderer(Type attributeClassType)
 		{
-			if (attributeRenderers != null)
-			{
-				var attributeRenderer = (IAttributeRenderer)attributeRenderers[attributeClassType];
-				if (attributeRenderer == null && superGroup != null)
-				{
-					attributeRenderer = superGroup.GetAttributeRenderer(attributeClassType);
-				}
-				return attributeRenderer;
-			}
+            if (attributeRenderers == null) return superGroup?.GetAttributeRenderer(attributeClassType);
+            var attributeRenderer = (IAttributeRenderer)attributeRenderers[attributeClassType];
+            if (attributeRenderer == null && superGroup != null)
+            {
+                attributeRenderer = superGroup.GetAttributeRenderer(attributeClassType);
+            }
+            return attributeRenderer;
 
-            return superGroup?.GetAttributeRenderer(attributeClassType);
-		}
+        }
 
 		// Token: 0x06001002 RID: 4098 RVA: 0x000710E4 File Offset: 0x0006F2E4
 		public virtual IDictionary GetMap(string name)
 		{
-			if (maps != null)
-			{
-				var dictionary = (IDictionary)maps[name];
-				if (dictionary == null && superGroup != null)
-				{
-					dictionary = superGroup.GetMap(name);
-				}
-				return dictionary;
-			}
+            if (maps == null) return superGroup?.GetMap(name);
+            var dictionary = (IDictionary)maps[name];
+            if (dictionary == null && superGroup != null)
+            {
+                dictionary = superGroup.GetMap(name);
+            }
+            return dictionary;
 
-            return superGroup?.GetMap(name);
-		}
+        }
 
 		// Token: 0x06001003 RID: 4099 RVA: 0x0007113C File Offset: 0x0006F33C
 		public virtual void DefineMap(string name, IDictionary mapping)
@@ -737,8 +671,8 @@ namespace pcomps.Antlr.StringTemplate
 			while (interfaces != null && num < interfaces.Count)
 			{
 				var stringTemplateGroupInterface = (StringTemplateGroupInterface)interfaces[num];
-				var missingTemplates = stringTemplateGroupInterface.GetMissingTemplates(this);
-				var mismatchedTemplates = stringTemplateGroupInterface.GetMismatchedTemplates(this);
+				var missingTemplates = stringTemplateGroupInterface?.GetMissingTemplates(this);
+				var mismatchedTemplates = stringTemplateGroupInterface?.GetMismatchedTemplates(this);
 				if (missingTemplates != null)
 				{
 					Error(

@@ -13,7 +13,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			var stringBuilder = new StringBuilder();
 			if (coll != null)
 			{
-				stringBuilder.Append("[");
+				stringBuilder.Append('[');
 				for (var i = 0; i < coll.Count; i++)
 				{
 					if (i > 0)
@@ -29,7 +29,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 						stringBuilder.Append(coll[i].ToString());
 					}
 				}
-				stringBuilder.Append("]");
+				stringBuilder.Append(']');
 			}
 			else
 			{
@@ -44,7 +44,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 			var stringBuilder = new StringBuilder();
 			if (dict != null)
 			{
-				stringBuilder.Append("{");
+				stringBuilder.Append('{');
 				var num = 0;
 				foreach (var obj in dict)
 				{
@@ -56,7 +56,7 @@ namespace pcomps.Antlr.StringTemplate.Collections
 					stringBuilder.AppendFormat("{0}={1}", dictionaryEntry.Key.ToString(), dictionaryEntry.Value.ToString());
 					num++;
 				}
-				stringBuilder.Append("}");
+				stringBuilder.Append('}');
 			}
 			else
 			{

@@ -156,17 +156,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						var text = g.GetMangledRegionName(token.getText(), token2.getText());
 						if (g.IsDefinedInThisGroup(text))
 						{
-							g.Error(string.Concat(new object[]
-							{
-								"group ",
-								g.Name,
-								" line ",
-								line,
-								": redefinition of template region: @",
-								token.getText(),
-								".",
-								token2.getText()
-							}));
+							g.Error(string.Concat("group ", g.Name, " line ", line, ": redefinition of template region: @", token.getText(), ".", token2.getText()));
 							stringTemplate = new StringTemplate();
 						}
 						else
@@ -175,30 +165,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 							var stringTemplate2 = g.LookupTemplate(token.getText());
 							if (stringTemplate2 == null)
 							{
-								g.Error(string.Concat(new object[]
-								{
-									"group ",
-									g.Name,
-									" line ",
-									line,
-									": reference to region within undefined template: ",
-									token.getText()
-								}));
+								g.Error(string.Concat("group ", g.Name, " line ", line, ": reference to region within undefined template: ", token.getText()));
 								flag = true;
 							}
 							if (!stringTemplate2.ContainsRegionName(token2.getText()))
 							{
-								g.Error(string.Concat(new object[]
-								{
-									"group ",
-									g.Name,
-									" line ",
-									line,
-									": template ",
-									token.getText(),
-									" has no region called ",
-									token2.getText()
-								}));
+								g.Error(string.Concat("group ", g.Name, " line ", line, ": template ", token.getText(), " has no region called ", token2.getText()));
 								flag = true;
 							}
 							if (flag)
@@ -351,14 +323,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					stringTemplate = new StringTemplate("$_val_$");
 					stringTemplate.SetAttribute("_val_", token2.getText());
 					stringTemplate.DefineFormalArgument("_val_");
-					stringTemplate.Name = string.Concat(new string[]
-					{
-						"<",
-						st.Name,
-						"'s arg ",
-						token.getText(),
-						" default value subtemplate>"
-					});
+					stringTemplate.Name = string.Concat("<", st.Name, "'s arg ", token.getText(), " default value subtemplate>");
 				}
 				else if (LA(1) == 17 && LA(2) == 18)
 				{
@@ -366,14 +331,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					var token3 = LT(1);
 					match(18);
 					stringTemplate = new StringTemplate(st.Group, token3.getText());
-					stringTemplate.Name = string.Concat(new string[]
-					{
-						"<",
-						st.Name,
-						"'s arg ",
-						token.getText(),
-						" default value subtemplate>"
-					});
+					stringTemplate.Name = string.Concat("<", st.Name, "'s arg ", token.getText(), " default value subtemplate>");
 				}
 				else if (LA(1) != 8 && LA(1) != 13)
 				{

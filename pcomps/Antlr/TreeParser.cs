@@ -123,15 +123,7 @@ namespace pcomps.Antlr
 		{
 			traceDepth++;
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new string[]
-			{
-				"> ",
-				rname,
-				"(",
-				(t != null) ? t.ToString() : "null",
-				")",
-				(inputState.guessing > 0) ? " [guessing]" : ""
-			}));
+			Console.Out.WriteLine(string.Concat("> ", rname, "(", (t != null) ? t.ToString() : "null", ")", (inputState.guessing > 0) ? " [guessing]" : ""));
 		}
 
 		// Token: 0x060002D1 RID: 721 RVA: 0x00009448 File Offset: 0x00007648

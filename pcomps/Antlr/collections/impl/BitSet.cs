@@ -399,24 +399,12 @@ namespace pcomps.Antlr.collections.impl
 					if (i >= vocabulary.Count)
 					{
 						object obj = text;
-						text = string.Concat(new object[]
-						{
-							obj,
-							"<bad element ",
-							i,
-							">"
-						});
+						text = string.Concat(obj, "<bad element ", i, ">");
 					}
 					else if (vocabulary[i] == null)
 					{
 						object obj = text;
-						text = string.Concat(new object[]
-						{
-							obj,
-							"<",
-							i,
-							">"
-						});
+						text = string.Concat(obj, "<", i, ">");
 					}
 					else
 					{

@@ -78,36 +78,15 @@ namespace pcomps.Antlr.Runtime
 			}
 			if (trappedException is UnwantedTokenException)
 			{
-				return string.Concat(new object[]
-				{
-					"<extraneous: ",
-					((UnwantedTokenException)trappedException).UnexpectedToken,
-					", resync=",
-					Text,
-					">"
-				});
+				return string.Concat("<extraneous: ", ((UnwantedTokenException)trappedException).UnexpectedToken, ", resync=", Text, ">");
 			}
 			if (trappedException is MismatchedTokenException)
 			{
-				return string.Concat(new object[]
-				{
-					"<mismatched token: ",
-					trappedException.Token,
-					", resync=",
-					Text,
-					">"
-				});
+				return string.Concat("<mismatched token: ", trappedException.Token, ", resync=", Text, ">");
 			}
 			if (trappedException is NoViableAltException)
 			{
-				return string.Concat(new object[]
-				{
-					"<unexpected: ",
-					trappedException.Token,
-					", resync=",
-					Text,
-					">"
-				});
+				return string.Concat("<unexpected: ", trappedException.Token, ", resync=", Text, ">");
 			}
 			return $"<error: {Text}>";
 		}

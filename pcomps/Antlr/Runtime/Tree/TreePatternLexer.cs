@@ -102,7 +102,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			else
 			{
-				c = (int)pattern[p];
+				c = pattern[p];
 			}
 		}
 

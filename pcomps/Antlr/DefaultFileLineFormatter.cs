@@ -24,9 +24,9 @@ namespace pcomps.Antlr
 				{
 					stringBuilder.Append($":{column}");
 				}
-				stringBuilder.Append(":");
+				stringBuilder.Append(':');
 			}
-			stringBuilder.Append(" ");
+			stringBuilder.Append(' ');
 			return stringBuilder.ToString();
 		}
 	}

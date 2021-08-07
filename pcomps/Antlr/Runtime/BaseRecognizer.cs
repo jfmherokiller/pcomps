@@ -15,13 +15,10 @@ namespace pcomps.Antlr.Runtime
 
 		// Token: 0x060008C7 RID: 2247 RVA: 0x00019058 File Offset: 0x00017258
 		public BaseRecognizer(RecognizerSharedState state)
-		{
-			if (state == null)
-			{
-				state = new RecognizerSharedState();
-			}
-			this.state = state;
-		}
+        {
+            state ??= new RecognizerSharedState();
+            this.state = state;
+        }
 
 		// Token: 0x060008C9 RID: 2249 RVA: 0x00019080 File Offset: 0x00017280
 		public virtual void BeginBacktrack(int level)
@@ -42,15 +39,9 @@ namespace pcomps.Antlr.Runtime
 		// (set) Token: 0x060008CD RID: 2253 RVA: 0x00019098 File Offset: 0x00017298
 		public int BacktrackingLevel
 		{
-			get
-			{
-				return state.backtracking;
-			}
-			set
-			{
-				state.backtracking = value;
-			}
-		}
+			get => state.backtracking;
+            set => state.backtracking = value;
+        }
 
 		// Token: 0x060008CE RID: 2254 RVA: 0x000190A8 File Offset: 0x000172A8
 		public bool Failed()
@@ -90,13 +81,11 @@ namespace pcomps.Antlr.Runtime
 				state.failed = false;
 				return currentInputSymbol;
 			}
-			if (state.backtracking > 0)
-			{
-				state.failed = true;
-				return currentInputSymbol;
-			}
-			return RecoverFromMismatchedToken(input, ttype, follow);
-		}
+
+            if (state.backtracking <= 0) return RecoverFromMismatchedToken(input, ttype, follow);
+            state.failed = true;
+            return currentInputSymbol;
+        }
 
 		// Token: 0x060008D1 RID: 2257 RVA: 0x000191C4 File Offset: 0x000173C4
 		public virtual void MatchAny(IIntStream input)
@@ -119,16 +108,15 @@ namespace pcomps.Antlr.Runtime
 			{
 				return false;
 			}
-			if (follow.Member(1))
-			{
-				var a = ComputeContextSensitiveRuleFOLLOW();
-				follow = follow.Or(a);
-				if (state.followingStackPointer >= 0)
-				{
-					follow.Remove(1);
-				}
-			}
-			return follow.Member(input.LA(1)) || follow.Member(1);
+
+            if (!follow.Member(1)) return follow.Member(input.LA(1)) || follow.Member(1);
+            var a = ComputeContextSensitiveRuleFOLLOW();
+            follow = follow.Or(a);
+            if (state.followingStackPointer >= 0)
+            {
+                follow.Remove(1);
+            }
+            return follow.Member(input.LA(1)) || follow.Member(1);
 		}
 
 		// Token: 0x060008D4 RID: 2260 RVA: 0x0001925C File Offset: 0x0001745C
@@ -155,151 +143,61 @@ namespace pcomps.Antlr.Runtime
 		public virtual string GetErrorMessage(RecognitionException e, string[] tokenNames)
 		{
 			var result = e.Message;
-			if (e is UnwantedTokenException)
-			{
-				var ex = (UnwantedTokenException)e;
-				string str;
-				if (ex.Expecting == Token.EOF)
-				{
-					str = "EOF";
-				}
-				else
-				{
-					str = tokenNames[ex.Expecting];
-				}
-				result = $"extraneous input {GetTokenErrorDisplay(ex.UnexpectedToken)} expecting {str}";
-			}
-			else if (e is MissingTokenException)
-			{
-				var ex2 = (MissingTokenException)e;
-				string str2;
-				if (ex2.Expecting == Token.EOF)
-				{
-					str2 = "EOF";
-				}
-				else
-				{
-					str2 = tokenNames[ex2.Expecting];
-				}
-				result = $"missing {str2} at {GetTokenErrorDisplay(e.Token)}";
-			}
-			else if (e is MismatchedTokenException)
-			{
-				var ex3 = (MismatchedTokenException)e;
-				string str3;
-				if (ex3.Expecting == Token.EOF)
-				{
-					str3 = "EOF";
-				}
-				else
-				{
-					str3 = tokenNames[ex3.Expecting];
-				}
-				result = $"mismatched input {GetTokenErrorDisplay(e.Token)} expecting {str3}";
-			}
-			else if (e is MismatchedTreeNodeException)
-			{
-				var ex4 = (MismatchedTreeNodeException)e;
-				string text;
-				if (ex4.expecting == Token.EOF)
-				{
-					text = "EOF";
-				}
-				else
-				{
-					text = tokenNames[ex4.expecting];
-				}
-				result = string.Concat(new object[]
-				{
-					"mismatched tree node: ",
-					(ex4.Node == null || ex4.Node.ToString() == null) ? string.Empty : ex4.Node,
-					" expecting ",
-					text
-				});
-			}
-			else if (e is NoViableAltException)
-			{
-				result = $"no viable alternative at input {GetTokenErrorDisplay(e.Token)}";
-			}
-			else if (e is EarlyExitException)
-			{
-				result = $"required (...)+ loop did not match anything at input {GetTokenErrorDisplay(e.Token)}";
-			}
-			else if (e is MismatchedSetException)
-			{
-				var ex5 = (MismatchedSetException)e;
-				result = string.Concat(new object[]
-				{
-					"mismatched input ",
-					GetTokenErrorDisplay(e.Token),
-					" expecting set ",
-					ex5.expecting
-				});
-			}
-			else if (e is MismatchedNotSetException)
-			{
-				var ex6 = (MismatchedNotSetException)e;
-				result = string.Concat(new object[]
-				{
-					"mismatched input ",
-					GetTokenErrorDisplay(e.Token),
-					" expecting set ",
-					ex6.expecting
-				});
-			}
-			else if (e is FailedPredicateException)
-			{
-				var ex7 = (FailedPredicateException)e;
-				result = string.Concat(new string[]
-				{
-					"rule ",
-					ex7.ruleName,
-					" failed predicate: {",
-					ex7.predicateText,
-					"}?"
-				});
-			}
+			switch (e)
+            {
+                case UnwantedTokenException ex:
+                {
+                    var str = ex.Expecting == Token.EOF ? "EOF" : tokenNames[ex.Expecting];
+                    result = $"extraneous input {GetTokenErrorDisplay(ex.UnexpectedToken)} expecting {str}";
+                    break;
+                }
+                case MissingTokenException ex2:
+                {
+                    var str2 = ex2.Expecting == Token.EOF ? "EOF" : tokenNames[ex2.Expecting];
+                    result = $"missing {str2} at {GetTokenErrorDisplay(e.Token)}";
+                    break;
+                }
+                case MismatchedTokenException ex3:
+                {
+                    var str3 = ex3.Expecting == Token.EOF ? "EOF" : tokenNames[ex3.Expecting];
+                    result = $"mismatched input {GetTokenErrorDisplay(e.Token)} expecting {str3}";
+                    break;
+                }
+                case MismatchedTreeNodeException ex4:
+                {
+                    var text = ex4.expecting == Token.EOF ? "EOF" : tokenNames[ex4.expecting];
+                    result =
+                        $"mismatched tree node: {((ex4.Node?.ToString() == null) ? string.Empty : ex4.Node)} expecting {text}";
+                    break;
+                }
+                case NoViableAltException:
+                    result = $"no viable alternative at input {GetTokenErrorDisplay(e.Token)}";
+                    break;
+                case EarlyExitException:
+                    result = $"required (...)+ loop did not match anything at input {GetTokenErrorDisplay(e.Token)}";
+                    break;
+                case MismatchedSetException ex5:
+                    result = $"mismatched input {GetTokenErrorDisplay(e.Token)} expecting set {ex5.expecting}";
+                    break;
+                case FailedPredicateException ex6:
+                    result = $"rule {ex6.ruleName} failed predicate: {{{ex6.predicateText}}}?";
+                    break;
+            }
 			return result;
 		}
 
 		// Token: 0x170000DD RID: 221
 		// (get) Token: 0x060008D7 RID: 2263 RVA: 0x000195D4 File Offset: 0x000177D4
-		public int NumberOfSyntaxErrors
-		{
-			get
-			{
-				return state.syntaxErrors;
-			}
-		}
+		public int NumberOfSyntaxErrors => state.syntaxErrors;
 
-		// Token: 0x060008D8 RID: 2264 RVA: 0x000195E4 File Offset: 0x000177E4
-		public virtual string GetErrorHeader(RecognitionException e)
-		{
-			return string.Concat(new object[]
-			{
-				"line ",
-				e.Line,
-				":",
-				e.CharPositionInLine
-			});
-		}
+        // Token: 0x060008D8 RID: 2264 RVA: 0x000195E4 File Offset: 0x000177E4
+		public virtual string GetErrorHeader(RecognitionException e) => $"line {e.Line}:{e.CharPositionInLine}";
 
-		// Token: 0x060008D9 RID: 2265 RVA: 0x00019628 File Offset: 0x00017828
+        // Token: 0x060008D9 RID: 2265 RVA: 0x00019628 File Offset: 0x00017828
 		public virtual string GetTokenErrorDisplay(IToken t)
 		{
-			var text = t.Text;
-			if (text == null)
-			{
-				if (t.Type == Token.EOF)
-				{
-					text = "<EOF>";
-				}
-				else
-				{
-					text = $"<{t.Type}>";
-				}
-			}
-			text = text.Replace("\n", "\\\\n");
+			var text = t.Text ?? (t.Type == Token.EOF ? "<EOF>" : $"<{t.Type}>");
+            text = text.Replace("\n", "\\\\n");
 			text = text.Replace("\r", "\\\\r");
 			text = text.Replace("\t", "\\\\t");
 			return $"'{text}'";
@@ -364,13 +262,10 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008DF RID: 2271 RVA: 0x000197AC File Offset: 0x000179AC
 		public virtual object RecoverFromMismatchedSet(IIntStream input, RecognitionException e, BitSet follow)
 		{
-			if (MismatchIsMissingToken(input, follow))
-			{
-				ReportError(e);
-				return GetMissingSymbol(input, e, 0, follow);
-			}
-			throw e;
-		}
+            if (!MismatchIsMissingToken(input, follow)) throw e;
+            ReportError(e);
+            return GetMissingSymbol(input, e, 0, follow);
+        }
 
 		// Token: 0x060008E0 RID: 2272 RVA: 0x000197DC File Offset: 0x000179DC
 		public virtual void ConsumeUntil(IIntStream input, int tokenType)
@@ -409,31 +304,21 @@ namespace pcomps.Antlr.Runtime
 			for (var i = stackTrace.FrameCount - 1; i >= 0; i--)
 			{
 				var frame = stackTrace.GetFrame(i);
-				if (!frame.GetMethod().DeclaringType.FullName.StartsWith("Antlr.Runtime."))
-				{
-					if (!frame.GetMethod().Name.Equals(NEXT_TOKEN_RULE_NAME))
-					{
-						if (frame.GetMethod().DeclaringType.FullName.Equals(recognizerClassName))
-						{
-							list.Add(frame.GetMethod().Name);
-						}
-					}
-				}
-			}
+                if (frame.GetMethod().DeclaringType.FullName.StartsWith("Antlr.Runtime.")) continue;
+                if (frame.GetMethod().Name.Equals(NEXT_TOKEN_RULE_NAME)) continue;
+                if (frame.GetMethod().DeclaringType.FullName.Equals(recognizerClassName))
+                {
+                    list.Add(frame.GetMethod()?.Name);
+                }
+            }
 			return list;
 		}
 
 		// Token: 0x170000DE RID: 222
 		// (get) Token: 0x060008E4 RID: 2276 RVA: 0x00019930 File Offset: 0x00017B30
-		public virtual string GrammarFileName
-		{
-			get
-			{
-				return null;
-			}
-		}
+		public virtual string GrammarFileName => null;
 
-		// Token: 0x170000DF RID: 223
+        // Token: 0x170000DF RID: 223
 		// (get) Token: 0x060008E5 RID: 2277
 		public abstract string SourceName { get; }
 
@@ -445,20 +330,17 @@ namespace pcomps.Antlr.Runtime
 				return null;
 			}
 			IList list = new ArrayList(tokens.Count);
-			for (var i = 0; i < tokens.Count; i++)
-			{
-				list.Add(((IToken)tokens[i]).Text);
-			}
+			foreach (var t in tokens)
+            {
+                list.Add(((IToken)t).Text);
+            }
 			return list;
 		}
 
 		// Token: 0x060008E7 RID: 2279 RVA: 0x00019988 File Offset: 0x00017B88
 		public virtual int GetRuleMemoization(int ruleIndex, int ruleStartIndex)
 		{
-			if (state.ruleMemo[ruleIndex] == null)
-			{
-				state.ruleMemo[ruleIndex] = new Hashtable();
-			}
+			state.ruleMemo[ruleIndex] ??= new Hashtable();
 			var obj = state.ruleMemo[ruleIndex][ruleStartIndex];
 			if (obj == null)
 			{
@@ -471,19 +353,19 @@ namespace pcomps.Antlr.Runtime
 		public virtual bool AlreadyParsedRule(IIntStream input, int ruleIndex)
 		{
 			var ruleMemoization = GetRuleMemoization(ruleIndex, input.Index());
-			if (ruleMemoization == -1)
-			{
-				return false;
-			}
-			if (ruleMemoization == -2)
-			{
-				state.failed = true;
-			}
-			else
-			{
-				input.Seek(ruleMemoization + 1);
-			}
-			return true;
+			switch (ruleMemoization)
+            {
+                case -1:
+                    return false;
+                case -2:
+                    state.failed = true;
+                    break;
+                default:
+                    input.Seek(ruleMemoization + 1);
+                    break;
+            }
+
+            return true;
 		}
 
 		// Token: 0x060008E9 RID: 2281 RVA: 0x00019A2C File Offset: 0x00017C2C
@@ -516,13 +398,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008EB RID: 2283 RVA: 0x00019AE8 File Offset: 0x00017CE8
 		public virtual void TraceIn(string ruleName, int ruleIndex, object inputSymbol)
 		{
-			Console.Out.Write(string.Concat(new object[]
-			{
-				"enter ",
-				ruleName,
-				" ",
-				inputSymbol
-			}));
+			Console.Out.Write($"enter {ruleName} {inputSymbol}");
 			if (state.backtracking > 0)
 			{
 				Console.Out.Write($" backtracking={state.backtracking}");
@@ -533,51 +409,26 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x060008EC RID: 2284 RVA: 0x00019B64 File Offset: 0x00017D64
 		public virtual void TraceOut(string ruleName, int ruleIndex, object inputSymbol)
 		{
-			Console.Out.Write(string.Concat(new object[]
-			{
-				"exit ",
-				ruleName,
-				" ",
-				inputSymbol
-			}));
+			Console.Out.Write($"exit {ruleName} {inputSymbol}");
 			if (state.backtracking > 0)
-			{
-				Console.Out.Write($" backtracking={state.backtracking}");
-				if (state.failed)
-				{
-					Console.Out.WriteLine($" failed{state.failed}");
-				}
-				else
-				{
-					Console.Out.WriteLine($" succeeded{state.failed}");
-				}
-			}
+            {
+                Console.Out.Write($" backtracking={state.backtracking}");
+                Console.Out.WriteLine(state.failed ? $" failed{state.failed}" : $" succeeded{state.failed}");
+            }
 			Console.Out.WriteLine();
 		}
 
 		// Token: 0x170000E0 RID: 224
 		// (get) Token: 0x060008ED RID: 2285 RVA: 0x00019C3C File Offset: 0x00017E3C
-		public virtual string[] TokenNames
-		{
-			get
-			{
-				return null;
-			}
-		}
+		public virtual string[] TokenNames => null;
 
-		// Token: 0x060008EE RID: 2286 RVA: 0x00019C40 File Offset: 0x00017E40
-		protected internal virtual BitSet ComputeErrorRecoverySet()
-		{
-			return CombineFollows(false);
-		}
+        // Token: 0x060008EE RID: 2286 RVA: 0x00019C40 File Offset: 0x00017E40
+		protected internal virtual BitSet ComputeErrorRecoverySet() => CombineFollows(false);
 
-		// Token: 0x060008EF RID: 2287 RVA: 0x00019C4C File Offset: 0x00017E4C
-		protected internal virtual BitSet ComputeContextSensitiveRuleFOLLOW()
-		{
-			return CombineFollows(true);
-		}
+        // Token: 0x060008EF RID: 2287 RVA: 0x00019C4C File Offset: 0x00017E4C
+		protected internal virtual BitSet ComputeContextSensitiveRuleFOLLOW() => CombineFollows(true);
 
-		// Token: 0x060008F0 RID: 2288 RVA: 0x00019C58 File Offset: 0x00017E58
+        // Token: 0x060008F0 RID: 2288 RVA: 0x00019C58 File Offset: 0x00017E58
 		protected internal virtual BitSet CombineFollows(bool exact)
 		{
 			var followingStackPointer = state.followingStackPointer;
@@ -586,34 +437,26 @@ namespace pcomps.Antlr.Runtime
 			{
 				var bitSet2 = state.following[i];
 				bitSet.OrInPlace(bitSet2);
-				if (exact)
-				{
-					if (!bitSet2.Member(1))
-					{
-						break;
-					}
-					if (i > 0)
-					{
-						bitSet.Remove(1);
-					}
-				}
-			}
+                if (!exact) continue;
+                if (!bitSet2.Member(1))
+                {
+                    break;
+                }
+                if (i > 0)
+                {
+                    bitSet.Remove(1);
+                }
+            }
 			return bitSet;
 		}
 
 		// Token: 0x060008F1 RID: 2289 RVA: 0x00019CCC File Offset: 0x00017ECC
-		protected virtual object GetCurrentInputSymbol(IIntStream input)
-		{
-			return null;
-		}
+		protected virtual object GetCurrentInputSymbol(IIntStream input) => null;
 
-		// Token: 0x060008F2 RID: 2290 RVA: 0x00019CD0 File Offset: 0x00017ED0
-		protected virtual object GetMissingSymbol(IIntStream input, RecognitionException e, int expectedTokenType, BitSet follow)
-		{
-			return null;
-		}
+        // Token: 0x060008F2 RID: 2290 RVA: 0x00019CD0 File Offset: 0x00017ED0
+		protected virtual object GetMissingSymbol(IIntStream input, RecognitionException e, int expectedTokenType, BitSet follow) => null;
 
-		// Token: 0x060008F3 RID: 2291 RVA: 0x00019CD4 File Offset: 0x00017ED4
+        // Token: 0x060008F3 RID: 2291 RVA: 0x00019CD4 File Offset: 0x00017ED4
 		protected void PushFollow(BitSet fset)
 		{
 			if (state.followingStackPointer + 1 >= state.following.Length)

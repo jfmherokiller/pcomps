@@ -21,14 +21,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600054B RID: 1355 RVA: 0x0000FCA4 File Offset: 0x0000DEA4
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"MismatchedTreeNodeException(",
-				UnexpectedType,
-				"!=",
-				expecting,
-				")"
-			});
+			return string.Concat("MismatchedTreeNodeException(", UnexpectedType, "!=", expecting, ")");
 		}
 
 		// Token: 0x0400016F RID: 367

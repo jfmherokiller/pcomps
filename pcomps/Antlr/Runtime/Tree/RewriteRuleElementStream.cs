@@ -37,7 +37,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			{
 				foreach (var obj in elements)
 				{
-					var item = (T)((object)obj);
+					var item = (T)obj;
 					this.elements.Add(item);
 				}
 			}

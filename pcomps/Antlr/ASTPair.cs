@@ -39,14 +39,7 @@ namespace pcomps.Antlr
 		{
 			var text = (root == null) ? "null" : root.getText();
 			var text2 = (child == null) ? "null" : child.getText();
-			return string.Concat(new string[]
-			{
-				"[",
-				text,
-				",",
-				text2,
-				"]"
-			});
+			return string.Concat("[", text, ",", text2, "]");
 		}
 
 		// Token: 0x0400001E RID: 30

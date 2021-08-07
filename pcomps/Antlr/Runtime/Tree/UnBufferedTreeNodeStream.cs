@@ -472,7 +472,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			var childCount = adaptor.GetChildCount(p);
 			if (childCount > 0 && !adaptor.IsNil(p))
 			{
-				buf.Append(" ");
+				buf.Append(' ');
 				buf.Append(2);
 			}
 			for (var i = 0; i < childCount; i++)
@@ -482,7 +482,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (childCount > 0 && !adaptor.IsNil(p))
 			{
-				buf.Append(" ");
+				buf.Append(' ');
 				buf.Append(3);
 			}
 		}

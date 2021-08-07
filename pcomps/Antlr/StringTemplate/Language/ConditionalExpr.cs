@@ -3,37 +3,25 @@
 namespace pcomps.Antlr.StringTemplate.Language
 {
 	// Token: 0x0200023F RID: 575
-	public class ConditionalExpr : ASTExpr
+	public record ConditionalExpr : ASTExpr
 	{
 		// Token: 0x17000269 RID: 617
 		// (get) Token: 0x0600112B RID: 4395 RVA: 0x0007C078 File Offset: 0x0007A278
 		// (set) Token: 0x0600112C RID: 4396 RVA: 0x0007C080 File Offset: 0x0007A280
 		public virtual StringTemplate Subtemplate
 		{
-			get
-			{
-				return subtemplate;
-			}
-			set
-			{
-				subtemplate = value;
-			}
-		}
+			get => subtemplate;
+            set => subtemplate = value;
+        }
 
 		// Token: 0x1700026A RID: 618
 		// (get) Token: 0x0600112D RID: 4397 RVA: 0x0007C08C File Offset: 0x0007A28C
 		// (set) Token: 0x0600112E RID: 4398 RVA: 0x0007C094 File Offset: 0x0007A294
 		public virtual StringTemplate ElseSubtemplate
 		{
-			get
-			{
-				return elseSubtemplate;
-			}
-			set
-			{
-				elseSubtemplate = value;
-			}
-		}
+			get => elseSubtemplate;
+            set => elseSubtemplate = value;
+        }
 
 		// Token: 0x0600112F RID: 4399 RVA: 0x0007C0A0 File Offset: 0x0007A2A0
 		public ConditionalExpr(StringTemplate enclosingTemplate, AST tree) : base(enclosingTemplate, tree, null)

@@ -157,22 +157,7 @@ namespace pcomps.Antlr.Runtime
 			{
 				text2 = "<no text>";
 			}
-			return string.Concat(new object[]
-			{
-				"[@",
-				TokenIndex,
-				",'",
-				text2,
-				"',<",
-				type,
-				">",
-				text,
-				",",
-				line,
-				":",
-				CharPositionInLine,
-				"]"
-			});
+			return string.Concat("[@", TokenIndex, ",'", text2, "',<", type, ">", text, ",", line, ":", CharPositionInLine, "]");
 		}
 
 		// Token: 0x0400014E RID: 334

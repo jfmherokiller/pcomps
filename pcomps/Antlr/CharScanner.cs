@@ -11,7 +11,7 @@ using pcomps.Antlr.debug;
 namespace pcomps.Antlr
 {
 	// Token: 0x02000016 RID: 22
-	public abstract class CharScanner : TokenStream, ICharScannerDebugSubject, IDebugSubject
+	public abstract class CharScanner : TokenStream, ICharScannerDebugSubject
 	{
 		// Token: 0x17000011 RID: 17
 		// (get) Token: 0x060000E0 RID: 224 RVA: 0x000045A8 File Offset: 0x000027A8
@@ -354,14 +354,14 @@ namespace pcomps.Antlr
 				cached_LA2 = inputState.input.LA(2);
 				return;
 			}
-			cached_LA1 = toLower((int)inputState.input.consume());
-			cached_LA2 = toLower((int)inputState.input.LA(2));
+			cached_LA1 = toLower(inputState.input.consume());
+			cached_LA2 = toLower(inputState.input.LA(2));
 		}
 
 		// Token: 0x0600010A RID: 266 RVA: 0x00004C34 File Offset: 0x00002E34
 		public virtual void consumeUntil(int c)
 		{
-			while (EOF_CHAR != cached_LA1 && c != (int)cached_LA1)
+			while (EOF_CHAR != cached_LA1 && c != cached_LA1)
 			{
 				consume();
 			}
@@ -370,7 +370,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600010B RID: 267 RVA: 0x00004C60 File Offset: 0x00002E60
 		public virtual void consumeUntil(BitSet bset)
 		{
-			while (cached_LA1 != EOF_CHAR && !bset.member((int)cached_LA1))
+			while (cached_LA1 != EOF_CHAR && !bset.member(cached_LA1))
 			{
 				consume();
 			}
@@ -463,7 +463,7 @@ namespace pcomps.Antlr
 			{
 				return inputState.input.LA(i);
 			}
-			return toLower((int)inputState.input.LA(i));
+			return toLower(inputState.input.LA(i));
 		}
 
 		// Token: 0x06000119 RID: 281 RVA: 0x00004DF0 File Offset: 0x00002FF0
@@ -510,7 +510,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600011C RID: 284 RVA: 0x00004EC0 File Offset: 0x000030C0
 		public virtual void match(int c)
 		{
-			if ((int)cached_LA1 != c)
+			if (cached_LA1 != c)
 			{
 				throw new MismatchedCharException(cached_LA1, Convert.ToChar(c), false, this);
 			}
@@ -520,7 +520,7 @@ namespace pcomps.Antlr
 		// Token: 0x0600011D RID: 285 RVA: 0x00004EF0 File Offset: 0x000030F0
 		public virtual void match(BitSet b)
 		{
-			if (!b.member((int)cached_LA1))
+			if (!b.member(cached_LA1))
 			{
 				throw new MismatchedCharException(cached_LA1, b, false, this);
 			}
@@ -550,7 +550,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000120 RID: 288 RVA: 0x00004F80 File Offset: 0x00003180
 		public virtual void matchNot(int c)
 		{
-			if ((int)cached_LA1 == c)
+			if (cached_LA1 == c)
 			{
 				throw new MismatchedCharException(cached_LA1, Convert.ToChar(c), true, this);
 			}
@@ -560,7 +560,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000121 RID: 289 RVA: 0x00004FB0 File Offset: 0x000031B0
 		public virtual void matchRange(int c1, int c2)
 		{
-			if ((int)cached_LA1 < c1 || (int)cached_LA1 > c2)
+			if (cached_LA1 < c1 || cached_LA1 > c2)
 			{
 				throw new MismatchedCharException(cached_LA1, Convert.ToChar(c1), Convert.ToChar(c2), false, this);
 			}
@@ -570,7 +570,7 @@ namespace pcomps.Antlr
 		// Token: 0x06000122 RID: 290 RVA: 0x00004FF0 File Offset: 0x000031F0
 		public virtual void matchRange(char c1, char c2)
 		{
-			matchRange((int)c1, (int)c2);
+			matchRange(c1, (int)c2);
 		}
 
 		// Token: 0x06000123 RID: 291 RVA: 0x00005008 File Offset: 0x00003208
@@ -649,8 +649,8 @@ namespace pcomps.Antlr
 				cached_LA1 = inputState.input.LA(1);
 				return;
 			}
-			cached_LA2 = toLower((int)inputState.input.LA(2));
-			cached_LA1 = toLower((int)inputState.input.LA(1));
+			cached_LA2 = toLower(inputState.input.LA(2));
+			cached_LA1 = toLower(inputState.input.LA(1));
 		}
 
 		// Token: 0x0600012D RID: 301 RVA: 0x000051F0 File Offset: 0x000033F0
@@ -692,8 +692,8 @@ namespace pcomps.Antlr
 				cached_LA1 = inputState.input.LA(1);
 				return;
 			}
-			cached_LA2 = toLower((int)inputState.input.LA(2));
-			cached_LA1 = toLower((int)inputState.input.LA(1));
+			cached_LA2 = toLower(inputState.input.LA(2));
+			cached_LA1 = toLower(inputState.input.LA(1));
 		}
 
 		// Token: 0x06000132 RID: 306 RVA: 0x00005334 File Offset: 0x00003534
@@ -706,8 +706,8 @@ namespace pcomps.Antlr
 				cached_LA1 = inputState.input.LA(1);
 				return;
 			}
-			cached_LA2 = toLower((int)inputState.input.LA(2));
-			cached_LA1 = toLower((int)inputState.input.LA(1));
+			cached_LA2 = toLower(inputState.input.LA(2));
+			cached_LA1 = toLower(inputState.input.LA(1));
 		}
 
 		// Token: 0x06000133 RID: 307 RVA: 0x000053BC File Offset: 0x000035BC
@@ -798,26 +798,14 @@ namespace pcomps.Antlr
 		{
 			traceDepth++;
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new object[]
-			{
-				"> lexer ",
-				rname,
-				"; c==",
-				LA(1)
-			}));
+			Console.Out.WriteLine(string.Concat("> lexer ", rname, "; c==", LA(1)));
 		}
 
 		// Token: 0x0600013E RID: 318 RVA: 0x00005580 File Offset: 0x00003780
 		public virtual void traceOut(string rname)
 		{
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new object[]
-			{
-				"< lexer ",
-				rname,
-				"; c==",
-				LA(1)
-			}));
+			Console.Out.WriteLine(string.Concat("< lexer ", rname, "; c==", LA(1)));
 			traceDepth--;
 		}
 

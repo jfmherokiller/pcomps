@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using pcomps.Antlr.Runtime;
 using pcomps.Antlr.Runtime.Collections;
 using pcomps.Antlr.Runtime.Tree;
@@ -72,8 +73,8 @@ namespace pcomps.PCompiler
 		private bool TryConvertToBool(CommonTree akValue, out bool abValue)
 		{
 			abValue = false;
-			bool result = false;
-			int type = akValue.Token.Type;
+			var result = false;
+			var type = akValue.Token.Type;
 			if (type != 81)
 			{
 				switch (type)
@@ -106,12 +107,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AE6 RID: 2790 RVA: 0x00032B6C File Offset: 0x00030D6C
 		private ITree CompilerAutoIntTwoArgMathOp(CommonTree akValue1, CommonTree akValue2, IToken akOperation)
 		{
-			bool flag = akValue1.Token.Type == 81;
-			bool flag2 = akValue2.Token.Type == 81;
-			int num = 0;
-			int num2 = 0;
-			bool flag3 = false;
-			int num3 = 0;
+			var flag = akValue1.Token.Type == 81;
+			var flag2 = akValue2.Token.Type == 81;
+			var num = 0;
+			var num2 = 0;
+			var flag3 = false;
+			var num3 = 0;
 			if (flag)
 			{
 				num = int.Parse(akValue1.Token.Text);
@@ -122,7 +123,7 @@ namespace pcomps.PCompiler
 			}
 			if (flag && flag2)
 			{
-				int type = akOperation.Type;
+				var type = akOperation.Type;
 				switch (type)
 				{
 				case 26:
@@ -184,12 +185,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AE7 RID: 2791 RVA: 0x00032CB0 File Offset: 0x00030EB0
 		private ITree CompilerAutoFloatTwoArgMathOp(CommonTree akValue1, CommonTree akValue2, IToken akOperation)
 		{
-			bool flag = akValue1.Token.Type == 93;
-			bool flag2 = akValue2.Token.Type == 93;
-			float num = 0f;
-			float num2 = 0f;
-			bool flag3 = false;
-			float num3 = 0f;
+			var flag = akValue1.Token.Type == 93;
+			var flag2 = akValue2.Token.Type == 93;
+			var num = 0f;
+			var num2 = 0f;
+			var flag3 = false;
+			var num3 = 0f;
 			if (flag)
 			{
 				num = float.Parse(akValue1.Token.Text);
@@ -232,10 +233,10 @@ namespace pcomps.PCompiler
 			{
 				IToken token = new CommonToken(akOperation);
 				token.Type = 93;
-				token.Text = num3.ToString();
-				if (token.Text.IndexOf('.') == -1)
+				token.Text = num3.ToString(CultureInfo.InvariantCulture);
+				if (!token.Text.Contains('.'))
 				{
-					IToken token2 = token;
+					var token2 = token;
 					token2.Text += ".0";
 				}
 				result = new CommonTree(token);
@@ -247,10 +248,10 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AE8 RID: 2792 RVA: 0x00032E00 File Offset: 0x00031000
 		private ITree CompilerAutoStrCat(CommonTree akValue1, CommonTree akValue2)
 		{
-			bool flag = akValue1.Token.Type == 90;
-			bool flag2 = akValue2.Token.Type == 90;
-			string arg = "";
-			string arg2 = "";
+			var flag = akValue1.Token.Type == 90;
+			var flag2 = akValue2.Token.Type == 90;
+			var arg = "";
+			var arg2 = "";
 			if (flag)
 			{
 				arg = akValue1.Token.Text.Substring(1, akValue1.Token.Text.Length - 2);
@@ -259,41 +260,38 @@ namespace pcomps.PCompiler
 			{
 				arg2 = akValue2.Token.Text.Substring(1, akValue2.Token.Text.Length - 2);
 			}
-			ITree result = null;
-			if (flag && flag2)
-			{
-				result = new CommonTree(new CommonToken(akValue1.Token)
-				{
-					Type = 90,
-					Text = $"\"{arg}{arg2}\""
-                });
-				bMadeChanges = true;
-			}
-			return result;
+
+            if (!flag || !flag2) return null;
+            ITree result = new CommonTree(new CommonToken(akValue1.Token)
+            {
+                Type = 90,
+                Text = $"\"{arg}{arg2}\""
+            });
+            bMadeChanges = true;
+            return result;
 		}
 
 		// Token: 0x06000AE9 RID: 2793 RVA: 0x00032ECC File Offset: 0x000310CC
 		private ITree CompilerAutoTwoArgBoolOp(CommonTree akValue1, CommonTree akValue2, IToken akOperation)
 		{
-			bool flag = false;
-			bool flag2 = false;
-			bool flag3 = TryConvertToBool(akValue1, out flag);
-			bool flag4 = TryConvertToBool(akValue2, out flag2);
-			bool flag5 = false;
-			bool flag6 = false;
+            var flag3 = TryConvertToBool(akValue1, out var flag);
+            var flag4 = TryConvertToBool(akValue2, out var flag2);
+			var flag5 = false;
+			var flag6 = false;
 			if (flag3 && !flag4)
-			{
-				if (akOperation.Type == 66 && !flag)
-				{
-					flag5 = true;
-					flag6 = false;
-				}
-				else if (akOperation.Type == 65 && flag)
-				{
-					flag5 = true;
-					flag6 = true;
-				}
-			}
+            {
+                switch (akOperation.Type)
+                {
+                    case 66 when !flag:
+                        flag5 = true;
+                        flag6 = false;
+                        break;
+                    case 65 when flag:
+                        flag5 = true;
+                        flag6 = true;
+                        break;
+                }
+            }
 			if (!flag5 && flag3 && flag4)
 			{
 				switch (akOperation.Type)
@@ -308,192 +306,197 @@ namespace pcomps.PCompiler
 					break;
 				}
 			}
-			ITree result = null;
-			if (flag5)
-			{
-				result = new CommonTree(new CommonToken(akOperation)
-				{
-					Type = 91,
-					Text = (flag6 ? "True" : "False")
-				});
-				bMadeChanges = true;
-			}
-			return result;
+			ITree result;
+            if (!flag5) return null;
+            result = new CommonTree(new CommonToken(akOperation)
+            {
+                Type = 91,
+                Text = (flag6 ? "True" : "False")
+            });
+            bMadeChanges = true;
+            return result;
 		}
 
 		// Token: 0x06000AEA RID: 2794 RVA: 0x00032FA8 File Offset: 0x000311A8
 		private ITree CompilerAutoNegate(CommonTree akValue)
 		{
 			IToken token = null;
-			int type = akValue.Token.Type;
+			var type = akValue.Token.Type;
 			if (type != 81)
 			{
 				if (type == 93)
 				{
-					token = new CommonToken(akValue.Token);
-					token.Text = (-float.Parse(akValue.Token.Text)).ToString();
-					if (token.Text.IndexOf('.') == -1)
+                    token = new CommonToken(akValue.Token)
+                    {
+                        Text = (-float.Parse(akValue.Token.Text)).ToString()
+                    };
+                    if (!token.Text.Contains('.'))
 					{
-						IToken token2 = token;
+						var token2 = token;
 						token2.Text += ".0";
 					}
 				}
 			}
 			else
 			{
-				token = new CommonToken(akValue.Token);
-				token.Text = (-int.Parse(akValue.Token.Text)).ToString();
-			}
+                token = new CommonToken(akValue.Token)
+                {
+                    Text = (-int.Parse(akValue.Token.Text)).ToString()
+                };
+            }
 			ITree result = null;
-			if (token != null)
-			{
-				result = new CommonTree(token);
-				bMadeChanges = true;
-			}
-			return result;
+            if (token == null) return null;
+            result = new CommonTree(token);
+            bMadeChanges = true;
+            return result;
 		}
 
 		// Token: 0x06000AEB RID: 2795 RVA: 0x00033064 File Offset: 0x00031264
 		private ITree CompilerAutoNot(CommonTree akValue)
 		{
-			bool flag = false;
-			bool flag2 = TryConvertToBool(akValue, out flag);
-			ITree result = null;
-			if (flag2)
-			{
-				result = new CommonTree(new CommonToken(akValue.Token)
-				{
-					Type = 91,
-					Text = ((!flag) ? "True" : "False")
-				});
-				bMadeChanges = true;
-			}
-			return result;
+            var flag2 = TryConvertToBool(akValue, out var flag);
+            if (!flag2) return null;
+            ITree result = new CommonTree(new CommonToken(akValue.Token)
+            {
+                Type = 91,
+                Text = !flag ? "True" : "False"
+            });
+            bMadeChanges = true;
+            return result;
 		}
 
 		// Token: 0x06000AEC RID: 2796 RVA: 0x000330BC File Offset: 0x000312BC
 		private ITree CompilerAutoCast(string asDestVar, CommonTree akValue, ScriptScope akCurrentScope)
 		{
 			ITree result = null;
-			ScriptVariableType scriptVariableType;
-			if (akCurrentScope.TryGetVariable(asDestVar, out scriptVariableType))
-			{
-				IToken token = null;
-				if (scriptVariableType.VarType == "int")
-				{
-					bool flag = false;
-					int num = 0;
-					switch (akValue.Token.Type)
-					{
-					case 90:
-						flag = true;
-						try
-						{
-							num = int.Parse(akValue.Token.Text.Substring(1, akValue.Token.Text.Length - 2));
-							goto IL_E5;
-						}
-						catch (Exception)
-						{
-							OnError("String cannot be cast to an integer", akValue.Token.Line, akValue.Token.CharPositionInLine);
-							goto IL_E5;
-						}
-						break;
-					case 91:
-						break;
-					case 92:
-						goto IL_E5;
-					case 93:
-						flag = true;
-						num = (int)float.Parse(akValue.Token.Text);
-						goto IL_E5;
-					default:
-						goto IL_E5;
-					}
-					flag = true;
-					num = ((akValue.Token.Text.ToLowerInvariant() == "true") ? 1 : 0);
-					IL_E5:
-					if (flag)
-					{
-						token = new CommonToken(akValue.Token);
-						token.Type = 81;
-						token.Text = num.ToString();
-					}
-				}
-				else if (scriptVariableType.VarType == "float")
-				{
-					bool flag2 = false;
-					float num2 = 0f;
-					int type = akValue.Token.Type;
-					if (type != 81)
-					{
-						switch (type)
-						{
-						case 90:
-							flag2 = true;
-							try
-							{
-								num2 = float.Parse(akValue.Token.Text.Substring(1, akValue.Token.Text.Length - 2));
-								goto IL_1F5;
-							}
-							catch (Exception)
-							{
-								OnError("String cannot be cast to a float", akValue.Token.Line, akValue.Token.CharPositionInLine);
-								goto IL_1F5;
-							}
-							break;
-						case 91:
-							break;
-						default:
-							goto IL_1F5;
-						}
-						flag2 = true;
-						num2 = ((akValue.Token.Text.ToLowerInvariant() == "true") ? 1f : 0f);
-					}
-					else
-					{
-						flag2 = true;
-						num2 = (float)int.Parse(akValue.Token.Text);
-					}
-					IL_1F5:
-					if (flag2)
-					{
-						token = new CommonToken(akValue.Token);
-						token.Type = 93;
-						token.Text = num2.ToString();
-						if (token.Text.IndexOf('.') == -1)
-						{
-							IToken token2 = token;
-							token2.Text += ".0";
-						}
-					}
-				}
-				else if (scriptVariableType.VarType == "string")
-				{
-					if (akValue.Token.Type == 81 || akValue.Token.Type == 93 || akValue.Token.Type == 91 || akValue.Token.Type == 92)
-					{
-						token = new CommonToken(akValue.Token);
-						token.Type = 90;
-						token.Text = "\"" + akValue.Token.Text + "\"";
-					}
-				}
-				else if (scriptVariableType.VarType == "bool")
-				{
-					bool flag3 = false;
-					bool flag4 = akValue.Token.Type != 91 && TryConvertToBool(akValue, out flag3);
-					if (flag4)
-					{
-						token = new CommonToken(akValue.Token);
-						token.Type = 91;
-						token.Text = (flag3 ? "True" : "False");
-					}
-				}
-				if (token != null)
-				{
-					result = new CommonTree(token);
-					bMadeChanges = true;
-				}
-			}
-			return result;
+            if (!akCurrentScope.TryGetVariable(asDestVar, out var scriptVariableType)) return result;
+            IToken token = null;
+            switch (scriptVariableType.VarType)
+            {
+                case "int":
+                {
+                    var flag = false;
+                    var num = 0;
+                    switch (akValue.Token.Type)
+                    {
+                        case 90:
+                            flag = true;
+                            try
+                            {
+                                num = int.Parse(akValue.Token.Text[1..^1]);
+                                goto IL_E5;
+                            }
+                            catch (Exception)
+                            {
+                                OnError("String cannot be cast to an integer", akValue.Token.Line, akValue.Token.CharPositionInLine);
+                                goto IL_E5;
+                            }
+                        case 91:
+                            break;
+                        case 92:
+                            goto IL_E5;
+                        case 93:
+                            flag = true;
+                            num = (int)float.Parse(akValue.Token.Text);
+                            goto IL_E5;
+                        default:
+                            goto IL_E5;
+                    }
+                    flag = true;
+                    num = ((akValue.Token.Text.ToLowerInvariant() == "true") ? 1 : 0);
+                    IL_E5:
+                    if (flag)
+                    {
+                            token = new CommonToken(akValue.Token)
+                            {
+                                Type = 81,
+                                Text = num.ToString()
+                            };
+                    }
+
+                    break;
+                }
+                case "float":
+                {
+                    var flag2 = false;
+                    var num2 = 0f;
+                    var type = akValue.Token.Type;
+                    if (type != 81)
+                    {
+                        switch (type)
+                        {
+                            case 90:
+                                flag2 = true;
+                                try
+                                {
+                                    num2 = float.Parse(akValue.Token.Text.Substring(1, akValue.Token.Text.Length - 2));
+                                    goto IL_1F5;
+                                }
+                                catch (Exception)
+                                {
+                                    OnError("String cannot be cast to a float", akValue.Token.Line, akValue.Token.CharPositionInLine);
+                                    goto IL_1F5;
+                                }
+                            case 91:
+                                break;
+                            default:
+                                goto IL_1F5;
+                        }
+                        flag2 = true;
+                        num2 = ((akValue.Token.Text.ToLowerInvariant() == "true") ? 1f : 0f);
+                    }
+                    else
+                    {
+                        flag2 = true;
+                        num2 = int.Parse(akValue.Token.Text);
+                    }
+                    IL_1F5:
+                    if (flag2)
+                    {
+                        token = new CommonToken(akValue.Token);
+                        token.Type = 93;
+                        token.Text = num2.ToString();
+                        if (!token.Text.Contains('.'))
+                        {
+                            var token2 = token;
+                            token2.Text += ".0";
+                        }
+                    }
+
+                    break;
+                }
+                case "string":
+                {
+                    if (akValue.Token.Type is 81 or 93 or 91 or 92)
+                    {
+                            token = new CommonToken(akValue.Token)
+                            {
+                                Type = 90,
+                                Text = $"\"{akValue.Token.Text}\""
+                            };
+                    }
+
+                    break;
+                }
+                case "bool":
+                {
+                    var flag3 = false;
+                    var flag4 = akValue.Token.Type != 91 && TryConvertToBool(akValue, out flag3);
+                    if (flag4)
+                    {
+                        token = new CommonToken(akValue.Token);
+                        token.Type = 91;
+                        token.Text = (flag3 ? "True" : "False");
+                    }
+
+                    break;
+                }
+            }
+
+            if (token == null) return null;
+            result = new CommonTree(token);
+            bMadeChanges = true;
+            return result;
 		}
 
 		// Token: 0x06000AED RID: 2797 RVA: 0x0003342C File Offset: 0x0003162C
@@ -512,37 +515,19 @@ namespace pcomps.PCompiler
 		// (set) Token: 0x06000AF0 RID: 2800 RVA: 0x000334E4 File Offset: 0x000316E4
 		public ITreeAdaptor TreeAdaptor
 		{
-			get
-			{
-				return adaptor;
-			}
-			set
-			{
-				adaptor = value;
-			}
-		}
+			get => adaptor;
+            set => adaptor = value;
+        }
 
 		// Token: 0x1700013B RID: 315
 		// (get) Token: 0x06000AF1 RID: 2801 RVA: 0x000334F0 File Offset: 0x000316F0
-		public override string[] TokenNames
-		{
-			get
-			{
-				return tokenNames;
-			}
-		}
+		public override string[] TokenNames => tokenNames;
 
-		// Token: 0x1700013C RID: 316
+        // Token: 0x1700013C RID: 316
 		// (get) Token: 0x06000AF2 RID: 2802 RVA: 0x000334F8 File Offset: 0x000316F8
-		public override string GrammarFileName
-		{
-			get
-			{
-				return "PapyrusOptimizeWalker.g";
-			}
-		}
+		public override string GrammarFileName => "PapyrusOptimizeWalker.g";
 
-		// Token: 0x14000037 RID: 55
+        // Token: 0x14000037 RID: 55
 		// (add) Token: 0x06000AF3 RID: 2803 RVA: 0x00033500 File Offset: 0x00031700
 		// (remove) Token: 0x06000AF4 RID: 2804 RVA: 0x0003351C File Offset: 0x0003171C
 		internal event InternalErrorEventHandler ErrorHandler;
@@ -556,48 +541,48 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AF6 RID: 2806 RVA: 0x00033558 File Offset: 0x00031758
 		public override void DisplayRecognitionError(string[] tokenNames, RecognitionException e)
 		{
-			string errorMessage = GetErrorMessage(e, tokenNames);
+			var errorMessage = GetErrorMessage(e, tokenNames);
 			OnError(errorMessage, e.Line, e.CharPositionInLine);
 		}
 
 		// Token: 0x06000AF7 RID: 2807 RVA: 0x00033584 File Offset: 0x00031784
 		public script_return script(ScriptObjectType akObj, OptimizePass aePassType)
 		{
-			script_return script_return = new script_return();
+			var script_return = new script_return();
 			script_return.Start = input.LT(1);
 			kObjType = akObj;
 			ePassType = aePassType;
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 4, FOLLOW_OBJECT_in_script86);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 4, FOLLOW_OBJECT_in_script86);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_header_in_script88);
-				header_return header_return = header();
+				var header_return = header();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, header_return.Tree);
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
-					if ((num2 >= 5 && num2 <= 7) || num2 == 19 || num2 == 51 || num2 == 54)
+					var num = 2;
+					var num2 = input.LA(1);
+					if (num2 is >= 5 and <= 7 or 19 or 51 or 54)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						break;
 					}
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_definitionOrBlock_in_script90);
-					definitionOrBlock_return definitionOrBlock_return = definitionOrBlock();
+					var definitionOrBlock_return = definitionOrBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, definitionOrBlock_return.Tree);
 				}
@@ -617,48 +602,48 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AF8 RID: 2808 RVA: 0x000337BC File Offset: 0x000319BC
 		public header_return header()
 		{
-			header_return header_return = new header_return();
+			var header_return = new header_return();
 			header_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_header104);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_header104);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header106);
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_header106);
+				var child = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 38)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header108);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode3);
+					var treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_header108);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode3);
 					adaptor.AddChild(commonTree3, child2);
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 40)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_header111);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode4);
+					var treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_header111);
+					var child3 = (CommonTree)adaptor.DupNode(treeNode4);
 					adaptor.AddChild(commonTree3, child3);
 				}
 				Match(input, 3, null);
@@ -676,12 +661,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AF9 RID: 2809 RVA: 0x00033A3C File Offset: 0x00031C3C
 		public definitionOrBlock_return definitionOrBlock()
 		{
-			definitionOrBlock_return definitionOrBlock_return = new definitionOrBlock_return();
+			var definitionOrBlock_return = new definitionOrBlock_return();
 			definitionOrBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 19)
 				{
@@ -719,7 +704,7 @@ namespace pcomps.PCompiler
 				num2 = 5;
 				goto IL_99;
 				IL_82:
-				NoViableAltException ex = new NoViableAltException("", 4, 0, input);
+				var ex = new NoViableAltException("", 4, 0, input);
 				throw ex;
 				IL_99:
 				switch (num2)
@@ -727,9 +712,9 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_fieldDefinition_in_definitionOrBlock126);
-					fieldDefinition_return fieldDefinition_return = fieldDefinition();
+					var fieldDefinition_return = fieldDefinition();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, fieldDefinition_return.Tree);
 					break;
@@ -737,9 +722,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_function_in_definitionOrBlock132);
-					function_return function_return = function("", "");
+					var function_return = function("", "");
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, function_return.Tree);
 					break;
@@ -747,9 +732,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)input.LT(1);
+					var commonTree4 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_eventFunc_in_definitionOrBlock140);
-					eventFunc_return eventFunc_return = eventFunc("");
+					var eventFunc_return = eventFunc("");
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, eventFunc_return.Tree);
 					break;
@@ -757,9 +742,9 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)input.LT(1);
+					var commonTree5 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_stateBlock_in_definitionOrBlock147);
-					stateBlock_return stateBlock_return = stateBlock();
+					var stateBlock_return = stateBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, stateBlock_return.Tree);
 					break;
@@ -767,9 +752,9 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)input.LT(1);
+					var commonTree6 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_propertyBlock_in_definitionOrBlock153);
-					propertyBlock_return propertyBlock_return = propertyBlock();
+					var propertyBlock_return = propertyBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, propertyBlock_return.Tree);
 					break;
@@ -788,43 +773,43 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AFA RID: 2810 RVA: 0x00033D40 File Offset: 0x00031F40
 		public fieldDefinition_return fieldDefinition()
 		{
-			fieldDefinition_return fieldDefinition_return = new fieldDefinition_return();
+			var fieldDefinition_return = new fieldDefinition_return();
 			fieldDefinition_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 5, FOLLOW_VAR_in_fieldDefinition167);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 5, FOLLOW_VAR_in_fieldDefinition167);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_type_in_fieldDefinition169);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, type_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition171);
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_fieldDefinition171);
+				var child = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition173);
-				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode3);
+				var treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_fieldDefinition173);
+				var child2 = (CommonTree)adaptor.DupNode(treeNode3);
 				adaptor.AddChild(commonTree3, child2);
-				int num = 2;
-				int num2 = input.LA(1);
-				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
+				var num = 2;
+				var num2 = input.LA(1);
+				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_constant_in_fieldDefinition175);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, constant_return.Tree);
 				}
@@ -844,37 +829,37 @@ namespace pcomps.PCompiler
 		public function_return function(string asState, string asPropertyName)
 		{
 			function_stack.Push(new function_scope());
-			function_return function_return = new function_return();
+			var function_return = new function_return();
 			function_return.Start = input.LT(1);
 			((function_scope)function_stack.Peek()).sstate = asState;
 			((function_scope)function_stack.Peek()).spropertyName = asPropertyName;
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 6, FOLLOW_FUNCTION_in_function207);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 6, FOLLOW_FUNCTION_in_function207);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_functionHeader_in_function209);
-				functionHeader_return functionHeader_return = functionHeader();
+				var functionHeader_return = functionHeader();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, functionHeader_return.Tree);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_codeBlock_in_function211);
-					codeBlock_return codeBlock_return = codeBlock(((function_scope)function_stack.Peek()).kfuncType.FunctionScope);
+					var codeBlock_return = codeBlock(((function_scope)function_stack.Peek()).kfuncType.FunctionScope);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				}
@@ -898,21 +883,21 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AFC RID: 2812 RVA: 0x0003427C File Offset: 0x0003247C
 		public functionHeader_return functionHeader()
 		{
-			functionHeader_return functionHeader_return = new functionHeader_return();
+			var functionHeader_return = new functionHeader_return();
 			functionHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_functionHeader236);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_functionHeader236);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
-				if (num == 38 || num == 55)
+				if (num is 38 or 55)
 				{
 					num2 = 1;
 				}
@@ -920,7 +905,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 92)
 					{
-						NoViableAltException ex = new NoViableAltException("", 7, 0, input);
+						var ex = new NoViableAltException("", 7, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -931,7 +916,7 @@ namespace pcomps.PCompiler
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_type_in_functionHeader239);
-					type_return type_return = type();
+					var type_return = type();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, type_return.Tree);
 					break;
@@ -939,66 +924,66 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_functionHeader243);
-					CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_functionHeader243);
+					var child = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree3, child);
 					break;
 				}
 				}
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader248);
-				CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree4);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_functionHeader248);
+				var child2 = (CommonTree)adaptor.DupNode(commonTree4);
 				adaptor.AddChild(commonTree3, child2);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader250);
-				CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+				var treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_functionHeader250);
+				var child3 = (CommonTree)adaptor.DupNode(treeNode3);
 				adaptor.AddChild(commonTree3, child3);
-				int num3 = 2;
-				int num4 = input.LA(1);
+				var num3 = 2;
+				var num4 = input.LA(1);
 				if (num4 == 9)
 				{
 					num3 = 1;
 				}
-				int num5 = num3;
+				var num5 = num3;
 				if (num5 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_callParameters_in_functionHeader252);
-					callParameters_return callParameters_return = callParameters();
+					var callParameters_return = callParameters();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, callParameters_return.Tree);
 				}
 				for (;;)
 				{
-					int num6 = 2;
-					int num7 = input.LA(1);
-					if (num7 >= 46 && num7 <= 47)
+					var num6 = 2;
+					var num7 = input.LA(1);
+					if (num7 is >= 46 and <= 47)
 					{
 						num6 = 1;
 					}
-					int num8 = num6;
+					var num8 = num6;
 					if (num8 != 1)
 					{
 						break;
 					}
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_functionModifier_in_functionHeader255);
-					functionModifier_return functionModifier_return = functionModifier();
+					var functionModifier_return = functionModifier();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, functionModifier_return.Tree);
 				}
-				int num9 = 2;
-				int num10 = input.LA(1);
+				var num9 = 2;
+				var num10 = input.LA(1);
 				if (num10 == 40)
 				{
 					num9 = 1;
 				}
-				int num11 = num9;
+				var num11 = num9;
 				if (num11 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_functionHeader258);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					var treeNode4 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_functionHeader258);
+					var child4 = (CommonTree)adaptor.DupNode(treeNode4);
 					adaptor.AddChild(commonTree3, child4);
 				}
 				Match(input, 3, null);
@@ -1010,17 +995,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					ScriptPropertyType scriptPropertyType;
-					kObjType.TryGetProperty(((function_scope)function_stack.Peek()).spropertyName, out scriptPropertyType);
-					string a = functionHeader_return.sFuncName.ToLowerInvariant();
-					if (a == "get")
-					{
-						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kGetFunction;
-					}
-					else
-					{
-						((function_scope)function_stack.Peek()).kfuncType = scriptPropertyType.kSetFunction;
-					}
+                    kObjType.TryGetProperty(((function_scope)function_stack.Peek()).spropertyName, out var scriptPropertyType);
+                    var a = functionHeader_return.sFuncName.ToLowerInvariant();
+					((function_scope)function_stack.Peek()).kfuncType = a == "get" ? scriptPropertyType.kGetFunction : scriptPropertyType.kSetFunction;
 				}
 				if (ePassType != OptimizePass.VARCLEANUP)
 				{
@@ -1039,20 +1016,20 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AFD RID: 2813 RVA: 0x000347D4 File Offset: 0x000329D4
 		public functionModifier_return functionModifier()
 		{
-			functionModifier_return functionModifier_return = new functionModifier_return();
+			var functionModifier_return = new functionModifier_return();
 			functionModifier_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)input.LT(1);
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var treeNode = (CommonTree)input.LT(1);
 				if (input.LA(1) < 46 || input.LA(1) > 47)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
 				input.Consume();
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+				var child = (CommonTree)adaptor.DupNode(treeNode);
 				adaptor.AddChild(commonTree, child);
 				state.errorRecovery = false;
 				functionModifier_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
@@ -1069,37 +1046,37 @@ namespace pcomps.PCompiler
 		public eventFunc_return eventFunc(string asState)
 		{
 			eventFunc_stack.Push(new eventFunc_scope());
-			eventFunc_return eventFunc_return = new eventFunc_return();
+			var eventFunc_return = new eventFunc_return();
 			eventFunc_return.Start = input.LT(1);
 			((eventFunc_scope)eventFunc_stack.Peek()).sstate = asState;
 			((eventFunc_scope)eventFunc_stack.Peek()).sfuncName = "";
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 7, FOLLOW_EVENT_in_eventFunc307);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 7, FOLLOW_EVENT_in_eventFunc307);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_eventHeader_in_eventFunc309);
-				eventHeader_return eventHeader_return = eventHeader();
+				var eventHeader_return = eventHeader();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, eventHeader_return.Tree);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 10)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_codeBlock_in_eventFunc311);
-					codeBlock_return codeBlock_return = codeBlock(((eventFunc_scope)eventFunc_stack.Peek()).kfuncType.FunctionScope);
+					var codeBlock_return = codeBlock(((eventFunc_scope)eventFunc_stack.Peek()).kfuncType.FunctionScope);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				}
@@ -1122,71 +1099,71 @@ namespace pcomps.PCompiler
 		// Token: 0x06000AFF RID: 2815 RVA: 0x00034B60 File Offset: 0x00032D60
 		public eventHeader_return eventHeader()
 		{
-			eventHeader_return eventHeader_return = new eventHeader_return();
+			var eventHeader_return = new eventHeader_return();
 			eventHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_eventHeader327);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_eventHeader327);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader329);
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_eventHeader329);
+				var child = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader331);
-				CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree4);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_eventHeader331);
+				var child2 = (CommonTree)adaptor.DupNode(commonTree4);
 				adaptor.AddChild(commonTree3, child2);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader333);
-				CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+				var treeNode3 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_eventHeader333);
+				var child3 = (CommonTree)adaptor.DupNode(treeNode3);
 				adaptor.AddChild(commonTree3, child3);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 9)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_callParameters_in_eventHeader335);
-					callParameters_return callParameters_return = callParameters();
+					var callParameters_return = callParameters();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, callParameters_return.Tree);
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 47)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode4 = (CommonTree)Match(input, 47, FOLLOW_NATIVE_in_eventHeader338);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					var treeNode4 = (CommonTree)Match(input, 47, FOLLOW_NATIVE_in_eventHeader338);
+					var child4 = (CommonTree)adaptor.DupNode(treeNode4);
 					adaptor.AddChild(commonTree3, child4);
 				}
-				int num7 = 2;
-				int num8 = input.LA(1);
+				var num7 = 2;
+				var num8 = input.LA(1);
 				if (num8 == 40)
 				{
 					num7 = 1;
 				}
-				int num9 = num7;
+				var num9 = num7;
 				if (num9 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode5 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_eventHeader341);
-					CommonTree child5 = (CommonTree)adaptor.DupNode(treeNode5);
+					var treeNode5 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_eventHeader341);
+					var child5 = (CommonTree)adaptor.DupNode(treeNode5);
 					adaptor.AddChild(commonTree3, child5);
 				}
 				Match(input, 3, null);
@@ -1210,35 +1187,35 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B00 RID: 2816 RVA: 0x00034F88 File Offset: 0x00033188
 		public callParameters_return callParameters()
 		{
-			callParameters_return callParameters_return = new callParameters_return();
+			var callParameters_return = new callParameters_return();
 			callParameters_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				int num = 0;
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var num = 0;
 				for (;;)
 				{
-					int num2 = 2;
-					int num3 = input.LA(1);
+					var num2 = 2;
+					var num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
 					}
-					int num4 = num2;
+					var num4 = num2;
 					if (num4 != 1)
 					{
 						break;
 					}
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_callParameter_in_callParameters363);
-					callParameter_return callParameter_return = callParameter();
+					var callParameter_return = callParameter();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, callParameter_return.Tree);
 					num++;
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(15, input);
+					var ex = new EarlyExitException(15, input);
 					throw ex;
 				}
 				callParameters_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
@@ -1254,39 +1231,39 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B01 RID: 2817 RVA: 0x00035098 File Offset: 0x00033298
 		public callParameter_return callParameter()
 		{
-			callParameter_return callParameter_return = new callParameter_return();
+			var callParameter_return = new callParameter_return();
 			callParameter_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_callParameter378);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_callParameter378);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_type_in_callParameter380);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, type_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter382);
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_callParameter382);
+				var child = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child);
-				int num = 2;
-				int num2 = input.LA(1);
-				if (num2 == 81 || (num2 >= 90 && num2 <= 93))
+				var num = 2;
+				var num2 = input.LA(1);
+				if (num2 is 81 or >= 90 and <= 93)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_constant_in_callParameter384);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, constant_return.Tree);
 				}
@@ -1305,52 +1282,52 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B02 RID: 2818 RVA: 0x000352F4 File Offset: 0x000334F4
 		public stateBlock_return stateBlock()
 		{
-			stateBlock_return stateBlock_return = new stateBlock_return();
+			var stateBlock_return = new stateBlock_return();
 			stateBlock_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 51, FOLLOW_STATE_in_stateBlock402);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 51, FOLLOW_STATE_in_stateBlock402);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock404);
-				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_stateBlock404);
+				var child = (CommonTree)adaptor.DupNode(commonTree4);
 				adaptor.AddChild(commonTree3, child);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 50)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 50, FOLLOW_AUTO_in_stateBlock406);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 50, FOLLOW_AUTO_in_stateBlock406);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree3, child2);
 				}
 				for (;;)
 				{
-					int num4 = 2;
-					int num5 = input.LA(1);
-					if (num5 >= 6 && num5 <= 7)
+					var num4 = 2;
+					var num5 = input.LA(1);
+					if (num5 is >= 6 and <= 7)
 					{
 						num4 = 1;
 					}
-					int num6 = num4;
+					var num6 = num4;
 					if (num6 != 1)
 					{
 						break;
 					}
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_stateFuncOrEvent_in_stateBlock410);
-					stateFuncOrEvent_return stateFuncOrEvent_return = stateFuncOrEvent(commonTree4.Text);
+					var stateFuncOrEvent_return = stateFuncOrEvent(commonTree4.Text);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, stateFuncOrEvent_return.Tree);
 				}
@@ -1369,12 +1346,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B03 RID: 2819 RVA: 0x0003557C File Offset: 0x0003377C
 		public stateFuncOrEvent_return stateFuncOrEvent(string asStateName)
 		{
-			stateFuncOrEvent_return stateFuncOrEvent_return = new stateFuncOrEvent_return();
+			var stateFuncOrEvent_return = new stateFuncOrEvent_return();
 			stateFuncOrEvent_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 6)
 				{
@@ -1384,7 +1361,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 7)
 					{
-						NoViableAltException ex = new NoViableAltException("", 19, 0, input);
+						var ex = new NoViableAltException("", 19, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1394,9 +1371,9 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_function_in_stateFuncOrEvent427);
-					function_return function_return = function(asStateName, "");
+					var function_return = function(asStateName, "");
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, function_return.Tree);
 					break;
@@ -1404,9 +1381,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_eventFunc_in_stateFuncOrEvent435);
-					eventFunc_return eventFunc_return = eventFunc(asStateName);
+					var eventFunc_return = eventFunc(asStateName);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, eventFunc_return.Tree);
 					break;
@@ -1425,12 +1402,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B04 RID: 2820 RVA: 0x0003570C File Offset: 0x0003390C
 		public propertyBlock_return propertyBlock()
 		{
-			propertyBlock_return propertyBlock_return = new propertyBlock_return();
+			var propertyBlock_return = new propertyBlock_return();
 			propertyBlock_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 54)
 				{
@@ -1440,7 +1417,7 @@ namespace pcomps.PCompiler
 				{
 					if (num != 19)
 					{
-						NoViableAltException ex = new NoViableAltException("", 20, 0, input);
+						var ex = new NoViableAltException("", 20, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -1450,26 +1427,26 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 54, FOLLOW_PROPERTY_in_propertyBlock452);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 54, FOLLOW_PROPERTY_in_propertyBlock452);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_propertyHeader_in_propertyBlock454);
-					propertyHeader_return propertyHeader_return = propertyHeader();
+					var propertyHeader_return = propertyHeader();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, propertyHeader_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_propertyFunc_in_propertyBlock456);
-					propertyFunc_return propertyFunc_return = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
+					var propertyFunc_return = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, propertyFunc_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_propertyFunc_in_propertyBlock459);
-					propertyFunc_return propertyFunc_return2 = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
+					var propertyFunc_return2 = propertyFunc((propertyHeader_return != null) ? propertyHeader_return.sName : null);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, propertyFunc_return2.Tree);
 					Match(input, 3, null);
@@ -1479,21 +1456,21 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 19, FOLLOW_AUTOPROP_in_propertyBlock468);
-					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 19, FOLLOW_AUTOPROP_in_propertyBlock468);
+					var newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
 					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree4);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_propertyHeader_in_propertyBlock470);
-					propertyHeader_return propertyHeader_return2 = propertyHeader();
+					var propertyHeader_return2 = propertyHeader();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree4, propertyHeader_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock472);
-					CommonTree child = (CommonTree)adaptor.DupNode(treeNode3);
+					var treeNode3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyBlock472);
+					var child = (CommonTree)adaptor.DupNode(treeNode3);
 					adaptor.AddChild(commonTree4, child);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, commonTree4);
@@ -1513,43 +1490,43 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B05 RID: 2821 RVA: 0x00035B14 File Offset: 0x00033D14
 		public propertyHeader_return propertyHeader()
 		{
-			propertyHeader_return propertyHeader_return = new propertyHeader_return();
+			var propertyHeader_return = new propertyHeader_return();
 			propertyHeader_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_propertyHeader490);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 8, FOLLOW_HEADER_in_propertyHeader490);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_type_in_propertyHeader492);
-				type_return type_return = type();
+				var type_return = type();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, type_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader496);
-				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_propertyHeader496);
+				var child = (CommonTree)adaptor.DupNode(commonTree4);
 				adaptor.AddChild(commonTree3, child);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader498);
-				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 18, FOLLOW_USER_FLAGS_in_propertyHeader498);
+				var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child2);
-				int num = 2;
-				int num2 = input.LA(1);
+				var num = 2;
+				var num2 = input.LA(1);
 				if (num2 == 40)
 				{
 					num = 1;
 				}
-				int num3 = num;
+				var num3 = num;
 				if (num3 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_propertyHeader500);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					var treeNode3 = (CommonTree)Match(input, 40, FOLLOW_DOCSTRING_in_propertyHeader500);
+					var child3 = (CommonTree)adaptor.DupNode(treeNode3);
 					adaptor.AddChild(commonTree3, child3);
 				}
 				Match(input, 3, null);
@@ -1568,18 +1545,18 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B06 RID: 2822 RVA: 0x00035DCC File Offset: 0x00033FCC
 		public propertyFunc_return propertyFunc(string asPropName)
 		{
-			propertyFunc_return propertyFunc_return = new propertyFunc_return();
+			var propertyFunc_return = new propertyFunc_return();
 			propertyFunc_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				if (num != 17)
 				{
-					NoViableAltException ex = new NoViableAltException("", 22, 0, input);
+					var ex = new NoViableAltException("", 22, 0, input);
 					throw ex;
 				}
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -1587,9 +1564,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num2 != 3 && num2 != 17)
+					if (num2 is not 3 and not 17)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 22, 1, input);
+						var ex2 = new NoViableAltException("", 22, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -1599,16 +1576,16 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc521);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc521);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_function_in_propertyFunc523);
-					function_return function_return = function("", asPropName);
+					var function_return = function("", asPropName);
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, function_return.Tree);
 					Match(input, 3, null);
@@ -1618,9 +1595,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc532);
-					CommonTree child = (CommonTree)adaptor.DupNode(treeNode2);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var treeNode2 = (CommonTree)Match(input, 17, FOLLOW_PROPFUNC_in_propertyFunc532);
+					var child = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree, child);
 					break;
 				}
@@ -1639,38 +1616,38 @@ namespace pcomps.PCompiler
 		public codeBlock_return codeBlock(ScriptScope akCurrentScope)
 		{
 			codeBlock_stack.Push(new codeBlock_scope());
-			codeBlock_return codeBlock_return = new codeBlock_return();
+			var codeBlock_return = new codeBlock_return();
 			codeBlock_return.Start = input.LT(1);
 			((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope = akCurrentScope;
 			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild = 0;
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 10, FOLLOW_BLOCK_in_codeBlock558);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 10, FOLLOW_BLOCK_in_codeBlock558);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				if (input.LA(1) == 2)
 				{
 					Match(input, 2, null);
 					for (;;)
 					{
-						int num = 2;
-						int num2 = input.LA(1);
-						if (num2 == 5 || (num2 >= 11 && num2 <= 13) || (num2 == 15 || num2 == 20 || num2 == 22 || (num2 >= 24 && num2 <= 36)) || (num2 == 38 || num2 == 41 || num2 == 62 || (num2 >= 65 && num2 <= 72)) || (num2 >= 77 && num2 <= 84) || num2 == 88 || (num2 >= 90 && num2 <= 93))
+						var num = 2;
+						var num2 = input.LA(1);
+						if (num2 is 5 or >= 11 and <= 13 or 15 or 20 or 22 or >= 24 and <= 36 or 38 or 41 or 62 or >= 65 and <= 72 or >= 77 and <= 84 or 88 or >= 90 and <= 93)
 						{
 							num = 1;
 						}
-						int num3 = num;
+						var num3 = num;
 						if (num3 != 1)
 						{
 							break;
 						}
 						commonTree2 = (CommonTree)input.LT(1);
 						PushFollow(FOLLOW_statement_in_codeBlock561);
-						statement_return statement_return = statement();
+						var statement_return = statement();
 						state.followingStackPointer--;
 						adaptor.AddChild(commonTree3, statement_return.Tree);
 					}
@@ -1694,17 +1671,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B08 RID: 2824 RVA: 0x000362D8 File Offset: 0x000344D8
 		public statement_return statement()
 		{
-			statement_return statement_return = new statement_return();
+			var statement_return = new statement_return();
 			statement_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token EQUALS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule l_value");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token EQUALS");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule l_value");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -1802,7 +1779,7 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_203;
 				IL_1EB:
-				NoViableAltException ex = new NoViableAltException("", 24, 0, input);
+				var ex = new NoViableAltException("", 24, 0, input);
 				throw ex;
 				IL_203:
 				switch (num2)
@@ -1810,37 +1787,37 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_localDefinition_in_statement576);
-					localDefinition_return localDefinition_return = localDefinition();
+					var localDefinition_return = localDefinition();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, localDefinition_return.Tree);
 					break;
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement583);
+					var el = (CommonTree)Match(input, 41, FOLLOW_EQUALS_in_statement583);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement585);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_statement585);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_statement587);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_l_value_in_statement589);
-					l_value_return l_value_return = l_value();
+					var l_value_return = l_value();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(l_value_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_statement591);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -1849,9 +1826,9 @@ namespace pcomps.PCompiler
 					statement_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (statement_return != null) ? statement_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
+					if ((expression_return.kOptimizedTree) == null)
 					{
-						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						var commonTree4 = (CommonTree)adaptor.GetNilNode();
 						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
 						adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream2.NextTree());
@@ -1861,7 +1838,7 @@ namespace pcomps.PCompiler
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree5, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
@@ -1871,7 +1848,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						var commonTree6 = (CommonTree)adaptor.GetNilNode();
 						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
 						adaptor.AddChild(commonTree6, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree6, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
@@ -1885,9 +1862,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_statement658);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, expression_return2.Tree);
 					break;
@@ -1895,9 +1872,9 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_return_stat_in_statement664);
-					return_stat_return return_stat_return = return_stat();
+					var return_stat_return = return_stat();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, return_stat_return.Tree);
 					break;
@@ -1905,9 +1882,9 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_ifBlock_in_statement670);
-					ifBlock_return ifBlock_return = ifBlock();
+					var ifBlock_return = ifBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, ifBlock_return.Tree);
 					break;
@@ -1915,9 +1892,9 @@ namespace pcomps.PCompiler
 				case 6:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_whileBlock_in_statement676);
-					whileBlock_return whileBlock_return = whileBlock();
+					var whileBlock_return = whileBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, whileBlock_return.Tree);
 					break;
@@ -1937,14 +1914,14 @@ namespace pcomps.PCompiler
 		public localDefinition_return localDefinition()
 		{
 			localDefinition_stack.Push(new localDefinition_scope());
-			localDefinition_return localDefinition_return = new localDefinition_return();
+			var localDefinition_return = new localDefinition_return();
 			localDefinition_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token VAR");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule type");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token VAR");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule type");
 			((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed = true;
 			try
 			{
@@ -1952,39 +1929,39 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition699);
+					var el = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition699);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_type_in_localDefinition701);
-					type_return type_return = type();
+					var type_return = type();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(type_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition705);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition705);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_localDefinition707);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_localDefinition709);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, child);
 					localDefinition_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
+					var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
+					if ((expression_return.kOptimizedTree) == null)
 					{
-						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						var commonTree4 = (CommonTree)adaptor.GetNilNode();
 						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
 						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream3.NextTree());
 						adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
@@ -1994,7 +1971,7 @@ namespace pcomps.PCompiler
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
@@ -2004,7 +1981,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						var commonTree6 = (CommonTree)adaptor.GetNilNode();
 						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
 						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream3.NextTree());
 						adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
@@ -2017,19 +1994,19 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child2 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el2 = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition776);
+					var el2 = (CommonTree)Match(input, 5, FOLLOW_VAR_in_localDefinition776);
 					rewriteRuleNodeStream.Add(el2);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_type_in_localDefinition778);
-					type_return type_return2 = type();
+					var type_return2 = type();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(type_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition782);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_localDefinition782);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, child2);
@@ -2038,12 +2015,12 @@ namespace pcomps.PCompiler
 						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryGetVarUsed(commonTree3.Text, out ((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed);
 					}
 					localDefinition_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
+					var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token name", commonTree3);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (localDefinition_return != null) ? localDefinition_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((localDefinition_scope)localDefinition_stack.Peek()).bvarUsed)
 					{
-						CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+						var commonTree7 = (CommonTree)adaptor.GetNilNode();
 						commonTree7 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
 						adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream3.NextTree());
 						adaptor.AddChild(commonTree7, rewriteRuleNodeStream4.NextNode());
@@ -2074,14 +2051,14 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B0A RID: 2826 RVA: 0x0003728C File Offset: 0x0003548C
 		public l_value_return l_value()
 		{
-			l_value_return l_value_return = new l_value_return();
+			var l_value_return = new l_value_return();
 			l_value_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
+			var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
 				switch (dfa26.Predict(input))
@@ -2089,30 +2066,30 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_l_value823);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_l_value823);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value826);
-					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value826);
+					var newRoot2 = (CommonTree)adaptor.DupNode(treeNode2);
 					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree4);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_l_value828);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree4, expression_return.Tree);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree3, commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_property_set_in_l_value831);
-					property_set_return property_set_return = property_set();
+					var property_set_return = property_set();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, property_set_return.Tree);
 					Match(input, 3, null);
@@ -2121,39 +2098,39 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree5 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value839);
+					var el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_l_value839);
 					rewriteRuleNodeStream2.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value843);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value843);
 					rewriteRuleNodeStream3.Add(commonTree6);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value847);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_l_value847);
 					rewriteRuleNodeStream3.Add(commonTree7);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_l_value849);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value852);
+					var el2 = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_l_value852);
 					rewriteRuleNodeStream.Add(el2);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_l_value856);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return2.Tree);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree5, child);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_l_value861);
-					expression_return expression_return3 = expression();
+					var expression_return3 = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return3.Tree);
 					Match(input, 3, null);
@@ -2161,18 +2138,18 @@ namespace pcomps.PCompiler
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
 					l_value_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token source", commonTree6);
-					RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token self", commonTree7);
+					var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token source", commonTree6);
+					var rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token self", commonTree7);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (l_value_return != null) ? l_value_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule index", (expression_return3 != null) ? expression_return3.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule array", (expression_return2 != null) ? expression_return2.Tree : null);
+					var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule index", (expression_return3 != null) ? expression_return3.Tree : null);
+					var rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule array", (expression_return2 != null) ? expression_return2.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					var commonTree8 = (CommonTree)adaptor.GetNilNode();
 					commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
 					adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree8, rewriteRuleNodeStream5.NextNode());
 					adaptor.AddChild(commonTree8, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return3 != null) ? expression_return3.kOptimizedTree : null));
-					CommonTree commonTree9 = (CommonTree)adaptor.GetNilNode();
+					var commonTree9 = (CommonTree)adaptor.GetNilNode();
 					commonTree9 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree9);
 					adaptor.AddChild(commonTree9, rewriteRuleSubtreeStream4.NextTree());
 					adaptor.AddChild(commonTree8, commonTree9);
@@ -2184,9 +2161,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_basic_l_value_in_l_value900);
-					basic_l_value_return basic_l_value_return = basic_l_value();
+					var basic_l_value_return = basic_l_value();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, basic_l_value_return.Tree);
 					break;
@@ -2205,17 +2182,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B0B RID: 2827 RVA: 0x00037A54 File Offset: 0x00035C54
 		public basic_l_value_return basic_l_value()
 		{
-			basic_l_value_return basic_l_value_return = new basic_l_value_return();
+			var basic_l_value_return = new basic_l_value_return();
 			basic_l_value_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYSET");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 25)
 				{
@@ -2258,7 +2235,7 @@ namespace pcomps.PCompiler
 					goto IL_129;
 				}
 				IL_111:
-				NoViableAltException ex = new NoViableAltException("", 27, 0, input);
+				var ex = new NoViableAltException("", 27, 0, input);
 				throw ex;
 				IL_129:
 				switch (num2)
@@ -2266,21 +2243,21 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_basic_l_value914);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_basic_l_value914);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_array_func_or_id_in_basic_l_value916);
-					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					var array_func_or_id_return = array_func_or_id();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_basic_l_value_in_basic_l_value918);
-					basic_l_value_return basic_l_value_return2 = basic_l_value();
+					var basic_l_value_return2 = basic_l_value();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, basic_l_value_return2.Tree);
 					Match(input, 3, null);
@@ -2290,9 +2267,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_function_call_in_basic_l_value925);
-					function_call_return function_call_return = function_call();
+					var function_call_return = function_call();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, function_call_return.Tree);
 					break;
@@ -2300,40 +2277,40 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_property_set_in_basic_l_value931);
-					property_set_return property_set_return = property_set();
+					var property_set_return = property_set();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, property_set_return.Tree);
 					break;
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value940);
+					var el = (CommonTree)Match(input, 23, FOLLOW_ARRAYSET_in_basic_l_value940);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value944);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value944);
 					rewriteRuleNodeStream2.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value948);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value948);
 					rewriteRuleNodeStream2.Add(commonTree5);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_basic_l_value950);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_func_or_id_in_basic_l_value952);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(func_or_id_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_basic_l_value954);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -2341,11 +2318,11 @@ namespace pcomps.PCompiler
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree5.Text);
 					basic_l_value_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token source", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token self", commonTree5);
+					var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token source", commonTree4);
+					var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token self", commonTree5);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (basic_l_value_return != null) ? basic_l_value_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					var commonTree6 = (CommonTree)adaptor.GetNilNode();
 					commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree6);
 					adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
 					adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
@@ -2359,9 +2336,9 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value987);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree7);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_basic_l_value987);
+					var child2 = (CommonTree)adaptor.DupNode(commonTree7);
 					adaptor.AddChild(commonTree, child2);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree7.Text);
 					break;
@@ -2380,16 +2357,16 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B0C RID: 2828 RVA: 0x000381CC File Offset: 0x000363CC
 		public expression_return expression()
 		{
-			expression_return expression_return = new expression_return();
+			var expression_return = new expression_return();
 			expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token OR");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token OR");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 65)
 				{
@@ -2397,9 +2374,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 66 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 62 and (< 66 or > 72) and (< 77 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 28, 0, input);
+						var ex = new NoViableAltException("", 28, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2408,23 +2385,23 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1010);
+					var commonTree3 = (CommonTree)Match(input, 65, FOLLOW_OR_in_expression1010);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1012);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_expression1012);
 					rewriteRuleNodeStream.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_expression1016);
-					expression_return expression_return2 = expression();
+					var expression_return2 = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_and_expression_in_expression1018);
-					and_expression_return and_expression_return = and_expression();
+					var and_expression_return = and_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(and_expression_return.Tree);
 					Match(input, 3, null);
@@ -2436,7 +2413,7 @@ namespace pcomps.PCompiler
 					}
 					expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (expression_return != null) ? expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (expression_return2 != null) ? expression_return2.Tree : null);
+					var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (expression_return2 != null) ? expression_return2.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (expression_return.kOptimizedTree != null)
 					{
@@ -2444,7 +2421,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream.NextNode());
 						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
@@ -2457,9 +2434,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_and_expression_in_expression1055);
-					and_expression_return and_expression_return2 = and_expression();
+					var and_expression_return2 = and_expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, and_expression_return2.Tree);
 					expression_return.kOptimizedTree = ((and_expression_return2 != null) ? and_expression_return2.kOptimizedTree : null);
@@ -2479,16 +2456,16 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B0D RID: 2829 RVA: 0x00038658 File Offset: 0x00036858
 		public and_expression_return and_expression()
 		{
-			and_expression_return and_expression_return = new and_expression_return();
+			var and_expression_return = new and_expression_return();
 			and_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AND");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AND");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule and_expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 66)
 				{
@@ -2496,9 +2473,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 36)) && (num != 38 && num != 62 && (num < 67 || num > 72)) && (num < 77 || num > 82) && (num < 90 || num > 93))
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 62 and (< 67 or > 72) and (< 77 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 29, 0, input);
+						var ex = new NoViableAltException("", 29, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -2507,23 +2484,23 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1077);
+					var commonTree3 = (CommonTree)Match(input, 66, FOLLOW_AND_in_and_expression1077);
 					rewriteRuleNodeStream.Add(commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1079);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_and_expression1079);
 					rewriteRuleNodeStream2.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_and_expression_in_and_expression1083);
-					and_expression_return and_expression_return2 = and_expression();
+					var and_expression_return2 = and_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(and_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_and_expression1085);
-					bool_expression_return bool_expression_return = bool_expression();
+					var bool_expression_return = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(bool_expression_return.Tree);
 					Match(input, 3, null);
@@ -2535,7 +2512,7 @@ namespace pcomps.PCompiler
 					}
 					and_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (and_expression_return != null) ? and_expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (and_expression_return2 != null) ? and_expression_return2.Tree : null);
+					var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule childExpr", (and_expression_return2 != null) ? and_expression_return2.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (and_expression_return.kOptimizedTree != null)
 					{
@@ -2543,7 +2520,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream3.NextTree());
@@ -2556,12 +2533,12 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_and_expression1122);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, bool_expression_return2.Tree);
-					and_expression_return.kOptimizedTree = ((bool_expression_return2 != null) ? bool_expression_return2.kOptimizedTree : null);
+					and_expression_return.kOptimizedTree = (bool_expression_return2.kOptimizedTree);
 					break;
 				}
 				}
@@ -2579,22 +2556,22 @@ namespace pcomps.PCompiler
 		public bool_expression_return bool_expression()
 		{
 			bool_expression_stack.Push(new bool_expression_scope());
-			bool_expression_return bool_expression_return = new bool_expression_return();
+			var bool_expression_return = new bool_expression_return();
 			bool_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token GT");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token LT");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token EQ");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token LTE");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token GTE");
-			RewriteRuleNodeStream rewriteRuleNodeStream7 = new RewriteRuleNodeStream(adaptor, "token NE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token GT");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token LT");
+			var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token EQ");
+			var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token LTE");
+			var rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token GTE");
+			var rewriteRuleNodeStream7 = new RewriteRuleNodeStream(adaptor, "token NE");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule bool_expression");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -2685,40 +2662,40 @@ namespace pcomps.PCompiler
 				num2 = 7;
 				goto IL_264;
 				IL_24C:
-				NoViableAltException ex = new NoViableAltException("", 30, 0, input);
+				var ex = new NoViableAltException("", 30, 0, input);
 				throw ex;
 				IL_264:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1148);
+					var el = (CommonTree)Match(input, 67, FOLLOW_EQ_in_bool_expression1148);
 					rewriteRuleNodeStream3.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1150);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1150);
 					rewriteRuleNodeStream4.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1154);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1158);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1162);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1166);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2729,7 +2706,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree4 = (CommonTree)adaptor.GetNilNode();
 					commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree4);
 					adaptor.AddChild(commonTree4, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree4, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2742,33 +2719,33 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child2 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el2 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1198);
+					var el2 = (CommonTree)Match(input, 68, FOLLOW_NE_in_bool_expression1198);
 					rewriteRuleNodeStream7.Add(el2);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1200);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1200);
 					rewriteRuleNodeStream4.Add(commonTree5);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1204);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1208);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1212);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1216);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2779,7 +2756,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					var commonTree6 = (CommonTree)adaptor.GetNilNode();
 					commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream7.NextNode(), commonTree6);
 					adaptor.AddChild(commonTree6, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree6, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2792,33 +2769,33 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el3 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1248);
+					var el3 = (CommonTree)Match(input, 69, FOLLOW_GT_in_bool_expression1248);
 					rewriteRuleNodeStream.Add(el3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1250);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1250);
 					rewriteRuleNodeStream4.Add(commonTree7);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1254);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1258);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1262);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1266);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2829,7 +2806,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					var commonTree8 = (CommonTree)adaptor.GetNilNode();
 					commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
 					adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree8, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2842,33 +2819,33 @@ namespace pcomps.PCompiler
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el4 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression1298);
+					var el4 = (CommonTree)Match(input, 70, FOLLOW_LT_in_bool_expression1298);
 					rewriteRuleNodeStream2.Add(el4);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree9 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1300);
+					var commonTree9 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1300);
 					rewriteRuleNodeStream4.Add(commonTree9);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1304);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1308);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1312);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1316);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2879,7 +2856,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree10 = (CommonTree)adaptor.GetNilNode();
+					var commonTree10 = (CommonTree)adaptor.GetNilNode();
 					commonTree10 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree10);
 					adaptor.AddChild(commonTree10, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree10, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2892,33 +2869,33 @@ namespace pcomps.PCompiler
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child5 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el5 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression1348);
+					var el5 = (CommonTree)Match(input, 71, FOLLOW_GTE_in_bool_expression1348);
 					rewriteRuleNodeStream6.Add(el5);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree11 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1350);
+					var commonTree11 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1350);
 					rewriteRuleNodeStream4.Add(commonTree11);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1354);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1358);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1362);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1366);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2929,7 +2906,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree12 = (CommonTree)adaptor.GetNilNode();
+					var commonTree12 = (CommonTree)adaptor.GetNilNode();
 					commonTree12 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree12);
 					adaptor.AddChild(commonTree12, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree12, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2942,33 +2919,33 @@ namespace pcomps.PCompiler
 				}
 				case 6:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child6 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child6 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el6 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression1398);
+					var el6 = (CommonTree)Match(input, 72, FOLLOW_LTE_in_bool_expression1398);
 					rewriteRuleNodeStream5.Add(el6);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1400);
+					var commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_bool_expression1400);
 					rewriteRuleNodeStream4.Add(commonTree13);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1404);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_bool_expression1408);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_bool_expression_in_bool_expression1412);
-					bool_expression_return bool_expression_return2 = bool_expression();
+					var bool_expression_return2 = bool_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(bool_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1416);
-					add_expression_return add_expression_return = add_expression();
+					var add_expression_return = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(add_expression_return.Tree);
 					Match(input, 3, null);
@@ -2979,7 +2956,7 @@ namespace pcomps.PCompiler
 					bool_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (bool_expression_return != null) ? bool_expression_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+					var commonTree14 = (CommonTree)adaptor.GetNilNode();
 					commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
 					adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree14, ((bool_expression_scope)bool_expression_stack.Peek()).kautoCastTreeA);
@@ -2993,9 +2970,9 @@ namespace pcomps.PCompiler
 				case 7:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_bool_expression1447);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, add_expression_return2.Tree);
 					bool_expression_return.kOptimizedTree = ((add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null);
@@ -3020,21 +2997,21 @@ namespace pcomps.PCompiler
 		public add_expression_return add_expression()
 		{
 			add_expression_stack.Push(new add_expression_scope());
-			add_expression_return add_expression_return = new add_expression_return();
+			var add_expression_return = new add_expression_return();
 			add_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token IADD");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ISUBTRACT");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FADD");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token FSUBTRACT");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token STRCAT");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token IADD");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ISUBTRACT");
+			var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FADD");
+			var rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token FSUBTRACT");
+			var rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token STRCAT");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule add_expression");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3111,40 +3088,40 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_211;
 				IL_1F9:
-				NoViableAltException ex = new NoViableAltException("", 31, 0, input);
+				var ex = new NoViableAltException("", 31, 0, input);
 				throw ex;
 				IL_211:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression1473);
+					var commonTree3 = (CommonTree)Match(input, 26, FOLLOW_IADD_in_add_expression1473);
 					rewriteRuleNodeStream.Add(commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1475);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1475);
 					rewriteRuleNodeStream3.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1479);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1483);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_add_expression1487);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1491);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
 					Match(input, 3, null);
@@ -3153,11 +3130,11 @@ namespace pcomps.PCompiler
 					if (add_expression_return.kOptimizedTree == null)
 					{
 						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
-						FixUpAutoCastAndExpression((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null, (add_expression_return2 != null) ? ((CommonTree)add_expression_return2.Tree) : null, (add_expression_return2 != null) ? add_expression_return2.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
-						FixUpAutoCastAndExpression((autoCast_return2 != null) ? ((CommonTree)autoCast_return2.Tree) : null, (autoCast_return2 != null) ? autoCast_return2.kOptimizedTree : null, (mult_expression_return != null) ? ((CommonTree)mult_expression_return.Tree) : null, (mult_expression_return != null) ? mult_expression_return.kOptimizedTree : null, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
+						FixUpAutoCastAndExpression(((CommonTree)autoCast_return.Tree), autoCast_return.kOptimizedTree, ((CommonTree)add_expression_return2.Tree), add_expression_return2.kOptimizedTree, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionA);
+						FixUpAutoCastAndExpression(((CommonTree)autoCast_return2.Tree), autoCast_return2.kOptimizedTree, ((CommonTree)mult_expression_return.Tree), mult_expression_return.kOptimizedTree, out ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeB, out ((add_expression_scope)add_expression_stack.Peek()).kexpressionB);
 					}
 					add_expression_return.Tree = commonTree;
-					new RewriteRuleSubtreeStream(adaptor, "rule retval", (add_expression_return != null) ? add_expression_return.Tree : null);
+					new RewriteRuleSubtreeStream(adaptor, "rule retval", add_expression_return.Tree);
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (add_expression_return.kOptimizedTree != null)
 					{
@@ -3165,7 +3142,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree5, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
@@ -3179,33 +3156,33 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child2 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression1532);
+					var commonTree6 = (CommonTree)Match(input, 27, FOLLOW_FADD_in_add_expression1532);
 					rewriteRuleNodeStream4.Add(commonTree6);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1534);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1534);
 					rewriteRuleNodeStream3.Add(commonTree7);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1538);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1542);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_add_expression1546);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1550);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
 					Match(input, 3, null);
@@ -3226,7 +3203,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						var commonTree8 = (CommonTree)adaptor.GetNilNode();
 						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree8);
 						adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree8, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
@@ -3240,33 +3217,33 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree9 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression1591);
+					var commonTree9 = (CommonTree)Match(input, 28, FOLLOW_ISUBTRACT_in_add_expression1591);
 					rewriteRuleNodeStream2.Add(commonTree9);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1593);
+					var commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1593);
 					rewriteRuleNodeStream3.Add(commonTree10);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1597);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1601);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_add_expression1605);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1609);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
 					Match(input, 3, null);
@@ -3287,7 +3264,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+						var commonTree11 = (CommonTree)adaptor.GetNilNode();
 						commonTree11 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree11);
 						adaptor.AddChild(commonTree11, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree11, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
@@ -3301,33 +3278,33 @@ namespace pcomps.PCompiler
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree12 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression1650);
+					var commonTree12 = (CommonTree)Match(input, 29, FOLLOW_FSUBTRACT_in_add_expression1650);
 					rewriteRuleNodeStream5.Add(commonTree12);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1652);
+					var commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1652);
 					rewriteRuleNodeStream3.Add(commonTree13);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1656);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1660);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_add_expression1664);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1668);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
 					Match(input, 3, null);
@@ -3348,7 +3325,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+						var commonTree14 = (CommonTree)adaptor.GetNilNode();
 						commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree14);
 						adaptor.AddChild(commonTree14, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree14, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
@@ -3362,33 +3339,33 @@ namespace pcomps.PCompiler
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child5 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression1709);
+					var el = (CommonTree)Match(input, 36, FOLLOW_STRCAT_in_add_expression1709);
 					rewriteRuleNodeStream6.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree15 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1711);
+					var commonTree15 = (CommonTree)Match(input, 38, FOLLOW_ID_in_add_expression1711);
 					rewriteRuleNodeStream3.Add(commonTree15);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1715);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_add_expression1719);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_add_expression_in_add_expression1723);
-					add_expression_return add_expression_return2 = add_expression();
+					var add_expression_return2 = add_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(add_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1727);
-					mult_expression_return mult_expression_return = mult_expression();
+					var mult_expression_return = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return.Tree);
 					Match(input, 3, null);
@@ -3409,7 +3386,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree16 = (CommonTree)adaptor.GetNilNode();
+						var commonTree16 = (CommonTree)adaptor.GetNilNode();
 						commonTree16 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree16);
 						adaptor.AddChild(commonTree16, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree16, ((add_expression_scope)add_expression_stack.Peek()).kautoCastTreeA);
@@ -3424,9 +3401,9 @@ namespace pcomps.PCompiler
 				case 6:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_add_expression1767);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, mult_expression_return2.Tree);
 					add_expression_return.kOptimizedTree = ((mult_expression_return2 != null) ? mult_expression_return2.kOptimizedTree : null);
@@ -3451,21 +3428,21 @@ namespace pcomps.PCompiler
 		public mult_expression_return mult_expression()
 		{
 			mult_expression_stack.Push(new mult_expression_scope());
-			mult_expression_return mult_expression_return = new mult_expression_return();
+			var mult_expression_return = new mult_expression_return();
 			mult_expression_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token FDIVIDE");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token FMULTIPLY");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token IMULTIPLY");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token MOD");
-			RewriteRuleNodeStream rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token IDIVIDE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule unary_expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token FDIVIDE");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token FMULTIPLY");
+			var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token IMULTIPLY");
+			var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleNodeStream5 = new RewriteRuleNodeStream(adaptor, "token MOD");
+			var rewriteRuleNodeStream6 = new RewriteRuleNodeStream(adaptor, "token IDIVIDE");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule unary_expression");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule mult_expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -3542,40 +3519,40 @@ namespace pcomps.PCompiler
 				num2 = 6;
 				goto IL_217;
 				IL_1FF:
-				NoViableAltException ex = new NoViableAltException("", 32, 0, input);
+				var ex = new NoViableAltException("", 32, 0, input);
 				throw ex;
 				IL_217:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression1794);
+					var commonTree3 = (CommonTree)Match(input, 30, FOLLOW_IMULTIPLY_in_mult_expression1794);
 					rewriteRuleNodeStream3.Add(commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1796);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1796);
 					rewriteRuleNodeStream4.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1800);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1804);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression1808);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression1812);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
 					Match(input, 3, null);
@@ -3596,7 +3573,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream3.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
 						adaptor.AddChild(commonTree5, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
@@ -3610,33 +3587,33 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child2 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression1853);
+					var commonTree6 = (CommonTree)Match(input, 31, FOLLOW_FMULTIPLY_in_mult_expression1853);
 					rewriteRuleNodeStream2.Add(commonTree6);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1855);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1855);
 					rewriteRuleNodeStream4.Add(commonTree7);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1859);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1863);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression1867);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression1871);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
 					Match(input, 3, null);
@@ -3657,7 +3634,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						var commonTree8 = (CommonTree)adaptor.GetNilNode();
 						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree8);
 						adaptor.AddChild(commonTree8, rewriteRuleNodeStream4.NextNode());
 						adaptor.AddChild(commonTree8, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
@@ -3671,33 +3648,33 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree9 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression1912);
+					var commonTree9 = (CommonTree)Match(input, 32, FOLLOW_IDIVIDE_in_mult_expression1912);
 					rewriteRuleNodeStream6.Add(commonTree9);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1914);
+					var commonTree10 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1914);
 					rewriteRuleNodeStream4.Add(commonTree10);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1918);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1922);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression1926);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression1930);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
 					Match(input, 3, null);
@@ -3718,7 +3695,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+						var commonTree11 = (CommonTree)adaptor.GetNilNode();
 						commonTree11 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream6.NextNode(), commonTree11);
 						adaptor.AddChild(commonTree11, rewriteRuleNodeStream4.NextNode());
 						adaptor.AddChild(commonTree11, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
@@ -3732,33 +3709,33 @@ namespace pcomps.PCompiler
 				}
 				case 4:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree12 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression1971);
+					var commonTree12 = (CommonTree)Match(input, 33, FOLLOW_FDIVIDE_in_mult_expression1971);
 					rewriteRuleNodeStream.Add(commonTree12);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1973);
+					var commonTree13 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression1973);
 					rewriteRuleNodeStream4.Add(commonTree13);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1977);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_mult_expression1981);
-					autoCast_return autoCast_return2 = autoCast();
+					var autoCast_return2 = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(autoCast_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression1985);
-					mult_expression_return mult_expression_return2 = mult_expression();
+					var mult_expression_return2 = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression1989);
-					unary_expression_return unary_expression_return = unary_expression();
+					var unary_expression_return = unary_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return.Tree);
 					Match(input, 3, null);
@@ -3779,7 +3756,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+						var commonTree14 = (CommonTree)adaptor.GetNilNode();
 						commonTree14 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree14);
 						adaptor.AddChild(commonTree14, rewriteRuleNodeStream4.NextNode());
 						adaptor.AddChild(commonTree14, ((mult_expression_scope)mult_expression_stack.Peek()).kautoCastTreeA);
@@ -3793,23 +3770,23 @@ namespace pcomps.PCompiler
 				}
 				case 5:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child5 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree15 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression2030);
+					var commonTree15 = (CommonTree)Match(input, 77, FOLLOW_MOD_in_mult_expression2030);
 					rewriteRuleNodeStream5.Add(commonTree15);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree16 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2032);
+					var commonTree16 = (CommonTree)Match(input, 38, FOLLOW_ID_in_mult_expression2032);
 					rewriteRuleNodeStream4.Add(commonTree16);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_mult_expression_in_mult_expression2036);
-					mult_expression_return mult_expression_return3 = mult_expression();
+					var mult_expression_return3 = mult_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(mult_expression_return3.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2038);
-					unary_expression_return unary_expression_return2 = unary_expression();
+					var unary_expression_return2 = unary_expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(unary_expression_return2.Tree);
 					Match(input, 3, null);
@@ -3821,7 +3798,7 @@ namespace pcomps.PCompiler
 					}
 					mult_expression_return.Tree = commonTree;
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (mult_expression_return != null) ? mult_expression_return.Tree : null);
-					RewriteRuleSubtreeStream rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule child_mult", (mult_expression_return3 != null) ? mult_expression_return3.Tree : null);
+					var rewriteRuleSubtreeStream4 = new RewriteRuleSubtreeStream(adaptor, "rule child_mult", (mult_expression_return3 != null) ? mult_expression_return3.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (mult_expression_return.kOptimizedTree != null)
 					{
@@ -3829,7 +3806,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree17 = (CommonTree)adaptor.GetNilNode();
+						var commonTree17 = (CommonTree)adaptor.GetNilNode();
 						commonTree17 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream5.NextNode(), commonTree17);
 						adaptor.AddChild(commonTree17, rewriteRuleNodeStream4.NextNode());
 						adaptor.AddChild(commonTree17, rewriteRuleSubtreeStream4.NextTree());
@@ -3842,9 +3819,9 @@ namespace pcomps.PCompiler
 				case 6:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_unary_expression_in_mult_expression2075);
-					unary_expression_return unary_expression_return3 = unary_expression();
+					var unary_expression_return3 = unary_expression();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, unary_expression_return3.Tree);
 					mult_expression_return.kOptimizedTree = ((unary_expression_return3 != null) ? unary_expression_return3.kOptimizedTree : null);
@@ -3868,17 +3845,19 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B11 RID: 2833 RVA: 0x0003D644 File Offset: 0x0003B844
 		public unary_expression_return unary_expression()
 		{
-			unary_expression_return unary_expression_return = new unary_expression_return();
-			unary_expression_return.Start = input.LT(1);
-			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token NOT");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token INEGATE");
-			RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FNEGATE");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule cast_atom");
+			var unary_expression_return = new unary_expression_return
+            {
+                Start = input.LT(1)
+            };
+            CommonTree commonTree = null;
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token NOT");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token INEGATE");
+			var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token FNEGATE");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule cast_atom");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -3952,25 +3931,25 @@ namespace pcomps.PCompiler
 				num2 = 4;
 				goto IL_18E;
 				IL_176:
-				NoViableAltException ex = new NoViableAltException("", 33, 0, input);
+				var ex = new NoViableAltException("", 33, 0, input);
 				throw ex;
 				IL_18E:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression2098);
+					var el = (CommonTree)Match(input, 34, FOLLOW_INEGATE_in_unary_expression2098);
 					rewriteRuleNodeStream2.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2100);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2100);
 					rewriteRuleNodeStream3.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression2102);
-					cast_atom_return cast_atom_return = cast_atom();
+					var cast_atom_return = cast_atom();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return.Tree);
 					Match(input, 3, null);
@@ -3985,7 +3964,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						var commonTree4 = (CommonTree)adaptor.GetNilNode();
 						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream2.NextNode(), commonTree4);
 						adaptor.AddChild(commonTree4, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
@@ -4000,18 +3979,18 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child2 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child2 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el2 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression2138);
+					var el2 = (CommonTree)Match(input, 35, FOLLOW_FNEGATE_in_unary_expression2138);
 					rewriteRuleNodeStream4.Add(el2);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2140);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2140);
 					rewriteRuleNodeStream3.Add(commonTree5);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression2142);
-					cast_atom_return cast_atom_return2 = cast_atom();
+					var cast_atom_return2 = cast_atom();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return2.Tree);
 					Match(input, 3, null);
@@ -4026,7 +4005,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+						var commonTree6 = (CommonTree)adaptor.GetNilNode();
 						commonTree6 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream4.NextNode(), commonTree6);
 						adaptor.AddChild(commonTree6, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree6, rewriteRuleSubtreeStream.NextTree());
@@ -4041,18 +4020,18 @@ namespace pcomps.PCompiler
 				}
 				case 3:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el3 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression2178);
+					var el3 = (CommonTree)Match(input, 78, FOLLOW_NOT_in_unary_expression2178);
 					rewriteRuleNodeStream.Add(el3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2180);
+					var commonTree7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_unary_expression2180);
 					rewriteRuleNodeStream3.Add(commonTree7);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression2182);
-					cast_atom_return cast_atom_return3 = cast_atom();
+					var cast_atom_return3 = cast_atom();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(cast_atom_return3.Tree);
 					Match(input, 3, null);
@@ -4067,7 +4046,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (unary_expression_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+						var commonTree8 = (CommonTree)adaptor.GetNilNode();
 						commonTree8 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree8);
 						adaptor.AddChild(commonTree8, rewriteRuleNodeStream3.NextNode());
 						adaptor.AddChild(commonTree8, rewriteRuleSubtreeStream.NextTree());
@@ -4083,9 +4062,9 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_cast_atom_in_unary_expression2217);
-					cast_atom_return cast_atom_return4 = cast_atom();
+					var cast_atom_return4 = cast_atom();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, cast_atom_return4.Tree);
 					unary_expression_return.kOptimizedTree = ((cast_atom_return4 != null) ? cast_atom_return4.kOptimizedTree : null);
@@ -4105,15 +4084,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B12 RID: 2834 RVA: 0x0003DEEC File Offset: 0x0003C0EC
 		public cast_atom_return cast_atom()
 		{
-			cast_atom_return cast_atom_return = new cast_atom_return();
+			var cast_atom_return = new cast_atom_return();
 			cast_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule dot_atom");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule dot_atom");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 79)
 				{
@@ -4121,9 +4100,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && num != 22 && (num < 24 || num > 25)) && (num != 38 && num != 62 && (num < 80 || num > 82)) && (num < 90 || num > 93))
+					if (num is (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 25) and not 38 and not 62 and (< 80 or > 82) and (< 90 or > 93))
 					{
-						NoViableAltException ex = new NoViableAltException("", 34, 0, input);
+						var ex = new NoViableAltException("", 34, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4132,23 +4111,23 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom2240);
+					var el = (CommonTree)Match(input, 79, FOLLOW_AS_in_cast_atom2240);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom2242);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_cast_atom2242);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_dot_atom_in_cast_atom2244);
-					dot_atom_return dot_atom_return = dot_atom();
+					var dot_atom_return = dot_atom();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(dot_atom_return.Tree);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, child);
-					cast_atom_return.kOptimizedTree = CompilerAutoCast(commonTree3.Text, (dot_atom_return != null) ? ((CommonTree)dot_atom_return.Tree) : null, ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope);
+					cast_atom_return.kOptimizedTree = CompilerAutoCast(commonTree3.Text, ((CommonTree)dot_atom_return.Tree), ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope);
 					if (cast_atom_return.kOptimizedTree == null)
 					{
 						((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
@@ -4158,7 +4137,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (cast_atom_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						var commonTree4 = (CommonTree)adaptor.GetNilNode();
 						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
 						adaptor.AddChild(commonTree4, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree4, rewriteRuleSubtreeStream.NextTree());
@@ -4174,9 +4153,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_dot_atom_in_cast_atom2279);
-					dot_atom_return dot_atom_return2 = dot_atom();
+					var dot_atom_return2 = dot_atom();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, dot_atom_return2.Tree);
 					cast_atom_return.kOptimizedTree = ((dot_atom_return2 != null) ? dot_atom_return2.kOptimizedTree : null);
@@ -4196,12 +4175,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B13 RID: 2835 RVA: 0x0003E2E0 File Offset: 0x0003C4E0
 		public dot_atom_return dot_atom()
 		{
-			dot_atom_return dot_atom_return = new dot_atom_return();
+			var dot_atom_return = new dot_atom_return();
 			dot_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 38)
 				{
@@ -4266,7 +4245,7 @@ namespace pcomps.PCompiler
 				num2 = 2;
 				goto IL_F1;
 				IL_D9:
-				NoViableAltException ex = new NoViableAltException("", 35, 0, input);
+				var ex = new NoViableAltException("", 35, 0, input);
 				throw ex;
 				IL_F1:
 				switch (num2)
@@ -4274,21 +4253,21 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_dot_atom2302);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 62, FOLLOW_DOT_in_dot_atom2302);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_dot_atom_in_dot_atom2306);
-					dot_atom_return dot_atom_return2 = dot_atom();
+					var dot_atom_return2 = dot_atom();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, dot_atom_return2.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_array_func_or_id_in_dot_atom2308);
-					array_func_or_id_return array_func_or_id_return = array_func_or_id();
+					var array_func_or_id_return = array_func_or_id();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, array_func_or_id_return.Tree);
 					Match(input, 3, null);
@@ -4299,9 +4278,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_array_atom_in_dot_atom2320);
-					array_atom_return array_atom_return = array_atom();
+					var array_atom_return = array_atom();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, array_atom_return.Tree);
 					dot_atom_return.kOptimizedTree = ((array_atom_return != null) ? array_atom_return.kOptimizedTree : null);
@@ -4310,9 +4289,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_constant_in_dot_atom2331);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, constant_return.Tree);
 					dot_atom_return.kOptimizedTree = ((constant_return != null) ? ((CommonTree)constant_return.Tree) : null);
@@ -4332,17 +4311,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B14 RID: 2836 RVA: 0x0003E6A0 File Offset: 0x0003C8A0
 		public array_atom_return array_atom()
 		{
-			array_atom_return array_atom_return = new array_atom_return();
+			var array_atom_return = new array_atom_return();
 			array_atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule atom");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule atom");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -4350,9 +4329,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 15 && num != 20 && (num < 24 || num > 25)) && num != 38 && num != 80 && num != 82)
+					if (num is (< 11 or > 13) and not 15 and not 20 and (< 24 or > 25) and not 38 and not 80 and not 82)
 					{
-						NoViableAltException ex = new NoViableAltException("", 36, 0, input);
+						var ex = new NoViableAltException("", 36, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4361,31 +4340,31 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom2355);
+					var el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_atom2355);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2359);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2359);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2363);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_atom2363);
 					rewriteRuleNodeStream2.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_array_atom2365);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_atom_in_array_atom2367);
-					atom_return atom_return = atom();
+					var atom_return = atom();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(atom_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_array_atom2369);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -4393,11 +4372,11 @@ namespace pcomps.PCompiler
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					array_atom_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
+					var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
+					var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (array_atom_return != null) ? array_atom_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree5 = (CommonTree)adaptor.GetNilNode();
 					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 					adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
@@ -4411,9 +4390,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_atom_in_array_atom2402);
-					atom_return atom_return2 = atom();
+					var atom_return2 = atom();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, atom_return2.Tree);
 					array_atom_return.kOptimizedTree = ((atom_return2 != null) ? atom_return2.kOptimizedTree : null);
@@ -4433,14 +4412,14 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B15 RID: 2837 RVA: 0x0003EBAC File Offset: 0x0003CDAC
 		public atom_return atom()
 		{
-			atom_return atom_return = new atom_return();
+			var atom_return = new atom_return();
 			atom_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PAREXPR");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -4492,22 +4471,22 @@ namespace pcomps.PCompiler
 				num2 = 3;
 				goto IL_EE;
 				IL_D6:
-				NoViableAltException ex = new NoViableAltException("", 37, 0, input);
+				var ex = new NoViableAltException("", 37, 0, input);
 				throw ex;
 				IL_EE:
 				switch (num2)
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_atom2425);
+					var el = (CommonTree)Match(input, 15, FOLLOW_PAREXPR_in_atom2425);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_atom2427);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -4522,7 +4501,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+						var commonTree3 = (CommonTree)adaptor.GetNilNode();
 						commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
 						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
 						adaptor.AddChild(commonTree, commonTree3);
@@ -4537,20 +4516,20 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree4 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom2461);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 80, FOLLOW_NEW_in_atom2461);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree4 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree4);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom2463);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 81, FOLLOW_INTEGER_in_atom2463);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree4, child2);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom2465);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_atom2465);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree4, child3);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, commonTree4);
@@ -4560,9 +4539,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_func_or_id_in_atom2477);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, func_or_id_return.Tree);
 					break;
@@ -4581,17 +4560,17 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B16 RID: 2838 RVA: 0x0003F0A0 File Offset: 0x0003D2A0
 		public array_func_or_id_return array_func_or_id()
 		{
-			array_func_or_id_return array_func_or_id_return = new array_func_or_id_return();
+			var array_func_or_id_return = new array_func_or_id_return();
 			array_func_or_id_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token ARRAYGET");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleSubtreeStream3 = new RewriteRuleSubtreeStream(adaptor, "rule func_or_id");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num == 22)
 				{
@@ -4599,9 +4578,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if ((num < 11 || num > 13) && (num != 20 && (num < 24 || num > 25)) && num != 38 && num != 82)
+					if (num is < 11 or > 13 && (num != 20 && num is (< 24 or > 25) and not 38 and not 82))
 					{
-						NoViableAltException ex = new NoViableAltException("", 38, 0, input);
+						var ex = new NoViableAltException("", 38, 0, input);
 						throw ex;
 					}
 					num2 = 2;
@@ -4610,31 +4589,31 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id2491);
+					var el = (CommonTree)Match(input, 22, FOLLOW_ARRAYGET_in_array_func_or_id2491);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2495);
+					var commonTree3 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2495);
 					rewriteRuleNodeStream2.Add(commonTree3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2499);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_array_func_or_id2499);
 					rewriteRuleNodeStream2.Add(commonTree4);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_array_func_or_id2501);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_func_or_id_in_array_func_or_id2503);
-					func_or_id_return func_or_id_return = func_or_id();
+					var func_or_id_return = func_or_id();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream3.Add(func_or_id_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_array_func_or_id2505);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -4642,11 +4621,11 @@ namespace pcomps.PCompiler
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree3.Text);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree4.Text);
 					array_func_or_id_return.Tree = commonTree;
-					RewriteRuleNodeStream rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
-					RewriteRuleNodeStream rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
+					var rewriteRuleNodeStream3 = new RewriteRuleNodeStream(adaptor, "token self", commonTree4);
+					var rewriteRuleNodeStream4 = new RewriteRuleNodeStream(adaptor, "token retVal", commonTree3);
 					new RewriteRuleSubtreeStream(adaptor, "rule retval", (array_func_or_id_return != null) ? array_func_or_id_return.Tree : null);
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree5 = (CommonTree)adaptor.GetNilNode();
 					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 					adaptor.AddChild(commonTree5, rewriteRuleNodeStream4.NextNode());
 					adaptor.AddChild(commonTree5, rewriteRuleNodeStream3.NextNode());
@@ -4660,9 +4639,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_func_or_id_in_array_func_or_id2538);
-					func_or_id_return func_or_id_return2 = func_or_id();
+					var func_or_id_return2 = func_or_id();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, func_or_id_return2.Tree);
 					break;
@@ -4681,12 +4660,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B17 RID: 2839 RVA: 0x0003F58C File Offset: 0x0003D78C
 		public func_or_id_return func_or_id()
 		{
-			func_or_id_return func_or_id_return = new func_or_id_return();
+			var func_or_id_return = new func_or_id_return();
 			func_or_id_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num <= 20)
 				{
@@ -4729,7 +4708,7 @@ namespace pcomps.PCompiler
 				num2 = 1;
 				goto IL_C3;
 				IL_AB:
-				NoViableAltException ex = new NoViableAltException("", 39, 0, input);
+				var ex = new NoViableAltException("", 39, 0, input);
 				throw ex;
 				IL_C3:
 				switch (num2)
@@ -4737,9 +4716,9 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_function_call_in_func_or_id2551);
-					function_call_return function_call_return = function_call();
+					var function_call_return = function_call();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, function_call_return.Tree);
 					break;
@@ -4747,24 +4726,24 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id2558);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 20, FOLLOW_PROPGET_in_func_or_id2558);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2562);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2562);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree3, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2564);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2564);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree3, child2);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2568);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2568);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree3, child3);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, commonTree3);
@@ -4775,9 +4754,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2580);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(commonTree6);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2580);
+					var child4 = (CommonTree)adaptor.DupNode(commonTree6);
 					adaptor.AddChild(commonTree, child4);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree6.Text);
 					break;
@@ -4785,20 +4764,20 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree7 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id2592);
-					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
+					var treeNode3 = (CommonTree)Match(input, 82, FOLLOW_LENGTH_in_func_or_id2592);
+					var newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
 					commonTree7 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree7);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2596);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2596);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree7, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2600);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_func_or_id2600);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree7, child3);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, commonTree7);
@@ -4820,29 +4799,29 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B18 RID: 2840 RVA: 0x0003FB44 File Offset: 0x0003DD44
 		public property_set_return property_set()
 		{
-			property_set_return property_set_return = new property_set_return();
+			var property_set_return = new property_set_return();
 			property_set_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set2620);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 21, FOLLOW_PROPSET_in_property_set2620);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2624);
-				CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+				var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2624);
+				var child = (CommonTree)adaptor.DupNode(commonTree4);
 				adaptor.AddChild(commonTree3, child);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2626);
-				CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+				var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2626);
+				var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 				adaptor.AddChild(commonTree3, child2);
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2630);
-				CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+				var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_property_set2630);
+				var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 				adaptor.AddChild(commonTree3, child3);
 				Match(input, 3, null);
 				adaptor.AddChild(commonTree, commonTree3);
@@ -4861,21 +4840,21 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B19 RID: 2841 RVA: 0x0003FDC0 File Offset: 0x0003DFC0
 		public return_stat_return return_stat()
 		{
-			return_stat_return return_stat_return = new return_stat_return();
+			var return_stat_return = new return_stat_return();
 			return_stat_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token RETURN");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token RETURN");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				if (num != 83)
 				{
-					NoViableAltException ex = new NoViableAltException("", 40, 0, input);
+					var ex = new NoViableAltException("", 40, 0, input);
 					throw ex;
 				}
-				int num2 = input.LA(2);
+				var num2 = input.LA(2);
 				int num3;
 				if (num2 == 2)
 				{
@@ -4883,9 +4862,9 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					if (num2 != 3 && num2 != 5 && (num2 < 11 || num2 > 13) && (num2 != 15 && num2 != 20 && num2 != 22 && (num2 < 24 || num2 > 36)) && (num2 != 38 && num2 != 41 && num2 != 62 && (num2 < 65 || num2 > 72)) && (num2 < 77 || num2 > 84) && num2 != 88 && (num2 < 90 || num2 > 93))
+					if (num2 is not 3 and not 5 and (< 11 or > 13) and not 15 and not 20 and not 22 and (< 24 or > 36) and not 38 and not 41 and not 62 and (< 65 or > 72) and (< 77 or > 84) && num2 != 88 && num2 is < 90 or > 93)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 40, 1, input);
+						var ex2 = new NoViableAltException("", 40, 1, input);
 						throw ex2;
 					}
 					num3 = 2;
@@ -4894,20 +4873,20 @@ namespace pcomps.PCompiler
 				{
 				case 1:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2650);
+					var el = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2650);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_autoCast_in_return_stat2652);
-					autoCast_return autoCast_return = autoCast();
+					var autoCast_return = autoCast();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_expression_in_return_stat2654);
-					expression_return expression_return = expression();
+					var expression_return = expression();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(expression_return.Tree);
 					Match(input, 3, null);
@@ -4917,7 +4896,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 					{
-						CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+						var commonTree3 = (CommonTree)adaptor.GetNilNode();
 						commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
 						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
 						adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
@@ -4925,7 +4904,7 @@ namespace pcomps.PCompiler
 					}
 					else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 					{
-						CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+						var commonTree4 = (CommonTree)adaptor.GetNilNode();
 						commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
 						adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
 						adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
@@ -4933,7 +4912,7 @@ namespace pcomps.PCompiler
 					}
 					else
 					{
-						CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+						var commonTree5 = (CommonTree)adaptor.GetNilNode();
 						commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 						adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
 						adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
@@ -4945,9 +4924,9 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2704);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var treeNode = (CommonTree)Match(input, 83, FOLLOW_RETURN_in_return_stat2704);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode);
 					adaptor.AddChild(commonTree, child2);
 					break;
 				}
@@ -4966,60 +4945,60 @@ namespace pcomps.PCompiler
 		public ifBlock_return ifBlock()
 		{
 			ifBlock_stack.Push(new ifBlock_scope());
-			ifBlock_return ifBlock_return = new ifBlock_return();
+			var ifBlock_return = new ifBlock_return();
 			ifBlock_return.Start = input.LT(1);
 			((ifBlock_scope)ifBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock2732);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 84, FOLLOW_IF_in_ifBlock2732);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_expression_in_ifBlock2734);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, expression_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_codeBlock_in_ifBlock2736);
-				codeBlock_return codeBlock_return = codeBlock(((ifBlock_scope)ifBlock_stack.Peek()).kchildScope);
+				var codeBlock_return = codeBlock(((ifBlock_scope)ifBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				for (;;)
 				{
-					int num = 2;
-					int num2 = input.LA(1);
+					var num = 2;
+					var num2 = input.LA(1);
 					if (num2 == 86)
 					{
 						num = 1;
 					}
-					int num3 = num;
+					var num3 = num;
 					if (num3 != 1)
 					{
 						break;
 					}
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_elseIfBlock_in_ifBlock2740);
-					elseIfBlock_return elseIfBlock_return = elseIfBlock();
+					var elseIfBlock_return = elseIfBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, elseIfBlock_return.Tree);
 				}
-				int num4 = 2;
-				int num5 = input.LA(1);
+				var num4 = 2;
+				var num5 = input.LA(1);
 				if (num5 == 87)
 				{
 					num4 = 1;
 				}
-				int num6 = num4;
+				var num6 = num4;
 				if (num6 == 1)
 				{
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_elseBlock_in_ifBlock2744);
-					elseBlock_return elseBlock_return = elseBlock();
+					var elseBlock_return = elseBlock();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree3, elseBlock_return.Tree);
 				}
@@ -5044,28 +5023,28 @@ namespace pcomps.PCompiler
 		public elseIfBlock_return elseIfBlock()
 		{
 			elseIfBlock_stack.Push(new elseIfBlock_scope());
-			elseIfBlock_return elseIfBlock_return = new elseIfBlock_return();
+			var elseIfBlock_return = new elseIfBlock_return();
 			elseIfBlock_return.Start = input.LT(1);
 			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock2768);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 86, FOLLOW_ELSEIF_in_elseIfBlock2768);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_expression_in_elseIfBlock2770);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, expression_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_codeBlock_in_elseIfBlock2772);
-				codeBlock_return codeBlock_return = codeBlock(((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope);
+				var codeBlock_return = codeBlock(((elseIfBlock_scope)elseIfBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				Match(input, 3, null);
@@ -5088,23 +5067,23 @@ namespace pcomps.PCompiler
 		public elseBlock_return elseBlock()
 		{
 			elseBlock_stack.Push(new elseBlock_scope());
-			elseBlock_return elseBlock_return = new elseBlock_return();
+			var elseBlock_return = new elseBlock_return();
 			elseBlock_return.Start = input.LT(1);
 			((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild++;
 			((elseBlock_scope)elseBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 87, FOLLOW_ELSE_in_elseBlock2796);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 87, FOLLOW_ELSE_in_elseBlock2796);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_codeBlock_in_elseBlock2798);
-				codeBlock_return codeBlock_return = codeBlock(((elseBlock_scope)elseBlock_stack.Peek()).kchildScope);
+				var codeBlock_return = codeBlock(((elseBlock_scope)elseBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				Match(input, 3, null);
@@ -5127,27 +5106,27 @@ namespace pcomps.PCompiler
 		public whileBlock_return whileBlock()
 		{
 			whileBlock_stack.Push(new whileBlock_scope());
-			whileBlock_return whileBlock_return = new whileBlock_return();
+			var whileBlock_return = new whileBlock_return();
 			whileBlock_return.Start = input.LT(1);
 			((whileBlock_scope)whileBlock_stack.Peek()).kchildScope = ((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.Children[((codeBlock_scope)codeBlock_stack.Peek()).inextScopeChild];
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var commonTree3 = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock2828);
-				CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+				var treeNode = (CommonTree)Match(input, 88, FOLLOW_WHILE_in_whileBlock2828);
+				var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 				commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_expression_in_whileBlock2830);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, expression_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_codeBlock_in_whileBlock2832);
-				codeBlock_return codeBlock_return = codeBlock(((whileBlock_scope)whileBlock_stack.Peek()).kchildScope);
+				var codeBlock_return = codeBlock(((whileBlock_scope)whileBlock_stack.Peek()).kchildScope);
 				state.followingStackPointer--;
 				adaptor.AddChild(commonTree3, codeBlock_return.Tree);
 				Match(input, 3, null);
@@ -5170,12 +5149,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B1E RID: 2846 RVA: 0x00040D68 File Offset: 0x0003EF68
 		public function_call_return function_call()
 		{
-			function_call_return function_call_return = new function_call_return();
+			var function_call_return = new function_call_return();
 			function_call_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				switch (num)
 				{
@@ -5199,7 +5178,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 48, 0, input);
+						var ex = new NoViableAltException("", 48, 0, input);
 						throw ex;
 					}
 					}
@@ -5210,36 +5189,36 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call2848);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 11, FOLLOW_CALL_in_function_call2848);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2852);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2852);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree3, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2856);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2856);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree3, child2);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2860);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2860);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree3, child3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)adaptor.GetNilNode();
+					var commonTree6 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2863);
-					CommonTree newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
+					var treeNode3 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2863);
+					var newRoot2 = (CommonTree)adaptor.DupNode(treeNode3);
 					commonTree6 = (CommonTree)adaptor.BecomeRoot(newRoot2, commonTree6);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num3 = 2;
-						int num4 = input.LA(1);
+						var num3 = 2;
+						var num4 = input.LA(1);
 						if (num4 == 9)
 						{
 							num3 = 1;
@@ -5249,7 +5228,7 @@ namespace pcomps.PCompiler
 						{
 							commonTree2 = (CommonTree)input.LT(1);
 							PushFollow(FOLLOW_parameters_in_function_call2865);
-							parameters_return parameters_return = parameters();
+							var parameters_return = parameters();
 							state.followingStackPointer--;
 							adaptor.AddChild(commonTree6, parameters_return.Tree);
 						}
@@ -5265,36 +5244,36 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree7 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode4 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call2880);
-					CommonTree newRoot3 = (CommonTree)adaptor.DupNode(treeNode4);
+					var treeNode4 = (CommonTree)Match(input, 13, FOLLOW_CALLPARENT_in_function_call2880);
+					var newRoot3 = (CommonTree)adaptor.DupNode(treeNode4);
 					commonTree7 = (CommonTree)adaptor.BecomeRoot(newRoot3, commonTree7);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2884);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2884);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree7, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2888);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2888);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree7, child2);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2892);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2892);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree7, child3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree8 = (CommonTree)adaptor.GetNilNode();
+					var commonTree8 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode5 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2895);
-					CommonTree newRoot4 = (CommonTree)adaptor.DupNode(treeNode5);
+					var treeNode5 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2895);
+					var newRoot4 = (CommonTree)adaptor.DupNode(treeNode5);
 					commonTree8 = (CommonTree)adaptor.BecomeRoot(newRoot4, commonTree8);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num5 = 2;
-						int num6 = input.LA(1);
+						var num5 = 2;
+						var num6 = input.LA(1);
 						if (num6 == 9)
 						{
 							num5 = 1;
@@ -5304,7 +5283,7 @@ namespace pcomps.PCompiler
 						{
 							commonTree2 = (CommonTree)input.LT(1);
 							PushFollow(FOLLOW_parameters_in_function_call2897);
-							parameters_return parameters_return2 = parameters();
+							var parameters_return2 = parameters();
 							state.followingStackPointer--;
 							adaptor.AddChild(commonTree8, parameters_return2.Tree);
 						}
@@ -5320,36 +5299,36 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree9 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree9 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call2912);
-					CommonTree newRoot5 = (CommonTree)adaptor.DupNode(treeNode6);
+					var treeNode6 = (CommonTree)Match(input, 12, FOLLOW_CALLGLOBAL_in_function_call2912);
+					var newRoot5 = (CommonTree)adaptor.DupNode(treeNode6);
 					commonTree9 = (CommonTree)adaptor.BecomeRoot(newRoot5, commonTree9);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2916);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode7);
+					var treeNode7 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2916);
+					var child4 = (CommonTree)adaptor.DupNode(treeNode7);
 					adaptor.AddChild(commonTree9, child4);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2920);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2920);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree9, child2);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2924);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2924);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree9, child3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree10 = (CommonTree)adaptor.GetNilNode();
+					var commonTree10 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode8 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2927);
-					CommonTree newRoot6 = (CommonTree)adaptor.DupNode(treeNode8);
+					var treeNode8 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2927);
+					var newRoot6 = (CommonTree)adaptor.DupNode(treeNode8);
 					commonTree10 = (CommonTree)adaptor.BecomeRoot(newRoot6, commonTree10);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num7 = 2;
-						int num8 = input.LA(1);
+						var num7 = 2;
+						var num8 = input.LA(1);
 						if (num8 == 9)
 						{
 							num7 = 1;
@@ -5359,7 +5338,7 @@ namespace pcomps.PCompiler
 						{
 							commonTree2 = (CommonTree)input.LT(1);
 							PushFollow(FOLLOW_parameters_in_function_call2929);
-							parameters_return parameters_return3 = parameters();
+							var parameters_return3 = parameters();
 							state.followingStackPointer--;
 							adaptor.AddChild(commonTree10, parameters_return3.Tree);
 						}
@@ -5374,32 +5353,32 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree11 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree11 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode9 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call2944);
-					CommonTree newRoot7 = (CommonTree)adaptor.DupNode(treeNode9);
+					var treeNode9 = (CommonTree)Match(input, 24, FOLLOW_ARRAYFIND_in_function_call2944);
+					var newRoot7 = (CommonTree)adaptor.DupNode(treeNode9);
 					commonTree11 = (CommonTree)adaptor.BecomeRoot(newRoot7, commonTree11);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2948);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2948);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree11, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2952);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2952);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree11, child3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree12 = (CommonTree)adaptor.GetNilNode();
+					var commonTree12 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode10 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2955);
-					CommonTree newRoot8 = (CommonTree)adaptor.DupNode(treeNode10);
+					var treeNode10 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2955);
+					var newRoot8 = (CommonTree)adaptor.DupNode(treeNode10);
 					commonTree12 = (CommonTree)adaptor.BecomeRoot(newRoot8, commonTree12);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num9 = 2;
-						int num10 = input.LA(1);
+						var num9 = 2;
+						var num10 = input.LA(1);
 						if (num10 == 9)
 						{
 							num9 = 1;
@@ -5409,7 +5388,7 @@ namespace pcomps.PCompiler
 						{
 							commonTree2 = (CommonTree)input.LT(1);
 							PushFollow(FOLLOW_parameters_in_function_call2957);
-							parameters_return parameters_return4 = parameters();
+							var parameters_return4 = parameters();
 							state.followingStackPointer--;
 							adaptor.AddChild(commonTree12, parameters_return4.Tree);
 						}
@@ -5425,32 +5404,32 @@ namespace pcomps.PCompiler
 				case 5:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree13 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree13 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode11 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call2972);
-					CommonTree newRoot9 = (CommonTree)adaptor.DupNode(treeNode11);
+					var treeNode11 = (CommonTree)Match(input, 25, FOLLOW_ARRAYRFIND_in_function_call2972);
+					var newRoot9 = (CommonTree)adaptor.DupNode(treeNode11);
 					commonTree13 = (CommonTree)adaptor.BecomeRoot(newRoot9, commonTree13);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2976);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2976);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree13, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2980);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_function_call2980);
+					var child3 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree13, child3);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree14 = (CommonTree)adaptor.GetNilNode();
+					var commonTree14 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode12 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2983);
-					CommonTree newRoot10 = (CommonTree)adaptor.DupNode(treeNode12);
+					var treeNode12 = (CommonTree)Match(input, 14, FOLLOW_CALLPARAMS_in_function_call2983);
+					var newRoot10 = (CommonTree)adaptor.DupNode(treeNode12);
 					commonTree14 = (CommonTree)adaptor.BecomeRoot(newRoot10, commonTree14);
 					if (input.LA(1) == 2)
 					{
 						Match(input, 2, null);
-						int num11 = 2;
-						int num12 = input.LA(1);
+						var num11 = 2;
+						var num12 = input.LA(1);
 						if (num12 == 9)
 						{
 							num11 = 1;
@@ -5460,7 +5439,7 @@ namespace pcomps.PCompiler
 						{
 							commonTree2 = (CommonTree)input.LT(1);
 							PushFollow(FOLLOW_parameters_in_function_call2985);
-							parameters_return parameters_return5 = parameters();
+							var parameters_return5 = parameters();
 							state.followingStackPointer--;
 							adaptor.AddChild(commonTree14, parameters_return5.Tree);
 						}
@@ -5487,35 +5466,35 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B1F RID: 2847 RVA: 0x00041DAC File Offset: 0x0003FFAC
 		public parameters_return parameters()
 		{
-			parameters_return parameters_return = new parameters_return();
+			var parameters_return = new parameters_return();
 			parameters_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				int num = 0;
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var num = 0;
 				for (;;)
 				{
-					int num2 = 2;
-					int num3 = input.LA(1);
+					var num2 = 2;
+					var num3 = input.LA(1);
 					if (num3 == 9)
 					{
 						num2 = 1;
 					}
-					int num4 = num2;
+					var num4 = num2;
 					if (num4 != 1)
 					{
 						break;
 					}
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_parameter_in_parameters3006);
-					parameter_return parameter_return = parameter();
+					var parameter_return = parameter();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, parameter_return.Tree);
 					num++;
 				}
 				if (num < 1)
 				{
-					EarlyExitException ex = new EarlyExitException(49, input);
+					var ex = new EarlyExitException(49, input);
 					throw ex;
 				}
 				parameters_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
@@ -5531,28 +5510,28 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B20 RID: 2848 RVA: 0x00041EBC File Offset: 0x000400BC
 		public parameter_return parameter()
 		{
-			parameter_return parameter_return = new parameter_return();
+			var parameter_return = new parameter_return();
 			parameter_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PARAM");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token PARAM");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule expression");
+			var rewriteRuleSubtreeStream2 = new RewriteRuleSubtreeStream(adaptor, "rule autoCast");
 			try
 			{
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree child = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var child = (CommonTree)adaptor.GetNilNode();
 				commonTree2 = (CommonTree)input.LT(1);
-				CommonTree el = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_parameter3021);
+				var el = (CommonTree)Match(input, 9, FOLLOW_PARAM_in_parameter3021);
 				rewriteRuleNodeStream.Add(el);
 				Match(input, 2, null);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_autoCast_in_parameter3023);
-				autoCast_return autoCast_return = autoCast();
+				var autoCast_return = autoCast();
 				state.followingStackPointer--;
 				rewriteRuleSubtreeStream2.Add(autoCast_return.Tree);
 				commonTree2 = (CommonTree)input.LT(1);
 				PushFollow(FOLLOW_expression_in_parameter3025);
-				expression_return expression_return = expression();
+				var expression_return = expression();
 				state.followingStackPointer--;
 				rewriteRuleSubtreeStream.Add(expression_return.Tree);
 				Match(input, 3, null);
@@ -5562,7 +5541,7 @@ namespace pcomps.PCompiler
 				commonTree = (CommonTree)adaptor.GetNilNode();
 				if (((expression_return != null) ? expression_return.kOptimizedTree : null) == null)
 				{
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree3);
 					adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream2.NextTree());
 					adaptor.AddChild(commonTree3, rewriteRuleSubtreeStream.NextTree());
@@ -5570,7 +5549,7 @@ namespace pcomps.PCompiler
 				}
 				else if (((autoCast_return != null) ? autoCast_return.kOptimizedTree : null) != null)
 				{
-					CommonTree commonTree4 = (CommonTree)adaptor.GetNilNode();
+					var commonTree4 = (CommonTree)adaptor.GetNilNode();
 					commonTree4 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree4);
 					adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
 					adaptor.AddChild(commonTree4, (autoCast_return != null) ? autoCast_return.kOptimizedTree : null);
@@ -5578,7 +5557,7 @@ namespace pcomps.PCompiler
 				}
 				else
 				{
-					CommonTree commonTree5 = (CommonTree)adaptor.GetNilNode();
+					var commonTree5 = (CommonTree)adaptor.GetNilNode();
 					commonTree5 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree5);
 					adaptor.AddChild(commonTree5, FixUpAutoCast((autoCast_return != null) ? ((CommonTree)autoCast_return.Tree) : null, (expression_return != null) ? expression_return.kOptimizedTree : null));
 					adaptor.AddChild(commonTree5, rewriteRuleSubtreeStream.NextTree());
@@ -5598,15 +5577,15 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B21 RID: 2849 RVA: 0x00042248 File Offset: 0x00040448
 		public autoCast_return autoCast()
 		{
-			autoCast_return autoCast_return = new autoCast_return();
+			var autoCast_return = new autoCast_return();
 			autoCast_return.Start = input.LT(1);
 			CommonTree commonTree = null;
-			RewriteRuleNodeStream rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
-			RewriteRuleNodeStream rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
-			RewriteRuleSubtreeStream rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule constant");
+			var rewriteRuleNodeStream = new RewriteRuleNodeStream(adaptor, "token AS");
+			var rewriteRuleNodeStream2 = new RewriteRuleNodeStream(adaptor, "token ID");
+			var rewriteRuleSubtreeStream = new RewriteRuleSubtreeStream(adaptor, "rule constant");
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num5;
 				if (num != 38)
 				{
@@ -5614,30 +5593,30 @@ namespace pcomps.PCompiler
 					{
 					case 79:
 					{
-						int num2 = input.LA(2);
+						var num2 = input.LA(2);
 						if (num2 != 2)
 						{
-							NoViableAltException ex = new NoViableAltException("", 50, 1, input);
+							var ex = new NoViableAltException("", 50, 1, input);
 							throw ex;
 						}
-						int num3 = input.LA(3);
+						var num3 = input.LA(3);
 						if (num3 != 38)
 						{
-							NoViableAltException ex2 = new NoViableAltException("", 50, 4, input);
+							var ex2 = new NoViableAltException("", 50, 4, input);
 							throw ex2;
 						}
-						int num4 = input.LA(4);
+						var num4 = input.LA(4);
 						if (num4 == 38)
 						{
 							num5 = 1;
 							goto IL_188;
 						}
-						if (num4 == 81 || (num4 >= 90 && num4 <= 93))
+						if (num4 is 81 or >= 90 and <= 93)
 						{
 							num5 = 2;
 							goto IL_188;
 						}
-						NoViableAltException ex3 = new NoViableAltException("", 50, 5, input);
+						var ex3 = new NoViableAltException("", 50, 5, input);
 						throw ex3;
 					}
 					case 80:
@@ -5660,7 +5639,7 @@ namespace pcomps.PCompiler
 					num5 = 4;
 					goto IL_188;
 					IL_170:
-					NoViableAltException ex4 = new NoViableAltException("", 50, 0, input);
+					var ex4 = new NoViableAltException("", 50, 0, input);
 					throw ex4;
 				}
 				num5 = 3;
@@ -5670,20 +5649,20 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3087);
-					CommonTree newRoot = (CommonTree)adaptor.DupNode(treeNode);
+					var treeNode = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3087);
+					var newRoot = (CommonTree)adaptor.DupNode(treeNode);
 					commonTree3 = (CommonTree)adaptor.BecomeRoot(newRoot, commonTree3);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3091);
-					CommonTree child = (CommonTree)adaptor.DupNode(commonTree4);
+					var commonTree4 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3091);
+					var child = (CommonTree)adaptor.DupNode(commonTree4);
 					adaptor.AddChild(commonTree3, child);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3095);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(commonTree5);
+					var commonTree5 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3095);
+					var child2 = (CommonTree)adaptor.DupNode(commonTree5);
 					adaptor.AddChild(commonTree3, child2);
 					Match(input, 3, null);
 					adaptor.AddChild(commonTree, commonTree3);
@@ -5693,18 +5672,18 @@ namespace pcomps.PCompiler
 				}
 				case 2:
 				{
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree child3 = (CommonTree)adaptor.GetNilNode();
+					var commonTree2 = (CommonTree)input.LT(1);
+					var child3 = (CommonTree)adaptor.GetNilNode();
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree el = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3108);
+					var el = (CommonTree)Match(input, 79, FOLLOW_AS_in_autoCast3108);
 					rewriteRuleNodeStream.Add(el);
 					Match(input, 2, null);
 					commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3110);
+					var commonTree6 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3110);
 					rewriteRuleNodeStream2.Add(commonTree6);
 					commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_constant_in_autoCast3112);
-					constant_return constant_return = constant();
+					var constant_return = constant();
 					state.followingStackPointer--;
 					rewriteRuleSubtreeStream.Add(constant_return.Tree);
 					Match(input, 3, null);
@@ -5719,7 +5698,7 @@ namespace pcomps.PCompiler
 					commonTree = (CommonTree)adaptor.GetNilNode();
 					if (autoCast_return.kOptimizedTree == null)
 					{
-						CommonTree commonTree7 = (CommonTree)adaptor.GetNilNode();
+						var commonTree7 = (CommonTree)adaptor.GetNilNode();
 						commonTree7 = (CommonTree)adaptor.BecomeRoot(rewriteRuleNodeStream.NextNode(), commonTree7);
 						adaptor.AddChild(commonTree7, rewriteRuleNodeStream2.NextNode());
 						adaptor.AddChild(commonTree7, rewriteRuleSubtreeStream.NextTree());
@@ -5735,9 +5714,9 @@ namespace pcomps.PCompiler
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3147);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(commonTree8);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var commonTree8 = (CommonTree)Match(input, 38, FOLLOW_ID_in_autoCast3147);
+					var child4 = (CommonTree)adaptor.DupNode(commonTree8);
 					adaptor.AddChild(commonTree, child4);
 					((codeBlock_scope)codeBlock_stack.Peek()).kcurrentScope.TryFlagVarAsUsed(commonTree8.Text);
 					break;
@@ -5745,9 +5724,9 @@ namespace pcomps.PCompiler
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_constant_in_autoCast3158);
-					constant_return constant_return2 = constant();
+					var constant_return2 = constant();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, constant_return2.Tree);
 					break;
@@ -5766,12 +5745,12 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B22 RID: 2850 RVA: 0x000428FC File Offset: 0x00040AFC
 		public constant_return constant()
 		{
-			constant_return constant_return = new constant_return();
+			var constant_return = new constant_return();
 			constant_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num2;
 				if (num != 81)
 				{
@@ -5790,7 +5769,7 @@ namespace pcomps.PCompiler
 						break;
 					default:
 					{
-						NoViableAltException ex = new NoViableAltException("", 51, 0, input);
+						var ex = new NoViableAltException("", 51, 0, input);
 						throw ex;
 					}
 					}
@@ -5802,9 +5781,9 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
+					var commonTree2 = (CommonTree)input.LT(1);
 					PushFollow(FOLLOW_number_in_constant3171);
-					number_return number_return = number();
+					var number_return = number();
 					state.followingStackPointer--;
 					adaptor.AddChild(commonTree, number_return.Tree);
 					break;
@@ -5812,27 +5791,27 @@ namespace pcomps.PCompiler
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 90, FOLLOW_STRING_in_constant3177);
-					CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+					var commonTree3 = (CommonTree)input.LT(1);
+					var treeNode = (CommonTree)Match(input, 90, FOLLOW_STRING_in_constant3177);
+					var child = (CommonTree)adaptor.DupNode(treeNode);
 					adaptor.AddChild(commonTree, child);
 					break;
 				}
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree4 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 91, FOLLOW_BOOL_in_constant3183);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var commonTree4 = (CommonTree)input.LT(1);
+					var treeNode2 = (CommonTree)Match(input, 91, FOLLOW_BOOL_in_constant3183);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree, child2);
 					break;
 				}
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree5 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_constant3189);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					var commonTree5 = (CommonTree)input.LT(1);
+					var treeNode3 = (CommonTree)Match(input, 92, FOLLOW_NONE_in_constant3189);
+					var child3 = (CommonTree)adaptor.DupNode(treeNode3);
 					adaptor.AddChild(commonTree, child3);
 					break;
 				}
@@ -5850,20 +5829,20 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B23 RID: 2851 RVA: 0x00042B88 File Offset: 0x00040D88
 		public number_return number()
 		{
-			number_return number_return = new number_return();
+			var number_return = new number_return();
 			number_return.Start = input.LT(1);
 			try
 			{
-				CommonTree commonTree = (CommonTree)adaptor.GetNilNode();
-				CommonTree commonTree2 = (CommonTree)input.LT(1);
-				CommonTree treeNode = (CommonTree)input.LT(1);
+				var commonTree = (CommonTree)adaptor.GetNilNode();
+				var commonTree2 = (CommonTree)input.LT(1);
+				var treeNode = (CommonTree)input.LT(1);
 				if (input.LA(1) != 81 && input.LA(1) != 93)
 				{
-					MismatchedSetException ex = new MismatchedSetException(null, input);
+					var ex = new MismatchedSetException(null, input);
 					throw ex;
 				}
 				input.Consume();
-				CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+				var child = (CommonTree)adaptor.DupNode(treeNode);
 				adaptor.AddChild(commonTree, child);
 				state.errorRecovery = false;
 				number_return.Tree = (CommonTree)adaptor.RulePostProcessing(commonTree);
@@ -5879,16 +5858,16 @@ namespace pcomps.PCompiler
 		// Token: 0x06000B24 RID: 2852 RVA: 0x00042C98 File Offset: 0x00040E98
 		public type_return type()
 		{
-			type_return type_return = new type_return();
+			var type_return = new type_return();
 			type_return.Start = input.LT(1);
 			CommonTree commonTree = null;
 			try
 			{
-				int num = input.LA(1);
+				var num = input.LA(1);
 				int num3;
 				if (num == 38)
 				{
-					int num2 = input.LA(2);
+					var num2 = input.LA(2);
 					if (num2 == 63)
 					{
 						num3 = 2;
@@ -5897,7 +5876,7 @@ namespace pcomps.PCompiler
 					{
 						if (num2 != 38)
 						{
-							NoViableAltException ex = new NoViableAltException("", 52, 1, input);
+							var ex = new NoViableAltException("", 52, 1, input);
 							throw ex;
 						}
 						num3 = 1;
@@ -5907,10 +5886,10 @@ namespace pcomps.PCompiler
 				{
 					if (num != 55)
 					{
-						NoViableAltException ex2 = new NoViableAltException("", 52, 0, input);
+						var ex2 = new NoViableAltException("", 52, 0, input);
 						throw ex2;
 					}
-					int num4 = input.LA(2);
+					var num4 = input.LA(2);
 					if (num4 == 63)
 					{
 						num3 = 4;
@@ -5919,7 +5898,7 @@ namespace pcomps.PCompiler
 					{
 						if (num4 != 38)
 						{
-							NoViableAltException ex3 = new NoViableAltException("", 52, 2, input);
+							var ex3 = new NoViableAltException("", 52, 2, input);
 							throw ex3;
 						}
 						num3 = 3;
@@ -5930,52 +5909,52 @@ namespace pcomps.PCompiler
 				case 1:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree2 = (CommonTree)input.LT(1);
-					CommonTree treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3221);
-					CommonTree child = (CommonTree)adaptor.DupNode(treeNode);
+					var commonTree2 = (CommonTree)input.LT(1);
+					var treeNode = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3221);
+					var child = (CommonTree)adaptor.DupNode(treeNode);
 					adaptor.AddChild(commonTree, child);
 					break;
 				}
 				case 2:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree3 = (CommonTree)input.LT(1);
-					CommonTree treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3227);
-					CommonTree child2 = (CommonTree)adaptor.DupNode(treeNode2);
+					var commonTree3 = (CommonTree)input.LT(1);
+					var treeNode2 = (CommonTree)Match(input, 38, FOLLOW_ID_in_type3227);
+					var child2 = (CommonTree)adaptor.DupNode(treeNode2);
 					adaptor.AddChild(commonTree, child2);
-					CommonTree commonTree4 = (CommonTree)input.LT(1);
-					CommonTree treeNode3 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3229);
-					CommonTree child3 = (CommonTree)adaptor.DupNode(treeNode3);
+					var commonTree4 = (CommonTree)input.LT(1);
+					var treeNode3 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3229);
+					var child3 = (CommonTree)adaptor.DupNode(treeNode3);
 					adaptor.AddChild(commonTree, child3);
-					CommonTree commonTree5 = (CommonTree)input.LT(1);
-					CommonTree treeNode4 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3231);
-					CommonTree child4 = (CommonTree)adaptor.DupNode(treeNode4);
+					var commonTree5 = (CommonTree)input.LT(1);
+					var treeNode4 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3231);
+					var child4 = (CommonTree)adaptor.DupNode(treeNode4);
 					adaptor.AddChild(commonTree, child4);
 					break;
 				}
 				case 3:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree6 = (CommonTree)input.LT(1);
-					CommonTree treeNode5 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3237);
-					CommonTree child5 = (CommonTree)adaptor.DupNode(treeNode5);
+					var commonTree6 = (CommonTree)input.LT(1);
+					var treeNode5 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3237);
+					var child5 = (CommonTree)adaptor.DupNode(treeNode5);
 					adaptor.AddChild(commonTree, child5);
 					break;
 				}
 				case 4:
 				{
 					commonTree = (CommonTree)adaptor.GetNilNode();
-					CommonTree commonTree7 = (CommonTree)input.LT(1);
-					CommonTree treeNode6 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3243);
-					CommonTree child6 = (CommonTree)adaptor.DupNode(treeNode6);
+					var commonTree7 = (CommonTree)input.LT(1);
+					var treeNode6 = (CommonTree)Match(input, 55, FOLLOW_BASETYPE_in_type3243);
+					var child6 = (CommonTree)adaptor.DupNode(treeNode6);
 					adaptor.AddChild(commonTree, child6);
-					CommonTree commonTree8 = (CommonTree)input.LT(1);
-					CommonTree treeNode7 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3245);
-					CommonTree child7 = (CommonTree)adaptor.DupNode(treeNode7);
+					var commonTree8 = (CommonTree)input.LT(1);
+					var treeNode7 = (CommonTree)Match(input, 63, FOLLOW_LBRACKET_in_type3245);
+					var child7 = (CommonTree)adaptor.DupNode(treeNode7);
 					adaptor.AddChild(commonTree, child7);
-					CommonTree commonTree9 = (CommonTree)input.LT(1);
-					CommonTree treeNode8 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3247);
-					CommonTree child8 = (CommonTree)adaptor.DupNode(treeNode8);
+					var commonTree9 = (CommonTree)input.LT(1);
+					var treeNode8 = (CommonTree)Match(input, 64, FOLLOW_RBRACKET_in_type3247);
+					var child8 = (CommonTree)adaptor.DupNode(treeNode8);
 					adaptor.AddChild(commonTree, child8);
 					break;
 				}
@@ -8729,15 +8708,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B28 RID: 2856 RVA: 0x00045D18 File Offset: 0x00043F18
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006F5 RID: 1781
 			private CommonTree tree;
@@ -8751,15 +8724,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B2B RID: 2859 RVA: 0x00045D38 File Offset: 0x00043F38
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006F6 RID: 1782
 			private CommonTree tree;
@@ -8773,15 +8740,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B2E RID: 2862 RVA: 0x00045D58 File Offset: 0x00043F58
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006F7 RID: 1783
 			private CommonTree tree;
@@ -8795,15 +8756,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B31 RID: 2865 RVA: 0x00045D78 File Offset: 0x00043F78
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006F8 RID: 1784
 			private CommonTree tree;
@@ -8830,15 +8785,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B35 RID: 2869 RVA: 0x00045DA0 File Offset: 0x00043FA0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006FC RID: 1788
 			public string sName;
@@ -8855,15 +8804,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B38 RID: 2872 RVA: 0x00045DC0 File Offset: 0x00043FC0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x040006FE RID: 1790
 			public string sFuncName;
@@ -8880,15 +8823,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B3B RID: 2875 RVA: 0x00045DE0 File Offset: 0x00043FE0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000700 RID: 1792
 			private CommonTree tree;
@@ -8915,15 +8852,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B3F RID: 2879 RVA: 0x00045E08 File Offset: 0x00044008
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000704 RID: 1796
 			private CommonTree tree;
@@ -8937,15 +8868,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B42 RID: 2882 RVA: 0x00045E28 File Offset: 0x00044028
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000705 RID: 1797
 			private CommonTree tree;
@@ -8959,15 +8884,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B45 RID: 2885 RVA: 0x00045E48 File Offset: 0x00044048
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000706 RID: 1798
 			private CommonTree tree;
@@ -8981,15 +8900,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B48 RID: 2888 RVA: 0x00045E68 File Offset: 0x00044068
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000707 RID: 1799
 			private CommonTree tree;
@@ -9003,15 +8916,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B4B RID: 2891 RVA: 0x00045E88 File Offset: 0x00044088
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000708 RID: 1800
 			private CommonTree tree;
@@ -9025,15 +8932,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B4E RID: 2894 RVA: 0x00045EA8 File Offset: 0x000440A8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000709 RID: 1801
 			private CommonTree tree;
@@ -9047,15 +8948,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B51 RID: 2897 RVA: 0x00045EC8 File Offset: 0x000440C8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400070A RID: 1802
 			private CommonTree tree;
@@ -9069,15 +8964,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B54 RID: 2900 RVA: 0x00045EE8 File Offset: 0x000440E8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400070B RID: 1803
 			public string sName;
@@ -9094,15 +8983,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B57 RID: 2903 RVA: 0x00045F08 File Offset: 0x00044108
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400070D RID: 1805
 			private CommonTree tree;
@@ -9126,15 +9009,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B5B RID: 2907 RVA: 0x00045F30 File Offset: 0x00044130
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000710 RID: 1808
 			private CommonTree tree;
@@ -9148,15 +9025,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B5E RID: 2910 RVA: 0x00045F50 File Offset: 0x00044150
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000711 RID: 1809
 			private CommonTree tree;
@@ -9177,15 +9048,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B62 RID: 2914 RVA: 0x00045F78 File Offset: 0x00044178
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000713 RID: 1811
 			private CommonTree tree;
@@ -9199,15 +9064,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B65 RID: 2917 RVA: 0x00045F98 File Offset: 0x00044198
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000714 RID: 1812
 			private CommonTree tree;
@@ -9221,15 +9080,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B68 RID: 2920 RVA: 0x00045FB8 File Offset: 0x000441B8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000715 RID: 1813
 			private CommonTree tree;
@@ -9243,15 +9096,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B6B RID: 2923 RVA: 0x00045FD8 File Offset: 0x000441D8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000716 RID: 1814
 			public ITree kOptimizedTree;
@@ -9268,15 +9115,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B6E RID: 2926 RVA: 0x00045FF8 File Offset: 0x000441F8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000718 RID: 1816
 			public ITree kOptimizedTree;
@@ -9309,15 +9150,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B72 RID: 2930 RVA: 0x00046020 File Offset: 0x00044220
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400071E RID: 1822
 			public ITree kOptimizedTree;
@@ -9350,15 +9185,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B76 RID: 2934 RVA: 0x00046048 File Offset: 0x00044248
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000724 RID: 1828
 			public ITree kOptimizedTree;
@@ -9391,15 +9220,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B7A RID: 2938 RVA: 0x00046070 File Offset: 0x00044270
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400072A RID: 1834
 			public ITree kOptimizedTree;
@@ -9416,15 +9239,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B7D RID: 2941 RVA: 0x00046090 File Offset: 0x00044290
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400072C RID: 1836
 			public ITree kOptimizedTree;
@@ -9441,15 +9258,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B80 RID: 2944 RVA: 0x000460B0 File Offset: 0x000442B0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400072E RID: 1838
 			public ITree kOptimizedTree;
@@ -9466,15 +9277,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B83 RID: 2947 RVA: 0x000460D0 File Offset: 0x000442D0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000730 RID: 1840
 			public ITree kOptimizedTree;
@@ -9491,15 +9296,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B86 RID: 2950 RVA: 0x000460F0 File Offset: 0x000442F0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000732 RID: 1842
 			public ITree kOptimizedTree;
@@ -9516,15 +9315,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B89 RID: 2953 RVA: 0x00046110 File Offset: 0x00044310
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000734 RID: 1844
 			public ITree kOptimizedTree;
@@ -9541,15 +9334,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B8C RID: 2956 RVA: 0x00046130 File Offset: 0x00044330
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000736 RID: 1846
 			private CommonTree tree;
@@ -9563,15 +9350,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B8F RID: 2959 RVA: 0x00046150 File Offset: 0x00044350
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000737 RID: 1847
 			private CommonTree tree;
@@ -9585,15 +9366,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B92 RID: 2962 RVA: 0x00046170 File Offset: 0x00044370
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000738 RID: 1848
 			private CommonTree tree;
@@ -9607,15 +9382,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B95 RID: 2965 RVA: 0x00046190 File Offset: 0x00044390
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000739 RID: 1849
 			private CommonTree tree;
@@ -9636,15 +9405,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B99 RID: 2969 RVA: 0x000461B8 File Offset: 0x000443B8
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400073B RID: 1851
 			private CommonTree tree;
@@ -9665,15 +9428,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000B9D RID: 2973 RVA: 0x000461E0 File Offset: 0x000443E0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400073D RID: 1853
 			private CommonTree tree;
@@ -9694,15 +9451,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BA1 RID: 2977 RVA: 0x00046208 File Offset: 0x00044408
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x0400073F RID: 1855
 			private CommonTree tree;
@@ -9723,15 +9474,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BA5 RID: 2981 RVA: 0x00046230 File Offset: 0x00044430
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000741 RID: 1857
 			private CommonTree tree;
@@ -9745,15 +9490,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BA8 RID: 2984 RVA: 0x00046250 File Offset: 0x00044450
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000742 RID: 1858
 			private CommonTree tree;
@@ -9767,15 +9506,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BAB RID: 2987 RVA: 0x00046270 File Offset: 0x00044470
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000743 RID: 1859
 			private CommonTree tree;
@@ -9789,15 +9522,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BAE RID: 2990 RVA: 0x00046290 File Offset: 0x00044490
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000744 RID: 1860
 			private CommonTree tree;
@@ -9811,15 +9538,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BB1 RID: 2993 RVA: 0x000462B0 File Offset: 0x000444B0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000745 RID: 1861
 			public ITree kOptimizedTree;
@@ -9836,15 +9557,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BB4 RID: 2996 RVA: 0x000462D0 File Offset: 0x000444D0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000747 RID: 1863
 			private CommonTree tree;
@@ -9858,15 +9573,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BB7 RID: 2999 RVA: 0x000462F0 File Offset: 0x000444F0
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000748 RID: 1864
 			private CommonTree tree;
@@ -9880,15 +9589,9 @@ namespace pcomps.PCompiler
 			// (set) Token: 0x06000BBA RID: 3002 RVA: 0x00046310 File Offset: 0x00044510
 			public override object Tree
 			{
-				get
-				{
-					return tree;
-				}
-				set
-				{
-					tree = (CommonTree)value;
-				}
-			}
+				get => tree;
+                set => tree = (CommonTree)value;
+            }
 
 			// Token: 0x04000749 RID: 1865
 			private CommonTree tree;
@@ -9913,14 +9616,8 @@ namespace pcomps.PCompiler
 
 			// Token: 0x1700016B RID: 363
 			// (get) Token: 0x06000BBD RID: 3005 RVA: 0x00046398 File Offset: 0x00044598
-			public override string Description
-			{
-				get
-				{
-					return "206:1: localDefinition : ( ^( VAR type name= ID autoCast expression ) -> {$expression.kOptimizedTree == null}? ^( VAR type $name autoCast expression ) -> {$autoCast.kOptimizedTree != null}? ^( VAR type $name) -> ^( VAR type $name expression ) | ^( VAR type name= ID ) -> {$localDefinition::bvarUsed}? ^( VAR type $name) ->);";
-				}
-			}
-		}
+			public override string Description => "206:1: localDefinition : ( ^( VAR type name= ID autoCast expression ) -> {$expression.kOptimizedTree == null}? ^( VAR type $name autoCast expression ) -> {$autoCast.kOptimizedTree != null}? ^( VAR type $name) -> ^( VAR type $name expression ) | ^( VAR type name= ID ) -> {$localDefinition::bvarUsed}? ^( VAR type $name) ->);";
+        }
 
 		// Token: 0x02000174 RID: 372
 		protected class DFA26 : DFA
@@ -9941,13 +9638,7 @@ namespace pcomps.PCompiler
 
 			// Token: 0x1700016C RID: 364
 			// (get) Token: 0x06000BBF RID: 3007 RVA: 0x00046410 File Offset: 0x00044610
-			public override string Description
-			{
-				get
-				{
-					return "228:1: l_value : ( ^( DOT ^( PAREXPR expression ) property_set ) | ^( ARRAYSET source= ID self= ID autoCast ^( PAREXPR array= expression ) index= expression ) -> ^( ARRAYSET $source $self ^( PAREXPR $array) $index) | basic_l_value );";
-				}
-			}
-		}
+			public override string Description => "228:1: l_value : ( ^( DOT ^( PAREXPR expression ) property_set ) | ^( ARRAYSET source= ID self= ID autoCast ^( PAREXPR array= expression ) index= expression ) -> ^( ARRAYSET $source $self ^( PAREXPR $array) $index) | basic_l_value );";
+        }
 	}
 }

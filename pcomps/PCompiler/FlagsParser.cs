@@ -38,15 +38,9 @@ namespace pcomps.PCompiler
 
 		// Token: 0x17000217 RID: 535
 		// (get) Token: 0x06000EB2 RID: 3762 RVA: 0x0006C2F0 File Offset: 0x0006A4F0
-		internal Dictionary<string, PapyrusFlag> DefinedFlags
-		{
-			get
-			{
-				return kFlagDict;
-			}
-		}
+		internal Dictionary<string, PapyrusFlag> DefinedFlags => kFlagDict;
 
-		// Token: 0x06000EB3 RID: 3763 RVA: 0x0006C2F8 File Offset: 0x0006A4F8
+        // Token: 0x06000EB3 RID: 3763 RVA: 0x0006C2F8 File Offset: 0x0006A4F8
 		public FlagsParser(ITokenStream input) : this(input, new RecognizerSharedState())
 		{
 		}
@@ -59,25 +53,13 @@ namespace pcomps.PCompiler
 
 		// Token: 0x17000218 RID: 536
 		// (get) Token: 0x06000EB5 RID: 3765 RVA: 0x0006C33C File Offset: 0x0006A53C
-		public override string[] TokenNames
-		{
-			get
-			{
-				return tokenNames;
-			}
-		}
+		public override string[] TokenNames => tokenNames;
 
-		// Token: 0x17000219 RID: 537
+        // Token: 0x17000219 RID: 537
 		// (get) Token: 0x06000EB6 RID: 3766 RVA: 0x0006C344 File Offset: 0x0006A544
-		public override string GrammarFileName
-		{
-			get
-			{
-				return "Flags.g";
-			}
-		}
+		public override string GrammarFileName => "Flags.g";
 
-		// Token: 0x1400003D RID: 61
+        // Token: 0x1400003D RID: 61
 		// (add) Token: 0x06000EB7 RID: 3767 RVA: 0x0006C34C File Offset: 0x0006A54C
 		// (remove) Token: 0x06000EB8 RID: 3768 RVA: 0x0006C368 File Offset: 0x0006A568
 		internal event InternalErrorEventHandler ErrorHandler;
@@ -211,23 +193,15 @@ namespace pcomps.PCompiler
 				Match(input, 7, FOLLOW_OPEN_BRACE_in_allowedBlock153);
 				for (;;)
 				{
-					var num = 5;
-					switch (input.LA(1))
-					{
-					case 8:
-						num = 1;
-						break;
-					case 9:
-						num = 2;
-						break;
-					case 10:
-						num = 3;
-						break;
-					case 11:
-						num = 4;
-						break;
-					}
-					switch (num)
+                    var num = input.LA(1) switch
+                    {
+                        8 => 1,
+                        9 => 2,
+                        10 => 3,
+                        11 => 4,
+                        _ => 5
+                    };
+                    switch (num)
 					{
 					case 1:
 					{
@@ -338,8 +312,7 @@ namespace pcomps.PCompiler
 		private Dictionary<int, string> kFlagIndexDict = new Dictionary<int, string>();
 
 		// Token: 0x04000C6C RID: 3180
-		public static readonly string[] tokenNames = new string[]
-		{
+		public static readonly string[] tokenNames = {
 			"<invalid>",
 			"<EOR>",
 			"<DOWN>",
@@ -364,97 +337,97 @@ namespace pcomps.PCompiler
 		protected StackList flagDefinition_stack = new StackList();
 
 		// Token: 0x04000C6F RID: 3183
-		public static readonly BitSet FOLLOW_flagDefinition_in_flags81 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_flagDefinition_in_flags81 = new BitSet(new[]
 		{
 			16UL
 		});
 
 		// Token: 0x04000C70 RID: 3184
-		public static readonly BitSet FOLLOW_EOF_in_flags84 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_EOF_in_flags84 = new BitSet(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000C71 RID: 3185
-		public static readonly BitSet FOLLOW_FLAG_in_flagDefinition105 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FLAG_in_flagDefinition105 = new BitSet(new[]
 		{
 			32UL
 		});
 
 		// Token: 0x04000C72 RID: 3186
-		public static readonly BitSet FOLLOW_ID_in_flagDefinition109 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_flagDefinition109 = new BitSet(new[]
 		{
 			64UL
 		});
 
 		// Token: 0x04000C73 RID: 3187
-		public static readonly BitSet FOLLOW_NUMBER_in_flagDefinition113 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NUMBER_in_flagDefinition113 = new BitSet(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000C74 RID: 3188
-		public static readonly BitSet FOLLOW_FLAG_in_flagDefinition124 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FLAG_in_flagDefinition124 = new BitSet(new[]
 		{
 			32UL
 		});
 
 		// Token: 0x04000C75 RID: 3189
-		public static readonly BitSet FOLLOW_ID_in_flagDefinition128 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_ID_in_flagDefinition128 = new BitSet(new[]
 		{
 			64UL
 		});
 
 		// Token: 0x04000C76 RID: 3190
-		public static readonly BitSet FOLLOW_NUMBER_in_flagDefinition132 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_NUMBER_in_flagDefinition132 = new BitSet(new[]
 		{
 			128UL
 		});
 
 		// Token: 0x04000C77 RID: 3191
-		public static readonly BitSet FOLLOW_allowedBlock_in_flagDefinition134 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_allowedBlock_in_flagDefinition134 = new BitSet(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x04000C78 RID: 3192
-		public static readonly BitSet FOLLOW_OPEN_BRACE_in_allowedBlock153 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_OPEN_BRACE_in_allowedBlock153 = new BitSet(new[]
 		{
 			7936UL
 		});
 
 		// Token: 0x04000C79 RID: 3193
-		public static readonly BitSet FOLLOW_SCRIPT_in_allowedBlock161 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_SCRIPT_in_allowedBlock161 = new BitSet(new[]
 		{
 			7936UL
 		});
 
 		// Token: 0x04000C7A RID: 3194
-		public static readonly BitSet FOLLOW_PROPERTY_in_allowedBlock176 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_PROPERTY_in_allowedBlock176 = new BitSet(new[]
 		{
 			7936UL
 		});
 
 		// Token: 0x04000C7B RID: 3195
-		public static readonly BitSet FOLLOW_VARIABLE_in_allowedBlock191 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_VARIABLE_in_allowedBlock191 = new BitSet(new[]
 		{
 			7936UL
 		});
 
 		// Token: 0x04000C7C RID: 3196
-		public static readonly BitSet FOLLOW_FUNCTION_in_allowedBlock206 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_FUNCTION_in_allowedBlock206 = new BitSet(new[]
 		{
 			7936UL
 		});
 
 		// Token: 0x04000C7D RID: 3197
-		public static readonly BitSet FOLLOW_CLOSE_BRACE_in_allowedBlock221 = new BitSet(new ulong[]
+		public static readonly BitSet FOLLOW_CLOSE_BRACE_in_allowedBlock221 = new BitSet(new[]
 		{
 			2UL
 		});
 
 		// Token: 0x02000209 RID: 521
-		protected class flagDefinition_scope
+		protected record flagDefinition_scope
 		{
 			// Token: 0x04000C7E RID: 3198
 			protected internal bool bAllowedOnObj;

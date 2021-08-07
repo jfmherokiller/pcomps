@@ -8,7 +8,7 @@ namespace pcomps.Antlr
 {
 	// Token: 0x0200000E RID: 14
 	[Serializable]
-	public abstract class BaseAST : AST, ICloneable
+	public abstract class BaseAST : AST
 	{
 		// Token: 0x0600007E RID: 126 RVA: 0x0000359C File Offset: 0x0000179C
 		public virtual void addChild(AST node)
@@ -384,32 +384,32 @@ namespace pcomps.Antlr
 					var c6 = text[i + 5];
 					if (c2 == 'a' && c3 == 'm' && c4 == 'p' && c5 == ';')
 					{
-						stringBuilder.Append("&");
+						stringBuilder.Append('&');
 						i += 5;
 					}
 					else if (c2 == 'l' && c3 == 't' && c4 == ';')
 					{
-						stringBuilder.Append("<");
+						stringBuilder.Append('<');
 						i += 4;
 					}
 					else if (c2 == 'g' && c3 == 't' && c4 == ';')
 					{
-						stringBuilder.Append(">");
+						stringBuilder.Append('>');
 						i += 4;
 					}
 					else if (c2 == 'q' && c3 == 'u' && c4 == 'o' && c5 == 't' && c6 == ';')
 					{
-						stringBuilder.Append("\"");
+						stringBuilder.Append('"');
 						i += 6;
 					}
 					else if (c2 == 'a' && c3 == 'p' && c4 == 'o' && c5 == 's' && c6 == ';')
 					{
-						stringBuilder.Append("'");
+						stringBuilder.Append('\'');
 						i += 6;
 					}
 					else
 					{
-						stringBuilder.Append("&");
+						stringBuilder.Append('&');
 					}
 				}
 				else
@@ -464,16 +464,9 @@ namespace pcomps.Antlr
 		public virtual void xmlSerializeNode(TextWriter outWriter)
 		{
 			var stringBuilder = new StringBuilder(100);
-			stringBuilder.Append("<");
+			stringBuilder.Append('<');
 			stringBuilder.Append($"{GetType().FullName} ");
-			stringBuilder.Append(string.Concat(new object[]
-			{
-				"text=\"",
-				encode(getText()),
-				"\" type=\"",
-				Type,
-				"\"/>"
-			}));
+			stringBuilder.Append(string.Concat("text=\"", encode(getText()), "\" type=\"", Type, "\"/>"));
 			outWriter.Write(stringBuilder.ToString());
 		}
 
@@ -481,16 +474,9 @@ namespace pcomps.Antlr
 		public virtual void xmlSerializeRootOpen(TextWriter outWriter)
 		{
 			var stringBuilder = new StringBuilder(100);
-			stringBuilder.Append("<");
+			stringBuilder.Append('<');
 			stringBuilder.Append($"{GetType().FullName} ");
-			stringBuilder.Append(string.Concat(new object[]
-			{
-				"text=\"",
-				encode(getText()),
-				"\" type=\"",
-				Type,
-				"\">\n"
-			}));
+			stringBuilder.Append(string.Concat("text=\"", encode(getText()), "\" type=\"", Type, "\">\n"));
 			outWriter.Write(stringBuilder.ToString());
 		}
 

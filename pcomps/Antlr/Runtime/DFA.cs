@@ -33,14 +33,14 @@
 						c = (char)input.LA(1);
 						if (c >= min[num] && c <= max[num])
 						{
-							var num3 = (int)transition[num][(int)(c - min[num])];
+							var num3 = (int)transition[num][c - min[num]];
 							if (num3 < 0)
 							{
 								if (eot[num] < 0)
 								{
 									goto IL_CB;
 								}
-								num = (int)eot[num];
+								num = eot[num];
 								input.Consume();
 							}
 							else
@@ -55,7 +55,7 @@
 							{
 								goto IL_10B;
 							}
-							num = (int)eot[num];
+							num = eot[num];
 							input.Consume();
 						}
 					}
@@ -63,14 +63,14 @@
 				NoViableAlt(num, input);
 				return 0;
 				Block_4:
-				return (int)accept[num];
+				return accept[num];
 				IL_CB:
 				NoViableAlt(num, input);
 				return 0;
 				IL_10B:
 				if (c == (char)Token.EOF && eof[num] >= 0)
 				{
-					result = (int)accept[(int)eof[num]];
+					result = accept[eof[num]];
 				}
 				else
 				{
@@ -111,21 +111,15 @@
 
 		// Token: 0x1700004E RID: 78
 		// (get) Token: 0x0600051E RID: 1310 RVA: 0x0000F8E0 File Offset: 0x0000DAE0
-		public virtual string Description
-		{
-			get
-			{
-				return "n/a";
-			}
-		}
+		public virtual string Description => "n/a";
 
-		// Token: 0x0600051F RID: 1311 RVA: 0x0000F8E8 File Offset: 0x0000DAE8
+        // Token: 0x0600051F RID: 1311 RVA: 0x0000F8E8 File Offset: 0x0000DAE8
 		public static short[] UnpackEncodedString(string encodedString)
 		{
 			var num = 0;
 			for (var i = 0; i < encodedString.Length; i += 2)
 			{
-				num += (int)encodedString[i];
+				num += encodedString[i];
 			}
 			var array = new short[num];
 			var num2 = 0;
@@ -133,7 +127,7 @@
 			{
 				var c = encodedString[j];
 				var c2 = encodedString[j + 1];
-				for (var k = 1; k <= (int)c; k++)
+				for (var k = 1; k <= c; k++)
 				{
 					array[num2++] = (short)c2;
 				}
@@ -158,7 +152,7 @@
 			var num = 0;
 			for (var i = 0; i < encodedString.Length; i += 2)
 			{
-				num += (int)encodedString[i];
+				num += encodedString[i];
 			}
 			var array = new char[num];
 			var num2 = 0;
@@ -166,7 +160,7 @@
 			{
 				var c = encodedString[j];
 				var c2 = encodedString[j + 1];
-				for (var k = 1; k <= (int)c; k++)
+				for (var k = 1; k <= c; k++)
 				{
 					array[num2++] = c2;
 				}
@@ -175,7 +169,7 @@
 		}
 
 		// Token: 0x06000522 RID: 1314 RVA: 0x0000FA38 File Offset: 0x0000DC38
-		public int SpecialTransition(int state, int symbol)
+		public static int SpecialTransition(int state, int symbol)
 		{
 			return 0;
 		}

@@ -5,7 +5,7 @@ using System.Text;
 namespace pcomps.Antlr.StringTemplate.Language
 {
 	// Token: 0x0200023C RID: 572
-	public sealed class CatIterator : IEnumerator
+	public sealed record CatIterator : IEnumerator
 	{
 		// Token: 0x0600111D RID: 4381 RVA: 0x0007BE60 File Offset: 0x0007A060
 		public CatIterator(IList iterators)
@@ -30,27 +30,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600111F RID: 4383 RVA: 0x0007BE8C File Offset: 0x0007A08C
 		public bool MoveNext()
 		{
-			if (currentIteratorIndex < iterators.Count)
-			{
-				var enumerator = (IEnumerator)iterators[currentIteratorIndex];
-				if (enumerator.MoveNext())
-				{
-					currentObject = enumerator.Current;
-					return hasCurrent = true;
-				}
-				currentIteratorIndex++;
-				while (currentIteratorIndex < iterators.Count)
-				{
-					enumerator = (IEnumerator)iterators[currentIteratorIndex];
-					if (enumerator.MoveNext())
-					{
-						currentObject = enumerator.Current;
-						return hasCurrent = true;
-					}
-					currentIteratorIndex++;
-				}
-			}
-			return hasCurrent = false;
+            if (currentIteratorIndex >= iterators.Count) return hasCurrent = false;
+            var enumerator = (IEnumerator)iterators[currentIteratorIndex];
+            if (enumerator.MoveNext())
+            {
+                currentObject = enumerator.Current;
+                return hasCurrent = true;
+            }
+            currentIteratorIndex++;
+            while (currentIteratorIndex < iterators.Count)
+            {
+                enumerator = (IEnumerator)iterators[currentIteratorIndex];
+                if (enumerator.MoveNext())
+                {
+                    currentObject = enumerator.Current;
+                    return hasCurrent = true;
+                }
+                currentIteratorIndex++;
+            }
+            return hasCurrent = false;
 		}
 
 		// Token: 0x06001120 RID: 4384 RVA: 0x0007BF58 File Offset: 0x0007A158

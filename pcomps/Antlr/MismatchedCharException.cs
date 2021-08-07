@@ -73,9 +73,9 @@ namespace pcomps.Antlr
 		public MismatchedCharException(char c, char lower, char upper_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
 			mismatchType = (matchNot ? CharTypeEnum.NotRangeType : CharTypeEnum.RangeType);
-			foundChar = (int)c;
-			expecting = (int)lower;
-			upper = (int)upper_;
+			foundChar = c;
+			expecting = lower;
+			upper = upper_;
 			scanner = scanner_;
 		}
 
@@ -83,8 +83,8 @@ namespace pcomps.Antlr
 		public MismatchedCharException(char c, char expecting_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
 			mismatchType = (matchNot ? CharTypeEnum.NotCharType : CharTypeEnum.CharType);
-			foundChar = (int)c;
-			expecting = (int)expecting_;
+			foundChar = c;
+			expecting = expecting_;
 			scanner = scanner_;
 		}
 
@@ -92,7 +92,7 @@ namespace pcomps.Antlr
 		public MismatchedCharException(char c, BitSet set_, bool matchNot, CharScanner scanner_) : base("Mismatched char", scanner_.getFilename(), scanner_.getLine(), scanner_.getColumn())
 		{
 			mismatchType = (matchNot ? CharTypeEnum.NotSetType : CharTypeEnum.SetType);
-			foundChar = (int)c;
+			foundChar = c;
 			bset = set_;
 			scanner = scanner_;
 		}

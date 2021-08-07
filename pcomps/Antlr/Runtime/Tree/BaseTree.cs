@@ -269,23 +269,11 @@ namespace pcomps.Antlr.Runtime.Tree
 		{
 			if (parent != Parent)
 			{
-				throw new ArgumentException(string.Concat(new object[]
-				{
-					"parents don't match; expected ",
-					parent,
-					" found ",
-					Parent
-				}));
+				throw new ArgumentException(string.Concat("parents don't match; expected ", parent, " found ", Parent));
 			}
 			if (i != ChildIndex)
 			{
-				throw new NotSupportedException(string.Concat(new object[]
-				{
-					"child indexes don't match; expected ",
-					i,
-					" found ",
-					ChildIndex
-				}));
+				throw new NotSupportedException(string.Concat("child indexes don't match; expected ", i, " found ", ChildIndex));
 			}
 			var childCount = ChildCount;
 			for (var j = 0; j < childCount; j++)
@@ -367,7 +355,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			var stringBuilder = new StringBuilder();
 			if (!IsNil)
 			{
-				stringBuilder.Append("(");
+				stringBuilder.Append('(');
 				stringBuilder.Append(ToString());
 				stringBuilder.Append(' ');
 			}
@@ -384,7 +372,7 @@ namespace pcomps.Antlr.Runtime.Tree
 			}
 			if (!IsNil)
 			{
-				stringBuilder.Append(")");
+				stringBuilder.Append(')');
 			}
 			return stringBuilder.ToString();
 		}

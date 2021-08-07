@@ -12,39 +12,28 @@ namespace pcomps.PCompiler
 	{
 		// Token: 0x170000F2 RID: 242
 		// (get) Token: 0x0600098F RID: 2447 RVA: 0x0001BC24 File Offset: 0x00019E24
-		public ScriptObjectType ParsedObject
-		{
-			get
-			{
-				return kObjType;
-			}
-		}
+		public ScriptObjectType ParsedObject => kObjType;
 
-		// Token: 0x170000F3 RID: 243
+        // Token: 0x170000F3 RID: 243
 		// (set) Token: 0x06000990 RID: 2448 RVA: 0x0001BC2C File Offset: 0x00019E2C
 		internal Dictionary<string, PapyrusFlag> KnownUserFlags
 		{
-			set
-			{
-				kFlagDict = value;
-			}
-		}
+			set => kFlagDict = value;
+        }
 
 		// Token: 0x06000991 RID: 2449 RVA: 0x0001BC38 File Offset: 0x00019E38
 		private ScriptVariableType ConstructVarType(string asType, IToken akInitialValue)
 		{
 			var scriptVariableType = new ScriptVariableType(asType);
-			if (akInitialValue != null)
-			{
-				scriptVariableType.InitialValue = akInitialValue.Text;
-			}
-			return scriptVariableType;
+            if (akInitialValue == null) return scriptVariableType;
+            scriptVariableType.InitialValue = akInitialValue.Text;
+            return scriptVariableType;
 		}
 
 		// Token: 0x06000992 RID: 2450 RVA: 0x0001BC5C File Offset: 0x00019E5C
 		private void SetAutoState(string asState, IToken akAutoToken)
 		{
-			if (kObjType.sAutoState != "" && kObjType.sAutoState != asState.ToLowerInvariant())
+			if (!string.Equals(kObjType.sAutoState, "", StringComparison.Ordinal) && kObjType.sAutoState != asState.ToLowerInvariant())
 			{
 				OnError(
                     $"script already has the automatic state set to {kObjType.sAutoState}, cannot have more then one", akAutoToken.Line, akAutoToken.CharPositionInLine);
@@ -55,38 +44,35 @@ namespace pcomps.PCompiler
 
 		// Token: 0x06000993 RID: 2451 RVA: 0x0001BCD4 File Offset: 0x00019ED4
 		private void AddObjectVariable(string asName, ScriptVariableType akType, IToken akSourceToken)
-		{
-			if (!kObjType.TrySetVariable(asName, akType))
-			{
-				OnError(string.Format("script variable {0} already defined", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
-			}
-		}
+        {
+            if (kObjType.TrySetVariable(asName, akType)) return;
+            OnError($"script variable {asName} already defined", akSourceToken.Line, akSourceToken.CharPositionInLine);
+        }
 
 		// Token: 0x06000994 RID: 2452 RVA: 0x0001BD04 File Offset: 0x00019F04
 		private void AddObjectProperty(ScriptVariableType akType, string asName, IToken akSourceToken, bool abHasShadowVariable)
 		{
 			string a = asName.ToLowerInvariant();
-			if (a == "self" || a == "parent")
+			if (a is "self" or "parent")
 			{
-				OnError(string.Format("you cannot have a property named {0}", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"you cannot have a property named {asName}", akSourceToken.Line, akSourceToken.CharPositionInLine);
 			}
 			if (abHasShadowVariable)
 			{
-				akType.ShadowVariableName = "::" + asName + "_var";
+				akType.ShadowVariableName = $"::{asName}_var";
 			}
 			if (!kObjType.TrySetProperty(asName, akType))
 			{
-				OnError(string.Format("script property {0} already defined", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"script property {asName} already defined", akSourceToken.Line, akSourceToken.CharPositionInLine);
 			}
 		}
 
 		// Token: 0x06000995 RID: 2453 RVA: 0x0001BD98 File Offset: 0x00019F98
 		private void TrySetPropertyFunction(string asPropName, ScriptFunctionType akFunctionType, IToken akSourceToken)
 		{
-			ScriptPropertyType scriptPropertyType;
-			if (!kObjType.TryGetProperty(asPropName, out scriptPropertyType))
+            if (!kObjType.TryGetProperty(asPropName, out var scriptPropertyType))
 			{
-				OnError(string.Format("internal error: cannot find property {0}", asPropName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"internal error: cannot find property {asPropName}", akSourceToken.Line, akSourceToken.CharPositionInLine);
 				return;
 			}
 			string a = akFunctionType.Name.ToLowerInvariant();
@@ -97,14 +83,14 @@ namespace pcomps.PCompiler
 					scriptPropertyType.kGetFunction = akFunctionType;
 					return;
 				}
-				OnError(string.Format("script property {0} already has a get function defined", asPropName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"script property {asPropName} already has a get function defined", akSourceToken.Line, akSourceToken.CharPositionInLine);
 				return;
 			}
 			else
 			{
 				if (!(a == "set"))
 				{
-					OnError(string.Format("script property {0} can only contain get or set functions", asPropName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+					OnError($"script property {asPropName} can only contain get or set functions", akSourceToken.Line, akSourceToken.CharPositionInLine);
 					return;
 				}
 				if (scriptPropertyType.kSetFunction == null)
@@ -112,7 +98,7 @@ namespace pcomps.PCompiler
 					scriptPropertyType.kSetFunction = akFunctionType;
 					return;
 				}
-				OnError(string.Format("script property {0} already has a set function defined", asPropName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"script property {asPropName} already has a set function defined", akSourceToken.Line, akSourceToken.CharPositionInLine);
 				return;
 			}
 		}
@@ -146,26 +132,25 @@ namespace pcomps.PCompiler
 				akParamTypes.Add(akType);
 				return;
 			}
-			OnError(string.Format("parameter {0} already defined", asName), akErrorToken.Line, akErrorToken.CharPositionInLine);
+			OnError($"parameter {asName} already defined", akErrorToken.Line, akErrorToken.CharPositionInLine);
 		}
 
 		// Token: 0x06000999 RID: 2457 RVA: 0x0001BF44 File Offset: 0x0001A144
 		private void AddLocalVariable(ScriptScope akCurrentScope, string asName, ScriptVariableType akType, IToken akSourceToken)
 		{
-			ScriptVariableType scriptVariableType;
-			if (kObjType.TryGetVariable(asName, out scriptVariableType))
+            if (kObjType.TryGetVariable(asName, out var scriptVariableType))
 			{
-				OnError(string.Format("function variable {0} already defined in the containing script", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"function variable {asName} already defined in the containing script", akSourceToken.Line, akSourceToken.CharPositionInLine);
 				return;
 			}
 			if (akCurrentScope.VariableWouldShadow(asName))
 			{
-				OnError(string.Format("function variable {0} may not shadow a previously defined variable", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"function variable {asName} may not shadow a previously defined variable", akSourceToken.Line, akSourceToken.CharPositionInLine);
 				return;
 			}
 			if (!akCurrentScope.TryDefineVariable(asName, akType))
 			{
-				OnError(string.Format("function variable {0} already defined in the same scope", asName), akSourceToken.Line, akSourceToken.CharPositionInLine);
+				OnError($"function variable {asName} already defined in the same scope", akSourceToken.Line, akSourceToken.CharPositionInLine);
 			}
 		}
 
@@ -186,23 +171,19 @@ namespace pcomps.PCompiler
 		private void CheckObjectName(IToken akNameToken)
 		{
 			string a = akNameToken.Text.ToLowerInvariant();
-			if (a == "self" || a == "parent")
-			{
-				OnError(string.Format("script name {0} is invalid, please pick a different one", akNameToken.Text), akNameToken.Line, akNameToken.CharPositionInLine);
-			}
-		}
+            if (a is not ("self" or "parent")) return;
+            OnError(string.Format("script name {0} is invalid, please pick a different one", akNameToken.Text), akNameToken.Line, akNameToken.CharPositionInLine);
+        }
 
 		// Token: 0x0600099C RID: 2460 RVA: 0x0001C090 File Offset: 0x0001A290
-		private IToken CreateToken(IToken akBaseToken, int aiType, string asText)
-		{
-			return new CommonToken(akBaseToken)
-			{
-				Type = aiType,
-				Text = asText
-			};
-		}
+		private IToken CreateToken(IToken akBaseToken, int aiType, string asText) =>
+            new CommonToken(akBaseToken)
+            {
+                Type = aiType,
+                Text = asText
+            };
 
-		// Token: 0x0600099D RID: 2461 RVA: 0x0001C0B4 File Offset: 0x0001A2B4
+        // Token: 0x0600099D RID: 2461 RVA: 0x0001C0B4 File Offset: 0x0001A2B4
 		private CommonTree CreateAutoPropertyVarTree(string asVarName, ITree akTypeTree, ScriptVariableType akType, string asVarUserFlags, ITree akVarInitialValue, IToken akRootToken)
 		{
 			IToken t = CreateToken(akRootToken, 5, "variable");
@@ -325,7 +306,7 @@ namespace pcomps.PCompiler
 						}
 						else
 						{
-							num |= (uint)Math.Pow(2.0, (double)papyrusFlag.Index);
+							num |= (uint)Math.Pow(2.0, papyrusFlag.Index);
 						}
 					}
 					else

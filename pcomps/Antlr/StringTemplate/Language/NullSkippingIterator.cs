@@ -5,7 +5,7 @@ using System.Text;
 namespace pcomps.Antlr.StringTemplate.Language
 {
 	// Token: 0x0200024A RID: 586
-	public sealed class NullSkippingIterator : IEnumerator
+	public sealed record NullSkippingIterator : IEnumerator
 	{
 		// Token: 0x060011B8 RID: 4536 RVA: 0x00082280 File Offset: 0x00080480
 		public NullSkippingIterator(IEnumerator enumerator)

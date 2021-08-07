@@ -140,16 +140,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (from > to || from < 0 || to < 0 || to >= tokens.Count)
 			{
-				throw new ArgumentOutOfRangeException(string.Concat(new object[]
-				{
-					"replace: range invalid: ",
-					from,
-					"..",
-					to,
-					"(size=",
-					tokens.Count,
-					")"
-				}));
+				throw new ArgumentOutOfRangeException(string.Concat("replace: range invalid: ", @from, "..", to, "(size=", tokens.Count, ")"));
 			}
 			RewriteOperation rewriteOperation = new ReplaceOp(from, to, text, this);
 			var program = GetProgram(programName);
@@ -358,13 +349,7 @@ namespace pcomps.Antlr.Runtime
                             var flag2 = replaceOp2.index == replaceOp.index && replaceOp2.lastIndex == replaceOp.lastIndex;
                             if (!flag && !flag2)
                             {
-                                throw new ArgumentOutOfRangeException(string.Concat(new object[]
-                                {
-                                    "replace op boundaries of ",
-                                    replaceOp,
-                                    " overlap with previous ",
-                                    replaceOp2
-                                }));
+                                throw new ArgumentOutOfRangeException(string.Concat("replace op boundaries of ", replaceOp, " overlap with previous ", replaceOp2));
                             }
                         }
                     }
@@ -397,13 +382,7 @@ namespace pcomps.Antlr.Runtime
                         }
                         else if (insertBeforeOp2.index >= replaceOp3.index && insertBeforeOp2.index <= replaceOp3.lastIndex)
                         {
-                            throw new ArgumentOutOfRangeException(string.Concat(new object[]
-                            {
-                                "insert op ",
-                                insertBeforeOp2,
-                                " within boundaries of previous ",
-                                replaceOp3
-                            }));
+                            throw new ArgumentOutOfRangeException(string.Concat("insert op ", insertBeforeOp2, " within boundaries of previous ", replaceOp3));
                         }
                     }
                 }
@@ -543,16 +522,7 @@ namespace pcomps.Antlr.Runtime
 				var text = GetType().FullName;
 				var num = text.IndexOf('$');
 				text = text.Substring(num + 1, text.Length - (num + 1));
-				return string.Concat(new object[]
-				{
-					"<",
-					text,
-					"@",
-					index,
-					":\"",
-					this.text,
-					"\">"
-				});
+				return string.Concat("<", text, "@", index, ":\"", this.text, "\">");
 			}
 
 			// Token: 0x04000284 RID: 644
@@ -607,16 +577,7 @@ namespace pcomps.Antlr.Runtime
 			// Token: 0x0600097A RID: 2426 RVA: 0x0001B7F0 File Offset: 0x000199F0
 			public override string ToString()
 			{
-				return string.Concat(new object[]
-				{
-					"<ReplaceOp@",
-					index,
-					"..",
-					lastIndex,
-					":\"",
-					text,
-					"\">"
-				});
+				return string.Concat("<ReplaceOp@", index, "..", lastIndex, ":\"", text, "\">");
 			}
 
 			// Token: 0x04000288 RID: 648
@@ -634,14 +595,7 @@ namespace pcomps.Antlr.Runtime
 			// Token: 0x0600097C RID: 2428 RVA: 0x0001B85C File Offset: 0x00019A5C
 			public override string ToString()
 			{
-				return string.Concat(new object[]
-				{
-					"<DeleteOp@",
-					index,
-					"..",
-					lastIndex,
-					">"
-				});
+				return string.Concat("<DeleteOp@", index, "..", lastIndex, ">");
 			}
 		}
 	}

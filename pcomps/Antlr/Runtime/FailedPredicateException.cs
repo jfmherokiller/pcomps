@@ -21,14 +21,7 @@ namespace pcomps.Antlr.Runtime
 		// Token: 0x0600052B RID: 1323 RVA: 0x0000FA74 File Offset: 0x0000DC74
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"FailedPredicateException(",
-				ruleName,
-				",{",
-				predicateText,
-				"}?)"
-			});
+			return string.Concat("FailedPredicateException(", ruleName, ",{", predicateText, "}?)");
 		}
 
 		// Token: 0x04000169 RID: 361

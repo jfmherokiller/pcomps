@@ -47,14 +47,7 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (inserted != null && token != null)
 			{
-				return string.Concat(new object[]
-				{
-					"MissingTokenException(inserted ",
-					inserted,
-					" at ",
-					token.Text,
-					")"
-				});
+				return string.Concat("MissingTokenException(inserted ", inserted, " at ", token.Text, ")");
 			}
 			if (token != null)
 			{

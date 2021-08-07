@@ -8,15 +8,9 @@
 		// (set) Token: 0x06001123 RID: 4387 RVA: 0x0007C000 File Offset: 0x0007A200
 		public virtual string Indentation
 		{
-			get
-			{
-				return _indentation;
-			}
-			set
-			{
-				_indentation = value;
-			}
-		}
+			get => _indentation;
+            set => _indentation = value;
+        }
 
 		// Token: 0x06001124 RID: 4388 RVA: 0x0007C00C File Offset: 0x0007A20C
 		public ChunkToken()
@@ -46,15 +40,9 @@
 		{
 			// Token: 0x17000268 RID: 616
 			// (get) Token: 0x06001129 RID: 4393 RVA: 0x0007C05C File Offset: 0x0007A25C
-			public override string TokenTypeName
-			{
-				get
-				{
-					return typeof(ChunkToken).FullName;
-				}
-			}
+			public override string TokenTypeName => typeof(ChunkToken).FullName;
 
-			// Token: 0x0600112A RID: 4394 RVA: 0x0007C070 File Offset: 0x0007A270
+            // Token: 0x0600112A RID: 4394 RVA: 0x0007C070 File Offset: 0x0007A270
 			public override IToken Create()
 			{
 				return new ChunkToken();

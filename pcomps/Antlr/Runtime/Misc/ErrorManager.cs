@@ -11,15 +11,7 @@ namespace pcomps.Antlr.Runtime.Misc
 		public static void InternalError(object error, Exception e)
 		{
 			var lastNonErrorManagerCodeLocation = GetLastNonErrorManagerCodeLocation(e);
-			var arg = string.Concat(new object[]
-			{
-				"Exception ",
-				e,
-				"@",
-				lastNonErrorManagerCodeLocation,
-				": ",
-				error
-			});
+			var arg = string.Concat("Exception ", e, "@", lastNonErrorManagerCodeLocation, ": ", error);
 			Error(arg);
 		}
 

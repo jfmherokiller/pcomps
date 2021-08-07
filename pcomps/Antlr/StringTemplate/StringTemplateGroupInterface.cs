@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Text;
 using pcomps.Antlr.StringTemplate.Collections;
 using pcomps.Antlr.StringTemplate.Language;
@@ -15,30 +16,18 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06001013 RID: 4115 RVA: 0x00071594 File Offset: 0x0006F794
 		public string Name
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+			get => name;
+            set => name = value;
+        }
 
 		// Token: 0x1700024B RID: 587
 		// (get) Token: 0x06001014 RID: 4116 RVA: 0x000715A0 File Offset: 0x0006F7A0
 		// (set) Token: 0x06001015 RID: 4117 RVA: 0x000715A8 File Offset: 0x0006F7A8
 		public virtual IStringTemplateErrorListener ErrorListener
 		{
-			get
-			{
-				return errorListener;
-			}
-			set
-			{
-				errorListener = value;
-			}
-		}
+			get => errorListener;
+            set => errorListener = value;
+        }
 
 		// Token: 0x06001016 RID: 4118 RVA: 0x000715B4 File Offset: 0x0006F7B4
 		public StringTemplateGroupInterface(TextReader r) : this(r, DEFAULT_ERROR_LISTENER, null)
@@ -63,15 +52,9 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x0600101A RID: 4122 RVA: 0x0007160C File Offset: 0x0006F80C
 		public StringTemplateGroupInterface SuperInterface
 		{
-			get
-			{
-				return superInterface;
-			}
-			set
-			{
-				superInterface = value;
-			}
-		}
+			get => superInterface;
+            set => superInterface = value;
+        }
 
 		// Token: 0x0600101B RID: 4123 RVA: 0x00071618 File Offset: 0x0006F818
 		protected void ParseInterface(TextReader r)
@@ -85,13 +68,7 @@ namespace pcomps.Antlr.StringTemplate
 			catch (Exception ex)
 			{
 				var text = (Name == null) ? "<unknown>" : Name;
-				Error(string.Concat(new object[]
-				{
-					"problem parsing group ",
-					text,
-					": ",
-					ex
-				}), ex);
+				Error(string.Concat("problem parsing group ", text, ": ", ex), ex);
 			}
 		}
 
@@ -110,15 +87,10 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				var key = (string)obj;
 				var templateDefinition = (TemplateDefinition)templates[key];
-				if (!templateDefinition.optional && !group.IsDefined(templateDefinition.name))
-				{
-					if (arrayList == null)
-					{
-						arrayList = new ArrayList();
-					}
-					arrayList.Add(templateDefinition.name);
-				}
-			}
+                if (templateDefinition.optional || @group.IsDefined(templateDefinition.name)) continue;
+                arrayList ??= new ArrayList();
+                arrayList.Add(templateDefinition.name);
+            }
 			return arrayList;
 		}
 
@@ -127,41 +99,26 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			ArrayList arrayList = null;
 			foreach (var obj in templates.Keys)
-			{
-				var key = (string)obj;
-				var templateDefinition = (TemplateDefinition)templates[key];
-				if (group.IsDefined(templateDefinition.name))
-				{
-					var templateDefinition2 = group.GetTemplateDefinition(templateDefinition.name);
-					var formalArguments = templateDefinition2.FormalArguments;
-					var flag = false;
-					if ((templateDefinition.formalArgs != null && formalArguments == null) || (templateDefinition.formalArgs == null && formalArguments != null) || templateDefinition.formalArgs.Count != formalArguments.Count)
-					{
-						flag = true;
-					}
-					if (!flag)
-					{
-						foreach (var obj2 in formalArguments.Keys)
-						{
-							var key2 = (string)obj2;
-							if (templateDefinition.formalArgs[key2] == null)
-							{
-								flag = true;
-								break;
-							}
-						}
-					}
-					if (flag)
-					{
-						if (arrayList == null)
-						{
-							arrayList = new ArrayList();
-						}
-						arrayList.Add(GetTemplateSignature(templateDefinition));
-					}
-				}
-			}
-			return arrayList;
+            {
+                var key = (string)obj;
+                var templateDefinition = (TemplateDefinition)templates[key];
+                if (!@group.IsDefined(templateDefinition.name)) continue;
+                var templateDefinition2 = @group.GetTemplateDefinition(templateDefinition.name);
+                var formalArguments = templateDefinition2.FormalArguments;
+                var flag = (templateDefinition.formalArgs != null && formalArguments == null) || (templateDefinition.formalArgs == null && formalArguments != null) || templateDefinition.formalArgs.Count != formalArguments.Count;
+                if (!flag)
+                {
+                    if (formalArguments.Keys.Cast<string>().Any(key2 => templateDefinition.formalArgs[key2] == null))
+                    {
+                        flag = true;
+                    }
+                }
+
+                if (!flag) continue;
+                arrayList ??= new ArrayList();
+                arrayList.Add(GetTemplateSignature(templateDefinition));
+            }
+            return arrayList;
 		}
 
 		// Token: 0x0600101F RID: 4127 RVA: 0x000718AC File Offset: 0x0006FAAC
@@ -241,7 +198,7 @@ namespace pcomps.Antlr.StringTemplate
 		protected IStringTemplateErrorListener errorListener = DEFAULT_ERROR_LISTENER;
 
 		// Token: 0x02000228 RID: 552
-		protected sealed class TemplateDefinition
+		protected sealed record TemplateDefinition
 		{
 			// Token: 0x06001024 RID: 4132 RVA: 0x00071A5C File Offset: 0x0006FC5C
 			public TemplateDefinition(string name, HashList formalArgs, bool optional)

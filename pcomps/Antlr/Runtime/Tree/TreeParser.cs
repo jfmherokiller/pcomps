@@ -111,16 +111,7 @@ namespace pcomps.Antlr.Runtime.Tree
 		// Token: 0x060006B4 RID: 1716 RVA: 0x00012BE0 File Offset: 0x00010DE0
 		public override string GetErrorHeader(RecognitionException e)
 		{
-			return string.Concat(new object[]
-			{
-				GrammarFileName,
-				": node from ",
-				(!e.approximateLineInfo) ? string.Empty : "after ",
-				"line ",
-				e.Line,
-				":",
-				e.CharPositionInLine
-			});
+			return string.Concat(GrammarFileName, ": node from ", (!e.approximateLineInfo) ? string.Empty : "after ", "line ", e.Line, ":", e.CharPositionInLine);
 		}
 
 		// Token: 0x060006B5 RID: 1717 RVA: 0x00012C54 File Offset: 0x00010E54

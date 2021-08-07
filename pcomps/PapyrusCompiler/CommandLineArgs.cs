@@ -9,15 +9,9 @@ namespace pcomps.PapyrusCompiler
 	{
 		// Token: 0x17000001 RID: 1
 		// (get) Token: 0x06000003 RID: 3 RVA: 0x00002094 File Offset: 0x00000294
-		public bool Valid
-		{
-			get
-			{
-				return bValid;
-			}
-		}
+		public bool Valid => bValid;
 
-		// Token: 0x17000002 RID: 2
+        // Token: 0x17000002 RID: 2
 		// (get) Token: 0x06000004 RID: 4 RVA: 0x0000209C File Offset: 0x0000029C
 		public bool Debug
 		{
@@ -154,17 +148,16 @@ namespace pcomps.PapyrusCompiler
 
 		// Token: 0x1700000B RID: 11
 		// (get) Token: 0x0600000D RID: 13 RVA: 0x000021CC File Offset: 0x000003CC
-		public bool All
-		{
-			get
-			{
-				return bAll;
-			}
-		}
+		public bool All => bAll;
 
-		// Token: 0x1700000C RID: 12
+        // Token: 0x1700000C RID: 12
 		// (get) Token: 0x0600000E RID: 14 RVA: 0x000021D4 File Offset: 0x000003D4
-		public bool Quiet => bQuiet;
+        [field: CommandLineFlag(new[]
+        {
+            "quiet",
+            "q"
+        }, "Does not report progress or success (only failures).")]
+        public bool Quiet;
 
         // Token: 0x0600000F RID: 15 RVA: 0x000021DC File Offset: 0x000003DC
 		public CommandLineArgs(IReadOnlyList<string> args)
@@ -224,7 +217,7 @@ namespace pcomps.PapyrusCompiler
 					}
 					else
 					{
-						Console.Write("|{0}", text);
+						Console.Write($"|{text}");
 					}
 				}
 				var fieldType = kCommandLineFlagInfo[commandLineFlag].FieldType;
@@ -236,7 +229,7 @@ namespace pcomps.PapyrusCompiler
 				{
 					Console.Write("=??");
 				}
-				Console.Write("\n    {0}\n", commandLineFlag.sDescription);
+				Console.Write($"\n    {commandLineFlag.sDescription}\n");
 			}
 		}
 
@@ -251,7 +244,7 @@ namespace pcomps.PapyrusCompiler
 				{
 					if (asValue != "")
 					{
-						Console.Error.Write("{0} does not accept a value.\n", asFlag);
+						Console.Error.Write($"{asFlag} does not accept a value.\n");
 						result = false;
 					}
 					else
@@ -265,13 +258,13 @@ namespace pcomps.PapyrusCompiler
 				}
 				else
 				{
-					Console.Error.Write($"Internal Error: Cannot handle command line argument type {{0}} for flag {{1}}.\n", fieldInfo.GetType().ToString(), asFlag);
+					Console.Error.Write($"Internal Error: Cannot handle command line argument type {fieldInfo.GetType()} for flag {asFlag}.\n");
 					result = false;
 				}
 			}
 			else
 			{
-				Console.Error.Write($"Unknown command line argument: {{0}}\n", asFlag);
+				Console.Error.Write($"Unknown command line argument: {asFlag}\n");
 				result = false;
 			}
 			return result;
@@ -290,7 +283,7 @@ namespace pcomps.PapyrusCompiler
 			});
 			if (array.Length is < 1 or > 2)
 			{
-				Console.Error.Write("Improperly formed command line argument: {0}\n", asArg);
+				Console.Error.Write($"Improperly formed command line argument: {asArg}\n");
 				result = false;
 			}
 			else
@@ -303,12 +296,12 @@ namespace pcomps.PapyrusCompiler
 				}
 				if (asFlag[0] != '-' && asFlag[0] != '/')
 				{
-					Console.Error.Write("Improperly formed command line argument: {0}\n", asArg);
+					Console.Error.Write($"Improperly formed command line argument: {asArg}\n");
 					result = false;
 				}
 				else
 				{
-					asFlag = asFlag.Substring(1);
+					asFlag = asFlag[1..];
 				}
 			}
 			return result;
@@ -391,14 +384,8 @@ namespace pcomps.PapyrusCompiler
 		private readonly bool bAll;
 
 		// Token: 0x0400000B RID: 11
-		[CommandLineFlag(new[]
-		{
-			"quiet",
-			"q"
-		}, "Does not report progress or success (only failures).")]
-		private readonly bool bQuiet;
 
-		// Token: 0x0400000C RID: 12
+        // Token: 0x0400000C RID: 12
 		[CommandLineFlag(new[]
 		{
 			"noasm"

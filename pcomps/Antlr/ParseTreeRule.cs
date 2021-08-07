@@ -61,14 +61,7 @@ namespace pcomps.Antlr
 			{
 				return $"<{ruleName}>";
 			}
-			return string.Concat(new object[]
-			{
-				'<',
-				ruleName,
-				"[",
-				altNumber,
-				"]>"
-			});
+			return string.Concat('<', ruleName, "[", altNumber, "]>");
 		}
 
 		// Token: 0x040000B0 RID: 176

@@ -24,23 +24,9 @@ namespace pcomps.Antlr.Runtime
 		{
 			if (input is ICharStream)
 			{
-				return string.Concat(new object[]
-				{
-					"NoViableAltException('",
-					(char)UnexpectedType,
-					"'@[",
-					grammarDecisionDescription,
-					"])"
-				});
+				return string.Concat("NoViableAltException('", (char)UnexpectedType, "'@[", grammarDecisionDescription, "])");
 			}
-			return string.Concat(new object[]
-			{
-				"NoViableAltException(",
-				UnexpectedType,
-				"@[",
-				grammarDecisionDescription,
-				"])"
-			});
+			return string.Concat("NoViableAltException(", UnexpectedType, "@[", grammarDecisionDescription, "])");
 		}
 
 		// Token: 0x04000170 RID: 368

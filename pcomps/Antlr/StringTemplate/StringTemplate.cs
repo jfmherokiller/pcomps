@@ -41,11 +41,8 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06000F68 RID: 3944 RVA: 0x0006EB3C File Offset: 0x0006CD3C
 		public virtual StringTemplate EnclosingInstance
 		{
-			get
-			{
-				return enclosingInstance;
-			}
-			set
+			get => enclosingInstance;
+            set
 			{
 				if (this == value)
 				{
@@ -61,62 +58,34 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x1700022F RID: 559
 		// (get) Token: 0x06000F69 RID: 3945 RVA: 0x0006EB74 File Offset: 0x0006CD74
-		public virtual StringTemplate OutermostEnclosingInstance
-		{
-			get
-			{
-				if (enclosingInstance != null)
-				{
-					return enclosingInstance.OutermostEnclosingInstance;
-				}
-				return this;
-			}
-		}
+		public virtual StringTemplate OutermostEnclosingInstance => enclosingInstance != null ? enclosingInstance.OutermostEnclosingInstance : this;
 
-		// Token: 0x17000230 RID: 560
+        // Token: 0x17000230 RID: 560
 		// (get) Token: 0x06000F6A RID: 3946 RVA: 0x0006EB8C File Offset: 0x0006CD8C
 		// (set) Token: 0x06000F6B RID: 3947 RVA: 0x0006EB94 File Offset: 0x0006CD94
 		public virtual IDictionary ArgumentContext
 		{
-			get
-			{
-				return argumentContext;
-			}
-			set
-			{
-				argumentContext = value;
-			}
-		}
+			get => argumentContext;
+            set => argumentContext = value;
+        }
 
 		// Token: 0x17000231 RID: 561
 		// (get) Token: 0x06000F6C RID: 3948 RVA: 0x0006EBA0 File Offset: 0x0006CDA0
 		// (set) Token: 0x06000F6D RID: 3949 RVA: 0x0006EBA8 File Offset: 0x0006CDA8
 		public virtual StringTemplateAST ArgumentsAST
 		{
-			get
-			{
-				return argumentsAST;
-			}
-			set
-			{
-				argumentsAST = value;
-			}
-		}
+			get => argumentsAST;
+            set => argumentsAST = value;
+        }
 
 		// Token: 0x17000232 RID: 562
 		// (get) Token: 0x06000F6E RID: 3950 RVA: 0x0006EBB4 File Offset: 0x0006CDB4
 		// (set) Token: 0x06000F6F RID: 3951 RVA: 0x0006EBBC File Offset: 0x0006CDBC
 		public virtual string Name
 		{
-			get
-			{
-				return name;
-			}
-			set
-			{
-				name = value;
-			}
-		}
+			get => name;
+            set => name = value;
+        }
 
 		// Token: 0x17000233 RID: 563
 		// (get) Token: 0x06000F70 RID: 3952 RVA: 0x0006EBC8 File Offset: 0x0006CDC8
@@ -137,30 +106,18 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06000F72 RID: 3954 RVA: 0x0006EBEC File Offset: 0x0006CDEC
 		public virtual StringTemplateGroup Group
 		{
-			get
-			{
-				return group;
-			}
-			set
-			{
-				group = value;
-			}
-		}
+			get => group;
+            set => group = value;
+        }
 
 		// Token: 0x17000235 RID: 565
 		// (get) Token: 0x06000F73 RID: 3955 RVA: 0x0006EBF8 File Offset: 0x0006CDF8
 		// (set) Token: 0x06000F74 RID: 3956 RVA: 0x0006EC00 File Offset: 0x0006CE00
 		public virtual StringTemplateGroup NativeGroup
 		{
-			get
-			{
-				return nativeGroup;
-			}
-			set
-			{
-				nativeGroup = value;
-			}
-		}
+			get => nativeGroup;
+            set => nativeGroup = value;
+        }
 
 		// Token: 0x17000236 RID: 566
 		// (get) Token: 0x06000F75 RID: 3957 RVA: 0x0006EC0C File Offset: 0x0006CE0C
@@ -175,22 +132,16 @@ namespace pcomps.Antlr.StringTemplate
 				}
 				return groupFileLine;
 			}
-			set
-			{
-				groupFileLine = value;
-			}
-		}
+			set => groupFileLine = value;
+        }
 
 		// Token: 0x17000237 RID: 567
 		// (get) Token: 0x06000F77 RID: 3959 RVA: 0x0006EC34 File Offset: 0x0006CE34
 		// (set) Token: 0x06000F78 RID: 3960 RVA: 0x0006EC3C File Offset: 0x0006CE3C
 		public virtual string Template
 		{
-			get
-			{
-				return pattern;
-			}
-			set
+			get => pattern;
+            set
 			{
 				pattern = value;
 				BreakTemplateIntoChunks();
@@ -202,15 +153,8 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06000F7A RID: 3962 RVA: 0x0006EC70 File Offset: 0x0006CE70
 		public virtual IStringTemplateErrorListener ErrorListener
 		{
-			get
-			{
-				if (errorListener == NullErrorListener.DefaultNullListener)
-				{
-					return group.ErrorListener;
-				}
-				return errorListener;
-			}
-			set
+			get => errorListener == NullErrorListener.DefaultNullListener ? @group.ErrorListener : errorListener;
+            set
 			{
 				if (value == null)
 				{
@@ -223,68 +167,41 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x17000239 RID: 569
 		// (get) Token: 0x06000F7B RID: 3963 RVA: 0x0006EC88 File Offset: 0x0006CE88
-		public virtual int TemplateID
-		{
-			get
-			{
-				return templateID;
-			}
-		}
+		public virtual int TemplateID => templateID;
 
-		// Token: 0x1700023A RID: 570
+        // Token: 0x1700023A RID: 570
 		// (get) Token: 0x06000F7C RID: 3964 RVA: 0x0006EC90 File Offset: 0x0006CE90
 		// (set) Token: 0x06000F7D RID: 3965 RVA: 0x0006EC98 File Offset: 0x0006CE98
 		public virtual IDictionary Attributes
 		{
-			get
-			{
-				return attributes;
-			}
-			set
-			{
-				attributes = value;
-			}
-		}
+			get => attributes;
+            set => attributes = value;
+        }
 
 		// Token: 0x1700023B RID: 571
 		// (get) Token: 0x06000F7E RID: 3966 RVA: 0x0006ECA4 File Offset: 0x0006CEA4
-		public virtual IList Chunks
-		{
-			get
-			{
-				return chunks;
-			}
-		}
+		public virtual IList Chunks => chunks;
 
-		// Token: 0x1700023C RID: 572
+        // Token: 0x1700023C RID: 572
 		// (set) Token: 0x06000F7F RID: 3967 RVA: 0x0006ECAC File Offset: 0x0006CEAC
 		public virtual bool PassThroughAttributes
 		{
-			set
-			{
-				passThroughAttributes = value;
-			}
-		}
+			set => passThroughAttributes = value;
+        }
 
 		// Token: 0x1700023D RID: 573
 		// (set) Token: 0x06000F80 RID: 3968 RVA: 0x0006ECB8 File Offset: 0x0006CEB8
 		public virtual IDictionary AttributeRenderers
 		{
-			set
-			{
-				attributeRenderers = value;
-			}
-		}
+			set => attributeRenderers = value;
+        }
 
 		// Token: 0x1700023E RID: 574
 		// (set) Token: 0x06000F81 RID: 3969 RVA: 0x0006ECC4 File Offset: 0x0006CEC4
 		public static bool LintMode
 		{
-			set
-			{
-				lintMode = value;
-			}
-		}
+			set => lintMode = value;
+        }
 
 		// Token: 0x06000F82 RID: 3970 RVA: 0x0006ECCC File Offset: 0x0006CECC
 		public virtual string GetEnclosingInstanceStackTrace()
@@ -297,7 +214,7 @@ namespace pcomps.Antlr.StringTemplate
 				{
 					stringBuilder.Append(stringTemplate.GetTemplateDeclaratorString());
 					stringBuilder.Append(" (start of recursive cycle)");
-					stringBuilder.Append("\n");
+					stringBuilder.Append('\n');
 					stringBuilder.Append("...");
 					break;
 				}
@@ -317,43 +234,41 @@ namespace pcomps.Antlr.StringTemplate
 						num++;
 						stringBuilder.Append(text);
 						var obj2 = stringTemplate.attributes[text];
-						if (obj2 is StringTemplate)
-						{
-							var stringTemplate2 = (StringTemplate)obj2;
-							stringBuilder.Append("=");
-							stringBuilder.Append("<");
-							stringBuilder.Append(stringTemplate2.Name);
-							stringBuilder.Append("()@");
-							stringBuilder.Append(stringTemplate2.TemplateID.ToString());
-							stringBuilder.Append(">");
-						}
-						else if (obj2 is IList)
-						{
-							stringBuilder.Append("=List[..");
-							var list = (IList)obj2;
-							var num2 = 0;
-							for (var i = 0; i < list.Count; i++)
-							{
-								var obj3 = list[i];
-								if (obj3 is StringTemplate)
-								{
-									if (num2 > 0)
-									{
-										stringBuilder.Append(", ");
-									}
-									num2++;
-									var stringTemplate3 = (StringTemplate)obj3;
-									stringBuilder.Append("<");
-									stringBuilder.Append(stringTemplate3.Name);
-									stringBuilder.Append("()@");
-									stringBuilder.Append(stringTemplate3.TemplateID.ToString());
-									stringBuilder.Append(">");
-								}
-							}
-							stringBuilder.Append("..]");
-						}
-					}
-					stringBuilder.Append("]");
+                        switch (obj2)
+                        {
+                            case StringTemplate stringTemplate2:
+                                stringBuilder.Append('=');
+                                stringBuilder.Append('<');
+                                stringBuilder.Append(stringTemplate2.Name);
+                                stringBuilder.Append("()@");
+                                stringBuilder.Append(stringTemplate2.TemplateID.ToString());
+                                stringBuilder.Append('>');
+                                break;
+                            case IList list1:
+                            {
+                                stringBuilder.Append("=List[..");
+                                var list = list1;
+                                var num2 = 0;
+                                foreach (var obj3 in list)
+                                {
+                                    if (obj3 is not StringTemplate template) continue;
+                                    if (num2 > 0)
+                                    {
+                                        stringBuilder.Append(", ");
+                                    }
+                                    num2++;
+                                    stringBuilder.Append('<');
+                                    stringBuilder.Append(template.Name);
+                                    stringBuilder.Append("()@");
+                                    stringBuilder.Append(template.TemplateID.ToString());
+                                    stringBuilder.Append('>');
+                                }
+                                stringBuilder.Append("..]");
+                                break;
+                            }
+                        }
+                    }
+					stringBuilder.Append(']');
 				}
 				if (stringTemplate.referencedAttributes != null)
 				{
@@ -369,43 +284,38 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual string GetTemplateDeclaratorString()
 		{
 			var stringBuilder = new StringBuilder();
-			stringBuilder.Append("<");
+			stringBuilder.Append('<');
 			stringBuilder.Append(Name);
-			stringBuilder.Append("(");
-			stringBuilder.Append(formalArguments.Keys.ToString());
+			stringBuilder.Append('(');
+			stringBuilder.Append(formalArguments.Keys);
 			stringBuilder.Append(")@");
 			stringBuilder.Append(TemplateID.ToString());
-			stringBuilder.Append(">");
+			stringBuilder.Append('>');
 			return stringBuilder.ToString();
 		}
 
 		// Token: 0x06000F84 RID: 3972 RVA: 0x0006EFC0 File Offset: 0x0006D1C0
 		protected string GetTemplateHeaderString(bool showAttributes)
 		{
-			if (showAttributes)
-			{
-				var stringBuilder = new StringBuilder();
-				stringBuilder.Append(Name);
-				if (attributes != null)
-				{
-					stringBuilder.Append("[");
-					var flag = false;
-					foreach (var obj in attributes.Keys)
-					{
-						var value = (string)obj;
-						if (flag)
-						{
-							stringBuilder.Append(", ");
-						}
-						flag = true;
-						stringBuilder.Append(value);
-					}
-					stringBuilder.Append("]");
-				}
-				return stringBuilder.ToString();
-			}
-			return Name;
-		}
+            if (!showAttributes) return Name;
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(Name);
+            if (attributes == null) return stringBuilder.ToString();
+            stringBuilder.Append('[');
+            var flag = false;
+            foreach (var obj in attributes.Keys)
+            {
+                var value = (string)obj;
+                if (flag)
+                {
+                    stringBuilder.Append(", ");
+                }
+                flag = true;
+                stringBuilder.Append(value);
+            }
+            stringBuilder.Append(']');
+            return stringBuilder.ToString();
+        }
 
 		// Token: 0x06000F85 RID: 3973 RVA: 0x0006F07C File Offset: 0x0006D27C
 		public virtual string GetEnclosingInstanceStackString()
@@ -424,46 +334,28 @@ namespace pcomps.Antlr.StringTemplate
 		// (set) Token: 0x06000F87 RID: 3975 RVA: 0x0006F0E4 File Offset: 0x0006D2E4
 		public bool IsRegion
 		{
-			get
-			{
-				return isRegion;
-			}
-			set
-			{
-				isRegion = value;
-			}
-		}
+			get => isRegion;
+            set => isRegion = value;
+        }
 
 		// Token: 0x06000F88 RID: 3976 RVA: 0x0006F0F0 File Offset: 0x0006D2F0
 		public void AddRegionName(string name)
-		{
-			if (regions == null)
-			{
-				regions = new Hashtable();
-			}
-			regions.Add(name, name);
-		}
+        {
+            regions ??= new Hashtable();
+            regions.Add(name, name);
+        }
 
 		// Token: 0x06000F89 RID: 3977 RVA: 0x0006F114 File Offset: 0x0006D314
-		public bool ContainsRegionName(string name)
-		{
-			return regions != null && regions.Contains(name);
-		}
+		public bool ContainsRegionName(string name) => regions != null && regions.Contains(name);
 
-		// Token: 0x17000240 RID: 576
+        // Token: 0x17000240 RID: 576
 		// (get) Token: 0x06000F8A RID: 3978 RVA: 0x0006F12C File Offset: 0x0006D32C
 		// (set) Token: 0x06000F8B RID: 3979 RVA: 0x0006F134 File Offset: 0x0006D334
 		public int RegionDefType
 		{
-			get
-			{
-				return regionDefType;
-			}
-			set
-			{
-				regionDefType = value;
-			}
-		}
+			get => regionDefType;
+            set => regionDefType = value;
+        }
 
 		// Token: 0x06000F8C RID: 3980 RVA: 0x0006F140 File Offset: 0x0006D340
 		public static void resetTemplateCounter()
@@ -527,13 +419,10 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000F93 RID: 3987 RVA: 0x0006F2AC File Offset: 0x0006D4AC
 		public virtual void AddEmbeddedInstance(StringTemplate embeddedInstance)
-		{
-			if (embeddedInstances == null)
-			{
-				embeddedInstances = new ArrayList();
-			}
-			embeddedInstances.Add(embeddedInstance);
-		}
+        {
+            embeddedInstances ??= new ArrayList();
+            embeddedInstances.Add(embeddedInstance);
+        }
 
 		// Token: 0x06000F94 RID: 3988 RVA: 0x0006F2D0 File Offset: 0x0006D4D0
 		public virtual void Reset()
@@ -566,44 +455,39 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				throw new ArgumentException("cannot have '.' in attribute names", "name");
 			}
-			if (attributes == null)
+			attributes ??= new Hashtable();
+			if (val is StringTemplate template)
 			{
-				attributes = new Hashtable();
-			}
-			if (val is StringTemplate)
-			{
-				((StringTemplate)val).EnclosingInstance = this;
+				template.EnclosingInstance = this;
 			}
 			var obj = attributes[name];
 			if (obj != null)
 			{
 				STAttributeList stattributeList;
-				if (obj is STAttributeList)
-				{
-					stattributeList = (STAttributeList)obj;
-				}
-				else if (obj is IList)
-				{
-					stattributeList = new STAttributeList((ICollection)obj);
-					RawSetAttribute(attributes, name, stattributeList);
-				}
-				else
-				{
-					stattributeList = new STAttributeList();
-					RawSetAttribute(attributes, name, stattributeList);
-					stattributeList.Add(obj);
-				}
-				if (!(val is IList))
+				switch (obj)
+                {
+                    case STAttributeList list:
+                        stattributeList = list;
+                        break;
+                    case IList collection:
+                        stattributeList = new STAttributeList(collection);
+                        RawSetAttribute(attributes, name, stattributeList);
+                        break;
+                    default:
+                        stattributeList = new STAttributeList();
+                        RawSetAttribute(attributes, name, stattributeList);
+                        stattributeList.Add(obj);
+                        break;
+                }
+				if (!(val is IList o))
 				{
 					stattributeList.Add(val);
 					return;
 				}
-				if (stattributeList != val)
-				{
-					stattributeList.AddRange((ICollection)val);
-					return;
-				}
-			}
+
+                if (Equals(stattributeList, o)) return;
+                stattributeList.AddRange(o);
+            }
 			else
 			{
 				RawSetAttribute(attributes, name, val);
@@ -614,7 +498,7 @@ namespace pcomps.Antlr.StringTemplate
 		public virtual void SetAttribute(string aggrSpec, params object[] values)
 		{
 			IList list = new ArrayList();
-			if (aggrSpec.IndexOf(".{") == -1)
+			if (!aggrSpec.Contains(".{"))
 			{
 				SetAttribute(aggrSpec, values);
 				return;
@@ -632,9 +516,9 @@ namespace pcomps.Antlr.StringTemplate
 			for (var i = 0; i < values.Length; i++)
 			{
 				var obj = values[i];
-				if (obj is StringTemplate)
+				if (obj is StringTemplate template)
 				{
-					((StringTemplate)obj).EnclosingInstance = this;
+					template.EnclosingInstance = this;
 				}
 				aggregate.Put((string)list[i], obj);
 			}
@@ -651,14 +535,14 @@ namespace pcomps.Antlr.StringTemplate
 			}
 			var result = aggrSpec.Substring(0, num);
 			var text = aggrSpec.Substring(num + 2, aggrSpec.Length - (num + 3));
-			var array = text.Split(new char[]
+			var array = text.Split(new[]
 			{
 				','
 			});
-			for (var i = 0; i < array.Length; i++)
-			{
-				properties.Add(array[i].Trim());
-			}
+			foreach (var t in array)
+            {
+                properties.Add(t.Trim());
+            }
 			return result;
 		}
 
@@ -682,15 +566,7 @@ namespace pcomps.Antlr.StringTemplate
 		{
 			if (embedded.formalArguments != FormalArgument.UNKNOWN && embedded.GetFormalArgument(name) == null)
 			{
-				throw new InvalidOperationException(string.Concat(new string[]
-				{
-					"template ",
-					embedded.Name,
-					" has no such attribute: ",
-					name,
-					" in template context ",
-					GetEnclosingInstanceStackString()
-				}));
+				throw new InvalidOperationException(string.Concat("template ", embedded.Name, " has no such attribute: ", name, " in template context ", GetEnclosingInstanceStackString()));
 			}
 			if (objValue == null)
 			{
@@ -700,12 +576,9 @@ namespace pcomps.Antlr.StringTemplate
 		}
 
 		// Token: 0x06000F9C RID: 3996 RVA: 0x0006F5E8 File Offset: 0x0006D7E8
-		public virtual object GetAttribute(string name)
-		{
-			return Get(this, name);
-		}
+		public virtual object GetAttribute(string name) => Get(this, name);
 
-		// Token: 0x06000F9D RID: 3997 RVA: 0x0006F5F4 File Offset: 0x0006D7F4
+        // Token: 0x06000F9D RID: 3997 RVA: 0x0006F5F4 File Offset: 0x0006D7F4
 		public virtual int Write(IStringTemplateWriter output)
 		{
 			if (group.debugTemplateOutput)
@@ -769,24 +642,26 @@ namespace pcomps.Antlr.StringTemplate
 					obj = dictionary[attribute];
 				}
 			}
-			if (obj == null && !self.passThroughAttributes && self.GetFormalArgument(attribute) != null)
-			{
-				return null;
-			}
-			if (obj == null && self.enclosingInstance != null)
-			{
-				var obj2 = Get(self.enclosingInstance, attribute);
-				if (obj2 == null)
-				{
-					CheckNullAttributeAgainstFormalArguments(self, attribute);
-				}
-				obj = obj2;
-			}
-			else if (obj == null && self.enclosingInstance == null)
-			{
-				obj = self.group.GetMap(attribute);
-			}
-			return obj;
+			switch (obj)
+            {
+                case null when !self.passThroughAttributes && self.GetFormalArgument(attribute) != null:
+                    return null;
+                case null when self.enclosingInstance != null:
+                {
+                    var obj2 = Get(self.enclosingInstance, attribute);
+                    if (obj2 == null)
+                    {
+                        CheckNullAttributeAgainstFormalArguments(self, attribute);
+                    }
+                    obj = obj2;
+                    break;
+                }
+                case null when self.enclosingInstance == null:
+                    obj = self.@group.GetMap(attribute);
+                    break;
+            }
+
+            return obj;
 		}
 
 		// Token: 0x06000F9F RID: 3999 RVA: 0x0006F7B0 File Offset: 0x0006D9B0
@@ -799,7 +674,7 @@ namespace pcomps.Antlr.StringTemplate
 			try
 			{
 				var templateLexerClass = group.TemplateLexerClass;
-				var constructor = templateLexerClass.GetConstructor(new Type[]
+				var constructor = templateLexerClass.GetConstructor(new[]
 				{
 					typeof(StringTemplate),
 					typeof(TextReader)
@@ -832,7 +707,7 @@ namespace pcomps.Antlr.StringTemplate
 		// Token: 0x06000FA0 RID: 4000 RVA: 0x0006F8B0 File Offset: 0x0006DAB0
 		public virtual ASTExpr ParseAction(string action)
 		{
-			var actionLexer = new ActionLexer(new StringReader(action.ToString()));
+			var actionLexer = new ActionLexer(new StringReader(action));
 			actionLexer.setTokenCreator(StringTemplateToken.Creator);
 			var actionParser = new ActionParser(actionLexer, this);
 			actionParser.getASTFactory().setASTNodeCreator(StringTemplateAST.Creator);
@@ -842,16 +717,9 @@ namespace pcomps.Antlr.StringTemplate
 				var options = actionParser.action();
 				AST ast = actionParser.getAST();
 				if (ast != null)
-				{
-					if (ast.Type == 8)
-					{
-						result = new ConditionalExpr(this, ast);
-					}
-					else
-					{
-						result = new ASTExpr(this, ast, options);
-					}
-				}
+                {
+                    result = ast.Type == 8 ? new ConditionalExpr(this, ast) : new ASTExpr(this, ast, options);
+                }
 			}
 			catch (RecognitionException e)
 			{
@@ -866,28 +734,19 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000FA1 RID: 4001 RVA: 0x0006F97C File Offset: 0x0006DB7C
 		protected internal virtual void AddChunk(Expr e)
-		{
-			if (chunks == null)
-			{
-				chunks = new ArrayList();
-			}
-			chunks.Add(e);
-		}
+        {
+            chunks ??= new ArrayList();
+            chunks.Add(e);
+        }
 
 		// Token: 0x17000241 RID: 577
 		// (get) Token: 0x06000FA2 RID: 4002 RVA: 0x0006F9A0 File Offset: 0x0006DBA0
 		// (set) Token: 0x06000FA3 RID: 4003 RVA: 0x0006F9A8 File Offset: 0x0006DBA8
 		public virtual IDictionary FormalArguments
 		{
-			get
-			{
-				return formalArguments;
-			}
-			set
-			{
-				formalArguments = value;
-			}
-		}
+			get => formalArguments;
+            set => formalArguments = value;
+        }
 
 		// Token: 0x06000FA4 RID: 4004 RVA: 0x0006F9B4 File Offset: 0x0006DBB4
 		public virtual void SetDefaultArgumentValues()
@@ -896,24 +755,19 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				return;
 			}
-			if (argumentContext == null)
-			{
-				argumentContext = new Hashtable();
-			}
-			if (formalArguments != FormalArgument.UNKNOWN)
-			{
-				var keys = formalArguments.Keys;
-				foreach (var obj in keys)
-				{
-					var key = (string)obj;
-					var formalArgument = (FormalArgument)formalArguments[key];
-					if (formalArgument.defaultValueST != null && GetAttribute(key) == null)
-					{
-						argumentContext[key] = formalArgument.defaultValueST;
-					}
-				}
-			}
-		}
+			argumentContext ??= new Hashtable();
+            if (formalArguments == FormalArgument.UNKNOWN) return;
+            var keys = formalArguments.Keys;
+            foreach (var obj in keys)
+            {
+                var key = (string)obj;
+                var formalArgument = (FormalArgument)formalArguments[key];
+                if (formalArgument?.defaultValueST != null && GetAttribute(key) == null)
+                {
+                    argumentContext[key] = formalArgument.defaultValueST;
+                }
+            }
+        }
 
 		// Token: 0x06000FA5 RID: 4005 RVA: 0x0006FA4C File Offset: 0x0006DC4C
 		public virtual FormalArgument LookupFormalArgument(string name)
@@ -927,12 +781,9 @@ namespace pcomps.Antlr.StringTemplate
 		}
 
 		// Token: 0x06000FA6 RID: 4006 RVA: 0x0006FA7C File Offset: 0x0006DC7C
-		public virtual FormalArgument GetFormalArgument(string name)
-		{
-			return (FormalArgument)formalArguments[name];
-		}
+		public virtual FormalArgument GetFormalArgument(string name) => (FormalArgument)formalArguments[name];
 
-		// Token: 0x06000FA7 RID: 4007 RVA: 0x0006FA90 File Offset: 0x0006DC90
+        // Token: 0x06000FA7 RID: 4007 RVA: 0x0006FA90 File Offset: 0x0006DC90
 		public virtual void DefineEmptyFormalArgumentList()
 		{
 			FormalArguments = new HashList();
@@ -946,17 +797,18 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000FA9 RID: 4009 RVA: 0x0006FAAC File Offset: 0x0006DCAC
 		public virtual void DefineFormalArguments(IList names)
-		{
-			if (names == null)
+        {
+            if (names == null)
 			{
 				return;
 			}
-			for (var i = 0; i < names.Count; i++)
-			{
-				var text = (string)names[i];
-				DefineFormalArgument(text);
-			}
-		}
+
+            foreach (var t in names)
+            {
+                var text = (string)t;
+                DefineFormalArgument(text);
+            }
+        }
 
 		// Token: 0x06000FAA RID: 4010 RVA: 0x0006FAE4 File Offset: 0x0006DCE4
 		public virtual void DefineFormalArgument(string name, StringTemplate defaultValue)
@@ -975,13 +827,10 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x06000FAB RID: 4011 RVA: 0x0006FB30 File Offset: 0x0006DD30
 		public virtual void RegisterAttributeRenderer(Type attributeClassType, IAttributeRenderer renderer)
-		{
-			if (attributeRenderers == null)
-			{
-				attributeRenderers = new Hashtable();
-			}
-			attributeRenderers[attributeClassType] = renderer;
-		}
+        {
+            attributeRenderers ??= new Hashtable();
+            attributeRenderers[attributeClassType] = renderer;
+        }
 
 		// Token: 0x06000FAC RID: 4012 RVA: 0x0006FB54 File Offset: 0x0006DD54
 		public virtual IAttributeRenderer GetAttributeRenderer(Type attributeClassType)
@@ -991,18 +840,10 @@ namespace pcomps.Antlr.StringTemplate
 			{
 				attributeRenderer = (IAttributeRenderer)attributeRenderers[attributeClassType];
 			}
-			if (attributeRenderer == null)
-			{
-				if (enclosingInstance != null)
-				{
-					attributeRenderer = enclosingInstance.GetAttributeRenderer(attributeClassType);
-				}
-				else
-				{
-					attributeRenderer = group.GetAttributeRenderer(attributeClassType);
-				}
-			}
-			return attributeRenderer;
+
+            if (attributeRenderer != null) return attributeRenderer;
+            attributeRenderer = enclosingInstance != null ? enclosingInstance.GetAttributeRenderer(attributeClassType) : @group.GetAttributeRenderer(attributeClassType);
+            return attributeRenderer;
 		}
 
 		// Token: 0x06000FAD RID: 4013 RVA: 0x0006FBA8 File Offset: 0x0006DDA8
@@ -1025,23 +866,14 @@ namespace pcomps.Antlr.StringTemplate
 
 		// Token: 0x17000242 RID: 578
 		// (get) Token: 0x06000FB0 RID: 4016 RVA: 0x0006FBD4 File Offset: 0x0006DDD4
-		public static bool IsInLintMode
-		{
-			get
-			{
-				return lintMode;
-			}
-		}
+		public static bool IsInLintMode => lintMode;
 
-		// Token: 0x06000FB1 RID: 4017 RVA: 0x0006FBDC File Offset: 0x0006DDDC
+        // Token: 0x06000FB1 RID: 4017 RVA: 0x0006FBDC File Offset: 0x0006DDDC
 		protected internal virtual void TrackAttributeReference(string name)
-		{
-			if (referencedAttributes == null)
-			{
-				referencedAttributes = new ArrayList();
-			}
-			referencedAttributes.Add(name);
-		}
+        {
+            referencedAttributes ??= new ArrayList();
+            referencedAttributes.Add(name);
+        }
 
 		// Token: 0x06000FB2 RID: 4018 RVA: 0x0006FC00 File Offset: 0x0006DE00
 		public static bool IsRecursiveEnclosingInstance(StringTemplate st)
@@ -1112,40 +944,35 @@ namespace pcomps.Antlr.StringTemplate
 				stringBuilder.Append(CollectionUtils.ListToString(chunks));
 			}
 			stringBuilder.Append("attributes=[");
-			if (attributes != null)
-			{
-				var num = 0;
-				foreach (var obj in attributes.Keys)
-				{
-					var text = (string)obj;
-					if (num > 0)
-					{
-						stringBuilder.Append(',');
-					}
-					stringBuilder.Append($"{text}=");
-					var obj2 = attributes[text];
-					if (obj2 is StringTemplate)
-					{
-						stringBuilder.Append(((StringTemplate)obj2).ToDebugString());
-					}
-					else
-					{
-						stringBuilder.Append(obj2);
-					}
-					num++;
-				}
-				stringBuilder.Append("]");
-			}
-			return stringBuilder.ToString();
+            if (attributes == null) return stringBuilder.ToString();
+            var num = 0;
+            foreach (var obj in attributes.Keys)
+            {
+                var text = (string)obj;
+                if (num > 0)
+                {
+                    stringBuilder.Append(',');
+                }
+                stringBuilder.Append($"{text}=");
+                var obj2 = attributes[text];
+                if (obj2 is StringTemplate template)
+                {
+                    stringBuilder.Append(template.ToDebugString());
+                }
+                else
+                {
+                    stringBuilder.Append(obj2);
+                }
+                num++;
+            }
+            stringBuilder.Append(']');
+            return stringBuilder.ToString();
 		}
 
 		// Token: 0x06000FB6 RID: 4022 RVA: 0x0006FE40 File Offset: 0x0006E040
-		public string ToStructureString()
-		{
-			return ToStructureString(0);
-		}
+		public string ToStructureString() => ToStructureString(0);
 
-		// Token: 0x06000FB7 RID: 4023 RVA: 0x0006FE4C File Offset: 0x0006E04C
+        // Token: 0x06000FB7 RID: 4023 RVA: 0x0006FE4C File Offset: 0x0006E04C
 		public string ToStructureString(int indent)
 		{
 			var stringBuilder = new StringBuilder();
@@ -1156,7 +983,7 @@ namespace pcomps.Antlr.StringTemplate
 			stringBuilder.Append(Name);
 			if (attributes != null)
 			{
-				stringBuilder.Append("[");
+				stringBuilder.Append('[');
 				var flag = false;
 				foreach (var obj in attributes.Keys)
 				{
@@ -1168,46 +995,47 @@ namespace pcomps.Antlr.StringTemplate
 					flag = true;
 					stringBuilder.Append(value);
 				}
-				stringBuilder.Append("]");
+				stringBuilder.Append(']');
 			}
 			stringBuilder.Append(":\n");
-			if (attributes != null)
-			{
-				foreach (var obj2 in attributes.Keys)
-				{
-					var key = (string)obj2;
-					var obj3 = attributes[key];
-					if (obj3 is StringTemplate)
-					{
-						stringBuilder.Append(((StringTemplate)obj3).ToStructureString(indent + 1));
-					}
-					else if (obj3 is IList)
-					{
-						var list = (IList)obj3;
-						for (var j = 0; j < list.Count; j++)
-						{
-							var obj4 = list[j];
-							if (obj4 is StringTemplate)
-							{
-								stringBuilder.Append(((StringTemplate)obj4).ToStructureString(indent + 1));
-							}
-						}
-					}
-					else if (obj3 is IDictionary)
-					{
-						var dictionary = (IDictionary)obj3;
-						var values = dictionary.Values;
-						foreach (var obj5 in values)
-						{
-							if (obj5 is StringTemplate)
-							{
-								stringBuilder.Append(((StringTemplate)obj5).ToStructureString(indent + 1));
-							}
-						}
-					}
-				}
-			}
-			return stringBuilder.ToString();
+            if (attributes == null) return stringBuilder.ToString();
+            foreach (var obj2 in attributes.Keys)
+            {
+                var key = (string)obj2;
+                var obj3 = attributes[key];
+                switch (obj3)
+                {
+                    case StringTemplate template:
+                        stringBuilder.Append(template.ToStructureString(indent + 1));
+                        break;
+                    case IList list:
+                    {
+                        foreach (var obj4 in list)
+                        {
+                            if (obj4 is StringTemplate template1)
+                            {
+                                stringBuilder.Append(template1.ToStructureString(indent + 1));
+                            }
+                        }
+
+                        break;
+                    }
+                    case IDictionary dictionary:
+                    {
+                        var values = dictionary.Values;
+                        foreach (var obj5 in values)
+                        {
+                            if (obj5 is StringTemplate template1)
+                            {
+                                stringBuilder.Append(template1.ToStructureString(indent + 1));
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+            return stringBuilder.ToString();
 		}
 
 		// Token: 0x06000FB8 RID: 4024 RVA: 0x0007003C File Offset: 0x0006E23C
@@ -1224,11 +1052,7 @@ namespace pcomps.Antlr.StringTemplate
 				foreach (var obj2 in list)
 				{
 					var text2 = (string)obj2;
-					stringTemplate.SetAttribute("edges.{src,trg}", new object[]
-					{
-						text,
-						text2
-					});
+					stringTemplate.SetAttribute("edges.{src,trg}", text, text2);
 				}
 			}
 			stringTemplate.SetAttribute("shape", "none");
@@ -1247,68 +1071,65 @@ namespace pcomps.Antlr.StringTemplate
 				{
 					var key = (string)obj;
 					var obj2 = attributes[key];
-					if (obj2 is StringTemplate)
-					{
-						var templateHeaderString2 = ((StringTemplate)obj2).GetTemplateHeaderString(showAttributes);
-						PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString2);
-						((StringTemplate)obj2).GetDependencyGraph(edges, showAttributes);
-					}
-					else if (obj2 is IList)
-					{
-						var list = (IList)obj2;
-						for (var i = 0; i < list.Count; i++)
-						{
-							var obj3 = list[i];
-							if (obj3 is StringTemplate)
-							{
-								var templateHeaderString3 = ((StringTemplate)obj3).GetTemplateHeaderString(showAttributes);
-								PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString3);
-								((StringTemplate)obj3).GetDependencyGraph(edges, showAttributes);
-							}
-						}
-					}
-					else if (obj2 is IDictionary)
-					{
-						var dictionary = (IDictionary)obj2;
-						var values = dictionary.Values;
-						foreach (var obj4 in values)
-						{
-							if (obj4 is StringTemplate)
-							{
-								var templateHeaderString4 = ((StringTemplate)obj4).GetTemplateHeaderString(showAttributes);
-								PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString4);
-								((StringTemplate)obj4).GetDependencyGraph(edges, showAttributes);
-							}
-						}
-					}
-				}
+					switch (obj2)
+                    {
+                        case StringTemplate template:
+                        {
+                            var templateHeaderString2 = template.GetTemplateHeaderString(showAttributes);
+                            PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString2);
+                            template.GetDependencyGraph(edges, showAttributes);
+                            break;
+                        }
+                        case IList list:
+                        {
+                            foreach (var obj3 in list)
+                            {
+                                if (obj3 is not StringTemplate template1) continue;
+                                var templateHeaderString3 = template1.GetTemplateHeaderString(showAttributes);
+                                PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString3);
+                                template1.GetDependencyGraph(edges, showAttributes);
+                            }
+
+                            break;
+                        }
+                        case IDictionary dictionary:
+                        {
+                            var values = dictionary.Values;
+                            foreach (var obj4 in values)
+                            {
+                                if (obj4 is not StringTemplate template1) continue;
+                                var templateHeaderString4 = template1.GetTemplateHeaderString(showAttributes);
+                                PutToMultiValuedMap(edges, templateHeaderString, templateHeaderString4);
+                                template1.GetDependencyGraph(edges, showAttributes);
+                            }
+
+                            break;
+                        }
+                    }
+                }
 			}
 			var num = 0;
 			while (chunks != null && num < chunks.Count)
 			{
 				var expr = (Expr)chunks[num];
-				if (expr is ASTExpr)
-				{
-					var astexpr = (ASTExpr)expr;
-					var ast = astexpr.AST;
-					AST subtree = new CommonAST(new CommonToken(7, "include"));
-					var enumerator3 = ast.findAllPartial(subtree);
-					while (enumerator3.MoveNext())
-					{
-						var obj5 = enumerator3.Current;
-						var ast2 = (AST)obj5;
-						var text = ast2.getFirstChild().getText();
-						Console.Out.WriteLine($"found include {text}");
-						PutToMultiValuedMap(edges, templateHeaderString, text);
-						var stringTemplateGroup = Group;
-						if (stringTemplateGroup != null)
-						{
-							var instanceOf = stringTemplateGroup.GetInstanceOf(text);
-							instanceOf.GetDependencyGraph(edges, showAttributes);
-						}
-					}
-				}
-				num++;
+                if (expr is ASTExpr astexpr)
+                {
+                    var ast = astexpr.AST;
+                    AST subtree = new CommonAST(new CommonToken(7, "include"));
+                    var enumerator3 = ast.findAllPartial(subtree);
+                    while (enumerator3.MoveNext())
+                    {
+                        var obj5 = enumerator3.Current;
+                        var ast2 = (AST)obj5;
+                        var text = ast2.getFirstChild().getText();
+                        Console.Out.WriteLine($"found include {text}");
+                        PutToMultiValuedMap(edges, templateHeaderString, text);
+                        var stringTemplateGroup = Group;
+                        var instanceOf = stringTemplateGroup?.GetInstanceOf(text);
+                        instanceOf?.GetDependencyGraph(edges, showAttributes);
+                    }
+                }
+                num++;
 			}
 		}
 
@@ -1347,53 +1168,45 @@ namespace pcomps.Antlr.StringTemplate
 					Console.Out.Write(',');
 				}
 				var obj2 = attributes[text];
-				if (obj2 is StringTemplate)
-				{
-					Console.Out.Write($"{text}=");
-					((StringTemplate)obj2).PrintDebugString();
-				}
-				else if (obj2 is IList)
-				{
-					var arrayList = (ArrayList)obj2;
-					for (var i = 0; i < arrayList.Count; i++)
-					{
-						var obj3 = arrayList[i];
-						Console.Out.Write(string.Concat(new object[]
-						{
-							text,
-							"[",
-							i,
-							"] is ",
-							obj3.GetType().FullName,
-							"="
-						}));
-						if (obj3 is StringTemplate)
-						{
-							((StringTemplate)obj3).PrintDebugString();
-						}
-						else
-						{
-							Console.Out.WriteLine(obj3);
-						}
-					}
-				}
-				else
-				{
-					Console.Out.Write($"{text}=");
-					Console.Out.WriteLine(obj2);
-				}
+				switch (obj2)
+                {
+                    case StringTemplate template:
+                        Console.Out.Write($"{text}=");
+                        template.PrintDebugString();
+                        break;
+                    case IList:
+                    {
+                        var arrayList = (ArrayList)obj2;
+                        for (var i = 0; i < arrayList.Count; i++)
+                        {
+                            var obj3 = arrayList[i];
+                            Console.Out.Write($"{text}[{i}] is {obj3?.GetType().FullName}=");
+                            if (obj3 is StringTemplate template1)
+                            {
+                                template1.PrintDebugString();
+                            }
+                            else
+                            {
+                                Console.Out.WriteLine(obj3);
+                            }
+                        }
+
+                        break;
+                    }
+                    default:
+                        Console.Out.Write($"{text}=");
+                        Console.Out.WriteLine(obj2);
+                        break;
+                }
 				num++;
 			}
 			Console.Out.Write("]\n");
 		}
 
 		// Token: 0x06000FBC RID: 4028 RVA: 0x000705F4 File Offset: 0x0006E7F4
-		public override string ToString()
-		{
-			return ToString(-1);
-		}
+		public override string ToString() => ToString(-1);
 
-		// Token: 0x06000FBD RID: 4029 RVA: 0x00070600 File Offset: 0x0006E800
+        // Token: 0x06000FBD RID: 4029 RVA: 0x00070600 File Offset: 0x0006E800
 		public virtual string ToString(int lineWidth)
 		{
 			var stringWriter = new StringWriter();
@@ -1523,13 +1336,10 @@ namespace pcomps.Antlr.StringTemplate
 			}
 
 			// Token: 0x06000FC1 RID: 4033 RVA: 0x000706D4 File Offset: 0x0006E8D4
-			public override string ToString()
-			{
-				return CollectionUtils.DictionaryToString(properties);
-			}
+			public override string ToString() => CollectionUtils.DictionaryToString(properties);
 
-			// Token: 0x04000CEA RID: 3306
-			internal Hashtable properties = new Hashtable();
+            // Token: 0x04000CEA RID: 3306
+			internal Hashtable properties = new();
 		}
 
 		// Token: 0x02000224 RID: 548

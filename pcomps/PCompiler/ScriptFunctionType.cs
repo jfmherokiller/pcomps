@@ -9,77 +9,43 @@ namespace pcomps.PCompiler
 		// Token: 0x06000EDC RID: 3804 RVA: 0x0006D674 File Offset: 0x0006B874
 		public ScriptFunctionType(string asFuncName, string asObjName, string asStateName, string asPropName)
 		{
-			sName = asFuncName.ToLowerInvariant();
-			sStateName = asStateName.ToLowerInvariant();
-			sPropName = asPropName.ToLowerInvariant();
+			Name = asFuncName.ToLowerInvariant();
+			StateName = asStateName.ToLowerInvariant();
+			PropertyName = asPropName.ToLowerInvariant();
 			if (asPropName == "")
 			{
-				kFunctionScope = new ScriptScope(null, string.Concat(new string[]
-				{
-					asObjName,
-					".",
-					asStateName,
-					".",
-					asFuncName
-				}));
+				FunctionScope = new ScriptScope(null, $"{asObjName}.{asStateName}.{asFuncName}");
 				return;
 			}
-			kFunctionScope = new ScriptScope(null, string.Concat(new string[]
-			{
-				asObjName,
-				".",
-				asStateName,
-				".",
-				asPropName,
-				".",
-				asFuncName
-			}));
+			FunctionScope = new ScriptScope(null, $"{asObjName}.{asStateName}.{asPropName}.{asFuncName}");
 		}
 
 		// Token: 0x1700021C RID: 540
 		// (get) Token: 0x06000EDD RID: 3805 RVA: 0x0006D764 File Offset: 0x0006B964
-		public string Name
-		{
-			get
-			{
-				return sName;
-			}
-		}
+		public string Name { get; }
 
-		// Token: 0x1700021D RID: 541
+        // Token: 0x1700021D RID: 541
 		// (get) Token: 0x06000EDE RID: 3806 RVA: 0x0006D76C File Offset: 0x0006B96C
-		public string StateName
-		{
-			get
-			{
-				return sStateName;
-			}
-		}
+		public string StateName { get; }
 
-		// Token: 0x1700021E RID: 542
+        // Token: 0x1700021E RID: 542
 		// (get) Token: 0x06000EDF RID: 3807 RVA: 0x0006D774 File Offset: 0x0006B974
-		public string PropertyName
-		{
-			get
-			{
-				return sPropName;
-			}
-		}
+		public string PropertyName { get; }
 
-		// Token: 0x06000EE0 RID: 3808 RVA: 0x0006D77C File Offset: 0x0006B97C
+        // Token: 0x06000EE0 RID: 3808 RVA: 0x0006D77C File Offset: 0x0006B97C
 		public bool ParamTypesMatch(ScriptFunctionType akOtherFunc)
 		{
 			var flag = true;
-			if (kParams.Count == akOtherFunc.kParams.Count)
+			if (ParamTypes.Count == akOtherFunc.ParamTypes.Count)
 			{
 				var num = 0;
 				while (flag)
 				{
-					if (num >= kParams.Count)
+					if (num >= ParamTypes.Count)
 					{
 						break;
 					}
-					if (kParams[num].VarType != akOtherFunc.kParams[num].VarType)
+					if (ParamTypes[num].VarType != akOtherFunc.ParamTypes[num].VarType)
 					{
 						flag = false;
 					}
@@ -97,44 +63,52 @@ namespace pcomps.PCompiler
 		public bool ParamDefaultsMatch(ScriptFunctionType akOtherFunc)
 		{
 			var flag = true;
-			if (kParams.Count == akOtherFunc.kParams.Count)
+			if (ParamTypes.Count == akOtherFunc.ParamTypes.Count)
 			{
 				var num = 0;
 				while (flag)
 				{
-					if (num >= kParams.Count)
+					if (num >= ParamTypes.Count)
 					{
 						break;
 					}
-					var scriptVariableType = kParams[num];
-					var scriptVariableType2 = akOtherFunc.kParams[num];
+					var scriptVariableType = ParamTypes[num];
+					var scriptVariableType2 = akOtherFunc.ParamTypes[num];
 					if (scriptVariableType.HasInitialValue == scriptVariableType2.HasInitialValue)
 					{
 						if (scriptVariableType.HasInitialValue)
-						{
-							if (scriptVariableType.VarType == "int")
-							{
-								var num2 = 0;
-								var num3 = 0;
-								if (!int.TryParse(scriptVariableType.InitialValue, out num2) || !int.TryParse(scriptVariableType2.InitialValue, out num3) || num2 != num3)
-								{
-									flag = false;
-								}
-							}
-							else if (scriptVariableType.VarType == "float")
-							{
-								var num4 = 0f;
-								var num5 = 0f;
-								if (!float.TryParse(scriptVariableType.InitialValue, out num4) || !float.TryParse(scriptVariableType2.InitialValue, out num5) || num4 != num5)
-								{
-									flag = false;
-								}
-							}
-							else if (scriptVariableType.InitialValue != scriptVariableType2.InitialValue)
-							{
-								flag = false;
-							}
-						}
+                        {
+                            switch (scriptVariableType.VarType)
+                            {
+                                case "int":
+                                {
+                                    if (!int.TryParse(scriptVariableType.InitialValue, out var num2) || !int.TryParse(scriptVariableType2.InitialValue, out var num3) || num2 != num3)
+                                    {
+                                        flag = false;
+                                    }
+
+                                    break;
+                                }
+                                case "float":
+                                {
+                                    if (!float.TryParse(scriptVariableType.InitialValue, out var num4) || !float.TryParse(scriptVariableType2.InitialValue, out var num5) || num4 != num5)
+                                    {
+                                        flag = false;
+                                    }
+
+                                    break;
+                                }
+                                default:
+                                {
+                                    if (scriptVariableType.InitialValue != scriptVariableType2.InitialValue)
+                                    {
+                                        flag = false;
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
 					}
 					else
 					{
@@ -152,38 +126,19 @@ namespace pcomps.PCompiler
 
 		// Token: 0x1700021F RID: 543
 		// (get) Token: 0x06000EE2 RID: 3810 RVA: 0x0006D914 File Offset: 0x0006BB14
-		public List<string> ParamNames
-		{
-			get
-			{
-				return kParamNames;
-			}
-		}
+		public List<string> ParamNames { get; } = new();
 
-		// Token: 0x17000220 RID: 544
+        // Token: 0x17000220 RID: 544
 		// (get) Token: 0x06000EE3 RID: 3811 RVA: 0x0006D91C File Offset: 0x0006BB1C
-		public List<ScriptVariableType> ParamTypes
-		{
-			get
-			{
-				return kParams;
-			}
-		}
+		public List<ScriptVariableType> ParamTypes { get; } = new();
 
-		// Token: 0x06000EE4 RID: 3812 RVA: 0x0006D924 File Offset: 0x0006BB24
+        // Token: 0x06000EE4 RID: 3812 RVA: 0x0006D924 File Offset: 0x0006BB24
 		public bool TryGetParam(string asName, out ScriptVariableType akType)
 		{
 			sStringMatch = asName;
-			var num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
+			var num = ParamNames.FindIndex(StringMatchesCaseInsensitive);
 			var flag = num != -1;
-			if (flag)
-			{
-				akType = kParams[num];
-			}
-			else
-			{
-				akType = null;
-			}
+			akType = flag ? ParamTypes[num] : null;
 			return flag;
 		}
 
@@ -191,43 +146,29 @@ namespace pcomps.PCompiler
 		public bool TryAddParam(string asName, ScriptVariableType akType)
 		{
 			sStringMatch = asName;
-			var num = kParamNames.FindIndex(new Predicate<string>(StringMatchesCaseInsensitive));
+			var num = ParamNames.FindIndex(StringMatchesCaseInsensitive);
 			var flag = num != -1;
-			if (!flag)
-			{
-				kParamNames.Add(asName.ToLowerInvariant());
-				kParams.Add(akType);
-			}
-			return !flag;
+            if (flag) return false;
+            ParamNames.Add(asName.ToLowerInvariant());
+            ParamTypes.Add(akType);
+            return true;
 		}
 
 		// Token: 0x06000EE6 RID: 3814 RVA: 0x0006D9C8 File Offset: 0x0006BBC8
-		private bool StringMatchesCaseInsensitive(string asOther)
-		{
-			return sStringMatch.ToLowerInvariant() == asOther.ToLowerInvariant();
-		}
+		private bool StringMatchesCaseInsensitive(string asOther) => string.Equals(sStringMatch, asOther, StringComparison.InvariantCultureIgnoreCase);
 
-		// Token: 0x17000221 RID: 545
+        // Token: 0x17000221 RID: 545
 		// (get) Token: 0x06000EE7 RID: 3815 RVA: 0x0006D9E0 File Offset: 0x0006BBE0
-		public ScriptScope FunctionScope
-		{
-			get
-			{
-				return kFunctionScope;
-			}
-		}
+		public ScriptScope FunctionScope { get; }
 
-		// Token: 0x04000CA1 RID: 3233
-		private string sName;
+        // Token: 0x04000CA1 RID: 3233
 
-		// Token: 0x04000CA2 RID: 3234
-		private string sStateName;
+        // Token: 0x04000CA2 RID: 3234
 
-		// Token: 0x04000CA3 RID: 3235
-		private string sPropName;
+        // Token: 0x04000CA3 RID: 3235
 
-		// Token: 0x04000CA4 RID: 3236
-		public ScriptVariableType kRetType = new ScriptVariableType("none");
+        // Token: 0x04000CA4 RID: 3236
+		public ScriptVariableType kRetType = new("none");
 
 		// Token: 0x04000CA5 RID: 3237
 		public bool bNative;
@@ -236,15 +177,12 @@ namespace pcomps.PCompiler
 		public bool bGlobal;
 
 		// Token: 0x04000CA7 RID: 3239
-		private List<string> kParamNames = new List<string>();
 
-		// Token: 0x04000CA8 RID: 3240
-		private List<ScriptVariableType> kParams = new List<ScriptVariableType>();
+        // Token: 0x04000CA8 RID: 3240
 
-		// Token: 0x04000CA9 RID: 3241
+        // Token: 0x04000CA9 RID: 3241
 		private string sStringMatch = "";
 
 		// Token: 0x04000CAA RID: 3242
-		private ScriptScope kFunctionScope;
-	}
+    }
 }

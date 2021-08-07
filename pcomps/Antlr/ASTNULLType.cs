@@ -5,7 +5,7 @@ using pcomps.Antlr.collections;
 namespace pcomps.Antlr
 {
 	// Token: 0x0200000B RID: 11
-	public class ASTNULLType : AST, ICloneable
+	public class ASTNULLType : AST
 	{
 		// Token: 0x0600005D RID: 93 RVA: 0x000032CC File Offset: 0x000014CC
 		public virtual void addChild(AST c)

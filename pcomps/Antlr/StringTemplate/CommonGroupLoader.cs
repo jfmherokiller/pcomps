@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace pcomps.Antlr.StringTemplate
@@ -27,47 +28,31 @@ namespace pcomps.Antlr.StringTemplate
 		public CommonGroupLoader(IStringTemplateGroupFactory factory, IStringTemplateErrorListener errorListener, Encoding encoding, params string[] directoryNames)
 		{
 			this.factory = factory;
-			this.errorListener = ((errorListener == null) ? new NullErrorListener() : errorListener);
+			this.errorListener = (errorListener ?? new NullErrorListener());
 			this.encoding = encoding;
 			foreach (var text in directoryNames)
 			{
 				string text2;
-				if (Path.IsPathRooted(text))
-				{
-					text2 = text;
-				}
-				else
-				{
-					text2 = $"{AppDomain.CurrentDomain.BaseDirectory}/{text}";
-				}
+				text2 = Path.IsPathRooted(text) ? text : $"{AppDomain.CurrentDomain.BaseDirectory}/{text}";
 				if (File.Exists(text2) || !Directory.Exists(text2))
 				{
 					Error($"group loader: no such dir {text2}");
 				}
 				else
-				{
-					if (directories == null)
-					{
-						directories = new ArrayList();
-					}
-					directories.Add(text2);
-				}
+                {
+                    directories ??= new ArrayList();
+                    directories.Add(text2);
+                }
 			}
 		}
 
 		// Token: 0x06000F14 RID: 3860 RVA: 0x0006DF6C File Offset: 0x0006C16C
-		public StringTemplateGroup LoadGroup(string groupName)
-		{
-			return LoadGroup(groupName, null, null);
-		}
+		public StringTemplateGroup LoadGroup(string groupName) => LoadGroup(groupName, null, null);
 
-		// Token: 0x06000F15 RID: 3861 RVA: 0x0006DF78 File Offset: 0x0006C178
-		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup)
-		{
-			return LoadGroup(groupName, superGroup, null);
-		}
+        // Token: 0x06000F15 RID: 3861 RVA: 0x0006DF78 File Offset: 0x0006C178
+		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup) => LoadGroup(groupName, superGroup, null);
 
-		// Token: 0x06000F16 RID: 3862 RVA: 0x0006DF84 File Offset: 0x0006C184
+        // Token: 0x06000F16 RID: 3862 RVA: 0x0006DF84 File Offset: 0x0006C184
 		public StringTemplateGroup LoadGroup(string groupName, StringTemplateGroup superGroup, Type lexer)
 		{
 			StringTemplateGroup result = null;
@@ -77,23 +62,21 @@ namespace pcomps.Antlr.StringTemplate
 				Error($"no such group file '{groupName}.stg'");
 			}
 			else
-			{
-				using (var streamReader = new StreamReader(text, encoding))
-				{
-					try
-					{
-						result = factory.CreateGroup(streamReader, lexer, errorListener, superGroup);
-					}
-					catch (ArgumentException e)
-					{
-						Error($"Path Error: can't load group '{groupName}'", e);
-					}
-					catch (IOException e2)
-					{
-						Error($"IO Error: can't load group '{groupName}'", e2);
-					}
-				}
-			}
+            {
+                using var streamReader = new StreamReader(text, encoding);
+                try
+                {
+                    result = factory.CreateGroup(streamReader, lexer, errorListener, superGroup);
+                }
+                catch (ArgumentException e)
+                {
+                    Error($"Path Error: can't load group '{groupName}'", e);
+                }
+                catch (IOException e2)
+                {
+                    Error($"IO Error: can't load group '{groupName}'", e2);
+                }
+            }
 			return result;
 		}
 
@@ -107,40 +90,29 @@ namespace pcomps.Antlr.StringTemplate
 				Error($"no such interface file '{interfaceName}.sti'");
 			}
 			else
-			{
-				using (var streamReader = new StreamReader(text, encoding))
-				{
-					try
-					{
-						result = factory.CreateInterface(streamReader, errorListener, null);
-					}
-					catch (ArgumentException e)
-					{
-						Error($"Path Error: can't load interface '{interfaceName}'", e);
-					}
-					catch (IOException e2)
-					{
-						Error($"IO Error: can't load interface '{interfaceName}'", e2);
-					}
-				}
-			}
+            {
+                using var streamReader = new StreamReader(text, encoding);
+                try
+                {
+                    result = factory.CreateInterface(streamReader, errorListener, null);
+                }
+                catch (ArgumentException e)
+                {
+                    Error($"Path Error: can't load interface '{interfaceName}'", e);
+                }
+                catch (IOException e2)
+                {
+                    Error($"IO Error: can't load interface '{interfaceName}'", e2);
+                }
+            }
 			return result;
 		}
 
 		// Token: 0x06000F18 RID: 3864 RVA: 0x0006E11C File Offset: 0x0006C31C
 		protected string LocateFile(string filename)
-		{
-			for (var i = 0; i < directories.Count; i++)
-			{
-				var arg = (string)directories[i];
-				var text = $"{arg}/{filename}";
-				if (File.Exists(text))
-				{
-					return text;
-				}
-			}
-			return null;
-		}
+        {
+            return (directories.Cast<string>().Select(arg => $"{arg}/{filename}")).FirstOrDefault(text => File.Exists(text));
+        }
 
 		// Token: 0x06000F19 RID: 3865 RVA: 0x0006E16C File Offset: 0x0006C36C
 		public void Error(string msg)

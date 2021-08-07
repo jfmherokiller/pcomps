@@ -11,27 +11,15 @@ namespace pcomps.Antlr.StringTemplate
 		}
 
 		// Token: 0x06000F61 RID: 3937 RVA: 0x0006EAA0 File Offset: 0x0006CCA0
-		public override bool HasChanged(string templateName)
-		{
-			return false;
-		}
+		public override bool HasChanged(string templateName) => false;
 
-		// Token: 0x06000F62 RID: 3938 RVA: 0x0006EAA4 File Offset: 0x0006CCA4
-		protected override string InternalLoadTemplateContents(string templateName)
-		{
-			return null;
-		}
+        // Token: 0x06000F62 RID: 3938 RVA: 0x0006EAA4 File Offset: 0x0006CCA4
+		protected override string InternalLoadTemplateContents(string templateName) => null;
 
-		// Token: 0x06000F63 RID: 3939 RVA: 0x0006EAA8 File Offset: 0x0006CCA8
-		public override string GetLocationFromTemplateName(string templateName)
-		{
-			return $"{templateName}.st";
-		}
+        // Token: 0x06000F63 RID: 3939 RVA: 0x0006EAA8 File Offset: 0x0006CCA8
+		public override string GetLocationFromTemplateName(string templateName) => $"{templateName}.st";
 
-		// Token: 0x06000F64 RID: 3940 RVA: 0x0006EAB8 File Offset: 0x0006CCB8
-		public override string GetTemplateNameFromLocation(string location)
-		{
-			return Path.ChangeExtension(location, null);
-		}
-	}
+        // Token: 0x06000F64 RID: 3940 RVA: 0x0006EAB8 File Offset: 0x0006CCB8
+		public override string GetTemplateNameFromLocation(string location) => Path.ChangeExtension(location, null);
+    }
 }

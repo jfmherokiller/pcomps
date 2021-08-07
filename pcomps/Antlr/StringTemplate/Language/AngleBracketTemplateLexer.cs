@@ -69,7 +69,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			caseSensitiveLiterals = true;
 			setCaseSensitive(true);
-			literals = new Hashtable(100, 0.4f, null, Comparer.Default);
+			literals = new Hashtable(100, 0.4f);
 		}
 
 		// Token: 0x060010DC RID: 4316 RVA: 0x000784D0 File Offset: 0x000766D0
@@ -88,7 +88,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						{
 							if (cached_LA != '<')
 							{
-								if (tokenSet_0_.member((int)cached_LA1) && cached_LA1 != '\r' && cached_LA1 != '\n')
+								if (tokenSet_0_.member(cached_LA1) && cached_LA1 != '\r' && cached_LA1 != '\n')
 								{
 									mLITERAL(true);
 									var returnToken_ = this.returnToken_;
@@ -177,7 +177,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					text.Length = length5;
 					match('\\');
 				}
-				else if (cached_LA1 == '\\' && tokenSet_1_.member((int)cached_LA2))
+				else if (cached_LA1 == '\\' && tokenSet_1_.member(cached_LA2))
 				{
 					match('\\');
 					match(tokenSet_1_);
@@ -198,7 +198,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					if (!tokenSet_0_.member((int)cached_LA1))
+					if (!tokenSet_0_.member(cached_LA1))
 					{
 						break;
 					}
@@ -333,11 +333,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			else
 			{
-				if (cached_LA1 != '<' || !tokenSet_2_.member((int)this.cached_LA2) || LA(3) < '\u0001' || LA(3) > '￾')
+				if (cached_LA1 != '<' || !tokenSet_2_.member(this.cached_LA2) || LA(3) < '\u0001' || LA(3) > '￾')
 				{
 					throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 				}
-				if (cached_LA1 == '<' && this.cached_LA2 == 'i' && LA(3) == 'f' && (LA(4) == ' ' || LA(4) == '(') && tokenSet_3_.member((int)LA(5)) && LA(6) >= '\u0001' && LA(6) <= '￾' && LA(7) >= '\u0001' && LA(7) <= '￾')
+				if (cached_LA1 == '<' && this.cached_LA2 == 'i' && LA(3) == 'f' && (LA(4) == ' ' || LA(4) == '(') && tokenSet_3_.member(LA(5)) && LA(6) >= '\u0001' && LA(6) <= '￾' && LA(7) >= '\u0001' && LA(7) <= '￾')
 				{
 					var length6 = text.Length;
 					match('<');
@@ -433,7 +433,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 						newline();
 					}
 				}
-				else if (cached_LA1 == '<' && this.cached_LA2 == '@' && tokenSet_4_.member((int)LA(3)) && LA(4) >= '\u0001' && LA(4) <= '￾' && LA(5) >= '\u0001' && LA(5) <= '￾' && LA(6) >= '\u0001' && LA(6) <= '￾')
+				else if (cached_LA1 == '<' && this.cached_LA2 == '@' && tokenSet_4_.member(LA(3)) && LA(4) >= '\u0001' && LA(4) <= '￾' && LA(5) >= '\u0001' && LA(5) <= '￾' && LA(6) >= '\u0001' && LA(6) <= '￾')
 				{
 					var length9 = this.text.Length;
 					match('<');
@@ -442,7 +442,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					match('@');
 					this.text.Length = length9;
 					var num2 = 0;
-					while (tokenSet_4_.member((int)cached_LA1))
+					while (tokenSet_4_.member(cached_LA1))
 					{
 						match(tokenSet_4_);
 						num2++;
@@ -591,7 +591,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					if (cached_LA1 != '<' || !tokenSet_2_.member((int)cached_LA2) || LA(3) < '\u0001' || LA(3) > '￾')
+					if (cached_LA1 != '<' || !tokenSet_2_.member(cached_LA2) || LA(3) < '\u0001' || LA(3) > '￾')
 					{
 						throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 					}
@@ -721,7 +721,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				num2++;
 				continue;
 				IL_AD:
-				if (tokenSet_5_.member((int)cached_LA1))
+				if (tokenSet_5_.member(cached_LA1))
 				{
 					matchNot(')');
 					goto IL_EB;
@@ -822,7 +822,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					mSUBTEMPLATE(false);
 					goto IL_245;
 				}
-				if ((cached_LA1 == '+' || cached_LA1 == '=') && tokenSet_6_.member((int)this.cached_LA2))
+				if ((cached_LA1 == '+' || cached_LA1 == '=') && tokenSet_6_.member(this.cached_LA2))
 				{
 					var cached_LA5 = cached_LA1;
 					if (cached_LA5 != '+')
@@ -840,7 +840,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					match(tokenSet_6_);
 					goto IL_245;
 				}
-				if (tokenSet_7_.member((int)cached_LA1))
+				if (tokenSet_7_.member(cached_LA1))
 				{
 					matchNot('>');
 					goto IL_245;
@@ -901,7 +901,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						if (!tokenSet_8_.member((int)cached_LA1))
+						if (!tokenSet_8_.member(cached_LA1))
 						{
 							break;
 						}
@@ -1014,7 +1014,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					}
 					else
 					{
-						if (!tokenSet_9_.member((int)cached_LA1))
+						if (!tokenSet_9_.member(cached_LA1))
 						{
 							break;
 						}
@@ -1046,7 +1046,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				{
 					if (cached_LA != '\\')
 					{
-						if (!tokenSet_10_.member((int)cached_LA1))
+						if (!tokenSet_10_.member(cached_LA1))
 						{
 							break;
 						}

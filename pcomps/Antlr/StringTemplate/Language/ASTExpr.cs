@@ -8,9 +8,9 @@ using pcomps.Antlr.StringTemplate.Collections;
 
 namespace pcomps.Antlr.StringTemplate.Language
 {
-	// Token: 0x0200023A RID: 570
-	public class ASTExpr : Expr
-	{
+    // Token: 0x0200023A RID: 570
+    public record ASTExpr : Expr
+    {
 		// Token: 0x060010FA RID: 4346 RVA: 0x0007AA84 File Offset: 0x00078C84
 		static ASTExpr()
 		{
@@ -32,15 +32,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 
 		// Token: 0x17000265 RID: 613
 		// (get) Token: 0x060010FC RID: 4348 RVA: 0x0007AB78 File Offset: 0x00078D78
-		public virtual AST AST
-		{
-			get
-			{
-				return exprTree;
-			}
-		}
+		public virtual AST AST => exprTree;
 
-		// Token: 0x060010FD RID: 4349 RVA: 0x0007AB80 File Offset: 0x00078D80
+        // Token: 0x060010FD RID: 4349 RVA: 0x0007AB80 File Offset: 0x00078D80
 		public override int Write(StringTemplate self, IStringTemplateWriter output)
 		{
 			if (exprTree == null || self == null || output == null)
@@ -260,23 +254,19 @@ namespace pcomps.Antlr.StringTemplate.Language
 		protected internal virtual void SetSoleFormalArgumentToIthValue(StringTemplate embedded, IDictionary argumentContext, object ithValue)
 		{
 			var formalArguments = embedded.FormalArguments;
-			if (formalArguments != null)
-			{
-				var flag = embedded.Name == "anonymous";
-				if (formalArguments.Count == 1 || (flag && formalArguments.Count > 0))
-				{
-					if (flag && formalArguments.Count > 1)
-					{
-						embedded.Error(
-                            $"too many arguments on {{...}} template: {CollectionUtils.DictionaryToString(formalArguments)}");
-					}
-					var enumerator = formalArguments.Keys.GetEnumerator();
-					enumerator.MoveNext();
-					var key = (string)enumerator.Current;
-					argumentContext[key] = ithValue;
-				}
-			}
-		}
+            if (formalArguments == null) return;
+            var flag = embedded.Name == "anonymous";
+            if (formalArguments.Count != 1 && (!flag || formalArguments.Count <= 0)) return;
+            if (flag && formalArguments.Count > 1)
+            {
+                embedded.Error(
+                    $"too many arguments on {{...}} template: {CollectionUtils.DictionaryToString(formalArguments)}");
+            }
+            var enumerator = formalArguments.Keys.GetEnumerator();
+            enumerator.MoveNext();
+            var key = (string)enumerator.Current;
+            argumentContext[key] = ithValue;
+        }
 
 		// Token: 0x06001102 RID: 4354 RVA: 0x0007B158 File Offset: 0x00079358
 		public virtual object GetObjectProperty(StringTemplate self, object o, string propertyName)
@@ -288,7 +278,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			totalObjPropRefs++;
 			var attributeStrategy = enclosingTemplate.Group.AttributeStrategy;
 			object result;
-			if (attributeStrategy != null && attributeStrategy.UseCustomGetObjectProperty)
+			if (attributeStrategy is { UseCustomGetObjectProperty: true })
 			{
 				result = attributeStrategy.GetObjectProperty(self, o, propertyName);
 			}
@@ -321,22 +311,28 @@ namespace pcomps.Antlr.StringTemplate.Language
 			if (typeof(IDictionary).IsAssignableFrom(type))
 			{
 				var dictionary = (IDictionary)o;
-				if (propertyName.Equals("keys"))
-				{
-					obj = dictionary.Keys;
-				}
-				else if (propertyName.Equals("values"))
-				{
-					obj = dictionary.Values;
-				}
-				else if (dictionary.Contains(propertyName))
-				{
-					obj = dictionary[propertyName];
-				}
-				else if (dictionary.Contains("_default_"))
-				{
-					obj = dictionary["_default_"];
-				}
+				switch (propertyName)
+                {
+                    case "keys":
+                        obj = dictionary.Keys;
+                        break;
+                    case "values":
+                        obj = dictionary.Values;
+                        break;
+                    default:
+                    {
+                        if (dictionary.Contains(propertyName))
+                        {
+                            obj = dictionary[propertyName];
+                        }
+                        else if (dictionary.Contains("_default_"))
+                        {
+                            obj = dictionary["_default_"];
+                        }
+
+                        break;
+                    }
+                }
 				if (obj == MAP_KEY_VALUE)
 				{
 					obj = propertyName;
@@ -349,7 +345,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			if (!GetPropertyValueByName(propertyLookupParams, ref obj))
 			{
 				var flag = false;
-				foreach (var str in new string[]
+				foreach (var str in new[]
 				{
 					"get_",
 					"Get",
@@ -372,7 +368,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					if (!GetFieldValueByName(propertyLookupParams, ref obj))
 					{
 						totalReflectionLookups++;
-						var property = type.GetProperty("Item", new Type[]
+						var property = type.GetProperty("Item", new[]
 						{
 							typeof(string)
 						});
@@ -387,26 +383,11 @@ namespace pcomps.Antlr.StringTemplate.Language
 							}
 							catch (Exception e)
 							{
-								self.Error(string.Concat(new string[]
-								{
-									"Can't get property ",
-									propertyName,
-									" via C# string indexer from ",
-									type.FullName,
-									" instance"
-								}), e);
+								self.Error(string.Concat("Can't get property ", propertyName, " via C# string indexer from ", type.FullName, " instance"), e);
 								return obj;
 							}
 						}
-						self.Error(string.Concat(new string[]
-						{
-							"Class ",
-							type.FullName,
-							" has no such attribute: ",
-							propertyName,
-							" in template context ",
-							self.GetEnclosingInstanceStackString()
-						}));
+						self.Error(string.Concat("Class ", type.FullName, " has no such attribute: ", propertyName, " in template context ", self.GetEnclosingInstanceStackString()));
 					}
 				}
 			}
@@ -425,19 +406,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				return false;
 			}
-			if (a is bool)
+			if (a is bool boolean)
 			{
-				return (bool)a;
+				return boolean;
 			}
-			if (a is ICollection)
+			if (a is ICollection collection)
 			{
-				return ((ICollection)a).Count > 0;
+				return collection.Count > 0;
 			}
-			if (a is IDictionary)
-			{
-				return ((IDictionary)a).Count > 0;
-			}
-			return !(a is IEnumerator) || !CollectionUtils.IsEmptyEnumerator((IEnumerator)a);
+            return a is not IEnumerator enumerator || !CollectionUtils.IsEmptyEnumerator(enumerator);
 		}
 
 		// Token: 0x06001105 RID: 4357 RVA: 0x0007B4F8 File Offset: 0x000796F8
@@ -495,15 +472,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 					stringTemplate.EnclosingInstance = self;
 					if (StringTemplate.IsInLintMode && StringTemplate.IsRecursiveEnclosingInstance(stringTemplate))
 					{
-						throw new SystemException(string.Concat(new string[]
-						{
-							"infinite recursion to ",
-							stringTemplate.GetTemplateDeclaratorString(),
-							" referenced in ",
-							stringTemplate.EnclosingInstance.GetTemplateDeclaratorString(),
-							"; stack trace:\n",
-							stringTemplate.GetEnclosingInstanceStackTrace()
-						}));
+						throw new SystemException(string.Concat("infinite recursion to ", stringTemplate.GetTemplateDeclaratorString(), " referenced in ", stringTemplate.EnclosingInstance.GetTemplateDeclaratorString(), "; stack trace:\n", stringTemplate.GetEnclosingInstanceStackTrace()));
 					}
 					if (wrapString != null)
 					{
@@ -560,22 +529,16 @@ namespace pcomps.Antlr.StringTemplate.Language
 					var flag = false;
 					while (enumerator.MoveNext())
 					{
-						var obj = enumerator.Current;
-						if (obj == null)
-						{
-							obj = nullValue;
-						}
-						if (obj != null)
-						{
-							if (flag && separatorString != null)
-							{
-								num += output.WriteSeparator(separatorString);
-							}
-							flag = true;
-							var num2 = Write(self, obj, output);
-							num += num2;
-						}
-					}
+						var obj = enumerator.Current ?? nullValue;
+                        if (obj == null) continue;
+                        if (flag && separatorString != null)
+                        {
+                            num += output.WriteSeparator(separatorString);
+                        }
+                        flag = true;
+                        var num2 = Write(self, obj, output);
+                        num += num2;
+                    }
 				}
 			}
 			catch (IOException e)
@@ -588,28 +551,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x06001109 RID: 4361 RVA: 0x0007B7A8 File Offset: 0x000799A8
 		protected internal string EvaluateExpression(StringTemplate self, object expr)
 		{
-			if (expr == null)
-			{
-				return null;
-			}
-			if (expr is StringTemplateAST)
-			{
-				var stringTemplateAST = (StringTemplateAST)expr;
-				var stringWriter = new StringWriter();
-				var @out = self.group.CreateInstanceOfTemplateWriter(stringWriter);
-				var actionEvaluator = new ActionEvaluator(self, this, @out);
-				try
-				{
-					actionEvaluator.action(stringTemplateAST);
-				}
-				catch (RecognitionException e)
-				{
-					self.Error($"can't evaluate tree: {stringTemplateAST.ToStringList()}", e);
-				}
-				return stringWriter.ToString();
-			}
-			return expr.ToString();
-		}
+            if (expr == null) return null;
+            if (expr is not StringTemplateAST) return expr.ToString();
+            var stringTemplateAST = (StringTemplateAST)expr;
+            var stringWriter = new StringWriter();
+            var @out = self.@group.CreateInstanceOfTemplateWriter(stringWriter);
+            var actionEvaluator = new ActionEvaluator(self, this, @out);
+            try
+            {
+                actionEvaluator.action(stringTemplateAST);
+            }
+            catch (RecognitionException e)
+            {
+                self.Error($"can't evaluate tree: {stringTemplateAST.ToStringList()}", e);
+            }
+
+            return stringWriter.ToString();
+
+        }
 
 		// Token: 0x0600110A RID: 4362 RVA: 0x0007B828 File Offset: 0x00079A28
 		protected internal virtual void EvaluateArguments(StringTemplate self)
@@ -641,43 +600,27 @@ namespace pcomps.Antlr.StringTemplate.Language
 		// Token: 0x0600110B RID: 4363 RVA: 0x0007B8E8 File Offset: 0x00079AE8
 		private static object ConvertAnythingIteratableToIterator(object o)
 		{
-			IEnumerator enumerator = null;
-			if (o is IDictionary)
-			{
-				enumerator = ((IDictionary)o).Values.GetEnumerator();
-			}
-			else if (o is ICollection)
-			{
-				enumerator = ((ICollection)o).GetEnumerator();
-			}
-			else if (o is IEnumerator)
-			{
-				enumerator = (IEnumerator)o;
-			}
-			if (enumerator == null)
-			{
-				return o;
-			}
-			return enumerator;
-		}
+            IEnumerator enumerator = o switch
+            {
+                IDictionary dictionary => dictionary.Values.GetEnumerator(),
+                ICollection collection => collection.GetEnumerator(),
+                IEnumerator enumerator1 => enumerator1,
+                _ => null
+            };
+            return enumerator ?? o;
+        }
 
 		// Token: 0x0600110C RID: 4364 RVA: 0x0007B940 File Offset: 0x00079B40
 		internal static IEnumerator ConvertAnythingToIterator(object o)
 		{
-			IEnumerator enumerator = null;
-			if (o is IDictionary)
-			{
-				enumerator = ((IDictionary)o).Values.GetEnumerator();
-			}
-			else if (o is ICollection)
-			{
-				enumerator = ((ICollection)o).GetEnumerator();
-			}
-			else if (o is IEnumerator)
-			{
-				enumerator = (IEnumerator)o;
-			}
-			if (enumerator == null)
+            IEnumerator enumerator = o switch
+            {
+                IDictionary dictionary => dictionary.Values.GetEnumerator(),
+                ICollection collection => collection.GetEnumerator(),
+                IEnumerator enumerator1 => enumerator1,
+                _ => null
+            };
+            if (enumerator == null)
 			{
 				return ((IEnumerable)new StringTemplate.STAttributeList(1)
 				{
@@ -696,37 +639,25 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			var result = attribute;
 			attribute = ConvertAnythingIteratableToIterator(attribute);
-			if (attribute is IEnumerator)
-			{
-				var enumerator = (IEnumerator)attribute;
-				if (enumerator.MoveNext())
-				{
-					result = enumerator.Current;
-				}
-			}
-			return result;
+            if (attribute is not IEnumerator enumerator) return result;
+            if (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+            return result;
 		}
 
 		// Token: 0x0600110E RID: 4366 RVA: 0x0007B9E8 File Offset: 0x00079BE8
 		public virtual object Rest(object attribute)
 		{
-			if (attribute == null)
-			{
-				return null;
-			}
-			if (attribute is ICollection)
-			{
-				if (((ICollection)attribute).Count > 1)
-				{
-					return new RestCollection((ICollection)attribute);
-				}
-			}
-			else if (attribute is IEnumerator)
-			{
-				return new RestCollection((IEnumerator)attribute);
-			}
-			return null;
-		}
+            return attribute switch
+            {
+                null => null,
+                ICollection collection when collection.Count > 1 => new RestCollection(collection),
+                IEnumerator enumerator => new RestCollection(enumerator),
+                _ => null
+            };
+        }
 
 		// Token: 0x0600110F RID: 4367 RVA: 0x0007BA28 File Offset: 0x00079C28
 		public virtual object Last(object attribute)
@@ -737,15 +668,12 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			var result = attribute;
 			attribute = ConvertAnythingIteratableToIterator(attribute);
-			if (attribute is IEnumerator)
-			{
-				var enumerator = (IEnumerator)attribute;
-				while (enumerator.MoveNext())
-				{
-					result = enumerator.Current;
-				}
-			}
-			return result;
+            if (attribute is not IEnumerator enumerator) return result;
+            while (enumerator.MoveNext())
+            {
+                result = enumerator.Current;
+            }
+            return result;
 		}
 
 		// Token: 0x06001110 RID: 4368 RVA: 0x0007BA68 File Offset: 0x00079C68
@@ -756,9 +684,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return null;
 			}
 			attribute = ConvertAnythingIteratableToIterator(attribute);
-			if (attribute is IEnumerator)
+			if (attribute is IEnumerator enumerator)
 			{
-				return new NullSkippingIterator((IEnumerator)attribute);
+				return new NullSkippingIterator(enumerator);
 			}
 			return attribute;
 		}
@@ -777,19 +705,23 @@ namespace pcomps.Antlr.StringTemplate.Language
 				return 0;
 			}
 			var num = 1;
-			if (attribute is ICollection)
-			{
-				num = ((ICollection)attribute).Count;
-			}
-			else if (attribute is IEnumerator)
-			{
-				var enumerator = (IEnumerator)attribute;
-				num = 0;
-				while (enumerator.MoveNext())
-				{
-					num++;
-				}
-			}
+			switch (attribute)
+            {
+                case ICollection collection:
+                    num = collection.Count;
+                    break;
+                case IEnumerator attribute1:
+                {
+                    var enumerator = attribute1;
+                    num = 0;
+                    while (enumerator.MoveNext())
+                    {
+                        num++;
+                    }
+
+                    break;
+                }
+            }
 			return num;
 		}
 
@@ -797,24 +729,15 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public object GetOption(string name)
 		{
 			object obj = null;
-			if (options != null)
-			{
-				obj = options[name];
-				if (obj == EMPTY_OPTION)
-				{
-					return defaultOptionValues[name];
-				}
-			}
-			return obj;
-		}
+            if (options == null) return obj;
+            obj = options[name];
+            return obj?.ToString() == EMPTY_OPTION ? defaultOptionValues[name] : obj;
+        }
 
 		// Token: 0x06001114 RID: 4372 RVA: 0x0007BB20 File Offset: 0x00079D20
-		public override string ToString()
-		{
-			return exprTree.ToStringList();
-		}
+		public override string ToString() => exprTree.ToStringList();
 
-		// Token: 0x06001115 RID: 4373 RVA: 0x0007BB30 File Offset: 0x00079D30
+        // Token: 0x06001115 RID: 4373 RVA: 0x0007BB30 File Offset: 0x00079D30
 		private bool GetMethodValueByName(PropertyLookupParams paramBag, ref object val)
 		{
 			try
@@ -841,16 +764,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (Exception e)
 			{
-				paramBag.self.Error(string.Concat(new string[]
-				{
-					"Can't get property ",
-					paramBag.lookupName,
-					" using method get_/Get/Is/get/is as ",
-					mi.Name,
-					" from ",
-					paramBag.prototype.FullName,
-					" instance"
-				}), e);
+				paramBag.self.Error(
+                    $"Can't get property {paramBag.lookupName} using method get_/Get/Is/get/is as {mi.Name} from {paramBag.prototype.FullName} instance", e);
 			}
 			return false;
 		}
@@ -867,15 +782,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 					{
 						return GetPropertyValue(property, paramBag, ref val);
 					}
-					paramBag.self.Error(string.Concat(new string[]
-					{
-						"Class ",
-						paramBag.prototype.FullName,
-						" property: ",
-						paramBag.lookupName,
-						" is write-only in template context ",
-						paramBag.self.GetEnclosingInstanceStackString()
-					}));
+					paramBag.self.Error(
+                        $"Class {paramBag.prototype.FullName} property: {paramBag.lookupName} is write-only in template context {paramBag.self.GetEnclosingInstanceStackString()}");
 				}
 			}
 			catch (Exception)
@@ -894,16 +802,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (Exception e)
 			{
-				paramBag.self.Error(string.Concat(new string[]
-				{
-					"Can't get property ",
-					paramBag.propertyName,
-					" as CLR property ",
-					pi.Name,
-					" from ",
-					paramBag.prototype.FullName,
-					" instance"
-				}), e);
+				paramBag.self.Error(
+                    $"Can't get property {paramBag.propertyName} as CLR property {pi.Name} from {paramBag.prototype.FullName} instance", e);
 			}
 			return false;
 		}
@@ -935,14 +835,8 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			catch (Exception e)
 			{
-				paramBag.self.Error(string.Concat(new string[]
-				{
-					"Can't get property ",
-					fi.Name,
-					" using direct field access from ",
-					paramBag.prototype.FullName,
-					" instance"
-				}), e);
+				paramBag.self.Error(
+                    $"Can't get property {fi.Name} using direct field access from {paramBag.prototype.FullName} instance", e);
 			}
 			return false;
 		}
@@ -966,7 +860,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public const string DEFAULT_MAP_KEY_NAME = "key";
 
 		// Token: 0x04000E34 RID: 3636
-		public static readonly StringTemplate MAP_KEY_VALUE = new StringTemplate();
+		public static readonly StringTemplate MAP_KEY_VALUE = new();
 
 		// Token: 0x04000E35 RID: 3637
 		public static readonly string EMPTY_OPTION = "empty expr option";
@@ -1002,7 +896,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 		private string formatString;
 
 		// Token: 0x0200023B RID: 571
-		internal sealed class PropertyLookupParams
+		internal sealed record PropertyLookupParams
 		{
 			// Token: 0x0600111B RID: 4379 RVA: 0x0007BE20 File Offset: 0x0007A020
 			public PropertyLookupParams(StringTemplate s, Type p, object i, string pn, string l)

@@ -614,14 +614,7 @@ namespace pcomps.Antlr
 		{
 			traceDepth++;
 			traceIndent();
-			Console.Out.WriteLine(string.Concat(new string[]
-			{
-				"> ",
-				rname,
-				"; LA(1)==",
-				LT(1).getText(),
-				(inputState.guessing > 0) ? " [guessing]" : ""
-			}));
+			Console.Out.WriteLine(string.Concat("> ", rname, "; LA(1)==", LT(1).getText(), (inputState.guessing > 0) ? " [guessing]" : ""));
 		}
 
 		// Token: 0x0600020D RID: 525 RVA: 0x00006CF8 File Offset: 0x00004EF8

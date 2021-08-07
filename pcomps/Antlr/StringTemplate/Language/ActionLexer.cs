@@ -33,16 +33,18 @@ namespace pcomps.Antlr.StringTemplate.Language
 		{
 			caseSensitiveLiterals = true;
 			setCaseSensitive(true);
-			literals = new Hashtable(100, 0.4f, null, Comparer.Default);
-			literals.Add("if", 8);
-			literals.Add("rest", 26);
-			literals.Add("last", 27);
-			literals.Add("length", 28);
-			literals.Add("strip", 29);
-			literals.Add("trunc", 30);
-			literals.Add("first", 25);
-			literals.Add("super", 23);
-		}
+            literals = new Hashtable(100, 0.4f)
+            {
+                { "if", 8 },
+                { "rest", 26 },
+                { "last", 27 },
+                { "length", 28 },
+                { "strip", 29 },
+                { "trunc", 30 },
+                { "first", 25 },
+                { "super", 23 }
+            };
+        }
 
 		// Token: 0x06001087 RID: 4231 RVA: 0x00073B04 File Offset: 0x00071D04
 		public override IToken nextToken()
@@ -247,9 +249,9 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				catch (CharStreamException ex)
 				{
-					if (ex is CharStreamIOException)
+					if (ex is CharStreamIOException exception)
 					{
-						throw new TokenStreamIOException(((CharStreamIOException)ex).io);
+						throw new TokenStreamIOException(exception.io);
 					}
 					throw new TokenStreamException(ex.Message);
 				}
@@ -416,7 +418,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				break;
 			}
 			num = testLiteralsTable(num);
-			if (_createToken && token == null && num != Token.SKIP)
+			if (_createToken && num != Token.SKIP)
 			{
 				token = makeToken(num);
 				token.setText(text.ToString(length, text.Length - length));
@@ -443,7 +445,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			}
-			if (_createToken && token == null && num != Token.SKIP)
+			if (_createToken && num != Token.SKIP)
 			{
 				token = makeToken(num);
 				token.setText(text.ToString(length, text.Length - length));
@@ -468,7 +470,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					if (!tokenSet_0_.member((int)cached_LA1))
+					if (!tokenSet_0_.member(cached_LA1))
 					{
 						break;
 					}
@@ -478,7 +480,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			length2 = text.Length;
 			match('"');
 			text.Length = length2;
-			if (_createToken && token == null && num != Token.SKIP)
+			if (_createToken && num != Token.SKIP)
 			{
 				token = makeToken(num);
 				token.setText(text.ToString(length, text.Length - length));
@@ -493,66 +495,81 @@ namespace pcomps.Antlr.StringTemplate.Language
 			var length = text.Length;
 			var num = 39;
 			match('\\');
-			if (cached_LA1 == 'n' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
-			{
-				match('n');
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append("\n");
-				}
-			}
-			else if (cached_LA1 == 'r' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
-			{
-				match('r');
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append("\r");
-				}
-			}
-			else if (cached_LA1 == 't' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
-			{
-				match('t');
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append("\t");
-				}
-			}
-			else if (cached_LA1 == 'b' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
-			{
-				match('b');
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append("\b");
-				}
-			}
-			else if (cached_LA1 == 'f' && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
-			{
-				match('f');
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append("\f");
-				}
-			}
-			else
-			{
-				if (cached_LA1 < '\u0003' || cached_LA1 > '￾' || cached_LA2 < '\u0003' || cached_LA2 > '￾')
-				{
-					throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
-				}
-				var cached_LA = cached_LA1;
-				matchNot(1);
-				if (inputState.guessing == 0 && doEscape)
-				{
-					text.Length = length;
-					text.Append(cached_LA);
-				}
-			}
-			if (_createToken && token == null && num != Token.SKIP)
+			switch (cached_LA1)
+            {
+                case 'n' when cached_LA2 >= '\u0003' && cached_LA2 <= '￾':
+                {
+                    match('n');
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append('\n');
+                    }
+
+                    break;
+                }
+                case 'r' when cached_LA2 >= '\u0003' && cached_LA2 <= '￾':
+                {
+                    match('r');
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append('\r');
+                    }
+
+                    break;
+                }
+                case 't' when cached_LA2 >= '\u0003' && cached_LA2 <= '￾':
+                {
+                    match('t');
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append('\t');
+                    }
+
+                    break;
+                }
+                case 'b' when cached_LA2 >= '\u0003' && cached_LA2 <= '￾':
+                {
+                    match('b');
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append('\b');
+                    }
+
+                    break;
+                }
+                case 'f' when cached_LA2 >= '\u0003' && cached_LA2 <= '￾':
+                {
+                    match('f');
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append('\f');
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    if (cached_LA1 < '\u0003' || cached_LA1 > '￾' || cached_LA2 < '\u0003' || cached_LA2 > '￾')
+                    {
+                        throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
+                    }
+                    var cached_LA = cached_LA1;
+                    matchNot(1);
+                    if (inputState.guessing == 0 && doEscape)
+                    {
+                        text.Length = length;
+                        text.Append(cached_LA);
+                    }
+
+                    break;
+                }
+            }
+			if (_createToken && num != Token.SKIP)
 			{
 				token = makeToken(num);
 				token.setText(text.ToString(length, text.Length - length));
@@ -571,7 +588,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			match('{');
 			text.Length = length2;
 			var flag = false;
-			if (tokenSet_1_.member((int)cached_LA1) && tokenSet_2_.member((int)cached_LA2))
+			if (tokenSet_1_.member(cached_LA1) && tokenSet_2_.member(cached_LA2))
 			{
 				var pos = mark();
 				flag = true;
@@ -590,7 +607,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			if (flag)
 			{
 				var args = mTEMPLATE_ARGS(false);
-				if (tokenSet_3_.member((int)cached_LA1) && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
+				if (tokenSet_3_.member(cached_LA1) && cached_LA2 >= '\u0003' && cached_LA2 <= '￾')
 				{
 					length2 = text.Length;
 					mWS_CHAR(false);
@@ -636,7 +653,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					if (!tokenSet_4_.member((int)cached_LA1))
+					if (!tokenSet_4_.member(cached_LA1))
 					{
 						break;
 					}
@@ -792,7 +809,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			{
 				list.Add(returnToken_.getText());
 			}
-			while (tokenSet_5_.member((int)cached_LA1) && tokenSet_6_.member((int)this.cached_LA2))
+			while (tokenSet_5_.member(cached_LA1) && tokenSet_6_.member(this.cached_LA2))
 			{
 				var cached_LA2 = cached_LA1;
 				switch (cached_LA2)
@@ -1033,7 +1050,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 			}
 			throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());
 			IL_93:
-			if (_createToken && token == null && num != Token.SKIP)
+			if (_createToken && num != Token.SKIP)
 			{
 				token = makeToken(num);
 				token.setText(text.ToString(length, text.Length - length));
@@ -1074,7 +1091,7 @@ namespace pcomps.Antlr.StringTemplate.Language
 				}
 				else
 				{
-					if (!tokenSet_4_.member((int)cached_LA1))
+					if (!tokenSet_4_.member(cached_LA1))
 					{
 						break;
 					}
@@ -1545,24 +1562,24 @@ namespace pcomps.Antlr.StringTemplate.Language
 		public const int WS_CHAR = 41;
 
 		// Token: 0x04000D97 RID: 3479
-		public static readonly BitSet tokenSet_0_ = new BitSet(mk_tokenSet_0_());
+		public static readonly BitSet tokenSet_0_ = new(mk_tokenSet_0_());
 
 		// Token: 0x04000D98 RID: 3480
-		public static readonly BitSet tokenSet_1_ = new BitSet(mk_tokenSet_1_());
+		public static readonly BitSet tokenSet_1_ = new(mk_tokenSet_1_());
 
 		// Token: 0x04000D99 RID: 3481
-		public static readonly BitSet tokenSet_2_ = new BitSet(mk_tokenSet_2_());
+		public static readonly BitSet tokenSet_2_ = new(mk_tokenSet_2_());
 
 		// Token: 0x04000D9A RID: 3482
-		public static readonly BitSet tokenSet_3_ = new BitSet(mk_tokenSet_3_());
+		public static readonly BitSet tokenSet_3_ = new(mk_tokenSet_3_());
 
 		// Token: 0x04000D9B RID: 3483
-		public static readonly BitSet tokenSet_4_ = new BitSet(mk_tokenSet_4_());
+		public static readonly BitSet tokenSet_4_ = new(mk_tokenSet_4_());
 
 		// Token: 0x04000D9C RID: 3484
-		public static readonly BitSet tokenSet_5_ = new BitSet(mk_tokenSet_5_());
+		public static readonly BitSet tokenSet_5_ = new(mk_tokenSet_5_());
 
 		// Token: 0x04000D9D RID: 3485
-		public static readonly BitSet tokenSet_6_ = new BitSet(mk_tokenSet_6_());
+		public static readonly BitSet tokenSet_6_ = new(mk_tokenSet_6_());
 	}
 }
